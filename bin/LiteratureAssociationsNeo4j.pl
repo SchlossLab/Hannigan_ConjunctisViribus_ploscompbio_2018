@@ -3,7 +3,6 @@
 # Geoffrey Hannigan
 # Patrick Schloss Lab
 # University of Michigan
-# Example from: http://neo4j.com/blog/restneo4p-a-perl-ogm/
 
 # Set use
 use strict;
@@ -69,4 +68,3 @@ foreach my $line (<IN>) {
 my $end_run = time();
 my $run_time = $end_run - $start_run;
 print STDERR "Processed the file in $run_time seconds.\n";
-

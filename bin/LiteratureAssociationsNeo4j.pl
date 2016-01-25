@@ -4,6 +4,9 @@
 # Patrick Schloss Lab
 # University of Michigan
 
+# WARNING: This is reading off of the disk, which
+# needs to be changed to memory to improve performance.
+
 # Set use
 use strict;
 use warnings;
@@ -22,6 +25,8 @@ my $input;
 my $flag = 0;
 my $n1;
 my $n2;
+my $sequence;
+my $formatVar;
 
 # Startup the neo4j connection using default location
 eval {
@@ -45,25 +50,41 @@ open(IN, "<$input") || die "Unable to read in $input: $!";
 # Parse the input and save into neo4j
 foreach my $line (<IN>) {
     chomp $line;
-    if ($flag =~ 0 & $line =~ /^OS\s+(\w.+$)/) {
+    # Start the script by resetting the flag for each iteraction
+    # within the file
+    if ($line =~ /^ID\s/) {
+        print STDOUT "Resetting counter...\n";
+        $flag = 0;
+        $n1 = 0;
+        $n2 = 0;
+        $formatVar = 0;
+        next;
+    } elsif ($flag =~ 0 & $line =~ /^OS\s+(\w.+$)/) {
         print STDOUT "Phage is $1\n";
         $n1 = REST::Neo4p::Node->new( 
             {Name => $1},
             {Organism => 'Phage'} );
         $flag = 1;
+        next;
     } elsif ($flag =~ 1 & $line =~ /host=\"(.+)\"/) {
         print STDOUT "Host is $1\n";
         $n2 = REST::Neo4p::Node->new( 
             {Name => $1},
             {Organism => 'Bacterial_Host'} );
         $n1->relate_to($n2, 'Infects');
-        $flag = 0;
-    } elsif ($flag =~ 1 && $line =~ /^OS\s+(\w.+$)/) {
-        print STDOUT "There was no host.\n";
-        print STDOUT "Phage is $1\n";
-        $n1 = REST::Neo4p::Node->new( 
-            {Name => $1},
-            {Organism => 'Phage'} );
+    } elsif ($flag =~ 1 && $line =~ /^\s+([agct\s]+[agct])\s+[0-9]+$/) {
+        $formatVar = $1;
+        $formatVar =~ s/\s//g;
+        $sequence = $formatVar;
+        $flag = 2;
+    } elsif ($flag =~ 2 && $line =~ /^\s+([agct\s]+[agct])\s+[0-9]+$/) {
+        $formatVar = $1;
+        $formatVar =~ s/\s//g;
+        $sequence = $sequence.$formatVar;
+    } elsif ($flag =~ 2 && $line =~ /^\/\//) {
+        $n1->set_property({ Sequence => $sequence });
+        $flag = 1;
+        $sequence = 0;
     } else {
         next;
     }

@@ -61,6 +61,11 @@ foreach my $line (<IN>) {
     } elsif ($flag =~ 1 && $line =~ /^OS\s+(\w.+$)/) {
         print STDOUT "There was no host.\n";
         print STDOUT "Phage is $1\n";
+        $n1 = REST::Neo4p::Node->new( 
+            {Name => $1},
+            {Organism => 'Phage'} );
+    } else {
+        next;
     }
 }
 

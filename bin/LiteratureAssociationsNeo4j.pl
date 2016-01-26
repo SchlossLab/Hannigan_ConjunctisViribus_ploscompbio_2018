@@ -30,6 +30,9 @@ my $n1;
 my $n2;
 my $sequence;
 my $formatVar;
+my $FullName;
+my $Genus;
+my $Species;
 
 # Startup the neo4j connection using default location
 eval {
@@ -63,16 +66,21 @@ foreach my $line (<IN>) {
         next;
     } elsif ($flag =~ 0 & $line =~ /^OS\s+(\w.+$)/) {
         print STDOUT "Phage is $1\n";
-        $n1 = REST::Neo4p::Node->new( 
-            {Name => $1},
-            {Organism => 'Phage'} );
+        $n1 = REST::Neo4p::Node->new( {Name => $1} );
+        $n1->set_property( {Organism => 'Phage'} );
         $flag = 1;
         next;
     } elsif ($flag =~ 1 & $line =~ /host=\"(.+)\"/) {
         print STDOUT "Host is $1\n";
-        $n2 = REST::Neo4p::Node->new( 
-            {Name => $1},
-            {Organism => 'Bacterial_Host'} );
+        $FullName = $1;
+        $Genus = (split /\s/, $FullName)[0];
+        $Species = $Genus." ".(split /\s/, $FullName)[1];
+        print STDOUT "Host genus is $Genus\n";
+        print STDOUT "Host species is $Species\n";
+        $n2 = REST::Neo4p::Node->new( {Name => $FullName} );
+        $n2->set_property( {Genus => $Genus} );
+        $n2->set_property( {Species => $Species} );
+        $n2->set_property( {Organism => 'Bacterial_Host'} );
         $n1->relate_to($n2, 'Infects');
     } elsif ($flag =~ 1 && $line =~ /^\s+([agct\s]+[agct])\s+[0-9]+$/) {
         $formatVar = $1;

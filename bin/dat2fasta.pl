@@ -15,6 +15,14 @@ use Pod::Usage;
 # And because I like timing myself
 my $start_run = time();
 
+# Set variables
+my $opt_help;
+my $input;
+my $output;
+my $flag;
+my $formatVar;
+my $sequence;
+
 # Set the options
 GetOptions(
     'h|help' => \$opt_help,

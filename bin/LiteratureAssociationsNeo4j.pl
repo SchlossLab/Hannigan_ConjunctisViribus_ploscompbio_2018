@@ -4,6 +4,9 @@
 # Patrick Schloss Lab
 # University of Michigan
 
+# NOTE: Don't need an output file for this since the
+# neo4j connected database is the output
+
 # WARNING: This is reading off of the disk, which
 # needs to be changed to memory to improve performance.
 
@@ -37,7 +40,6 @@ ref $@ ? $@->rethrow : die $@ if $@;
 # Set the options
 GetOptions(
     'h|help' => \$opt_help,
-    'o|output=s' => \$output,
     'i|input=s' => \$input
 );
 

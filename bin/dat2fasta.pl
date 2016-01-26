@@ -27,7 +27,7 @@ my $sequence;
 GetOptions(
     'h|help' => \$opt_help,
     'd|datInput=s' => \$input,
-    'f|fastaOutput' => \$output
+    'f|fastaOutput=s' => \$output
 );
 
 pod2usage(-verbose => 1) && exit if defined $opt_help;

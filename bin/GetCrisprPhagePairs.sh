@@ -16,6 +16,8 @@ export MothurProg=/share/scratch/schloss/mothur/mothur
 export PilerData=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PilerResult.txt
 export PhageGenomes=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/phageSVA.fa
 
+# Set working dir
+cd ${WorkingDirectory}
 
 ################################
 # Blast Spacers Against Phages #

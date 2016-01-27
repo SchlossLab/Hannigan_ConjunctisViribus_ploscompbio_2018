@@ -41,7 +41,7 @@ fi
 
 # Now run pilerCR on the files
 mkdir ./tmpOut
-ls ./tmp/* | xargs -I {} --max-procs=32 ${PilerPath}pilercr -in ./tmp/${file} -out ./tmpOut/${file}.txt
+ls ./tmp/* | xargs -I {} --max-procs=32 ${PilerPath}pilercr -in {} -out ./tmpOut/${file}.txt
 
 # Collect the results together
 cat ./tmpOut/* > ./$OutputName

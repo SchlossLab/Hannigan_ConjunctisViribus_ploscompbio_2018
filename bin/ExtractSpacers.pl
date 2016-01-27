@@ -17,7 +17,7 @@ my $start_run = time();
 my $opt_help;
 my $input;
 my $output;
-my $flag;
+my $flag = 0;
 my $name;
 my $alterLine;
 my $spacerSeq;

@@ -12,7 +12,7 @@ export PilerPath=~/bin/pilercr1.06/
 export MaxFileSize=500000000 #500 MB
 export FastaInput=$1
 export OutputName=$2
-export SplitSize=250
+export SplitSize=50
 export Remove=FALSE
 # Determine file size of input file
 export FileSize=$(wc -c ${FastaInput} | sed 's/ .*//')

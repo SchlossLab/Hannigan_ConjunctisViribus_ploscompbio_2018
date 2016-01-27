@@ -20,9 +20,10 @@ my $output;
 my $flag = 0;
 my $name;
 my $alterLine;
-my $spacerSeq;
+my $spacerSeq = 0;
 my $SpaceCount = 0;
 my $Header = 0;
+my $location = 0;
 
 # Set the options
 GetOptions(
@@ -40,19 +41,19 @@ open(OUT, ">$output") || die "Unable to write to $output: $!";
 # Parse the piler-cr output
 foreach my $line (<IN>) {
 	chomp $line;
-	if ($flag =~ 0 & $line =~ /\>\S+/) {
+	if ($location =~ 0 & $flag =~ 0 & $line =~ /\>\S+/) {
 		$name = $line;
 		print STDERR "Getting spacers for $name.\n";
 		$flag = 1;
 		next;
-	} elsif ($flag =~ 1 & $line =~ /^\s+\n+/) {
+	} elsif ($location =~ 0 & $flag =~ 1 & $line =~ /^\s+[0-9]+/) {
 		$SpaceCount = $SpaceCount + 1;
-		$alterLine = $line =~ s/\s+/\t/g;
-		$spacerSeq = (split /\t/, $alterLine)[6];
-		print OUT "$name-Spacer_$SpaceCount\n$spacerSeq\n";
-		print STDERR "Spacer for $name is $spacerSeq\n";
+		($alterLine = $line) =~ s/\s+/\t/g;
+		$alterLine =~ s/^\t//;
+		$spacerSeq = (split /\t/, $alterLine)[-1];
+		print OUT "$name"."_$SpaceCount\n$spacerSeq\n";
 		next;
-	} elsif ($flag =~ 1 & $line =~ /^\===/) {
+	} elsif ($location =~ 0 & $flag =~ 1 & $line =~ /^\===/) {
 		if ($Header =~ 0) {
 			$Header = 1;
 			next;
@@ -65,8 +66,11 @@ foreach my $line (<IN>) {
 			$alterLine = 0;
 		}
 		next;
-	} else {
+	} elsif ($line =~ /SUMMARY\sBY/) {
+		$location = 1;
 		next;
+	} elsif ($line =~ /DETAIL\sREPORT/) {
+		$location = 0;
 	}
 }
 

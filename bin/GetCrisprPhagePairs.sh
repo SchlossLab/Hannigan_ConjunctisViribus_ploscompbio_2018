@@ -18,6 +18,7 @@ export PhageGenomes=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/phage
 
 # Set working dir
 cd ${WorkingDirectory}
+mkdir ./${Output}
 
 ################################
 # Blast Spacers Against Phages #

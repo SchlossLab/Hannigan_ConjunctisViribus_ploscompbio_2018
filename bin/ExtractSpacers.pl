@@ -47,7 +47,7 @@ foreach my $line (<IN>) {
 	} elsif ($flag =~ 1 & $line =~ /^\s+\n+/) {
 		$SpaceCount = $SpaceCount + 1;
 		$alterLine = $line =~ s/\s+/\t/g;
-		$spacerSeq = (split \t, $alterLine)[6];
+		$spacerSeq = (split /\t/, $alterLine)[6];
 		print OUT "$name-Spacer_$SpaceCount\n$spacerSeq\n";
 		next;
 	} elsif ($flag =~ 1 & $line =~ /^\===/) {

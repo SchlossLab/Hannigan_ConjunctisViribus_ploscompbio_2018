@@ -27,8 +27,8 @@ my $Header = 0;
 # Set the options
 GetOptions(
     'h|help' => \$opt_help,
-    'd|datInput=s' => \$input,
-    'f|fastaOutput=s' => \$output
+    'i|datInput=s' => \$input,
+    'o|fastaOutput=s' => \$output
 );
 
 pod2usage(-verbose => 1) && exit if defined $opt_help;
@@ -48,7 +48,7 @@ foreach my $line (<IN>) {
 		$SpaceCount = $SpaceCount + 1;
 		$alterLine = $line =~ s/\s+/\t/g;
 		$spacerSeq = (split \t, $alterLine)[6];
-		print "$name-Spacer_$SpaceCount\n$spacerSeq\n";
+		print OUT "$name-Spacer_$SpaceCount\n$spacerSeq\n";
 		next;
 	} elsif ($flag =~ 1 & $line =~ /^\===/) {
 		if ($Header =~ 0) {
@@ -65,3 +65,12 @@ foreach my $line (<IN>) {
 		next;
 	}
 }
+
+# Close files
+close(IN);
+close(OUT);
+
+# See how long it took
+my $end_run = time();
+my $run_time = $end_run - $start_run;
+print STDERR "Extracted spacers in $run_time seconds.\n";

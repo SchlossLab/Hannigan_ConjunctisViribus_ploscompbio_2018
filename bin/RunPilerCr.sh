@@ -26,7 +26,7 @@ echo "We are working in ${WorkDir}"
 # Make a tmp directory
 mkdir ./tmp
 # Split files if needed
-if [${FileSize} -gt ${MaxFileSize}]; then
+if [[ ${FileSize} -gt ${MaxFileSize} ]]; then
 	echo "Input larger than ${MaxFileSize}."
 	# Split the file
 	split \
@@ -51,7 +51,7 @@ done
 cat ./tmpOut/* > ./$OutputName
 
 # Finally remove the tmp directories
-if [${Remove} = "FALSE"]; then
+if [[ ${Remove} = "FALSE" ]]; then
 	echo "Not removing tmp dir..."
 else
 	echo "Removing tmp dir..."

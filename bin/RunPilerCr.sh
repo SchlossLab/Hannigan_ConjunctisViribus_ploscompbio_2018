@@ -9,15 +9,15 @@
 # Set pilerCR path
 export PilerPath=~/bin/pilercr1.06/
 # Maximum input file size in bytes
-export MaxFileSize = 500000000 #500 MB
-export FastaInput = $1
-export OutputName = $2
-export SplitSize = 250
-export Remove = FALSE
+export MaxFileSize=500000000 #500 MB
+export FastaInput=$1
+export OutputName=$2
+export SplitSize=250
+export Remove=FALSE
 # Determine file size of input file
 export FileSize=$(wc -c ${FastaInput})
 # Specify working directory
-export WorkDir=(pwd)
+export WorkDir=$(pwd)
 echo "We are working in ${WorkDir}"
 
 ###################

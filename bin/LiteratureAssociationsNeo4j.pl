@@ -50,7 +50,6 @@ pod2usage(-verbose => 1) && exit if defined $opt_help;
 
 # Open files
 open(IN, "<$input") || die "Unable to read in $input: $!";
-#open(OUT, ">$output") || die "Unable to write to $output: $!";
 
 # Parse the input and save into neo4j
 foreach my $line (<IN>) {

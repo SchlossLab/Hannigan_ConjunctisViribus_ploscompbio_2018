@@ -42,6 +42,7 @@ foreach my $line (<IN>) {
 	chomp $line;
 	if ($flag =~ 0 & $line =~ /\>\S+/) {
 		$name = $line;
+		print STDERR "Getting spacers for $name.\n";
 		$flag = 1;
 		next;
 	} elsif ($flag =~ 1 & $line =~ /^\s+\n+/) {
@@ -49,6 +50,7 @@ foreach my $line (<IN>) {
 		$alterLine = $line =~ s/\s+/\t/g;
 		$spacerSeq = (split /\t/, $alterLine)[6];
 		print OUT "$name-Spacer_$SpaceCount\n$spacerSeq\n";
+		print STDERR "Spacer for $name is $spacerSeq\n";
 		next;
 	} elsif ($flag =~ 1 & $line =~ /^\===/) {
 		if ($Header =~ 0) {
@@ -62,6 +64,8 @@ foreach my $line (<IN>) {
 			$SpaceCount = 0;
 			$alterLine = 0;
 		}
+		next;
+	} else {
 		next;
 	}
 }

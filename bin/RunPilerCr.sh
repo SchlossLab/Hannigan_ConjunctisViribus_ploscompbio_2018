@@ -15,7 +15,7 @@ export OutputName=$2
 export SplitSize=250
 export Remove=FALSE
 # Determine file size of input file
-export FileSize=$(wc -c ${FastaInput})
+export FileSize=$(wc -c ${FastaInput} | sed 's/ .*//')
 # Specify working directory
 export WorkDir=$(pwd)
 echo "We are working in ${WorkDir}"

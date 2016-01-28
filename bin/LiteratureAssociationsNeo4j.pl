@@ -33,6 +33,8 @@ my $formatVar;
 my $FullName;
 my $Genus;
 my $Species;
+my $formname = 0;
+my $Spacer;
 
 # Startup the neo4j connection using default location
 eval {
@@ -43,15 +45,18 @@ ref $@ ? $@->rethrow : die $@ if $@;
 # Set the options
 GetOptions(
     'h|help' => \$opt_help,
-    'i|input=s' => \$input
+    'i|input=s' => \$input,
+    'c|crispr=s' => \$crispr
 );
 
 pod2usage(-verbose => 1) && exit if defined $opt_help;
 
 # Open files
 open(IN, "<$input") || die "Unable to read in $input: $!";
+open(CRISPR, "<$crispr") || die "Unable to read in $crispr: $!";
 
 # Parse the input and save into neo4j
+# Get the literature data
 foreach my $line (<IN>) {
     chomp $line;
     # Start the script by resetting the flag for each iteraction
@@ -62,18 +67,20 @@ foreach my $line (<IN>) {
         $n1 = 0;
         $n2 = 0;
         $formatVar = 0;
+        $formname = 0;
         next;
     } elsif ($flag =~ 0 & $line =~ /^OS\s+(\w.+$)/) {
         print STDOUT "Phage is $1\n";
+        ($formname = $line) =~ s/\s/_/g;
         $n1 = REST::Neo4p::Node->new( {Name => $1} );
         $n1->set_property( {Organism => 'Phage'} );
         $flag = 1;
         next;
     } elsif ($flag =~ 1 & $line =~ /host=\"(.+)\"/) {
         print STDOUT "Host is $1\n";
-        $FullName = $1;
-        $Genus = (split /\s/, $FullName)[0];
-        $Species = $Genus." ".(split /\s/, $FullName)[1];
+        ($FullName = $1) =~ s/\s/_/g;
+        $Genus = (split /_/, $FullName)[0];
+        $Species = $Genus."_".(split /_/, $FullName)[1];
         print STDOUT "Host genus is $Genus\n";
         print STDOUT "Host species is $Species\n";
         $n2 = REST::Neo4p::Node->new( {Name => $FullName} );
@@ -98,6 +105,18 @@ foreach my $line (<IN>) {
         next;
     }
 }
+
+# Add in the CRISPR match data
+foreach my $line (<CRISPR>) {
+    chomp $line;
+    $Spacer = (split /\t/, $line)[0];
+    $PhageTarget = (split /\t/, $line)[1];
+    $PercentID = (split /\t/, $line)[2];
+    $n1 = REST::Neo4p::Node->new( {Name => $PhageTarget} );
+    $n2 = REST::Neo4p::Node->new( {Name => $Spacer} );
+    $n2->relate_to($n1, 'CrisprTarget');
+}
+
 
 # See how long it took
 my $end_run = time();

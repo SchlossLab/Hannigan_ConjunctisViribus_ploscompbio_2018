@@ -45,3 +45,9 @@ blastn \
     	-out ./${Output}/SpacerMatches.blast \
     	-db ./${Output}/PhageGenomeDatabase \
     	-outfmt 6
+
+# Get the Spacer ID, Phage ID, and Percent Identity
+cut -f 1,2,3 ./${Output}/SpacerMatches.blast \
+	| sed 's/_\d\+\t/\t/' \
+	> ./${Output}/SpacerMatchesFormat.tsv
+

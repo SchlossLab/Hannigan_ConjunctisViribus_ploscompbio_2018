@@ -30,10 +30,14 @@ perl ${ProjectBin}ExtractSpacers.pl -i ${PilerData} -o ./${Output}/Spacers.fa
 ${MothurProg} "#screen.seqs(fasta=./${Output}/Spacers.fa, minlength=30, maxlength=45)"
 # Output should be Spacers.good.fa
 
+# Get rid of spaces in the files
+sed 's/ /_/g' ${PhageGenomes} > ./${Output}/PhageReferenceNoSpace.fa
+sed 's/ /_/g' ./${Output}/Spacers.good.fa > ./${Output}/SpacersNoSpaceGood.fa
+
 # Blastn the spacers against the phage genomes
 makeblastdb \
 		-dbtype nucl \
-		-in ${PhageGenomes} \
+		-in ./${Output}/PhageReferenceNoSpace.fa \
 		-out ./${Output}/PhageGenomeDatabase
 
 blastn \

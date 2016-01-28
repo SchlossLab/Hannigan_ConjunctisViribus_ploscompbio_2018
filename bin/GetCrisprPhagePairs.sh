@@ -45,4 +45,3 @@ blastn \
     	-out ./${Output}/SpacerMatches.blast \
     	-db ./${Output}/PhageGenomeDatabase \
     	-outfmt 6
-    	-evalue 1e-5

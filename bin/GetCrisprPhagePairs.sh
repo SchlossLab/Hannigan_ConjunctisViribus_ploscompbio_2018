@@ -41,8 +41,8 @@ makeblastdb \
 		-out ./${Output}/PhageGenomeDatabase
 
 blastn \
-    	-query ./${Output}/Spacers.good.fa \
+    	-query ./${Output}/SpacersNoSpaceGood.fa \
     	-out ./${Output}/SpacerMatches.blast \
     	-db ./${Output}/PhageGenomeDatabase \
     	-outfmt 6
-    	-evalue 1e-50
+    	-evalue 1e-5

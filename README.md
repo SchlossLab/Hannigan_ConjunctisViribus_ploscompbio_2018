@@ -4,6 +4,7 @@
 Using graph database techniques to understand the infectious relationships between bacteria and phages.
 
 ## Project Goals & Milestones
+- [x] Install neo4j Enterprise on Axiom
 - [x] Download Literature Data From ENA
 - [x] Write Script(s) to Parse and Add Lit Data to Database
 - [x] Download and Parse CRISPR Interaction Data (Test Set)

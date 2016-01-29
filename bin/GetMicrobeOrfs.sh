@@ -16,8 +16,8 @@ export BacteriaGenomes=\
 export InteractionReference=\
 	~/git/Hannigan-2016-ConjunctisViribus/data/PhageInteractionReference.tsv
 
-export SwissProt
-export Trembl
+export SwissProt=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_sprot.fasta
+export Trembl=
 
 export GitBin=/home/ghannig/git/HanniganNotebook/bin/
 export SeqtkPath=/home/ghannig/bin/seqtk/seqtk
@@ -103,10 +103,96 @@ SubsetUniprot () {
 		> ./${Output}/TotalUniprotSubset.fa
 }
 
+GetOrfUniprotHits () {
+	# 1 = UniprotFasta
+	# 2 = Phage Orfs
+	# 3 = Bacteria Orfs
+
+	# Create blast database
+	makeblastdb \
+		-dbtype prot \
+		-in ${1} \
+		-out ./${Output}/UniprotSubsetDatabase
+
+	# Use blast to get hits of ORFs to Uniprot genes
+	blastx \
+		-query ${2} \
+		-out ./${Output}/${2}.blast \
+		-db ./${Output}/UniprotSubsetDatabase \
+		-outfmt 6 \
+		-evalue 1e-10
+	blastx \
+		-query ${3} \
+		-out ./${Output}/${3}.blast \
+		-db ./${Output}/UniprotSubsetDatabase \
+		-outfmt 6 \
+		-evalue 1e-10
+}
+
+OrfInteractionPairs () {
+	# 1 = Phage Blast Results
+	# 2 = Bacterial Blast Results
+	# 3 = Interaction Reference
+
+	# Reverse the interaction reference for awk
+	awk \
+		'{ print $2"\t"$1 }' \
+		${3} \
+		> ${3}.inverse
+
+	cat \
+		${3} \
+		${3}.inverse \
+		> ./${Output}/TotalInteractionRef.tsv
+
+	# Get only the ORF IDs and corresponding interactions
+	# Column 1 is the ORF ID, two is Uniprot ID
+	cut -f 1,2 ${1} > ./${Output}/PhageBlastIdReference.tsv
+	cut -f 1,2 ${2} > ./${Output}/BacteriaBlastIdReference.tsv
+
+	# Convert bacterial file to reference
+	awk \
+		'NR == FNR {a[$1] = $2; next} { print $1"\t"$2"\t"a[$1] }' \
+		./${Output}/PhageBlastIdReference.tsv \
+		./${Output}/TotalInteractionRef.tsv \
+		> ./${Output}/tmpMerge.tsv
+
+	awk \
+		'NR == FNR {a[$2] = $1; next} { print $1"\t"$2"\t"$3"\t"a[$3] }' \
+		./${Output}/BacteriaBlastIdReference.tsv \
+		./${Output}/tmpMerge.tsv \
+		| cut -f 1,4 \
+		> ./${Output}/InteractiveIds.tsv
+
+	# This output can be used for input into perl script for adding
+	# to the graph database.
+}
+
 export -f PredictOrfs
+export -f SubsetUniprot
+export -f GetOrfUniprotHits
+export -f OrfInteractionPairs
 
-PredictOrfs ${PhageGenomes} "PhageGenomeOrfs.fa"
-PredictOrfs ${BacteriaGenomes} "BacteriaGenomeOrfs.fa"
 
+PredictOrfs \
+	${PhageGenomes} \
+	"PhageGenomeOrfs.fa"
 
+PredictOrfs \
+	${BacteriaGenomes} \
+	"BacteriaGenomeOrfs.fa"
 
+SubsetUniprot \
+	${InteractionReference} \
+	${SwissProt} \
+	${Trembl}
+
+GetOrfUniprotHits \
+	./${Output}/TotalUniprotSubset.fa \
+	./${Output}/PhageGenomeOrfs.fa \
+	./${Output}/BacteriaGenomeOrfs.fa
+
+OrfInteractionPairs \
+	./${Output}/PhageGenomeOrfs.fa.blast \
+	./${Output}/BacteriaGenomeOrfs.fa.blast \
+	./${Output}/ParsedInteractionRef.tsv

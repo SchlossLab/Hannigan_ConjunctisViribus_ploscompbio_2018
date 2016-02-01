@@ -173,11 +173,11 @@ export -f OrfInteractionPairs
 
 PredictOrfs \
 	${PhageGenomes} \
-	"PhageGenomeOrfs.fa"
+	PhageGenomeOrfs.fa
 
 PredictOrfs \
 	${BacteriaGenomes} \
-	"BacteriaGenomeOrfs.fa"
+	BacteriaGenomeOrfs.fa
 
 SubsetUniprot \
 	${InteractionReference} \

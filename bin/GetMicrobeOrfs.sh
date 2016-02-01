@@ -4,7 +4,7 @@
 # University of Michigan
 
 # Set the variables to be used in this script
-export WorkingDirectory=/home/ghannig/projects/PrelimDataModi
+export WorkingDirectory=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data
 export Output='OperationalProteinFamilies'
 
 export MothurProg=/share/scratch/schloss/mothur/mothur
@@ -16,8 +16,8 @@ export BacteriaGenomes=\
 export InteractionReference=\
 	~/git/Hannigan-2016-ConjunctisViribus/data/PhageInteractionReference.tsv
 
-export SwissProt=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_sprot.fasta
-export Trembl=
+export SwissProt=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_sprotNoBlock.fasta
+export Trembl=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_tremblNoBlock.fasta
 
 export GitBin=/home/ghannig/git/HanniganNotebook/bin/
 export SeqtkPath=/home/ghannig/bin/seqtk/seqtk

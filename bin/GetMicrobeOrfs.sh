@@ -10,11 +10,11 @@ export Output='OperationalProteinFamilies'
 export MothurProg=/share/scratch/schloss/mothur/mothur
 
 export PhageGenomes=\
-	~/git/Hannigan-2016-ConjunctisViribus/data/phageSVA.fa
+	/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/phageSVA.fa
 export BacteriaGenomes=\
-	~/git/Hannigan-2016-ConjunctisViribus/data/bacteriaSVA.fa
+	/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/bacteriaSVA.fa
 export InteractionReference=\
-	~/git/Hannigan-2016-ConjunctisViribus/data/PhageInteractionReference.tsv
+	/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageInteractionReference.tsv
 
 export SwissProt=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_sprotNoBlock.fasta
 export Trembl=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_tremblNoBlock.fasta

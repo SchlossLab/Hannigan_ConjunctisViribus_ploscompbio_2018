@@ -5,7 +5,7 @@
 
 # Set the variables to be used in this script
 export WorkingDirectory=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data
-export Output='OperationalProteinFamilies'
+export Output='OrfInteractions'
 
 export MothurProg=/share/scratch/schloss/mothur/mothur
 
@@ -62,7 +62,7 @@ PredictOrfs () {
 		./${Output}/${2}
 
 	# Remove the tmp file
-	rm ./${Output}/tmp-ContigOrfs.fa
+	#rm ./${Output}/tmp-ContigOrfs.fa
 }
 
 SubsetUniprot () {

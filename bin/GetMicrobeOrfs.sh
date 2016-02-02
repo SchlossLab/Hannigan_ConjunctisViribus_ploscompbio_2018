@@ -9,8 +9,8 @@ export Output='OrfInteractions'
 
 export MothurProg=/share/scratch/schloss/mothur/mothur
 
-export PhageGenomes=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/phageSVA.fa
-export BacteriaGenomes=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/bacteriaSVA.fa
+export PhageGenomes=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/phageSVAnospace.fa
+export BacteriaGenomes=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/bacteriaSVAnospace.fa
 export InteractionReference=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageInteractionReference.tsv
 
 export SwissProt=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_sprotNoBlock.fasta

@@ -43,7 +43,7 @@ my $PercentID;
 # Be sure to set username and password as neo4j
 # User = 2nd value, PW = 3rd value
 eval {
-    REST::Neo4p->connect('http://127.0.0.1:7474',neo4j,neo4j);
+    REST::Neo4p->connect('http://127.0.0.1:7474','neo4j','neo4j');
 };
 ref $@ ? $@->rethrow : die $@ if $@;
 

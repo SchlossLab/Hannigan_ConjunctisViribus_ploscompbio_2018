@@ -35,6 +35,9 @@ my $Genus;
 my $Species;
 my $formname = 0;
 my $Spacer;
+my $crispr;
+my $PhageTarget;
+my $PercentID;
 
 # Startup the neo4j connection using default location
 # Be sure to set username and password as neo4j

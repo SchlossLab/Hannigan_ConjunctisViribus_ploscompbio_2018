@@ -71,6 +71,7 @@ foreach my $line (<IN>) {
         next;
     } elsif ($flag =~ 0 & $line =~ /^OS\s+(\w.+$)/) {
         print STDOUT "Phage is $1\n";
+        # File really should already be without spaces though
         ($formname = $line) =~ s/\s/_/g;
         $n1 = REST::Neo4p::Node->new( {Name => $1} );
         $n1->set_property( {Organism => 'Phage'} );

@@ -75,16 +75,16 @@ foreach my $line (<IN>) {
         $formname = 0;
         next;
     } elsif ($flag =~ 0 & $line =~ /^OS\s+(\w.+$)/) {
-        print STDOUT "Phage is $1\n";
         # File really should already be without spaces though
-        ($formname = $line) =~ s/\s/_/g;
-        $n1 = REST::Neo4p::Node->new( {Name => $1} );
+        ($formname = $1) =~ s/\s/_/g;
+        print STDOUT "Phage is $formname\n";
+        $n1 = REST::Neo4p::Node->new( {Name => $formname} );
         $n1->set_property( {Organism => 'Phage'} );
         $flag = 1;
         next;
     } elsif ($flag =~ 1 & $line =~ /host=\"(.+)\"/) {
-        print STDOUT "Host is $1\n";
         ($FullName = $1) =~ s/\s/_/g;
+        print STDOUT "Host is $FullName\n";
         $Genus = (split /_/, $FullName)[0];
         $Species = $Genus."_".(split /_/, $FullName)[1];
         print STDOUT "Host genus is $Genus\n";

@@ -38,6 +38,8 @@ my $Spacer;
 my $crispr;
 my $PhageTarget;
 my $PercentID;
+my $array1;
+my $array2;
 
 # Startup the neo4j connection using default location
 # Be sure to set username and password as neo4j
@@ -60,6 +62,8 @@ pod2usage(-verbose => 1) && exit if defined $opt_help;
 open(IN, "<$input") || die "Unable to read in $input: $!";
 open(CRISPR, "<$crispr") || die "Unable to read in $crispr: $!";
 
+print STDOUT "\n\n\nProgress: Adding Literature Data.\n";
+
 # Parse the input and save into neo4j
 # Get the literature data
 foreach my $line (<IN>) {
@@ -80,6 +84,8 @@ foreach my $line (<IN>) {
         print STDOUT "Phage is $formname\n";
         $n1 = REST::Neo4p::Node->new( {Name => $formname} );
         $n1->set_property( {Organism => 'Phage'} );
+        $n1->set_labels('Phage',$formname);
+        print "$n1\n";
         $flag = 1;
         next;
     } elsif ($flag =~ 1 & $line =~ /host=\"(.+)\"/) {
@@ -93,6 +99,7 @@ foreach my $line (<IN>) {
         $n2->set_property( {Genus => $Genus} );
         $n2->set_property( {Species => $Species} );
         $n2->set_property( {Organism => 'Bacterial_Host'} );
+        $n2->set_labels('Bacterial_Host',$FullName);
         $n1->relate_to($n2, 'Infects');
     } elsif ($flag =~ 1 && $line =~ /^\s+([agct\s]+[agct])\s+[0-9]+$/) {
         $formatVar = $1;
@@ -104,7 +111,7 @@ foreach my $line (<IN>) {
         $formatVar =~ s/\s//g;
         $sequence = $sequence.$formatVar;
     } elsif ($flag =~ 2 && $line =~ /^\/\//) {
-        $n1->set_property({ Sequence => $sequence });
+        #$n1->set_property({ Sequence => $sequence });
         $flag = 1;
         $sequence = 0;
     } else {
@@ -112,16 +119,28 @@ foreach my $line (<IN>) {
     }
 }
 
+print STDOUT "\n\n\nProgress: Adding CRISPRs.\n";
+
 # Add in the CRISPR match data
 foreach my $line (<CRISPR>) {
     chomp $line;
-    $line =~ s/^(\S+)_\d+\t/$1/g;
+    $line =~ s/^(\S+)_\d+\t/$1\t/g;
     $Spacer = (split /\t/, $line)[0];
     $PhageTarget = (split /\t/, $line)[1];
     $PercentID = (split /\t/, $line)[2];
-    $n1 = REST::Neo4p::Node->new( {Name => $PhageTarget} );
-    $n2 = REST::Neo4p::Node->new( {Name => $Spacer} );
-    $n2->relate_to($n1, 'CrisprTarget');
+    print STDOUT "Spacer host is $Spacer.\n";
+    print STDOUT "Phage target is $PhageTarget.\n";
+    my @n11 = REST::Neo4p->get_nodes_by_label( $PhageTarget );
+    my @n12 = REST::Neo4p->get_nodes_by_label( $Spacer );
+    # print "WARNING: No phage target node for $PhageTarget.\n" unless (@n11);
+    # print "WARNING: No spacer node for $Spacer.\n" unless (@n12);
+    next unless (@n11);
+    next unless (@n12);
+    while( $array1 = pop @n11 ) {
+        while( $array2 = pop @n12 ) {
+            $array2->relate_to($array1, 'CrisprTarget');
+        }
+    }
 }
 
 

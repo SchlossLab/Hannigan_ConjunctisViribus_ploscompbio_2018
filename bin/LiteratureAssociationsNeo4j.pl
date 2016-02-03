@@ -115,6 +115,7 @@ foreach my $line (<IN>) {
 # Add in the CRISPR match data
 foreach my $line (<CRISPR>) {
     chomp $line;
+    $line =~ s/^(\S+)_\d+\t/$1/g;
     $Spacer = (split /\t/, $line)[0];
     $PhageTarget = (split /\t/, $line)[1];
     $PercentID = (split /\t/, $line)[2];

@@ -19,7 +19,7 @@ export Trembl=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_tremblNoBlock.fast
 export GitBin=/home/ghannig/git/HanniganNotebook/bin/
 export SeqtkPath=/home/ghannig/bin/seqtk/seqtk
 export LocalBin=/home/ghannig/bin/
-export SharedBin=/mnt/EXT/Schloss-data/bin/
+export StudyBin=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
 
 # Make the output directory and move to the working directory
 echo Creating output directory...
@@ -27,14 +27,12 @@ cd ${WorkingDirectory}
 mkdir ./${Output}
 
 PredictOrfs () {
-	# 1 = Contig Fasta File for Glimmer
+	# 1 = Contig Fasta File for Prodigal
 	# 2 = Output File Name
 
-	${SharedBin}prodigal \
-		-i ${1} \
-		-o ./${Output}/${2}.genes \
-		-a ./${Output}/tmp-genes.fa \
-		-p meta
+	${StudyBin}ProdigalWrapperLargeFiles.sh \
+		${1} \
+		./${Output}/tmp-genes.fa
 
     # Remove the block formatting
 	perl \

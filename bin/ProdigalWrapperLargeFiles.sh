@@ -33,7 +33,7 @@ if [[ "${FileSize}" -gt "${MaxFileSize}" ]]; then
 	split \
 		--lines=${SplitSize} \
 		${FastaInput} \
-		./tmp
+		./tmp/tmpProdigal-
 else
 	echo "File is small so does not need split."
 	# Copy file to tmp for ease

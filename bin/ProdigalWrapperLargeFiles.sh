@@ -13,7 +13,7 @@ export ProdigalPath=/mnt/EXT/Schloss-data/bin/
 export MaxFileSize=25000000 #25 MB
 export FastaInput=$1
 export OutputName=$2
-export SplitSize=50
+export SplitSize=20
 export Remove=FALSE
 # Determine file size of input file
 export FileSize=$(wc -c ${FastaInput} | sed 's/ .*//')
@@ -41,7 +41,7 @@ else
 fi
 
 # Now run pilerCR on the files
-ls ./tmp/* | xargs -I {} --max-procs=64 ${ProdigalPath}prodigal --closed -i {} -o {}.genes -a {}.out -p anon
+ls ./tmp/* | xargs -I {} --max-procs=32 ${ProdigalPath}prodigal --closed -i {} -o {}.genes -a {}.out -p anon
 
 # Collect the results together
 cat ./tmp/*.out > ./${OutputName}

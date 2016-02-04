@@ -12,12 +12,13 @@ export PfamDatabase=/mnt/EXT/Schloss-data/reference/Pfam/Pfam-A.hmm
 export MothurProg=/share/scratch/schloss/mothur/mothur
 
 export GitBin=/home/ghannig/git/HanniganNotebook/bin/
+export MicroToolkit=/home/ghannig/git/Microbiome_sequence_analysis_toolkit/
 export SeqtkPath=/home/ghannig/bin/seqtk/seqtk
 export LocalBin=/home/ghannig/bin/
 export hmmerBin=/mnt/EXT/Schloss-data/bin/hmmer-3.1b2-linux-intel-x86_64/binaries/
 
 # Get the orfs that were already predicted in 'GerMicrobeOrfs.sh'
-export PhageOrfs=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/OrfInteractions/PhageGenomeOrfs.fa
+export PhageOrfs=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa
 
 
 # Make the output directory and move to the working directory
@@ -34,7 +35,7 @@ PfamDomains () {
 	mkdir ./${Output}/PfamDomains
 
 	# Translate the sequences using default axiom script
-	translate-fasta ${2} > ./${Output}/PfamDomains/${1}-TanslatedOrfs.fa
+	${MicroToolkit}TranslateFasta.pl -f ${2} -o ./${Output}/PfamDomains/${1}-TanslatedOrfs.fa
 
 	# Perform HMM alignment against pfam HMMER database
 	${hmmerBin}hmmscan \

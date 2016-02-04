@@ -35,7 +35,7 @@ PfamDomains () {
 	mkdir ./${Output}/PfamDomains
 
 	# Translate the sequences using default axiom script
-	${MicroToolkit}TranslateFasta.pl -f ${2} -o ./${Output}/PfamDomains/${1}-TanslatedOrfs.fa
+	perl ${MicroToolkit}TranslateFasta.pl -f ${2} -o ./${Output}/PfamDomains/${1}-TanslatedOrfs.fa
 
 	# Perform HMM alignment against pfam HMMER database
 	${hmmerBin}hmmscan \

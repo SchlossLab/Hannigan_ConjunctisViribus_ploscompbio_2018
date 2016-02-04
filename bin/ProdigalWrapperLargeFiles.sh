@@ -41,7 +41,7 @@ else
 fi
 
 # Now run pilerCR on the files
-ls ./tmp/* | xargs -I {} --max-procs=32 ${ProdigalPath}prodigal -c -i {} -o {}.genes -a {}.out -p meta
+ls ./tmp/* | xargs -I {} --max-procs=128 ${ProdigalPath}prodigal -c -i {} -o {}.genes -a {}.out -p meta
 
 # Collect the results together
 cat ./tmp/*.out > ./${OutputName}

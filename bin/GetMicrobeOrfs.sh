@@ -19,6 +19,7 @@ export Trembl=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_tremblNoBlock.fast
 export GitBin=/home/ghannig/git/HanniganNotebook/bin/
 export SeqtkPath=/home/ghannig/bin/seqtk/seqtk
 export LocalBin=/home/ghannig/bin/
+export SharedBin=/mnt/EXT/Schloss-data/bin/
 
 # Make the output directory and move to the working directory
 echo Creating output directory...
@@ -29,40 +30,20 @@ PredictOrfs () {
 	# 1 = Contig Fasta File for Glimmer
 	# 2 = Output File Name
 
-	${LocalBin}glimmer3.02/bin/build-icm ./${Output}/Contigs.icm < ${1}
-
-	${LocalBin}glimmer3.02/bin/glimmer3 \
-		--linear \
-		-g 100 \
-		${1} \
-		./${Output}/Contigs.icm \
-		./${Output}/GlimmerOut
-
-	cat ./${Output}/GlimmerOut.predict | while read line;
-    do if [ "${line:0:1}" == ">" ]
-        then seqname=${line#'>'}
-        else
-        orf="$seqname.${line%%' '*}"
-        coords="${line#*' '}"
-        echo -e "$orf\t$seqname\t$coords"
-        fi
-    done > ./${Output}/GlimmerOutFormat.predict
-
-    ${LocalBin}glimmer3.02/bin/multi-extract \
-    	-l 100 \
-    	--nostop \
-    	${1} \
-    	./${Output}/GlimmerOutFormat.predict \
-    	> ./${Output}/tmp-ContigOrfs.fa
+	${SharedBin}prodigal \
+		-i ${1} \
+		-o ./${Output}/${2}.genes \
+		-a ./${Output}/tmp-genes.fa \
+		-p meta
 
     # Remove the block formatting
 	perl \
 	${GitBin}remove_block_fasta_format.pl \
-		./${Output}/tmp-ContigOrfs.fa \
+		./${Output}/tmp-genes.fa \
 		./${Output}/${2}
 
-	# Remove the tmp file
-	#rm ./${Output}/tmp-ContigOrfs.fa
+	# # Remove the tmp file
+	# rm ./${Output}/tmp*.fa
 }
 
 SubsetUniprot () {

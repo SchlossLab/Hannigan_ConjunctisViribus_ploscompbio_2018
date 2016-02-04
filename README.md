@@ -8,8 +8,8 @@ Using graph database techniques to understand the infectious relationships betwe
 - [x] Download Literature Data From ENA
 - [x] Write Script(s) to Parse and Add Lit Data to Database
 - [x] Download and Parse CRISPR Interaction Data (Test Set)
-- [ ] Write Script(s) to Add CRISPRs to Database (Test Set)
-- [ ] Install Candidate Protein Intearction Prediction Programs (1/2)
+- [x] Write Script(s) to Add CRISPRs to Database (Test Set)
+- [x] Install Candidate Protein Intearction Prediction Programs (2/2)
 - [ ] Predict Bacteria-Phage Protein Interactions (Test Set)
 - [ ] Add Protein Interactions to Database
 - [ ] Download ACLAME Prophage Data

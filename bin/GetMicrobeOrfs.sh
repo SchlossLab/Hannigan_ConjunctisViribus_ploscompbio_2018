@@ -30,7 +30,7 @@ PredictOrfs () {
 	# 1 = Contig Fasta File for Prodigal
 	# 2 = Output File Name
 
-	${StudyBin}ProdigalWrapperLargeFiles.sh \
+	bash ${StudyBin}ProdigalWrapperLargeFiles.sh \
 		${1} \
 		./${Output}/tmp-genes.fa
 

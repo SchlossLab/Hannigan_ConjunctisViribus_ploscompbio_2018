@@ -44,6 +44,7 @@ V(ig)$label = ""
 V(ig)$color = ifelse(grepl("[Pp]hage", nodes$id), rgb(0,0,1,.75), rgb(1,0,0,.75))
 #V(ig)$color <- rgb(0,1,0,.2)
 E(ig)$color <- rgb(.5,.5,.5,.2)
+E(ig)$width <- 0.01
 V(ig)$frame.color <- NA
 V(ig)$label.color <- rgb(0,0,.2,.5)
 

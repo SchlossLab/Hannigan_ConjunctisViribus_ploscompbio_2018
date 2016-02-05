@@ -19,7 +19,8 @@ export LocalBin=/home/ghannig/bin/
 export hmmerBin=/mnt/EXT/Schloss-data/bin/hmmer-3.1b2-linux-intel-x86_64/binaries/
 
 # Get the orfs that were already predicted in 'GerMicrobeOrfs.sh'
-export PhageOrfs=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa
+export PhageOrfs=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/OrfInteractions/PhageGenomeOrfs.fa
+export BacteriaOrfs=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/OrfInteractions/BacteriaGenomeOrfs.fa
 
 
 # Make the output directory and move to the working directory
@@ -114,7 +115,7 @@ PfamDomains \
 
 PfamDomains \
 	"Bacteria" \
-	${PhageOrfs} \
+	${BacteriaOrfs} \
 	${PfamDatabase}
 
 OrfInteractionPairs \

@@ -36,10 +36,10 @@ PfamDomains () {
 	# Make output directory
 	mkdir ./${Output}/PfamDomains
 
-	# Translate the sequences using default axiom script
-	perl ${MicroToolkit}TranslateFasta.pl \
-		-f ${2} \
-		-o ./${Output}/PfamDomains/${1}-TanslatedOrfs.fa
+	# Remove stop codon stars from fasta
+	sed 's/\*$//' ${2} \
+	| sed 's/ /_/g' \
+	> ./${Output}/PfamDomains/${1}-TanslatedOrfs.fa
 
 	# Perform HMM alignment against pfam HMMER database
 	${hmmerBin}hmmscan \

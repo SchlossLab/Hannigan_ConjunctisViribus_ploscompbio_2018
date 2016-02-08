@@ -132,10 +132,36 @@ foreach my $line (<CRISPR>) {
     print STDOUT "Phage target is $PhageTarget.\n";
     my @n11 = REST::Neo4p->get_nodes_by_label( $PhageTarget );
     my @n12 = REST::Neo4p->get_nodes_by_label( $Spacer );
-    # print "WARNING: No phage target node for $PhageTarget.\n" unless (@n11);
-    # print "WARNING: No spacer node for $Spacer.\n" unless (@n12);
-    next unless (@n11);
-    next unless (@n12);
+
+    # Create new phage target node if it does not exist
+    unless (@n11) {
+        ($formname = $PhageTarget) =~ s/\s/_/g;
+        print STDOUT "New CRISPR phage target is $formname\n";
+        $n1 = REST::Neo4p::Node->new( {Name => $formname} );
+        $n1->set_property( {Organism => 'Phage'} );
+        $n1->set_labels('Phage',$formname);
+    }
+    unless (@n12) {
+        ($FullName = $Spacer) =~ s/\s/_/g;
+        print STDOUT "New spacer host is $FullName\n";
+        $Genus = (split /_/, $FullName)[0];
+        $Species = $Genus."_".(split /_/, $FullName)[1];
+        print STDOUT "CRISPR host genus is $Genus\n";
+        print STDOUT "CRISPR host species is $Species\n";
+        $n2 = REST::Neo4p::Node->new( {Name => $FullName} );
+        $n2->set_property( {Genus => $Genus} );
+        $n2->set_property( {Species => $Species} );
+        $n2->set_property( {Organism => 'Bacterial_Host'} );
+        $n2->set_labels('Bacterial_Host',$FullName);
+    }
+
+    # Then get the newly created nodes as arrays
+    @n11 = REST::Neo4p->get_nodes_by_label( $PhageTarget );
+    @n12 = REST::Neo4p->get_nodes_by_label( $Spacer );
+
+    die "ERROR: There are phage target nodes that do not exist: !$\n" unless (@n11);
+    die "ERROR: There are CRISPR spacer nodes that do not exist: !$\n" unless (@n12);
+
     while( $array1 = pop @n11 ) {
         while( $array2 = pop @n12 ) {
             $array2->relate_to($array1, 'CrisprTarget');

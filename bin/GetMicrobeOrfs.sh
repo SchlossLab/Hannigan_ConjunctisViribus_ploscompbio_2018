@@ -170,4 +170,3 @@ OrfInteractionPairs \
 	./${Output}/PhageGenomeOrfs.fa.blast \
 	./${Output}/BacteriaGenomeOrfs.fa.blast \
 	./${Output}/ParsedInteractionRef.tsv
-

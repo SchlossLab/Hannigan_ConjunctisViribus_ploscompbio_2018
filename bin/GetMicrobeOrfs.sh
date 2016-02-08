@@ -95,12 +95,12 @@ GetOrfUniprotHits () {
 		-query ${2} \
 		-out ./${Output}/${2}.blast \
 		-db ./${Output}/UniprotSubsetDatabase \
-		-outfmt 6 \
+		-outfmt 6
 	blastp \
 		-query ${3} \
 		-out ./${Output}/${3}.blast \
 		-db ./${Output}/UniprotSubsetDatabase \
-		-outfmt 6 \
+		-outfmt 6
 }
 
 OrfInteractionPairs () {

@@ -93,12 +93,12 @@ GetOrfUniprotHits () {
 	# Use blast to get hits of ORFs to Uniprot genes
 	blastp \
 		-query ${2} \
-		-out ./${Output}/${2}.blast \
+		-out ${2}.blast \
 		-db ./${Output}/UniprotSubsetDatabase \
 		-outfmt 6
 	blastp \
 		-query ${3} \
-		-out ./${Output}/${3}.blast \
+		-out ${3}.blast \
 		-db ./${Output}/UniprotSubsetDatabase \
 		-outfmt 6
 }

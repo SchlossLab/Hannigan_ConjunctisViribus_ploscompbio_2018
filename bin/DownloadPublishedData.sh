@@ -4,7 +4,7 @@
 # University of Michigan
 
 # Set the variables to be used in this script
-export WorkingDirectory=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data
+export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
 export Output='DownloadedSRA'
 
 export StudyDat=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/ViromeStudyAcc.dat

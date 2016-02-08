@@ -91,18 +91,16 @@ GetOrfUniprotHits () {
 		-out ./${Output}/UniprotSubsetDatabase
 
 	# Use blast to get hits of ORFs to Uniprot genes
-	blastx \
+	blastp \
 		-query ${2} \
 		-out ./${Output}/${2}.blast \
 		-db ./${Output}/UniprotSubsetDatabase \
 		-outfmt 6 \
-		-evalue 1e-10
-	blastx \
+	blastp \
 		-query ${3} \
 		-out ./${Output}/${3}.blast \
 		-db ./${Output}/UniprotSubsetDatabase \
 		-outfmt 6 \
-		-evalue 1e-10
 }
 
 OrfInteractionPairs () {
@@ -158,10 +156,10 @@ export -f OrfInteractionPairs
 # 	${BacteriaGenomes} \
 # 	BacteriaGenomeOrfs.fa
 
-SubsetUniprot \
-	${InteractionReference} \
-	${SwissProt} \
-	${Trembl}
+# SubsetUniprot \
+# 	${InteractionReference} \
+# 	${SwissProt} \
+# 	${Trembl}
 
 GetOrfUniprotHits \
 	./${Output}/TotalUniprotSubset.fa \

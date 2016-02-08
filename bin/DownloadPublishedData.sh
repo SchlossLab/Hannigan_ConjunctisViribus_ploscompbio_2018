@@ -33,8 +33,8 @@ DownloadSRA () {
 		shortLine=${line:0:6}
 		echo File type is $fileType...
 		echo Short accession number is $shortLine...
-		# wget ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByRun/sra/${fileType}/${shortLine}/${line}/${line}.sra
-		fastq-dump ${line} --outdir ./${Output}/FastqFilesFromSra
+		wget ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByRun/sra/${fileType}/${shortLine}/${line}/${line}.sra ./${Output}/FastqFilesFromSra/
+		#fastq-dump ${line} --outdir ./${Output}/FastqFilesFromSra
 	done < ${1}
 }
 

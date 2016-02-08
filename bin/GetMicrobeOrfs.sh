@@ -16,7 +16,7 @@ export InteractionReference=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/da
 export SwissProt=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_sprotNoBlock.fasta
 export Trembl=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_tremblNoBlock.fasta
 
-export GitBin=/home/ghannig/git/HanniganNotebook/bin/
+export GitBin=/home/ghannig/git/OpenMetagenomeToolkit/
 export SeqtkPath=/home/ghannig/bin/seqtk/seqtk
 export LocalBin=/home/ghannig/bin/
 export StudyBin=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
@@ -64,11 +64,11 @@ SubsetUniprot () {
 
 	# Use this list to subset the Uniprot database
 	perl ${GitBin}FilterFasta.pl \
-		-i ${2} \
+		-f ${2} \
 		-l ./${Output}/UniqueInteractionRef.tsv \
 		-o ./${Output}/SwissProtSubset.fa
 	perl ${GitBin}FilterFasta.pl \
-		-i ${3} \
+		-f ${3} \
 		-l ./${Output}/UniqueInteractionRef.tsv \
 		-o ./${Output}/TremblProtSubset.fa
 
@@ -150,13 +150,13 @@ export -f GetOrfUniprotHits
 export -f OrfInteractionPairs
 
 
-PredictOrfs \
-	${PhageGenomes} \
-	PhageGenomeOrfs.fa
+# PredictOrfs \
+# 	${PhageGenomes} \
+# 	PhageGenomeOrfs.fa
 
-PredictOrfs \
-	${BacteriaGenomes} \
-	BacteriaGenomeOrfs.fa
+# PredictOrfs \
+# 	${BacteriaGenomes} \
+# 	BacteriaGenomeOrfs.fa
 
 SubsetUniprot \
 	${InteractionReference} \

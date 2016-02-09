@@ -88,7 +88,7 @@ GetOrfUniprotHits () {
 	# Create blast database
 	${SchlossBin}diamond makedb \
 		--in ${1} \
-		--out ./${Output}/UniprotSubsetDatabase
+		--out ./${Output}/UniprotSubsetDatabase \
 		--threads 8
 
 	# Use blast to get hits of ORFs to Uniprot genes

@@ -97,7 +97,7 @@ GetOrfUniprotHits () {
 		--out ${2}.blast \
 		--db ./${Output}/UniprotSubsetDatabase \
 		--outfmt tab
-	blastp \
+	${SchlossBin}diamond blastp \
 		--query ${3} \
 		--out ${3}.blast \
 		--db ./${Output}/UniprotSubsetDatabase \

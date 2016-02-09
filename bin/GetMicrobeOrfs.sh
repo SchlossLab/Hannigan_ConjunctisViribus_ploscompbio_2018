@@ -72,12 +72,6 @@ SubsetUniprot () {
 		-f ${3} \
 		-l ./${Output}/UniqueInteractionRef.tsv \
 		-o ./${Output}/TremblProtSubset.fa
-
-	# Create single file with two datasets
-	cat \
-		./${Output}/SwissProtSubset.fa \
-		./${Output}/TremblProtSubset.fa \
-		> ./${Output}/TotalUniprotSubset.fa
 }
 
 GetOrfUniprotHits () {
@@ -85,8 +79,16 @@ GetOrfUniprotHits () {
 	# 2 = Phage Orfs
 	# 3 = Bacteria Orfs
 
+	# Create single file with two datasets
+	cat \
+		${SwissProt} \
+		${Trembl} \
+		> ./${Output}/TotalUniprotSubset.fa
+
 	# Create blast database
-	${SchlossBin}diamond makedb --in ${1}
+	${SchlossBin}diamond makedb \
+		--in ./${Output}/TotalUniprotSubset.fa \
+		--out ./${Output}/UniprotSubsetDatabase
 
 	# Use blast to get hits of ORFs to Uniprot genes
 	${SchlossBin}diamond blastp \

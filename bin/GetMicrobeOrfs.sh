@@ -5,7 +5,7 @@
 
 # Set the variables to be used in this script
 export WorkingDirectory=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data
-export Output='OrfInteractions'
+export Output='OrfInteractionsDiamond'
 
 export MothurProg=/share/scratch/schloss/mothur/mothur
 
@@ -20,6 +20,7 @@ export GitBin=/home/ghannig/git/OpenMetagenomeToolkit/
 export SeqtkPath=/home/ghannig/bin/seqtk/seqtk
 export LocalBin=/home/ghannig/bin/
 export StudyBin=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
+export SchlossBin=/mnt/EXT/Schloss-data/bin/
 
 # Make the output directory and move to the working directory
 echo Creating output directory...
@@ -85,22 +86,22 @@ GetOrfUniprotHits () {
 	# 3 = Bacteria Orfs
 
 	# Create blast database
-	makeblastdb \
-		-dbtype prot \
-		-in ${1} \
-		-out ./${Output}/UniprotSubsetDatabase
+	${SchlossBin}diamond makedb \
+		--in ${1} \
+		--out ./${Output}/UniprotSubsetDatabase
+		--threads 8
 
 	# Use blast to get hits of ORFs to Uniprot genes
+	${SchlossBin}diamond blastp \
+		--query ${2} \
+		--out ${2}.blast \
+		--db ./${Output}/UniprotSubsetDatabase \
+		--outfmt tab
 	blastp \
-		-query ${2} \
-		-out ${2}.blast \
-		-db ./${Output}/UniprotSubsetDatabase \
-		-outfmt 6
-	blastp \
-		-query ${3} \
-		-out ${3}.blast \
-		-db ./${Output}/UniprotSubsetDatabase \
-		-outfmt 6
+		--query ${3} \
+		--out ${3}.blast \
+		--db ./${Output}/UniprotSubsetDatabase \
+		--outfmt tab
 }
 
 OrfInteractionPairs () {
@@ -163,8 +164,8 @@ export -f OrfInteractionPairs
 
 GetOrfUniprotHits \
 	./${Output}/TotalUniprotSubset.fa \
-	./${Output}/PhageGenomeOrfs.fa \
-	./${Output}/BacteriaGenomeOrfs.fa
+	/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa \
+	/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
 
 OrfInteractionPairs \
 	./${Output}/PhageGenomeOrfs.fa.blast \

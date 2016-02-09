@@ -86,8 +86,7 @@ GetOrfUniprotHits () {
 	# 3 = Bacteria Orfs
 
 	# Create blast database
-	${SchlossBin}diamond makedb \
-		--in ${1}
+	${SchlossBin}diamond makedb --in ${1}
 
 	# Use blast to get hits of ORFs to Uniprot genes
 	${SchlossBin}diamond blastp \

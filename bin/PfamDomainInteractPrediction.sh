@@ -84,7 +84,7 @@ OrfInteractionPairs () {
 
 	# Convert bacterial file to reference
 	awk \
-		'NR == FNR {a[$1] = $2; next} { print $1"\t"$2"\t"a[$1] }' \
+		'NR == FNR {a[$1] = $2; next} $1 in a { print $1"\t"$2"\t"a[$1] }' \
 		./${Output}/TotalInteractionRef.tsv \
 		./${Output}/PfamDomains/PhagePfamAcc.tsv \
 		> ./${Output}/PfamDomains/tmpMerge.tsv

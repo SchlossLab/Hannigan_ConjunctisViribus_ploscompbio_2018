@@ -72,14 +72,14 @@ OrfInteractionPairs () {
 		| sed 's/ \+/\t/g' \
 		| cut -f 2,4 \
 		| sed 's/\..\+\t/\t/' \
-		| sed 's/\d*_\#_.*//g' \
+		| sed 's/[0-9]*_\#_.*//g' \
 		> ./${Output}/PfamDomains/PhagePfamAcc.tsv
 
 	grep -v '^\#' ${2}  \
 		| sed 's/ \+/\t/g' \
 		| cut -f 2,4 \
 		| sed 's/\..\+\t/\t/' \
-		| sed 's/\d*_\#_.*//g' \
+		| sed 's/[0-9]*_\#_.*//g' \
 		> ./${Output}/PfamDomains/BacteriaPfamAcc.tsv
 
 	# Convert bacterial file to reference

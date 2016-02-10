@@ -95,11 +95,13 @@ GetOrfUniprotHits () {
 		-q ${2} \
 		-o ${2}.blast \
 		-d ./${Output}/UniprotSubsetDatabase \
+		-a ${2}.daa \
 		-f tab
 	${SchlossBin}diamond blastp \
 		-q ${3} \
 		-o ${3}.blast \
 		-d ./${Output}/UniprotSubsetDatabase \
+		-a ${2}.daa \
 		-f tab
 }
 

@@ -68,12 +68,12 @@ OrfInteractionPairs () {
 
 	# Get only the ORF IDs and corresponding interactions
 	# Column 1 is the ORF ID, two is Uniprot ID
-	grep -v '#' ${1}  \
+	grep -v '^\#' ${1}  \
 		| cut -f 2,4 \
 		| sed 's/\..\+\t/\t/' \
 		> ./${Output}/PfamDomains/PhagePfamAcc.tsv
 
-	grep -v '#' ${2}  \
+	grep -v '^\#' ${2}  \
 		| cut -f 2,4 \
 		| sed 's/\..\+\t/\t/' \
 		> ./${Output}/PfamDomains/BacteriaPfamAcc.tsv

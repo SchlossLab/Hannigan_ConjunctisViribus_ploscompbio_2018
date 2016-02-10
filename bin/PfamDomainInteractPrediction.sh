@@ -72,14 +72,14 @@ OrfInteractionPairs () {
 		| sed 's/ \+/\t/g' \
 		| cut -f 2,4 \
 		| sed 's/\..\+\t/\t/' \
-		| sed 's/_\#_.*//g' \
+		| sed 's/\d*_\#_.*//g' \
 		> ./${Output}/PfamDomains/PhagePfamAcc.tsv
 
 	grep -v '^\#' ${2}  \
 		| sed 's/ \+/\t/g' \
 		| cut -f 2,4 \
 		| sed 's/\..\+\t/\t/' \
-		| sed 's/_\#_.*//g' \
+		| sed 's/\d*_\#_.*//g' \
 		> ./${Output}/PfamDomains/BacteriaPfamAcc.tsv
 
 	# Convert bacterial file to reference
@@ -90,7 +90,7 @@ OrfInteractionPairs () {
 		> ./${Output}/PfamDomains/tmpMerge.tsv
 
 	awk \
-		'NR == FNR {a[$1] = $2; next} { print $1"\t"$2"\t"$3"\t"a[$3] }' \
+		'NR == FNR {a[$1] = $2; next} $3 in a { print $1"\t"$2"\t"$3"\t"a[$3] }' \
 		./${Output}/PfamDomains/BacteriaPfamAcc.tsv \
 		./${Output}/PfamDomains/tmpMerge.tsv \
 		> ./${Output}/InteractiveIds.tsv

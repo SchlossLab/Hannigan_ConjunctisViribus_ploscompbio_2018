@@ -43,6 +43,7 @@ PfamDomains () {
 
 	# Perform HMM alignment against pfam HMMER database
 	${hmmerBin}hmmscan \
+		--cpu 32 \
 		--notextw \
 		--cut_ga \
 		--domtblout ./${Output}/PfamDomains/${1}-PfamDomains.hmmscan \
@@ -102,15 +103,15 @@ OrfInteractionPairs () {
 export -f PfamDomains
 export -f OrfInteractionPairs
 
-# PfamDomains \
-# 	"Phage" \
-# 	${PhageOrfs} \
-# 	${PfamDatabase}
+PfamDomains \
+	"Phage" \
+	${PhageOrfs} \
+	${PfamDatabase}
 
-# PfamDomains \
-# 	"Bacteria" \
-# 	${BacteriaOrfs} \
-# 	${PfamDatabase}
+PfamDomains \
+	"Bacteria" \
+	${BacteriaOrfs} \
+	${PfamDatabase}
 
 OrfInteractionPairs \
 	./${Output}/PfamDomains/Phage-PfamDomains.hmmscan \

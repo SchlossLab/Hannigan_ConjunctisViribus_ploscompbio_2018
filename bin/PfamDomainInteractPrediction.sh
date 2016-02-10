@@ -45,6 +45,7 @@ PfamDomains () {
 	# Split files to run faster
 	split \
 		--lines=1000 \
+		-a 5 \
 		./${Output}/PfamDomains/${1}-TanslatedOrfs.fa \
 		./${Output}/tmp/tmpPfam-
 

@@ -48,15 +48,6 @@ PfamDomains () {
 		--domtblout ./${Output}/PfamDomains/${1}-PfamDomains.hmmscan \
 		${3} \
 		./${Output}/PfamDomains/${1}-TanslatedOrfs.fa
-
-	# Format the data so it is easier to deal with in R analysis
-	# The cut by character count works because it is space delimited
-	# With the final column starting at character 181.
-	grep -v '#' ./${Output}/PfamDomains/${1}-PfamDomains.hmmscan  \
-		| cut -c 1-180 \
-		| sed 's/\s\+/\t/g' \
-		| sort -rnk22 \
-		> ./${Output}/PfamDomains/${1}-PfamDomainsFormat.tsv
 }
 
 OrfInteractionPairs () {
@@ -77,14 +68,14 @@ OrfInteractionPairs () {
 
 	# Get only the ORF IDs and corresponding interactions
 	# Column 1 is the ORF ID, two is Uniprot ID
-	cut -f 2,4 ${1} \
-		| sed 's/\.orf\d\+//' \
-		| sed 's/\.\d\+\t/\t/' \
+	grep -v '#' ${1}  \
+		| cut -f 2,4 \
+		| sed 's/\..\+\t/\t/' \
 		> ./${Output}/PfamDomains/PhagePfamAcc.tsv
 
-	cut -f 2,4 ${2} \
-		| sed 's/\.orf\d\+//' \
-		| sed 's/\.\d\+\t/\t/' \
+	grep -v '#' ${2}  \
+		| cut -f 2,4 \
+		| sed 's/\..\+\t/\t/' \
 		> ./${Output}/PfamDomains/BacteriaPfamAcc.tsv
 
 	# Convert bacterial file to reference
@@ -108,17 +99,17 @@ OrfInteractionPairs () {
 export -f PfamDomains
 export -f OrfInteractionPairs
 
-PfamDomains \
-	"Phage" \
-	${PhageOrfs} \
-	${PfamDatabase}
+# PfamDomains \
+# 	"Phage" \
+# 	${PhageOrfs} \
+# 	${PfamDatabase}
 
-PfamDomains \
-	"Bacteria" \
-	${BacteriaOrfs} \
-	${PfamDatabase}
+# PfamDomains \
+# 	"Bacteria" \
+# 	${BacteriaOrfs} \
+# 	${PfamDatabase}
 
 OrfInteractionPairs \
-	./${Output}/PfamDomains/Phage-PfamDomainsFormat.tsv \
-	./${Output}/PfamDomains/Bacteria-PfamDomainsFormat.tsv \
+	./${Output}/PfamDomains/Phage-PfamDomains.hmmscan \
+	./${Output}/PfamDomains/Bacteria-PfamDomains.hmmscan \
 	${InteractionReference}

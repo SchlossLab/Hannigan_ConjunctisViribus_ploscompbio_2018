@@ -33,22 +33,29 @@ PfamDomains () {
 	# 2 = ORF Fasta (nucleotide)
 	# 3 = Reference Database (pfam)
 
-	# Make output directory
+	# Make output directory and tmp
 	mkdir ./${Output}/PfamDomains
+	mkdir ./${Output}/tmp
 
 	# Remove stop codon stars from fasta
 	sed 's/\*$//' ${2} \
 	| sed 's/ /_/g' \
 	> ./${Output}/PfamDomains/${1}-TanslatedOrfs.fa
 
+	# Split files to run faster
+	split \
+		--lines=1000 \
+		./${Output}/PfamDomains/${1}-TanslatedOrfs.fa \
+		./${Output}/tmp/tmpPfam-
+
 	# Perform HMM alignment against pfam HMMER database
-	${hmmerBin}hmmscan \
-		--cpu 32 \
-		--notextw \
-		--cut_ga \
-		--domtblout ./${Output}/PfamDomains/${1}-PfamDomains.hmmscan \
-		${3} \
-		./${Output}/PfamDomains/${1}-TanslatedOrfs.fa
+	ls ./${Output}/tmp/* | xargs -I {} --max-procs=256 ${hmmerBin}hmmscan --notextw --cut_ga --domtblout {}.hmmscan ${3} {}
+
+	# Put together the files
+	cat ./${Output}/tmp/*.hmmscan > ./${Output}/PfamDomains/${1}-PfamDomains.hmmscan
+
+	# Remove the tmp directory
+	rm -r ./${Output}/tmp
 }
 
 OrfInteractionPairs () {

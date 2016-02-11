@@ -79,16 +79,16 @@ GetOrfUniprotHits () {
 	# 2 = Phage Orfs
 	# 3 = Bacteria Orfs
 
-	# # Create single file with two datasets
-	# cat \
-	# 	${SwissProt} \
-	# 	${Trembl} \
-	# 	> ./${Output}/TotalUniprotSubset.fa
+	# Create single file with two datasets
+	cat \
+		${SwissProt} \
+		${Trembl} \
+		> ./${Output}/TotalUniprotSubset.fa
 
-	# # Create blast database
-	# ${SchlossBin}diamond makedb \
-	# 	--in ./${Output}/TotalUniprotSubset.fa \
-	# 	-d ./${Output}/UniprotSubsetDatabase
+	# Create blast database
+	${SchlossBin}diamond makedb \
+		--in ./${Output}/TotalUniprotSubset.fa \
+		-d ./${Output}/UniprotSubsetDatabase
 
 	# Use blast to get hits of ORFs to Uniprot genes
 	${SchlossBin}diamond blastp \

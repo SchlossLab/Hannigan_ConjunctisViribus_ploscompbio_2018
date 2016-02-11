@@ -48,5 +48,5 @@ ParseStudyDat \
 DownloadSRA \
 	./${Output}/tmpList.tsv
 
-# Remove the tmp file
-rm ./${Output}/tmpList.tsv
+# # Remove the tmp file
+# rm ./${Output}/tmpList.tsv

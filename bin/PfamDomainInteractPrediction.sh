@@ -50,7 +50,7 @@ PfamDomains () {
 		./${Output}/tmp/tmpPfam-
 
 	# Perform HMM alignment against pfam HMMER database
-	ls ./${Output}/tmp/* | xargs -I {} --max-procs=2048 ${hmmerBin}hmmscan --notextw --cut_ga --domtblout {}.hmmscan ${3} {}
+	ls ./${Output}/tmp/* | xargs -I {} --max-procs=1024 ${hmmerBin}hmmscan --notextw --cut_ga --domtblout {}.hmmscan ${3} {}
 
 	# Put together the files
 	cat ./${Output}/tmp/*.hmmscan > ./${Output}/PfamDomains/${1}-PfamDomains.hmmscan

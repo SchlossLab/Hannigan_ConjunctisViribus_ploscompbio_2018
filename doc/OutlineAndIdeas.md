@@ -15,6 +15,8 @@ date:   2016-01-27
 
 ##Predictive Models
 There are different ways graph databases can be used for predictive modeling and classificaiton.
+
 1. Use database features as features within the predictive model (e.g. edges on the node, shortest paths)
+2. Implement triadic closure theory in the model
 2. Classification algorithms by edge clustering
-3. 
+

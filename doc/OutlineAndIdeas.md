@@ -17,6 +17,6 @@ date:   2016-01-27
 There are different ways graph databases can be used for predictive modeling and classificaiton.
 
 1. Use database features as features within the predictive model (e.g. edges on the node, shortest paths)
-2. Implement triadic closure theory in the model
-2. Classification algorithms by edge clustering
-
+2. Use triadic closures to classify phages related by shared hosts to predict genetic exchange, competition, & co-dependence
+3. Classification algorithms by edge clustering
+4. Is it possible to create binary arrays of phage-bacteria infectious ranges and classify system as diseased based on interactions?

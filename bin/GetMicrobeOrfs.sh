@@ -4,22 +4,22 @@
 # University of Michigan
 
 # Set the variables to be used in this script
-export WorkingDirectory=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data
+export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
 export Output='OrfInteractionsDiamond'
 
 export MothurProg=/share/scratch/schloss/mothur/mothur
 
-export PhageGenomes=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/phageSVAnospace.fa
-export BacteriaGenomes=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/bacteriaSVAnospace.fa
-export InteractionReference=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageInteractionReference.tsv
+export PhageGenomes=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/phageSVAnospace.fa
+export BacteriaGenomes=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/bacteriaSVAnospace.fa
+export InteractionReference=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PhageInteractionReference.tsv
 
 export SwissProt=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_sprotNoBlock.fasta
 export Trembl=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_tremblNoBlock.fasta
 
-export GitBin=/home/ghannig/git/OpenMetagenomeToolkit/
+export GitBin=/mnt/EXT/Schloss-data/ghannig/OpenMetagenomeToolkit/
 export SeqtkPath=/home/ghannig/bin/seqtk/seqtk
 export LocalBin=/home/ghannig/bin/
-export StudyBin=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
+export StudyBin=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin/
 export SchlossBin=/mnt/EXT/Schloss-data/bin/
 
 # Make the output directory and move to the working directory
@@ -165,8 +165,8 @@ export -f OrfInteractionPairs
 
 GetOrfUniprotHits \
 	./${Output}/TotalUniprotSubset.fa \
-	/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa \
-	/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
+	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa \
+	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
 
 OrfInteractionPairs \
 	./${Output}/PhageGenomeOrfs.fa.blast \

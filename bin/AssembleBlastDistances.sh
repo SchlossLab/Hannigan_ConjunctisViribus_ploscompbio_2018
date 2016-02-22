@@ -37,6 +37,10 @@ BlastSeqs () {
     	-db ./${Output}/${1}-database \
     	-outfmt 6 \
     	-evalue 100
+
+    awk ' { print $1"\t"$2"\t"$11"\t"$12 } ' \
+    	./${Output}/${1}-BlastResults.tsv \
+    	> ./${Output}/${1}-BlastResultsFormat.tsv
 }
 
 export -f BlastSeqs

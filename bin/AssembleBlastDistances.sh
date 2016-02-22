@@ -13,7 +13,7 @@ export Output='BlastDistance'
 
 export Vsearch=/mnt/EXT/Schloss-data/bin/vsearch-1.9.10-linux-x86_64/bin/vsearch
 
-export PhageGenomes=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/phageSVA.fa
+export PhageGenomes=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/phageSVAnospace.fa
 
 # Set working dir
 cd ${WorkingDirectory}

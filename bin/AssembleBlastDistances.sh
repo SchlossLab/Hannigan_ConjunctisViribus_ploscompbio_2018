@@ -40,7 +40,9 @@ BlastSeqs () {
 
     awk ' { print $1"\t"$2"\t"$11"\t"$12 } ' \
     	./${Output}/${1}-BlastResults.tsv \
-    	> ./${Output}/${1}-BlastResultsFormat.tsv
+    | awk ' !seen[$1$2] { print $0 } { ++seen[$1$2] } ' \
+    > ./${Output}/${1}-BlastResultsFormat.tsv
+    # That second awk is for removing duplicates
 }
 
 export -f BlastSeqs

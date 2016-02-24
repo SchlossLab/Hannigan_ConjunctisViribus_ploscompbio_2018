@@ -11,6 +11,7 @@ export PfamDatabase=/mnt/EXT/Schloss-data/reference/Pfam/Pfam-A.hmm
 export InteractionReference=/mnt/EXT/Schloss-data/reference/DomineInteractionDb/PfamAccInteractions.tsv
 
 export MothurProg=/share/scratch/schloss/mothur/mothur
+export QuickSub=/mnt/EXT/Schloss-data/bin/quicksubmit
 
 export GitBin=/home/ghannig/git/HanniganNotebook/bin/
 export MicroToolkit=/home/ghannig/git/Microbiome_sequence_analysis_toolkit/

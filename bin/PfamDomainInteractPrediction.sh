@@ -11,7 +11,6 @@ export PfamDatabase=/mnt/EXT/Schloss-data/reference/Pfam/Pfam-A.hmm
 export InteractionReference=/mnt/EXT/Schloss-data/reference/DomineInteractionDb/PfamAccInteractions.tsv
 
 export MothurProg=/share/scratch/schloss/mothur/mothur
-export QuickSub=/mnt/EXT/Schloss-data/bin/quicksubmit
 
 export GitBin=/home/ghannig/git/HanniganNotebook/bin/
 export MicroToolkit=/home/ghannig/git/Microbiome_sequence_analysis_toolkit/
@@ -51,7 +50,7 @@ PfamDomains () {
 		./${Output}/tmp/tmpPfam-
 
 	# Perform HMM alignment against pfam HMMER database
-	ls ./${Output}/tmp/* | xargs -I {} --max-procs=4 echo "/mnt/EXT/Schloss-data/bin/hmmer-3.1b2-linux-intel-x86_64/binaries/hmmscan --cpu 8 --notextw --cut_ga -o {}.log --domtblout {}.hmmscan $3 {}" | qsub -sync y -l mem=4G ct=500:00:00
+	ls ./${Output}/tmp/* | xargs -I {} --max-procs=1024 ${hmmerBin}hmmscan --notextw --cut_ga -o {}.log --domtblout {}.hmmscan ${3} {}
 
 	# Put together the files
 	cat ./${Output}/tmp/*.hmmscan > ./${Output}/PfamDomains/${1}-PfamDomains.hmmscan

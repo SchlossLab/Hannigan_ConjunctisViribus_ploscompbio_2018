@@ -51,7 +51,7 @@ PfamDomains () {
 		./${Output}/tmp/tmpPfam-
 
 	# Perform HMM alignment against pfam HMMER database
-	ls ./${Output}/tmp/* | xargs -I {} --max-procs=4 ${QuickSub} -sync y --mailto nothing@fake --pm mem=4gb --cput 500:00:00 --walltime 10:00:00 "/mnt/EXT/Schloss-data/bin/hmmer-3.1b2-linux-intel-x86_64/binaries/hmmscan --cpu 8 --notextw --cut_ga -o {}.log --domtblout {}.hmmscan $3 {}"
+	ls ./${Output}/tmp/* | xargs -I {} --max-procs=4 echo "/mnt/EXT/Schloss-data/bin/hmmer-3.1b2-linux-intel-x86_64/binaries/hmmscan --cpu 8 --notextw --cut_ga -o {}.log --domtblout {}.hmmscan $3 {}" | qsub -sync y -l mem=4G ct=500:00:00
 
 	# Put together the files
 	cat ./${Output}/tmp/*.hmmscan > ./${Output}/PfamDomains/${1}-PfamDomains.hmmscan

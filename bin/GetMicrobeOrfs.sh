@@ -98,15 +98,9 @@ GetOrfUniprotHits () {
 	# 2 = Phage Orfs
 	# 3 = Bacteria Orfs
 
-	# Create single file with two datasets
-	cat \
-		${SwissProt} \
-		${Trembl} \
-		> ./${Output}/TotalUniprotSubset.fa
-
-	# Create blast database
+	# Create diamond database
 	${SchlossBin}diamond makedb \
-		--in ./${Output}/TotalUniprotSubset.fa \
+		--in ${1} \
 		-d ./${Output}/UniprotSubsetDatabase
 
 	# Use blast to get hits of ORFs to Uniprot genes
@@ -169,21 +163,21 @@ export -f GetOrfUniprotHits
 export -f OrfInteractionPairs
 
 
-# PredictOrfs \
-# 	${PhageGenomes} \
-# 	PhageGenomeOrfs.fa
+PredictOrfs \
+	${PhageGenomes} \
+	PhageGenomeOrfs.fa
 
-# PredictOrfs \
-# 	${BacteriaGenomes} \
-# 	BacteriaGenomeOrfs.fa
+PredictOrfs \
+	${BacteriaGenomes} \
+	BacteriaGenomeOrfs.fa
 
-# SubsetUniprot \
-# 	${InteractionReference} \
-# 	${SwissProt} \
-# 	${Trembl}
+SubsetUniprot \
+	${InteractionReference} \
+	${SwissProt} \
+	${Trembl}
 
 GetOrfUniprotHits \
-	./${Output}/TotalUniprotSubset.fa \
+	./${Output}/SwissProtSubset.fa \
 	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa \
 	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
 

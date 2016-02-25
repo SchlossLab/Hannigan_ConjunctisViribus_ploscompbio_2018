@@ -3,6 +3,17 @@
 # Pat Schloss Lab
 # University of Michigan
 
+#PBS -N GetMicrobeOrfs
+
+#PBS -l qos=flux
+#PBS -q flux
+
+#PBS -l nodes=1:ppn=4,mem=47gb
+#PBS -l walltime=500:00:00,cpu=5000:00:00
+#PBS -l file=500gb
+#PBS -j oe
+#PBS -V
+
 # Set the variables to be used in this script
 export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
 export Output='OrfInteractionsDiamond'

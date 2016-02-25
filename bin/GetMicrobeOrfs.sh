@@ -10,9 +10,10 @@
 #PBS -l nodes=1:ppn=1,mem=40gb
 #PBS -l walltime=500:00:00
 #PBS -l cput=2000:00:00
-#PBS -l file=150gb
+#PBS -l file=500gb
 #PBS -j oe
 #PBS -V
+#PBS -A schloss_lab
 
 echo "ncpus-2.pbs"
 cat $PBS_NODEFILE

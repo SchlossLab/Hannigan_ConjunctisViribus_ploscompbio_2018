@@ -8,7 +8,7 @@
 
 #PBS -l nodes=1:ppn=4,mem=47gb
 #PBS -l walltime=500:00:00
-#PBS -l cpu=5000:00:00
+#PBS -l cput=5000:00:00
 #PBS -l file=750gb
 #PBS -j oe
 #PBS -V

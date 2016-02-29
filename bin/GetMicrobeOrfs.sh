@@ -1,4 +1,3 @@
-#!/bin/sh
 # GetMicrobeOrfs.sh
 # Geoffrey Hannigan
 # Pat Schloss Lab

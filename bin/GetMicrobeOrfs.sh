@@ -9,7 +9,6 @@
 
 #PBS -l nodes=1:ppn=4,mem=40gb
 #PBS -l walltime=500:00:00
-#PBS -l cput=2000:00:00
 #PBS -j oe
 #PBS -V
 #PBS -A schloss_lab

@@ -12,26 +12,28 @@
 #PBS -V
 #PBS -A schloss_lab
 
-# Set the variables to be used in this script
-export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
-export Output='OrfInteractionsDiamond'
+echo hello > ~/test.txt
 
-export PhageGenomes=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/phageSVAnospace.fa
-export BacteriaGenomes=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/bacteriaSVAnospace.fa
-export InteractionReference=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PhageInteractionReference.tsv
+# # Set the variables to be used in this script
+# export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
+# export Output='OrfInteractionsDiamond'
 
-export SwissProt=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_sprotNoBlock.fasta
-export Trembl=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_tremblNoBlock.fasta
+# export PhageGenomes=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/phageSVAnospace.fa
+# export BacteriaGenomes=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/bacteriaSVAnospace.fa
+# export InteractionReference=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PhageInteractionReference.tsv
 
-export GitBin=/mnt/EXT/Schloss-data/ghannig/OpenMetagenomeToolkit/
-export LocalBin=/home/ghannig/bin/
-export StudyBin=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin/
-export SchlossBin=/mnt/EXT/Schloss-data/bin/
+# export SwissProt=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_sprotNoBlock.fasta
+# export Trembl=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_tremblNoBlock.fasta
 
-# Make the output directory and move to the working directory
-echo Creating output directory...
-cd ${WorkingDirectory}
-mkdir ./${Output}
+# export GitBin=/mnt/EXT/Schloss-data/ghannig/OpenMetagenomeToolkit/
+# export LocalBin=/home/ghannig/bin/
+# export StudyBin=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin/
+# export SchlossBin=/mnt/EXT/Schloss-data/bin/
+
+# # Make the output directory and move to the working directory
+# echo Creating output directory...
+# cd ${WorkingDirectory}
+# mkdir ./${Output}
 
 # PredictOrfs () {
 # 	# 1 = Contig Fasta File for Prodigal

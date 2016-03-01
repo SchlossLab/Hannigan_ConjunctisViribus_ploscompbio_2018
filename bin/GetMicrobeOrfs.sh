@@ -150,13 +150,13 @@ export -f GetOrfUniprotHits
 export -f OrfInteractionPairs
 
 
-PredictOrfs \
-	${PhageGenomes} \
-	PhageGenomeOrfs.fa
+# PredictOrfs \
+# 	${PhageGenomes} \
+# 	PhageGenomeOrfs.fa
 
-PredictOrfs \
-	${BacteriaGenomes} \
-	BacteriaGenomeOrfs.fa
+# PredictOrfs \
+# 	${BacteriaGenomes} \
+# 	BacteriaGenomeOrfs.fa
 
 SubsetUniprot \
 	${InteractionReference} \

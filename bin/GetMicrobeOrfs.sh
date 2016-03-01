@@ -5,7 +5,6 @@
 
 #PBS -N GetMicrobeOrfs
 #PBS -q first
-
 #PBS -l nodes=1:ppn=1,mem=40gb
 #PBS -l walltime=500:00:00
 #PBS -j oe
@@ -69,15 +68,15 @@ SubsetUniprot () {
 		| uniq \
 		> ./${Output}/UniqueInteractionRef.tsv
 
-	# Use this list to subset the Uniprot database
-	perl ${GitBin}FilterFasta.pl \
-		-f ${2} \
-		-l ./${Output}/UniqueInteractionRef.tsv \
-		-o ./${Output}/SwissProtSubset.fa
-	perl ${GitBin}FilterFasta.pl \
-		-f ${3} \
-		-l ./${Output}/UniqueInteractionRef.tsv \
-		-o ./${Output}/TremblProtSubset.fa
+	# # Use this list to subset the Uniprot database
+	# perl ${GitBin}FilterFasta.pl \
+	# 	-f ${2} \
+	# 	-l ./${Output}/UniqueInteractionRef.tsv \
+	# 	-o ./${Output}/SwissProtSubset.fa
+	# perl ${GitBin}FilterFasta.pl \
+	# 	-f ${3} \
+	# 	-l ./${Output}/UniqueInteractionRef.tsv \
+	# 	-o ./${Output}/TremblProtSubset.fa
 }
 
 GetOrfUniprotHits () {
@@ -164,16 +163,12 @@ SubsetUniprot \
 	${Trembl}
 
 GetOrfUniprotHits \
-	./${Output}/SwissProtSubset.fa \
+	${SwissProt} \
 	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa \
 	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
 
-OrfInteractionPairs \
-	./${Output}/PhageGenomeOrfs.fa.blast \
-	./${Output}/BacteriaGenomeOrfs.fa.blast \
-	./${Output}/ParsedInteractionRef.tsv
+# OrfInteractionPairs \
+# 	./${Output}/PhageGenomeOrfs.fa.blast \
+# 	./${Output}/BacteriaGenomeOrfs.fa.blast \
+# 	./${Output}/ParsedInteractionRef.tsv
 
-
-echo "qsub working directory absolute is"
-echo $PBS_O_WORKDIR
-exit

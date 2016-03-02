@@ -95,11 +95,11 @@ GetOrfUniprotHits () {
 		-d ./${Output}/UniprotSubsetDatabase \
 		-a ./${Output}/Phage.daa \
 		-t ./
-	# ${SchlossBin}diamond blastp \
-	# 	-q ${3} \
-	# 	-d ./${Output}/UniprotSubsetDatabase \
-	# 	-a ${2}.daa \
-	# -t ./
+	${SchlossBin}diamond blastp \
+		-q ${3} \
+		-d ./${Output}/UniprotSubsetDatabase \
+		-a ./${Output}/Bacteria.daa \
+		-t ./
 }
 
 OrfInteractionPairs () {

@@ -92,16 +92,14 @@ GetOrfUniprotHits () {
 	# Use blast to get hits of ORFs to Uniprot genes
 	${SchlossBin}diamond blastp \
 		-q ${2} \
-		-o ${2}.blast \
 		-d ./${Output}/UniprotSubsetDatabase \
-		-a ${2}.daa \
-		-f tab
-	${SchlossBin}diamond blastp \
-		-q ${3} \
-		-o ${3}.blast \
-		-d ./${Output}/UniprotSubsetDatabase \
-		-a ${2}.daa \
-		-f tab
+		-a ./${Output}/Phage.daa \
+		-t ./
+	# ${SchlossBin}diamond blastp \
+	# 	-q ${3} \
+	# 	-d ./${Output}/UniprotSubsetDatabase \
+	# 	-a ${2}.daa \
+	# -t ./
 }
 
 OrfInteractionPairs () {
@@ -157,10 +155,10 @@ export -f OrfInteractionPairs
 # 	${BacteriaGenomes} \
 # 	BacteriaGenomeOrfs.fa
 
-SubsetUniprot \
-	${InteractionReference} \
-	${SwissProt} \
-	${Trembl}
+# SubsetUniprot \
+# 	${InteractionReference} \
+# 	${SwissProt} \
+# 	${Trembl}
 
 GetOrfUniprotHits \
 	${SwissProt} \

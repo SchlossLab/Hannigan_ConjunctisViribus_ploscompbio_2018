@@ -47,7 +47,10 @@ V(ig)$label.color <- rgb(0,0,.2,.5)
 
 l <- layout.graphopt(ig)
 
-pdf(file="/Users/Hannigan/git/HanniganNotebook/notebook/Figures/2016-01/BacteriaPhageNetworkDiagram.pdf", width=8, height=8)
+pdf(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagram.pdf", width=8, height=8)
 plot(ig, vertex.size=0.30, edge.arrow.size=.1, layout=l)
 dev.off()
 
+png(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagram.png", width=8, height=8, units="in", res=800)
+plot(ig, vertex.size=0.30, edge.arrow.size=.1, layout=l)
+dev.off()

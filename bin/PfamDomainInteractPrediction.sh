@@ -12,7 +12,7 @@
 #PBS -A schloss_lab
 
 # Set the variables to be used in this script
-export WorkingDirectory=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data
+export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
 export Output='PfamDomainInteractions'
 
 export PfamDatabase=/mnt/EXT/Schloss-data/reference/Pfam/Pfam-A-diamond

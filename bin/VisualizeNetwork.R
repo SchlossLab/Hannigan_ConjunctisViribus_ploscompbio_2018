@@ -38,7 +38,6 @@ ig = graph_from_data_frame(MultipleEdge, directed=F)
 V(ig)$label = ifelse(grepl("[Pp]hage", nodes$id), "", nodes$id)
 V(ig)$label = ""
 V(ig)$color = ifelse(grepl("[Pp]hage", nodes$id), rgb(0,0,1,.75), rgb(1,0,0,.75))
-#V(ig)$color <- rgb(0,1,0,.2)
 E(ig)$color <- ifelse(grepl("Infects", edges$type), rgb(0.5,0.5,0.5,.75), rgb(0.5,0,0,.75))
 E(ig)$width <- 0.01
 V(ig)$frame.color <- NA

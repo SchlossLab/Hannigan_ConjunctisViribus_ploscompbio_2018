@@ -3,6 +3,14 @@
 # Pat Schloss Lab
 # University of Michigan
 
+#PBS -N QualityProcess
+#PBS -q first
+#PBS -l nodes=1:ppn=1,mem=40gb
+#PBS -l walltime=500:00:00
+#PBS -j oe
+#PBS -V
+#PBS -A schloss_lab
+
 # Set the variables to be used in this script
 export WorkingDirectory=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data
 export Output='PfamDomainInteractions'

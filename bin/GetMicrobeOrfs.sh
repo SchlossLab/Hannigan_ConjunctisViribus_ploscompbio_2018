@@ -115,25 +115,25 @@ OrfInteractionPairs () {
 	# 2 = Bacterial Blast Results
 	# 3 = Interaction Reference
 
-	# Reverse the interaction reference for awk
-	awk \
-		'{ print $2"\t"$1 }' \
-		${3} \
-		> ${3}.inverse
+	# # Reverse the interaction reference for awk
+	# awk \
+	# 	'{ print $2"\t"$1 }' \
+	# 	${3} \
+	# 	> ${3}.inverse
 
-	cat \
-		${3} \
-		${3}.inverse \
-		> ./${Output}/TotalInteractionRef.tsv
+	# cat \
+	# 	${3} \
+	# 	${3}.inverse \
+	# 	> ./${Output}/TotalInteractionRef.tsv
 
-	# Get only the ORF IDs and corresponding interactions
-	# Column 1 is the ORF ID, two is Uniprot ID
-	cut -f 1,2 ${1} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/PhageBlastIdReference.tsv
-	cut -f 1,2 ${2} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/BacteriaBlastIdReference.tsv
+	# # Get only the ORF IDs and corresponding interactions
+	# # Column 1 is the ORF ID, two is Uniprot ID
+	# cut -f 1,2 ${1} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/PhageBlastIdReference.tsv
+	# cut -f 1,2 ${2} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/BacteriaBlastIdReference.tsv
 
 	# Convert bacterial file to reference
 	awk \
-		'NR == FNR {a[$1] = $2; next} { print $1"\t"$2"\t"a[$1] }' \
+		'NR == FNR {a[$2] = $1; next} { print $1"\t"$2"\t"a[$1] }' \
 		./${Output}/PhageBlastIdReference.tsv \
 		./${Output}/TotalInteractionRef.tsv \
 		> ./${Output}/tmpMerge.tsv
@@ -163,10 +163,10 @@ export -f OrfInteractionPairs
 # 	${BacteriaGenomes} \
 # 	BacteriaGenomeOrfs.fa
 
-SubsetUniprot \
-	${InteractionReference} \
-	${SwissProt} \
-	${Trembl}
+# SubsetUniprot \
+# 	${InteractionReference} \
+# 	${SwissProt} \
+# 	${Trembl}
 
 # GetOrfUniprotHits \
 # 	${SwissProt} \

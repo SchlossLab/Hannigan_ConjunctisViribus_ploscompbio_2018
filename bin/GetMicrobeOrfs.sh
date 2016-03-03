@@ -100,6 +100,14 @@ GetOrfUniprotHits () {
 		-d ./${Output}/UniprotSubsetDatabase \
 		-a ./${Output}/Bacteria.daa \
 		-t ./
+
+	${SchlossBin}diamond view \
+		-a ./${Output}/Phage.daa \
+		-o ./${Output}/PhageBlast.txt
+
+	${SchlossBin}diamond view \
+		-a ./${Output}/Bacteria.daa \
+		-o ./${Output}/BacteriaBlast.txt
 }
 
 OrfInteractionPairs () {
@@ -160,13 +168,13 @@ export -f OrfInteractionPairs
 # 	${SwissProt} \
 # 	${Trembl}
 
-GetOrfUniprotHits \
-	${SwissProt} \
-	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa \
-	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
+# GetOrfUniprotHits \
+# 	${SwissProt} \
+# 	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa \
+# 	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
 
-# OrfInteractionPairs \
-# 	./${Output}/PhageGenomeOrfs.fa.blast \
-# 	./${Output}/BacteriaGenomeOrfs.fa.blast \
-# 	./${Output}/ParsedInteractionRef.tsv
+OrfInteractionPairs \
+	./${Output}/PhageBlast.txt \
+	./${Output}/BacteriaBlast.txt \
+	./${Output}/ParsedInteractionRef.tsv
 

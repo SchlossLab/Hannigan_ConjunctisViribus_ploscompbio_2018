@@ -133,13 +133,13 @@ OrfInteractionPairs () {
 
 	# Convert bacterial file to reference
 	awk \
-		'NR == FNR {a[$2] = $1; next} { print $1"\t"$2"\t"a[$1] }' \
+		'NR == FNR {a[$2] = $1; next} $1 in a { print $1"\t"$2"\t"a[$1] }' \
 		./${Output}/PhageBlastIdReference.tsv \
 		./${Output}/TotalInteractionRef.tsv \
 		> ./${Output}/tmpMerge.tsv
 
 	awk \
-		'NR == FNR {a[$2] = $1; next} { print $1"\t"$2"\t"$3"\t"a[$3] }' \
+		'NR == FNR {a[$2] = $1; next} $2 in a { print $1"\t"$2"\t"$3"\t"a[$2] }' \
 		./${Output}/BacteriaBlastIdReference.tsv \
 		./${Output}/tmpMerge.tsv \
 		| cut -f 1,4 \

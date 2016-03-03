@@ -7,21 +7,15 @@
 export WorkingDirectory=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data
 export Output='PfamDomainInteractions'
 
-export PfamDatabase=/mnt/EXT/Schloss-data/reference/Pfam/Pfam-A.hmm
+export PfamDatabase=/mnt/EXT/Schloss-data/reference/Pfam/Pfam-A-diamond
 export InteractionReference=/mnt/EXT/Schloss-data/reference/DomineInteractionDb/PfamAccInteractions.tsv
 
-export MothurProg=/share/scratch/schloss/mothur/mothur
-export QuickSub=/mnt/EXT/Schloss-data/bin/quicksubmit
-
-export GitBin=/home/ghannig/git/HanniganNotebook/bin/
-export MicroToolkit=/home/ghannig/git/Microbiome_sequence_analysis_toolkit/
 export SeqtkPath=/home/ghannig/bin/seqtk/seqtk
 export LocalBin=/home/ghannig/bin/
-export hmmerBin=/mnt/EXT/Schloss-data/bin/hmmer-3.1b2-linux-intel-x86_64/binaries/
 
 # Get the orfs that were already predicted in 'GerMicrobeOrfs.sh'
-export PhageOrfs=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa
-export BacteriaOrfs=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
+export PhageOrfs=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa
+export BacteriaOrfs=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
 
 
 # Make the output directory and move to the working directory
@@ -29,40 +23,35 @@ echo Creating output directory...
 cd ${WorkingDirectory}
 mkdir ./${Output}
 
-PfamDomains () {
-	# 1 = Taxa Name
-	# 2 = ORF Fasta (nucleotide)
-	# 3 = Reference Database (pfam)
+GetPfamHits () {
+	# 1 = Database
+	# 2 = Phage Orfs
+	# 3 = Bacteria Orfs
 
-	# Make output directory and tmp
-	mkdir ./${Output}/PfamDomains
-	mkdir ./${Output}/tmp
+	# Use blast to get hits of ORFs to Uniprot genes
+	${SchlossBin}diamond blastp \
+		-q ${2} \
+		-d ${1} \
+		-a ./${Output}/Phage.daa \
+		-t ./
+	${SchlossBin}diamond blastp \
+		-q ${3} \
+		-d ${1} \
+		-a ./${Output}/Bacteria.daa \
+		-t ./
 
-	# Remove stop codon stars from fasta
-	sed 's/\*$//' ${2} \
-	| sed 's/ /_/g' \
-	> ./${Output}/PfamDomains/${1}-TanslatedOrfs.fa
+	${SchlossBin}diamond view \
+		-a ./${Output}/Phage.daa \
+		-o ./${Output}/PhageBlast.txt
 
-	# Split files to run faster
-	split \
-		--lines=1000 \
-		-a 5 \
-		./${Output}/PfamDomains/${1}-TanslatedOrfs.fa \
-		./${Output}/tmp/tmpPfam-
-
-	# Perform HMM alignment against pfam HMMER database
-	ls ./${Output}/tmp/* | xargs -I {} --max-procs=4 sh -c "/mnt/EXT/Schloss-data/bin/quicksubmit --pm mem=4gb --cput 500:00:00 --walltime 10:00:00 "${hmmerBin}hmmscan --cpu 8 --notextw --cut_ga -o {}.log --domtblout {}.hmmscan ${3} {}""
-
-	# Put together the files
-	cat ./${Output}/tmp/*.hmmscan > ./${Output}/PfamDomains/${1}-PfamDomains.hmmscan
-
-	# Remove the tmp directory
-	rm -r ./${Output}/tmp
+	${SchlossBin}diamond view \
+		-a ./${Output}/Bacteria.daa \
+		-o ./${Output}/BacteriaBlast.txt
 }
 
 OrfInteractionPairs () {
-	# 1 = Phage  Pfam Results
-	# 2 = Bacterial  Pfam Results
+	# 1 = Phage Blast Results
+	# 2 = Bacterial Blast Results
 	# 3 = Interaction Reference
 
 	# Reverse the interaction reference for awk
@@ -78,51 +67,36 @@ OrfInteractionPairs () {
 
 	# Get only the ORF IDs and corresponding interactions
 	# Column 1 is the ORF ID, two is Uniprot ID
-	grep -v '^\#' ${1}  \
-		| sed 's/ \+/\t/g' \
-		| cut -f 2,4 \
-		| sed 's/\..\+\t/\t/' \
-		| sed 's/_[0-9]*_\#_.*//g' \
-		> ./${Output}/PfamDomains/PhagePfamAcc.tsv
-
-	grep -v '^\#' ${2}  \
-		| sed 's/ \+/\t/g' \
-		| cut -f 2,4 \
-		| sed 's/\..\+\t/\t/' \
-		| sed 's/_[0-9]*_\#_.*//g' \
-		> ./${Output}/PfamDomains/BacteriaPfamAcc.tsv
+	cut -f 1,2 ${1} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/PhageBlastIdReference.tsv
+	cut -f 1,2 ${2} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/BacteriaBlastIdReference.tsv
 
 	# Convert bacterial file to reference
 	awk \
-		'NR == FNR {a[$1] = $2; next} $1 in a { print $1"\t"$2"\t"a[$1] }' \
+		'NR == FNR {a[$1] = $2; next} { print $1"\t"$2"\t"a[$1] }' \
+		./${Output}/PhageBlastIdReference.tsv \
 		./${Output}/TotalInteractionRef.tsv \
-		./${Output}/PfamDomains/PhagePfamAcc.tsv \
-		> ./${Output}/PfamDomains/tmpMerge.tsv
+		> ./${Output}/tmpMerge.tsv
 
 	awk \
-		'NR == FNR {a[$1] = $2; next} $3 in a { print $1"\t"$2"\t"$3"\t"a[$3] }' \
-		./${Output}/PfamDomains/BacteriaPfamAcc.tsv \
-		./${Output}/PfamDomains/tmpMerge.tsv \
+		'NR == FNR {a[$2] = $1; next} { print $1"\t"$2"\t"$3"\t"a[$3] }' \
+		./${Output}/BacteriaBlastIdReference.tsv \
+		./${Output}/tmpMerge.tsv \
+		| cut -f 1,4 \
 		> ./${Output}/InteractiveIds.tsv
 
 	# This output can be used for input into perl script for adding
 	# to the graph database.
 }
 
-export -f PfamDomains
+export -f GetPfamHits
 export -f OrfInteractionPairs
 
-PfamDomains \
-	"Phage" \
+GetPfamHits \
+	${PfamDatabase} \
 	${PhageOrfs} \
-	${PfamDatabase}
-
-PfamDomains \
-	"Bacteria" \
-	${BacteriaOrfs} \
-	${PfamDatabase}
+	${BacteriaOrfs}
 
 OrfInteractionPairs \
-	./${Output}/PfamDomains/Phage-PfamDomains.hmmscan \
-	./${Output}/PfamDomains/Bacteria-PfamDomains.hmmscan \
+	./${Output}/PhageBlast.txt \
+	./${Output}/BacteriaBlast.txt \
 	${InteractionReference}

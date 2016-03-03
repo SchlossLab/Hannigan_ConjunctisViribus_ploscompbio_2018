@@ -128,8 +128,8 @@ OrfInteractionPairs () {
 
 	# Get only the ORF IDs and corresponding interactions
 	# Column 1 is the ORF ID, two is Uniprot ID
-	cut -f 1,2 ${1} | sed 's/\S\+|\(\S\+\)|\S\+/\1/' > ./${Output}/PhageBlastIdReference.tsv
-	cut -f 1,2 ${2} | sed 's/\S\+|\(\S\+\)|\S\+/\1/' > ./${Output}/BacteriaBlastIdReference.tsv
+	cut -f 1,2 ${1} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/PhageBlastIdReference.tsv
+	cut -f 1,2 ${2} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/BacteriaBlastIdReference.tsv
 
 	# Convert bacterial file to reference
 	awk \

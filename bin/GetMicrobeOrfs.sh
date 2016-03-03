@@ -62,11 +62,11 @@ SubsetUniprot () {
 		| sed 's/uniprotkb\://g' \
 		> ./${Output}/ParsedInteractionRef.tsv
 
-	# Collapse that list to single column of unique IDs
-	sed 's/\t/\n/' ./${Output}/ParsedInteractionRef.tsv \
-		| sort \
-		| uniq \
-		> ./${Output}/UniqueInteractionRef.tsv
+	# # Collapse that list to single column of unique IDs
+	# sed 's/\t/\n/' ./${Output}/ParsedInteractionRef.tsv \
+	# 	| sort \
+	# 	| uniq \
+	# 	> ./${Output}/UniqueInteractionRef.tsv
 
 	# # Use this list to subset the Uniprot database
 	# perl ${GitBin}FilterFasta.pl \
@@ -163,10 +163,10 @@ export -f OrfInteractionPairs
 # 	${BacteriaGenomes} \
 # 	BacteriaGenomeOrfs.fa
 
-# SubsetUniprot \
-# 	${InteractionReference} \
-# 	${SwissProt} \
-# 	${Trembl}
+SubsetUniprot \
+	${InteractionReference} \
+	${SwissProt} \
+	${Trembl}
 
 # GetOrfUniprotHits \
 # 	${SwissProt} \

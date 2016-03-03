@@ -62,21 +62,21 @@ SubsetUniprot () {
 		| sed 's/uniprotkb\://g' \
 		> ./${Output}/ParsedInteractionRef.tsv
 
-	# # Collapse that list to single column of unique IDs
-	# sed 's/\t/\n/' ./${Output}/ParsedInteractionRef.tsv \
-	# 	| sort \
-	# 	| uniq \
-	# 	> ./${Output}/UniqueInteractionRef.tsv
+	# Collapse that list to single column of unique IDs
+	sed 's/\t/\n/' ./${Output}/ParsedInteractionRef.tsv \
+		| sort \
+		| uniq \
+		> ./${Output}/UniqueInteractionRef.tsv
 
-	# # Use this list to subset the Uniprot database
-	# perl ${GitBin}FilterFasta.pl \
-	# 	-f ${2} \
-	# 	-l ./${Output}/UniqueInteractionRef.tsv \
-	# 	-o ./${Output}/SwissProtSubset.fa
-	# perl ${GitBin}FilterFasta.pl \
-	# 	-f ${3} \
-	# 	-l ./${Output}/UniqueInteractionRef.tsv \
-	# 	-o ./${Output}/TremblProtSubset.fa
+	# Use this list to subset the Uniprot database
+	perl ${GitBin}FilterFasta.pl \
+		-f ${2} \
+		-l ./${Output}/UniqueInteractionRef.tsv \
+		-o ./${Output}/SwissProtSubset.fa
+	perl ${GitBin}FilterFasta.pl \
+		-f ${3} \
+		-l ./${Output}/UniqueInteractionRef.tsv \
+		-o ./${Output}/TremblProtSubset.fa
 }
 
 GetOrfUniprotHits () {
@@ -115,21 +115,21 @@ OrfInteractionPairs () {
 	# 2 = Bacterial Blast Results
 	# 3 = Interaction Reference
 
-	# # Reverse the interaction reference for awk
-	# awk \
-	# 	'{ print $2"\t"$1 }' \
-	# 	${3} \
-	# 	> ${3}.inverse
+	# Reverse the interaction reference for awk
+	awk \
+		'{ print $2"\t"$1 }' \
+		${3} \
+		> ${3}.inverse
 
-	# cat \
-	# 	${3} \
-	# 	${3}.inverse \
-	# 	> ./${Output}/TotalInteractionRef.tsv
+	cat \
+		${3} \
+		${3}.inverse \
+		> ./${Output}/TotalInteractionRef.tsv
 
-	# # Get only the ORF IDs and corresponding interactions
-	# # Column 1 is the ORF ID, two is Uniprot ID
-	# cut -f 1,2 ${1} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/PhageBlastIdReference.tsv
-	# cut -f 1,2 ${2} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/BacteriaBlastIdReference.tsv
+	# Get only the ORF IDs and corresponding interactions
+	# Column 1 is the ORF ID, two is Uniprot ID
+	cut -f 1,2 ${1} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/PhageBlastIdReference.tsv
+	cut -f 1,2 ${2} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/BacteriaBlastIdReference.tsv
 
 	# Convert bacterial file to reference
 	awk \
@@ -168,10 +168,10 @@ export -f OrfInteractionPairs
 # 	${SwissProt} \
 # 	${Trembl}
 
-# GetOrfUniprotHits \
-# 	${SwissProt} \
-# 	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa \
-# 	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
+GetOrfUniprotHits \
+	${Trembl} \
+	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa \
+	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
 
 OrfInteractionPairs \
 	./${Output}/PhageBlast.txt \

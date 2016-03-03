@@ -20,6 +20,7 @@ export InteractionReference=/mnt/EXT/Schloss-data/reference/DomineInteractionDb/
 
 export SeqtkPath=/home/ghannig/bin/seqtk/seqtk
 export LocalBin=/home/ghannig/bin/
+export SchlossBin=/mnt/EXT/Schloss-data/bin/
 
 # Get the orfs that were already predicted in 'GerMicrobeOrfs.sh'
 export PhageOrfs=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa

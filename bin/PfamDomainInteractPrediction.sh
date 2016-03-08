@@ -5,7 +5,7 @@
 
 #PBS -N PfamDomainInteractPrediction
 #PBS -q flux
-#PBS -l mem=40gb
+#PBS -l mem=124gb
 #PBS -l walltime=500:00:00
 #PBS -l qos=flux
 #PBS -j oe

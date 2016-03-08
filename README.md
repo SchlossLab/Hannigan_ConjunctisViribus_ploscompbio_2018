@@ -7,15 +7,15 @@ Using graph database techniques to understand the infectious relationships betwe
 - [x] Install neo4j Enterprise on Axiom
 - [x] Download Literature Data From ENA
 - [x] Write Script(s) to Parse and Add Lit Data to Database
-- [x] Download and Parse CRISPR Interaction Data (Test Set)
-- [x] Write Script(s) to Add CRISPRs to Database (Test Set)
+- [x] Download and Parse CRISPR Interaction Data
+- [x] Write Script(s) to Add CRISPRs to Database
 - [x] Install Candidate Protein Intearction Prediction Programs (2/2)
-- [ ] Predict Bacteria-Phage Protein Interactions (Test Set)
+- [ ] Predict Bacteria-Phage Protein Interactions (1/2)
 - [ ] Add Protein Interactions to Database
 - [ ] Download ACLAME Prophage Data
 - [ ] Add ACLAME Data to Database
-- [ ] Predict Prophages from Bacteria (Test Set)
-- [ ] Add Predicted Prophages to Database (Test Set)
+- [ ] Predict Prophages from Bacteria
+- [ ] Add Predicted Prophages to Database
 - [ ] Download Existing Virome Sequence Sets
 - [ ] Assemble Contigs from Dataset
 - [ ] Run Test Set Workflows on these Contigs

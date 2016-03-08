@@ -4,27 +4,26 @@
 # University of Michigan
 
 #PBS -N PfamDomainInteractPrediction
-#PBS -q first
-#PBS -l nodes=1:ppn=1,mem=40gb
+#PBS -q flux
+#PBS -l mem=40gb
 #PBS -l walltime=500:00:00
+#PBS -l qos=flux
 #PBS -j oe
 #PBS -V
-#PBS -A schloss_lab
+#PBS -A pschloss_flux
 
 # Set the variables to be used in this script
-export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
+export WorkingDirectory=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data
 export Output='PfamDomainInteractions'
 
-export PfamDatabase=/mnt/EXT/Schloss-data/reference/Pfam/Pfam-A-diamond
-export InteractionReference=/mnt/EXT/Schloss-data/reference/DomineInteractionDb/PfamAccInteractions.tsv
+export PfamDatabase=/scratch/pschloss_flux/ghannig/reference/Pfam/Pfam-A-diamond
+export InteractionReference=/scratch/pschloss_flux/ghannig/reference/Pfam/PfamAccInteractions.tsv
 
-export SeqtkPath=/home/ghannig/bin/seqtk/seqtk
-export LocalBin=/home/ghannig/bin/
-export SchlossBin=/mnt/EXT/Schloss-data/bin/
+export SchlossBin=/scratch/pschloss_flux/ghannig/bin/
 
 # Get the orfs that were already predicted in 'GerMicrobeOrfs.sh'
-export PhageOrfs=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa
-export BacteriaOrfs=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
+export PhageOrfs=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa
+export BacteriaOrfs=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
 
 
 # Make the output directory and move to the working directory

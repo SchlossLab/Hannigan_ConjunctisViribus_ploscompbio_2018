@@ -4,27 +4,28 @@
 # University of Michigan
 
 #PBS -N GetMicrobeOrfs
-#PBS -q first
-#PBS -l nodes=1:ppn=1,mem=40gb
+#PBS -A pschloss_flux
+#PBS -q flux
+#PBS -l qos=flux
+#PBS -l procs=1:ppn=24,mem=126GB
 #PBS -l walltime=500:00:00
 #PBS -j oe
 #PBS -V
-#PBS -A schloss_lab
 
 # Set the variables to be used in this script
-export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
+export WorkingDirectory=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data
 export Output='OrfInteractionsDiamond'
 
-export PhageGenomes=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/phageSVAnospace.fa
-export BacteriaGenomes=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/bacteriaSVAnospace.fa
-export InteractionReference=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PhageInteractionReference.tsv
+export PhageGenomes=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/phageSVAnospace.fa
+export BacteriaGenomes=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/bacteriaSVAnospace.fa
+export InteractionReference=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageInteractionReference.tsv
 
 export SwissProt=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_sprotNoBlock.fasta
 export Trembl=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_tremblNoBlock.fasta
 
 export GitBin=/mnt/EXT/Schloss-data/ghannig/OpenMetagenomeToolkit/
 export LocalBin=/home/ghannig/bin/
-export StudyBin=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin/
+export StudyBin=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
 export SchlossBin=/mnt/EXT/Schloss-data/bin/
 
 # Make the output directory and move to the working directory
@@ -62,21 +63,7 @@ SubsetUniprot () {
 		| sed 's/uniprotkb\://g' \
 		> ./${Output}/ParsedInteractionRef.tsv
 
-	# Collapse that list to single column of unique IDs
-	sed 's/\t/\n/' ./${Output}/ParsedInteractionRef.tsv \
-		| sort \
-		| uniq \
-		> ./${Output}/UniqueInteractionRef.tsv
-
-	# Use this list to subset the Uniprot database
-	perl ${GitBin}FilterFasta.pl \
-		-f ${2} \
-		-l ./${Output}/UniqueInteractionRef.tsv \
-		-o ./${Output}/SwissProtSubset.fa
-	perl ${GitBin}FilterFasta.pl \
-		-f ${3} \
-		-l ./${Output}/UniqueInteractionRef.tsv \
-		-o ./${Output}/TremblProtSubset.fa
+	cat ${2} ${3} > ./${Output}/TremblSwiss.fa
 }
 
 GetOrfUniprotHits () {
@@ -163,15 +150,15 @@ export -f OrfInteractionPairs
 # 	${BacteriaGenomes} \
 # 	BacteriaGenomeOrfs.fa
 
-# SubsetUniprot \
-# 	${InteractionReference} \
-# 	${SwissProt} \
-# 	${Trembl}
+SubsetUniprot \
+	${InteractionReference} \
+	${SwissProt} \
+	${Trembl}
 
 GetOrfUniprotHits \
-	${Trembl} \
-	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa \
-	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
+	./${Output}/TremblSwiss.fa \
+	/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa \
+	/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
 
 OrfInteractionPairs \
 	./${Output}/PhageBlast.txt \

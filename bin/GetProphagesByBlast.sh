@@ -42,10 +42,10 @@ BlastPhageAgainstBacteria () {
 		-in ${2} \
 		-out ./${Output}/BacteraGenomeReference
 
-	echo Running tblastx...
-	tblastx \
+	echo Running blastn...
+	blastn \
     	-query ${1} \
-    	-out ./${Output}/PhageToBacteria.tblastx \
+    	-out ./${Output}/PhageToBacteria.blastn \
     	-db ./${Output}/BacteraGenomeReference \
     	-evalue 1e-3 \
     	-num_threads 8\
@@ -53,7 +53,7 @@ BlastPhageAgainstBacteria () {
 
     echo Formatting blast output...
     # Get the Spacer ID, Phage ID, and Percent Identity
-	cut -f 1,2,3 ./${Output}/PhageToBacteria.tblastx \
+	cut -f 1,2,3 ./${Output}/PhageToBacteria.blastn \
 		| sed 's/_\d\+\t/\t/' \
 		> ./${Output}/PhageBacteriaHits.tsv
 }

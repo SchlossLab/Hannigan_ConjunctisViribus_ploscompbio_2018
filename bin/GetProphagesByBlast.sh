@@ -8,7 +8,7 @@
 # determine whether the phage or it's genes are found within the
 # bacterial host.
 
-#PBS -N QualityProcess
+#PBS -N GetProphagesByBlast
 #PBS -q first
 #PBS -l nodes=1:ppn=1,mem=44gb
 #PBS -l walltime=500:00:00
@@ -19,12 +19,11 @@
 #######################
 # Set the Environment #
 #######################
-export WorkingDirectory=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data
+export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
 export Output='InteractionsByBlast'
 
-export PhageGenomes=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/phageSVA.fa
-export BacteriaGenomes=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/bacteriaSVA.fa
-/BacteriaGenomeOrfs.fa
+export PhageGenomes=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/phageSVAnospace.fa
+export BacteriaGenomes=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/bacteriaSVAnospace.fa
 
 # Make the output directory and move to the working directory
 echo Creating output directory...

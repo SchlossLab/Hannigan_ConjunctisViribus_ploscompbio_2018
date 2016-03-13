@@ -8,9 +8,11 @@
 # determine whether the phage or it's genes are found within the
 # bacterial host.
 
+# Platform: Axiom
+
 #PBS -N GetProphagesByBlast
 #PBS -q first
-#PBS -l nodes=1:ppn=1,mem=44gb
+#PBS -l nodes=1:ppn=8,mem=44gb
 #PBS -l walltime=500:00:00
 #PBS -j oe
 #PBS -V
@@ -46,6 +48,7 @@ BlastPhageAgainstBacteria () {
     	-out ./${Output}/PhageToBacteria.tblastx \
     	-db ./${Output}/BacteraGenomeReference \
     	-evalue 1e-3 \
+    	-num_threads 8\
     	-outfmt 6
 
     echo Formatting blast output...

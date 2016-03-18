@@ -64,36 +64,45 @@ OrfInteractionPairs () {
 	# 3 = Interaction Reference
 	# 4 = Acc to Pfam Conversion Table
 
-	# Reverse the interaction reference for awk
-	awk \
-		'{ print $2"\t"$1 }' \
-		${3} \
-		> ${3}.inverse
+	# # Reverse the interaction reference for awk
+	# awk \
+	# 	'{ print $2"\t"$1 }' \
+	# 	${3} \
+	# 	> ${3}.inverse
 
-	cat \
-		${3} \
-		${3}.inverse \
-		> ./${Output}/TotalInteractionRef.tsv
+	# cat \
+	# 	${3} \
+	# 	${3}.inverse \
+	# 	> ./${Output}/TotalInteractionRef.tsv
 
-	# Get only the ORF IDs and corresponding interactions
-	# Column 1 is the ORF ID, two is Uniprot ID
-	cut -f 1,2 ${1} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' | sed 's/\/.*$//' > ./${Output}/PhageBlastIdReference.tsv
-	cut -f 1,2 ${2} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' | sed 's/\/.*$//' > ./${Output}/BacteriaBlastIdReference.tsv
+	# # Get only the ORF IDs and corresponding interactions
+	# # Column 1 is the ORF ID, two is Uniprot ID
+	# cut -f 1,2 ${1} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' | sed 's/\/.*$//' > ./${Output}/PhageBlastIdReference.tsv
+	# cut -f 1,2 ${2} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' | sed 's/\/.*$//' > ./${Output}/BacteriaBlastIdReference.tsv
 
 	# Convert the acc numbers to pfam IDs
 	awk \
-		'NR == FNR { a[$1] = $2; next } { print $1"\t"a[$2] }'
+		'NR == FNR { a[$1] = $2; next } { print $1"\t"a[$2] }' \
+		${4} \
+		./${Output}/PhageBlastIdReference.tsv \
+		./${Output}/PhageBlastIdReferencePfams.tsv
 
+	awk \
+		'NR == FNR { a[$1] = $2; next } { print $1"\t"a[$2] }' \
+		${4} \
+		./${Output}/BacteriaBlastIdReference.tsv \
+		./${Output}/BacteriaBlastIdReferencePfams.tsv
+	
 	# Convert bacterial file to reference
 	awk \
 		'NR == FNR {a[$1] = $2; next} { print $1"\t"$2"\t"a[$1] }' \
-		./${Output}/PhageBlastIdReference.tsv \
+		./${Output}/PhageBlastIdReferencePfams.tsv \
 		./${Output}/TotalInteractionRef.tsv \
 		> ./${Output}/tmpMerge.tsv
 
 	awk \
 		'NR == FNR {a[$2] = $1; next} { print $1"\t"$2"\t"$3"\t"a[$3] }' \
-		./${Output}/BacteriaBlastIdReference.tsv \
+		./${Output}/BacteriaBlastIdReferencePfams.tsv \
 		./${Output}/tmpMerge.tsv \
 		| cut -f 1,4 \
 		> ./${Output}/InteractiveIds.tsv

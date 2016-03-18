@@ -80,22 +80,22 @@ OrfInteractionPairs () {
 	# cut -f 1,2 ${1} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' | sed 's/\/.*$//' > ./${Output}/PhageBlastIdReference.tsv
 	# cut -f 1,2 ${2} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' | sed 's/\/.*$//' > ./${Output}/BacteriaBlastIdReference.tsv
 
-	# Convert the acc numbers to pfam IDs
-	awk \
-		'NR == FNR { a[$1] = $2; next } { print $1"\t"a[$2] }' \
-		${4} \
-		./${Output}/PhageBlastIdReference.tsv \
-	> ./${Output}/PhageBlastIdReferencePfams.tsv
+	# # Convert the acc numbers to pfam IDs
+	# awk \
+	# 	'NR == FNR { a[$1] = $2; next } { print $1"\t"a[$2] }' \
+	# 	${4} \
+	# 	./${Output}/PhageBlastIdReference.tsv \
+	# > ./${Output}/PhageBlastIdReferencePfams.tsv
 
-	awk \
-		'NR == FNR { a[$1] = $2; next } { print $1"\t"a[$2] }' \
-		${4} \
-		./${Output}/BacteriaBlastIdReference.tsv \
-	> ./${Output}/BacteriaBlastIdReferencePfams.tsv
+	# awk \
+	# 	'NR == FNR { a[$1] = $2; next } { print $1"\t"a[$2] }' \
+	# 	${4} \
+	# 	./${Output}/BacteriaBlastIdReference.tsv \
+	# > ./${Output}/BacteriaBlastIdReferencePfams.tsv
 	
 	# Convert bacterial file to reference
 	awk \
-		'NR == FNR {a[$1] = $2; next} { print $1"\t"$2"\t"a[$1] }' \
+		'NR == FNR {a[$2] = $1; next} { print $1"\t"$2"\t"a[$1] }' \
 		./${Output}/PhageBlastIdReferencePfams.tsv \
 		./${Output}/TotalInteractionRef.tsv \
 		> ./${Output}/tmpMerge.tsv

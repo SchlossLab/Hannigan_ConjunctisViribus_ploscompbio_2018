@@ -20,13 +20,12 @@ export PhageGenomes=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisV
 export BacteriaGenomes=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/bacteriaSVAnospace.fa
 export InteractionReference=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageInteractionReference.tsv
 
-export SwissProt=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_sprotNoBlock.fasta
-export Trembl=/mnt/EXT/Schloss-data/reference/uniprot/uniprot_tremblNoBlock.fasta
+export SwissProt=/scratch/pschloss_flux/ghannig/reference/Uniprot/uniprot_sprotNoBlock.fasta
+export Trembl=/scratch/pschloss_flux/ghannig/reference/Uniprot/uniprot_tremblNoBlock.fasta
 
-export GitBin=/mnt/EXT/Schloss-data/ghannig/OpenMetagenomeToolkit/
-export LocalBin=/home/ghannig/bin/
+export GitBin=/scratch/pschloss_flux/ghannig/git/OpenMetagenomeToolkit/
 export StudyBin=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
-export SchlossBin=/mnt/EXT/Schloss-data/bin/
+export SchlossBin=/scratch/pschloss_flux/ghannig/bin/
 
 # Make the output directory and move to the working directory
 echo Creating output directory...

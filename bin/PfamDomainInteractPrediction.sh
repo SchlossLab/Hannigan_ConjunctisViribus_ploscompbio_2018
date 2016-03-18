@@ -85,13 +85,13 @@ OrfInteractionPairs () {
 		'NR == FNR { a[$1] = $2; next } { print $1"\t"a[$2] }' \
 		${4} \
 		./${Output}/PhageBlastIdReference.tsv \
-		./${Output}/PhageBlastIdReferencePfams.tsv
+	> ./${Output}/PhageBlastIdReferencePfams.tsv
 
 	awk \
 		'NR == FNR { a[$1] = $2; next } { print $1"\t"a[$2] }' \
 		${4} \
 		./${Output}/BacteriaBlastIdReference.tsv \
-		./${Output}/BacteriaBlastIdReferencePfams.tsv
+	> ./${Output}/BacteriaBlastIdReferencePfams.tsv
 	
 	# Convert bacterial file to reference
 	awk \

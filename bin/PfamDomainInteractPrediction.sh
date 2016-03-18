@@ -101,7 +101,7 @@ OrfInteractionPairs () {
 		> ./${Output}/tmpMerge.tsv
 
 	awk \
-		'NR == FNR {a[$2] = $1; next} { print $1"\t"$2"\t"$3"\t"a[$3] }' \
+		'NR == FNR {a[$2] = $1; next} { print $1"\t"$2"\t"$3"\t"a[$2] }' \
 		./${Output}/BacteriaBlastIdReferencePfams.tsv \
 		./${Output}/tmpMerge.tsv \
 		| cut -f 1,4 \

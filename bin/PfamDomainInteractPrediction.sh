@@ -17,6 +17,7 @@ export WorkingDirectory=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-Conjunc
 export Output='PfamDomainInteractions'
 
 export PfamDatabase=/scratch/pschloss_flux/ghannig/reference/Pfam/Pfam-A-diamond
+export PfamConversion=/scratch/pschloss_flux/ghannig/reference/Pfam/PfamAccToPF.tsv
 export InteractionReference=/scratch/pschloss_flux/ghannig/reference/Pfam/PfamAccInteractions.tsv
 
 export SchlossBin=/scratch/pschloss_flux/ghannig/bin/
@@ -61,6 +62,7 @@ OrfInteractionPairs () {
 	# 1 = Phage Blast Results
 	# 2 = Bacterial Blast Results
 	# 3 = Interaction Reference
+	# 4 = Acc to Pfam Conversion Table
 
 	# Reverse the interaction reference for awk
 	awk \
@@ -75,8 +77,12 @@ OrfInteractionPairs () {
 
 	# Get only the ORF IDs and corresponding interactions
 	# Column 1 is the ORF ID, two is Uniprot ID
-	cut -f 1,2 ${1} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/PhageBlastIdReference.tsv
-	cut -f 1,2 ${2} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/BacteriaBlastIdReference.tsv
+	cut -f 1,2 ${1} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' | sed 's/\/.*$//' > ./${Output}/PhageBlastIdReference.tsv
+	cut -f 1,2 ${2} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' | sed 's/\/.*$//' > ./${Output}/BacteriaBlastIdReference.tsv
+
+	# Convert the acc numbers to pfam IDs
+	awk \
+		'NR == FNR { a[$1] = $2; next } { print $1"\t"a[$2] }'
 
 	# Convert bacterial file to reference
 	awk \
@@ -99,12 +105,13 @@ OrfInteractionPairs () {
 export -f GetPfamHits
 export -f OrfInteractionPairs
 
-GetPfamHits \
-	${PfamDatabase} \
-	${PhageOrfs} \
-	${BacteriaOrfs}
+# GetPfamHits \
+# 	${PfamDatabase} \
+# 	${PhageOrfs} \
+# 	${BacteriaOrfs}
 
 OrfInteractionPairs \
 	./${Output}/PhageBlast.txt \
 	./${Output}/BacteriaBlast.txt \
-	${InteractionReference}
+	${InteractionReference} \
+	${PfamConversion}

@@ -4,13 +4,13 @@
 # University of Michigan
 
 #PBS -N PfamDomainInteractPrediction
+#PBS -A pschloss_flux
 #PBS -q flux
-#PBS -l mem=124gb
-#PBS -l walltime=500:00:00
 #PBS -l qos=flux
+#PBS -l nodes=1:ppn=24,mem=124GB
+#PBS -l walltime=100:00:00
 #PBS -j oe
 #PBS -V
-#PBS -A pschloss_flux
 
 # Set the variables to be used in this script
 export WorkingDirectory=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data

@@ -7,8 +7,8 @@
 #PBS -A pschloss_flux
 #PBS -q flux
 #PBS -l qos=flux
-#PBS -l mem=126GB
-#PBS -l walltime=500:00:00
+#PBS -l nodes=1:ppn=24,mem=124GB
+#PBS -l walltime=100:00:00
 #PBS -j oe
 #PBS -V
 

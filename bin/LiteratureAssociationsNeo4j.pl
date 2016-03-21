@@ -151,22 +151,22 @@ foreach my $line (<CRISPR>) {
     # Remove illegal characters
     ($SpacerForm = $Spacer) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
     ($PhageTargetForm = $PhageTarget) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
-    print STDERR "SpacerForm host is $SpacerForm.\n";
-    print STDERR "Phage target is $PhageTargetForm.\n";
+    # print STDERR "SpacerForm host is $SpacerForm.\n";
+    # print STDERR "Phage target is $PhageTargetForm.\n";
     my @n11 = REST::Neo4p->get_nodes_by_label( $PhageTargetForm );
     my @n12 = REST::Neo4p->get_nodes_by_label( $SpacerForm );
 
     # Create new phage target node if it does not exist
     unless (@n11) {
         $formname = $PhageTargetForm;
-        print STDERR "New CRISPR phage target is $formname\n";
+        # print STDERR "New CRISPR phage target is $formname\n";
         $n1 = REST::Neo4p::Node->new( {Name => $formname} );
         $n1->set_property( {Organism => 'Phage'} );
         $n1->set_labels('Phage',$formname);
     }
     unless (@n12) {
         ($FullName = $Spacer) =~ s/\s/_/g;
-        print STDERR "New spacer host is $FullName\n";
+        # print STDERR "New spacer host is $FullName\n";
         $Genus = (split /_/, $FullName)[0];
         $Species = $Genus."_".(split /_/, $FullName)[1];
         # Remove all non-standard characters from the variable names
@@ -174,14 +174,16 @@ foreach my $line (<CRISPR>) {
         $FullName =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
         $Genus =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
         $Species =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
-        print STDERR "CRISPR host genus is $Genus\n";
-        print STDERR "CRISPR host species is $Species\n";
+        # print STDERR "CRISPR host genus is $Genus\n";
+        # print STDERR "CRISPR host species is $Species\n";
         $n2 = REST::Neo4p::Node->new( {Name => $FullName} );
         $n2->set_property( {Genus => $Genus} );
         $n2->set_property( {Species => $Species} );
         $n2->set_property( {Organism => 'Bacterial_Host'} );
         $n2->set_labels('Bacterial_Host',$FullName);
     }
+
+    print STDERR "SpacerForm host is $SpacerForm.\n";
 
     # Then get the newly created nodes as arrays
     @n11 = REST::Neo4p->get_nodes_by_label( $PhageTargetForm );
@@ -202,22 +204,22 @@ foreach my $line (<UNIPROT>) {
     $bacteria = (split /\t/, $line)[1];
     ($phageForm = $phage) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
     ($bacteriaForm = $bacteria) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
-    print STDERR "Phage host is $phageForm.\n";
-    print STDERR "Bactera target is $bacteriaForm.\n";
+    # print STDERR "Phage host is $phageForm.\n";
+    # print STDERR "Bactera target is $bacteriaForm.\n";
     my @n11 = REST::Neo4p->get_nodes_by_label( $phageForm );
     my @n12 = REST::Neo4p->get_nodes_by_label( $bacteriaForm );
 
     # Create new phage target node if it does not exist
     unless (@n11) {
         $formname = $phageForm;
-        print STDERR "New CRISPR phage target is $formname\n";
+        # print STDERR "New CRISPR phage target is $formname\n";
         $n1 = REST::Neo4p::Node->new( {Name => $formname} );
         $n1->set_property( {Organism => 'Phage'} );
         $n1->set_labels('Phage',$formname);
     }
     unless (@n12) {
         ($FullName = $bacteria) =~ s/\s/_/g;
-        print STDERR "New phage host is $FullName\n";
+        # print STDERR "New phage host is $FullName\n";
         $Genus = (split /_/, $FullName)[0];
         $Species = $Genus."_".(split /_/, $FullName)[1];
         # Remove all non-standard characters from the variable names
@@ -225,8 +227,8 @@ foreach my $line (<UNIPROT>) {
         $FullName =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
         $Genus =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
         $Species =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
-        print STDERR "CRISPR host genus is $Genus\n";
-        print STDERR "CRISPR host species is $Species\n";
+        # print STDERR "CRISPR host genus is $Genus\n";
+        # print STDERR "CRISPR host species is $Species\n";
         $n2 = REST::Neo4p::Node->new( {Name => $FullName} );
         $n2->set_property( {Genus => $Genus} );
         $n2->set_property( {Species => $Species} );
@@ -234,9 +236,11 @@ foreach my $line (<UNIPROT>) {
         $n2->set_labels('Bacterial_Host',$FullName);
     }
 
+    print STDERR "Phage predator is $phageForm.\n";
+
     # Then get the newly created nodes as arrays
-    @n11 = REST::Neo4p->get_nodes_by_label( $phage );
-    @n12 = REST::Neo4p->get_nodes_by_label( $bacteria );
+    @n11 = REST::Neo4p->get_nodes_by_label( $phageForm );
+    @n12 = REST::Neo4p->get_nodes_by_label( $bacteriaForm );
 
     while( $array1 = pop @n11 ) {
         while( $array2 = pop @n12 ) {
@@ -253,15 +257,15 @@ foreach my $line (<BLAST>) {
     $bacteria = (split /\t/, $line)[1];
     ($phageForm = $phage) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
     ($bacteriaForm = $bacteria) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
-    print STDERR "Phage blast is $phage.\n";
-    print STDERR "Bactera blast is $bacteria.\n";
-    my @n11 = REST::Neo4p->get_nodes_by_label( $phage );
-    my @n12 = REST::Neo4p->get_nodes_by_label( $bacteria );
+    # print STDERR "Phage blast is $phageForm.\n";
+    # print STDERR "Bactera blast is $bacteriaForm.\n";
+    my @n11 = REST::Neo4p->get_nodes_by_label( $phageForm );
+    my @n12 = REST::Neo4p->get_nodes_by_label( $bacteriaForm );
 
     # Create new phage target node if it does not exist
     unless (@n11) {
         $formname = $phageForm;
-        print STDERR "New BLAST phage is $formname\n";
+        # print STDERR "New BLAST phage is $formname\n";
         $n1 = REST::Neo4p::Node->new( {Name => $formname} );
         $n1->set_property( {Organism => 'Phage'} );
         $n1->set_labels('Phage',$formname);
@@ -276,8 +280,8 @@ foreach my $line (<BLAST>) {
         $FullName =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
         $Genus =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
         $Species =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
-        print STDERR "CRISPR host genus is $Genus\n";
-        print STDERR "CRISPR host species is $Species\n";
+        # print STDERR "CRISPR host genus is $Genus\n";
+        # print STDERR "CRISPR host species is $Species\n";
         $n2 = REST::Neo4p::Node->new( {Name => $FullName} );
         $n2->set_property( {Genus => $Genus} );
         $n2->set_property( {Species => $Species} );
@@ -285,9 +289,11 @@ foreach my $line (<BLAST>) {
         $n2->set_labels('Bacterial_Host',$FullName);
     }
 
+    print STDERR "Phage predator is $phageForm.\n";
+
     # Then get the newly created nodes as arrays
-    @n11 = REST::Neo4p->get_nodes_by_label( $phage );
-    @n12 = REST::Neo4p->get_nodes_by_label( $bacteria );
+    @n11 = REST::Neo4p->get_nodes_by_label( $phageForm );
+    @n12 = REST::Neo4p->get_nodes_by_label( $bacteriaForm );
 
     while( $array1 = pop @n11 ) {
         while( $array2 = pop @n12 ) {
@@ -304,22 +310,22 @@ foreach my $line (<PFAM>) {
     $bacteria = (split /\t/, $line)[1];
     ($phageForm = $phage) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
     ($bacteriaForm = $bacteria) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
-    print STDERR "Phage predator is $phage.\n";
-    print STDERR "Bactera host is $bacteria.\n";
-    my @n11 = REST::Neo4p->get_nodes_by_label( $phage );
-    my @n12 = REST::Neo4p->get_nodes_by_label( $bacteria );
+    # print STDERR "Phage predator is $phage.\n";
+    # print STDERR "Bactera host is $bacteria.\n";
+    my @n11 = REST::Neo4p->get_nodes_by_label( $phageForm );
+    my @n12 = REST::Neo4p->get_nodes_by_label( $bacteriaForm );
 
     # Create new phage target node if it does not exist
     unless (@n11) {
         $formname = $phageForm;
-        print STDERR "New Pfam phage is $formname\n";
+        # print STDERR "New Pfam phage is $formname\n";
         $n1 = REST::Neo4p::Node->new( {Name => $formname} );
         $n1->set_property( {Organism => 'Phage'} );
         $n1->set_labels('Phage',$formname);
     }
     unless (@n12) {
         ($FullName = $bacteria) =~ s/\s/_/g;
-        print STDERR "New Pfam bacteria $FullName\n";
+        # print STDERR "New Pfam bacteria $FullName\n";
         $Genus = (split /_/, $FullName)[0];
         $Species = $Genus."_".(split /_/, $FullName)[1];
         # Remove all non-standard characters from the variable names
@@ -327,8 +333,8 @@ foreach my $line (<PFAM>) {
         $FullName =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
         $Genus =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
         $Species =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
-        print STDERR "CRISPR host genus is $Genus\n";
-        print STDERR "CRISPR host species is $Species\n";
+        # print STDERR "CRISPR host genus is $Genus\n";
+        # print STDERR "CRISPR host species is $Species\n";
         $n2 = REST::Neo4p::Node->new( {Name => $FullName} );
         $n2->set_property( {Genus => $Genus} );
         $n2->set_property( {Species => $Species} );
@@ -336,9 +342,11 @@ foreach my $line (<PFAM>) {
         $n2->set_labels('Bacterial_Host',$FullName);
     }
 
+    print STDERR "Phage predator is $phageForm.\n";
+
     # Then get the newly created nodes as arrays
-    @n11 = REST::Neo4p->get_nodes_by_label( $phage );
-    @n12 = REST::Neo4p->get_nodes_by_label( $bacteria );
+    @n11 = REST::Neo4p->get_nodes_by_label( $phageForm );
+    @n12 = REST::Neo4p->get_nodes_by_label( $bacteriaForm );
 
     while( $array1 = pop @n11 ) {
         while( $array2 = pop @n12 ) {

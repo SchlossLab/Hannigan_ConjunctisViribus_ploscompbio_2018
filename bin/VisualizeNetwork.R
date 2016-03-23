@@ -18,6 +18,7 @@ library(plyr)
 ###################
 
 ImportGraphToDataframe <- function (GraphConnection=graph, CypherQuery=query, filter=0) {
+	write("Retrieving Cypher Query Results", stderr())
 	# Use cypher to get the edges
 	edges = cypher(GraphConnection, CypherQuery)
 	# Filter out nodes with fewer edges than specified
@@ -36,7 +37,8 @@ ImportGraphToDataframe <- function (GraphConnection=graph, CypherQuery=query, fi
 	return(list(nodes, MultipleEdge))
 }
 
-PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout) {
+PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout, clusters=FALSE) {
+	write("Preparing Data for Plotting", stderr())	
 	# Pull out the data for clustering
 	ig = graph_from_data_frame(edgeFrame, directed=F)
 	# Set plot paramters
@@ -55,12 +57,27 @@ PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout) {
 	V(ig)$frame.color <- NA
 	V(ig)$label.color <- rgb(0,0,.2,.5)
 	# Set network plot layout
-	l <- layout.graphopt(ig)
+	l <- layout.auto(ig)
 	# Create the plot
-	plot(ig, 
-		vertex.size=0.30, 
-		edge.arrow.size=.1
-	)
+	if (clusters) {
+		write("Clustering...", stderr())
+		clustering = cluster_edge_betweenness(ig)
+		write("Plotting Network With Clusters", stderr())
+		plot(ig,
+			mark.groups=clustering,
+			vertex.size=0.30, 
+			edge.arrow.size=.1,
+			layout=l
+		)
+	} else {
+		write("Plotting Network", stderr())
+		plot(ig,
+			vertex.size=0.30, 
+			edge.arrow.size=.1,
+			layout=l
+		)
+	}
+	# Finish by adding the legends
 	legend('bottomleft', 
 		legend=c("Phage", "Bacteria"), 
 		pt.bg=c(rgb(0,0,1,.75), 
@@ -99,7 +116,7 @@ graph = startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
 # Use Cypher query to get a table of the table edges
 query="
-START n=node(*) MATCH (n)-[r]->(m) RETURN n.Name AS from, m.Genus AS to, type(r) AS type;
+START n=node(*) MATCH (n)-[r]->(m) RETURN n.Name AS from, m.Genus AS to, type(r) AS type LIMIT 20000;
 "
 
 GraphOutputList <- ImportGraphToDataframe(filter=200)
@@ -108,11 +125,21 @@ edgeout <- as.data.frame(GraphOutputList[2])
 head(nodeout)
 head(edgeout)
 
-# Save as PDF
+# Save as PDF & PNG
 pdf(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagram.pdf", width=8, height=8)
-	PlotNetwork()
+	a<-dev.cur()
+	png(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagram.png", width=8, height=8, units="in", res=800)
+		dev.control("enable")
+		PlotNetwork(clusters=TRUE)
+		dev.copy(which=a)
+	dev.off()
 dev.off()
-# Save as PNG
-png(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagram.png", width=8, height=8, units="in", res=800)
-	PlotNetwork()
+
+pdf(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagramClustered.pdf", width=8, height=8)
+	a<-dev.cur()
+	png(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagramClustered.png", width=8, height=8, units="in", res=800)
+		dev.control("enable")
+		PlotNetwork(clusters=FALSE)
+		dev.copy(which=a)
+	dev.off()
 dev.off()

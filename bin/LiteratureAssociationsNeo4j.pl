@@ -55,7 +55,7 @@ my $PhageTargetForm;
 # Be sure to set username and password as neo4j
 # User = 2nd value, PW = 3rd value
 eval {
-    REST::Neo4p->connect('http://127.0.0.1:7474','neo4j','neo4j');
+    REST::Neo4p->connect('http://127.0.0.1:7474');
 };
 ref $@ ? $@->rethrow : die $@ if $@;
 
@@ -136,6 +136,64 @@ foreach my $line (<IN>) {
     #     $sequence = 0;
     } else {
         next;
+    }
+}
+
+sub AddGenericFile () {
+    # Import file handle
+    my $fileInput = shift;
+    foreach my $line (<CRISPR>) {
+        chomp $line;
+        $line =~ s/^(\S+)_\d+\t/$1\t/g;
+        $Spacer = (split /\t/, $line)[0];
+        $PhageTarget = (split /\t/, $line)[1];
+        $PercentID = (split /\t/, $line)[2];
+        # Remove illegal characters
+        ($SpacerForm = $Spacer) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
+        ($PhageTargetForm = $PhageTarget) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
+        # print STDERR "SpacerForm host is $SpacerForm.\n";
+        # print STDERR "Phage target is $PhageTargetForm.\n";
+        my @n11 = REST::Neo4p->get_nodes_by_label( $PhageTargetForm );
+        my @n12 = REST::Neo4p->get_nodes_by_label( $SpacerForm );
+    
+        # Create new phage target node if it does not exist
+        unless (@n11) {
+            $formname = $PhageTargetForm;
+            # print STDERR "New CRISPR phage target is $formname\n";
+            $n1 = REST::Neo4p::Node->new( {Name => $formname} );
+            $n1->set_property( {Organism => 'Phage'} );
+            $n1->set_labels('Phage',$formname);
+        }
+        unless (@n12) {
+            ($FullName = $Spacer) =~ s/\s/_/g;
+            # print STDERR "New spacer host is $FullName\n";
+            $Genus = (split /_/, $FullName)[0];
+            $Species = $Genus."_".(split /_/, $FullName)[1];
+            # Remove all non-standard characters from the variable names
+            # now that underscore delimiter is not being used
+            $FullName =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
+            $Genus =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
+            $Species =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
+            # print STDERR "CRISPR host genus is $Genus\n";
+            # print STDERR "CRISPR host species is $Species\n";
+            $n2 = REST::Neo4p::Node->new( {Name => $FullName} );
+            $n2->set_property( {Genus => $Genus} );
+            $n2->set_property( {Species => $Species} );
+            $n2->set_property( {Organism => 'Bacterial_Host'} );
+            $n2->set_labels('Bacterial_Host',$FullName);
+        }
+    
+        print STDERR "SpacerForm host is $SpacerForm.\n";
+    
+        # Then get the newly created nodes as arrays
+        @n11 = REST::Neo4p->get_nodes_by_label( $PhageTargetForm );
+        @n12 = REST::Neo4p->get_nodes_by_label( $SpacerForm );
+    
+        while( $array1 = pop @n11 ) {
+            while( $array2 = pop @n12 ) {
+                $array1->relate_to($array2, 'Infects_CRISPR');
+            }
+        }
     }
 }
 

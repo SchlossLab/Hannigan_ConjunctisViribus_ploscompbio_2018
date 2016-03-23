@@ -9,19 +9,32 @@
 
 library(RNeo4j)
 library(igraph)
+library(plyr)
 
 ###################
 # Set Subroutines #
 ###################
 
-ImportGraphToDataframe <- function (GraphConnection=graph, CypherQuery=query) {
+ImportGraphToDataframe <- function (GraphConnection=graph, CypherQuery=query, filter=0) {
 	write("Retrieving Cypher Query Results", stderr())
 	# Use cypher to get the edges
 	edges = cypher(GraphConnection, CypherQuery)
+	edges <- edges[!duplicated(edges[1:2]),]
+	# Filter out nodes with fewer edges than specified
+	if (filter > 0) {
+		# Remove the edges to singleton nodes
+		SingletonNodes <- ddply(edges, c("to"), summarize, length=length(to))
+		# Subset because the it is not visible with all small clusters
+		SingletonNodesRemoved <- SingletonNodes[c(SingletonNodes$length > filter),]
+		MultipleEdge <- edges[c(which(edges$to %in% SingletonNodesRemoved$to)),]
+	} else {
+		MultipleEdge <- edges
+	}
 	# Set nodes
-	nodes = data.frame(id=unique(c(edges$from, edges$to)))
+	nodes = data.frame(id=unique(c(MultipleEdge$from, MultipleEdge$to)))
 	nodes$label = nodes$id
-	return(list(nodes, edges))
+	# Remove the duplicate rows
+	return(list(nodes, MultipleEdge))
 }
 
 PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout) {
@@ -41,8 +54,9 @@ PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout) {
 	# Create the plot
 	write("Plotting Network", stderr())
 	plot(ig, 
-		vertex.size=0.30, 
-		edge.arrow.size=.1
+		vertex.size=1.0, 
+		edge.arrow.size=.1,
+		layout = l
 	)
 }
 
@@ -56,10 +70,10 @@ graph = startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
 # Use Cypher query to get a table of the table edges
 query="
-MATCH (n)<-[r]-(m)-[j]->(k) RETURN n.Genus AS from, k.Genus AS to LIMIT 100000;
+MATCH (n)<-[r]-(m)-[j]->(k) WHERE has(n.Genus) AND has(k.Genus) RETURN n.Genus AS from, k.Genus AS to;
 "
 
-GraphOutputList <- ImportGraphToDataframe()
+GraphOutputList <- ImportGraphToDataframe(filter=25)
 nodeout <- as.data.frame(GraphOutputList[1])
 edgeout <- as.data.frame(GraphOutputList[2])
 

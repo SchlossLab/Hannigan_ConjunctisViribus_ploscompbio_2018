@@ -37,7 +37,6 @@ my $formname = 0;
 my $Spacer;
 my $crispr;
 my $PhageTarget;
-my $PercentID;
 my $array1;
 my $array2;
 my $uniprot;
@@ -96,6 +95,8 @@ foreach my $line (<IN>) {
     } elsif ($flag =~ 0 & $line =~ /^OS\s+(\w.+$)/) {
         # File really should already be without spaces though
         ($formname = $1) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
+        my @n11 = REST::Neo4p->get_nodes_by_label( $formname );
+        next if (@n11);
         $n1 = REST::Neo4p::Node->new( {Name => $formname} );
         $n1->set_property( {Organism => 'Phage'} );
         $n1->set_labels('Phage',$formname);
@@ -110,6 +111,8 @@ foreach my $line (<IN>) {
         $FullName =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
         $Genus =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
         $Species =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
+        my @n12 = REST::Neo4p->get_nodes_by_label( $FullName );
+        next if (@n12);
         $n2 = REST::Neo4p::Node->new( {Name => $FullName} );
         $n2->set_property( {Genus => $Genus} );
         $n2->set_property( {Species => $Species} );
@@ -129,7 +132,6 @@ sub AddGenericFile {
         $line =~ s/^(\S+)_\d+\t/$1\t/g;
         $Spacer = (split /\t/, $line)[0];
         $PhageTarget = (split /\t/, $line)[1];
-        $PercentID = (split /\t/, $line)[2];
         # Remove illegal characters
         ($SpacerForm = $Spacer) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
         ($PhageTargetForm = $PhageTarget) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
@@ -137,7 +139,7 @@ sub AddGenericFile {
         # print STDERR "Phage target is $PhageTargetForm.\n";
         my @n11 = REST::Neo4p->get_nodes_by_label( $PhageTargetForm );
         my @n12 = REST::Neo4p->get_nodes_by_label( $SpacerForm );
-    
+        print length @n12;
         # Create new phage target node if it does not exist
         unless (@n11) {
             $formname = $PhageTargetForm;
@@ -168,10 +170,12 @@ sub AddGenericFile {
         # Then get the newly created nodes as arrays
         @n11 = REST::Neo4p->get_nodes_by_label( $PhageTargetForm );
         @n12 = REST::Neo4p->get_nodes_by_label( $SpacerForm );
-    
+        # die "You have duplicate phage node IDs: $!" unless (@n11 eq 1);
+        # die "You have duplicate bacteria node IDs: $!" unless (@n12 eq 1);
+
         while( $array1 = pop @n11 ) {
             while( $array2 = pop @n12 ) {
-                $array1->relate_to($array2, $label);
+                $array1->relate_to($array2, 'Infects')->set_property({$label => "TRUE"});
             }
         }
     }
@@ -181,15 +185,15 @@ print STDERR "\n\n\nProgress: Adding Predicted CRISPR Interactions\n";
 AddGenericFile(\*CRISPR, "CRISPR");
 
 
-print STDERR "\n\n\nProgress: Adding Predicted Uniprot results\n";
-AddGenericFile(\*UNIPROT, "Uniprot");
+# print STDERR "\n\n\nProgress: Adding Predicted Uniprot results\n";
+# AddGenericFile(\*UNIPROT, "Uniprot");
 
-print STDERR "\n\n\nProgress: Adding Predicted BLAST Interactions\n";
-AddGenericFile(\*BLAST, "BLAST");
+# print STDERR "\n\n\nProgress: Adding Predicted BLAST Interactions\n";
+# AddGenericFile(\*BLAST, "BLAST");
 
 
-print STDERR "\n\n\nProgress: Adding Predicted Pfam Interactions\n";
-AddGenericFile(\*PFAM, "PFAM");
+# print STDERR "\n\n\nProgress: Adding Predicted Pfam Interactions\n";
+# AddGenericFile(\*PFAM, "PFAM");
 
 
 # See how long it took

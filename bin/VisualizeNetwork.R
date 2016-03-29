@@ -40,9 +40,9 @@ ImportGraphToDataframe <- function (GraphConnection=graph, CypherQuery=query, fi
 PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout, clusters=FALSE) {
 	write("Preparing Data for Plotting", stderr())	
 	# Pull out the data for clustering
-	ig = graph_from_data_frame(edgeFrame, directed=F)
+	ig = simplify(graph_from_data_frame(edgeFrame, directed=F))
 	# Set plot paramters
-	V(ig)$label = ifelse(grepl("[Pp]hage", nodeFrame$id), "", nodeFrame$id)
+	V(ig)$label = ""
 	V(ig)$color = ifelse(grepl("[Pp]hage", nodeFrame$id), rgb(0,0,1,.75), rgb(1,0,0,.75))
 	# Color edges by type
 	E(ig)$color <- with(edgeFrame, 
@@ -61,7 +61,7 @@ PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout, clusters=FALSE) {
 	# Create the plot
 	if (clusters) {
 		write("Clustering...", stderr())
-		clustering = cluster_edge_betweenness(ig)
+		clustering = fastgreedy.community(ig)
 		write("Plotting Network With Clusters", stderr())
 		plot(ig,
 			mark.groups=clustering,
@@ -106,6 +106,24 @@ PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout, clusters=FALSE) {
 	)
 }
 
+ConnectionStrength <- function (nodeFrame=nodeout, edgeFrame=edgeout) {
+	write("Testing Connection Strength", stderr())	
+	# Pull out the data for clustering
+	ig = graph_from_data_frame(edgeFrame, directed=T)
+	connectionResult <- is.connected(ig, mode="strong")
+	if (!connectionResult) {
+		connectionResult <- is.connected(ig, mode="weak")
+			if (connectionResult) {
+			result <- "RESULT: Graph is weakly connected."
+		} else {
+			result <- "RESULT: Graph is not weakly or strongly connected."
+		}
+	} else {
+		result <- "RESULT: Graph is strongly connected."
+	}
+	return(result)
+}
+
 ##############################
 # Run Analysis & Save Output #
 ##############################
@@ -116,30 +134,35 @@ graph = startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
 # Use Cypher query to get a table of the table edges
 query="
-START n=node(*) MATCH (n)-[r]->(m) RETURN n.Name AS from, m.Genus AS to, type(r) AS type LIMIT 20000;
+START n=node(*) MATCH (n)-[r]->(m) RETURN n.Name AS from, m.Name AS to, type(r) AS type;
 "
 
-GraphOutputList <- ImportGraphToDataframe(filter=200)
+GraphOutputList <- ImportGraphToDataframe(filter=50)
 nodeout <- as.data.frame(GraphOutputList[1])
 edgeout <- as.data.frame(GraphOutputList[2])
 head(nodeout)
 head(edgeout)
 
+# Test connection strength of the network
+write(ConnectionStrength(), stderr())
+
 # Save as PDF & PNG
-pdf(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagram.pdf", width=8, height=8)
+pdf(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagramClustered.pdf", width=8, height=8)
 	a<-dev.cur()
-	png(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagram.png", width=8, height=8, units="in", res=800)
+	png(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagramClustered.png", width=8, height=8, units="in", res=800)
 		dev.control("enable")
 		PlotNetwork(clusters=TRUE)
 		dev.copy(which=a)
 	dev.off()
 dev.off()
 
-pdf(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagramClustered.pdf", width=8, height=8)
+pdf(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagram.pdf", width=8, height=8)
 	a<-dev.cur()
-	png(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagramClustered.png", width=8, height=8, units="in", res=800)
+	png(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagram.png", width=8, height=8, units="in", res=800)
 		dev.control("enable")
 		PlotNetwork(clusters=FALSE)
 		dev.copy(which=a)
 	dev.off()
 dev.off()
+
+

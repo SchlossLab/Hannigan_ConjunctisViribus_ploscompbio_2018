@@ -37,7 +37,7 @@ ImportGraphToDataframe <- function (GraphConnection=graph, CypherQuery=query, fi
 	return(list(nodes, MultipleEdge))
 }
 
-PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout) {
+PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout, clusters=FALSE) {
 	write("Preparing Data for Plotting", stderr())	
 	# Pull out the data for clustering
 	ig = graph_from_data_frame(edgeFrame, directed=F)
@@ -52,12 +52,24 @@ PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout) {
 	# Set network plot layout
 	l <- layout.auto(ig)
 	# Create the plot
-	write("Plotting Network", stderr())
-	plot(ig, 
-		vertex.size=1.0, 
-		edge.arrow.size=.1,
-		layout = l
-	)
+	if (clusters) {
+		write("Clustering...", stderr())
+		clustering = cluster_edge_betweenness(ig)
+		write("Plotting Network With Clusters", stderr())
+		plot(ig, 
+			mark.groups=clustering,
+			vertex.size=1.0, 
+			edge.arrow.size=.1,
+			layout = l
+		)
+	} else {
+		write("Plotting Network", stderr())
+		plot(ig, 
+			vertex.size=1.0, 
+			edge.arrow.size=.1,
+			layout = l
+		)
+	}
 }
 
 ##############################
@@ -70,10 +82,10 @@ graph = startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
 # Use Cypher query to get a table of the table edges
 query="
-MATCH (n)<-[r]-(m)-[j]->(k) WHERE has(n.Genus) AND has(k.Genus) RETURN n.Genus AS from, k.Genus AS to;
+MATCH (n)<-[r]-(m)-[j]->(k) WHERE has(n.Genus) AND has(k.Genus) RETURN DISTINCT n.Genus AS from, k.Genus AS to LIMIT 5000;
 "
 
-GraphOutputList <- ImportGraphToDataframe(filter=25)
+GraphOutputList <- ImportGraphToDataframe(filter=0)
 nodeout <- as.data.frame(GraphOutputList[1])
 edgeout <- as.data.frame(GraphOutputList[2])
 
@@ -81,6 +93,6 @@ head(edgeout)
 
 # Save as PDF
 pdf(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaTriadicClosures.pdf", width=8, height=8)
-	PlotNetwork()
+	PlotNetwork(clusters=TRUE)
 dev.off()
 

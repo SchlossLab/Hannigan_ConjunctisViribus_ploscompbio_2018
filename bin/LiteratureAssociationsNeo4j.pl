@@ -49,6 +49,7 @@ my $blast;
 my $pfam;
 my $SpacerForm;
 my $PhageTargetForm;
+my $relnHit;
 
 # Startup the neo4j connection using default location
 # Be sure to set username and password as neo4j
@@ -135,11 +136,8 @@ sub AddGenericFile {
         # Remove illegal characters
         ($SpacerForm = $Spacer) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
         ($PhageTargetForm = $PhageTarget) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
-        # print STDERR "SpacerForm host is $SpacerForm.\n";
-        # print STDERR "Phage target is $PhageTargetForm.\n";
         my @n11 = REST::Neo4p->get_nodes_by_label( $PhageTargetForm );
         my @n12 = REST::Neo4p->get_nodes_by_label( $SpacerForm );
-        print length @n12;
         # Create new phage target node if it does not exist
         unless (@n11) {
             $formname = $PhageTargetForm;
@@ -170,13 +168,32 @@ sub AddGenericFile {
         # Then get the newly created nodes as arrays
         @n11 = REST::Neo4p->get_nodes_by_label( $PhageTargetForm );
         @n12 = REST::Neo4p->get_nodes_by_label( $SpacerForm );
-        # die "You have duplicate phage node IDs: $!" unless (@n11 eq 1);
-        # die "You have duplicate bacteria node IDs: $!" unless (@n12 eq 1);
+        # Ensure there are no duplicated nodes
+        die "You have duplicate phage node IDs: $!" unless (scalar(@n11) eq 1);
+        die "You have duplicate bacteria node IDs: $!" unless (scalar(@n12) eq 1);
+        # Get nodes into scalar variables
+        $array1 = pop @n11;
+        $array2 = pop @n12;
 
-        while( $array1 = pop @n11 ) {
-            while( $array2 = pop @n12 ) {
-                $array1->relate_to($array2, 'Infects')->set_property({$label => "TRUE"});
+        # Determine whether relationship exists
+        my @phage_reln = $array1->get_outgoing_relationships();
+        $flag = 0;
+        foreach my $RelnItr (@phage_reln) {
+            my $PhageNode = $RelnItr->start_node;
+            my $BacteriaNode = $RelnItr->end_node;
+            if ($PhageNode eq $array1 && $BacteriaNode eq $array2) {
+                $flag = 1;
+                $relnHit = $RelnItr;
+                last;
+            } else {
+                next;
             }
+        }
+        if ($flag eq 0) {
+            # This means I need to create a new relationship
+            $array1->relate_to($array2, 'Infects')->set_property({$label => "TRUE"});
+        } else {
+            $relnHit->set_property({ $label => "TRUE" });
         }
     }
 }
@@ -185,15 +202,15 @@ print STDERR "\n\n\nProgress: Adding Predicted CRISPR Interactions\n";
 AddGenericFile(\*CRISPR, "CRISPR");
 
 
-# print STDERR "\n\n\nProgress: Adding Predicted Uniprot results\n";
-# AddGenericFile(\*UNIPROT, "Uniprot");
+print STDERR "\n\n\nProgress: Adding Predicted Uniprot results\n";
+AddGenericFile(\*UNIPROT, "Uniprot");
 
-# print STDERR "\n\n\nProgress: Adding Predicted BLAST Interactions\n";
-# AddGenericFile(\*BLAST, "BLAST");
+print STDERR "\n\n\nProgress: Adding Predicted BLAST Interactions\n";
+AddGenericFile(\*BLAST, "BLAST");
 
 
-# print STDERR "\n\n\nProgress: Adding Predicted Pfam Interactions\n";
-# AddGenericFile(\*PFAM, "PFAM");
+print STDERR "\n\n\nProgress: Adding Predicted Pfam Interactions\n";
+AddGenericFile(\*PFAM, "PFAM");
 
 
 # See how long it took

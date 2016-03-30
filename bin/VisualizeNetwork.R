@@ -40,19 +40,12 @@ ImportGraphToDataframe <- function (GraphConnection=graph, CypherQuery=query, fi
 PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout, clusters=FALSE) {
 	write("Preparing Data for Plotting", stderr())	
 	# Pull out the data for clustering
-	ig = simplify(graph_from_data_frame(edgeFrame, directed=F))
+	ig = graph_from_data_frame(edgeFrame, directed=F)
 	# Set plot paramters
 	V(ig)$label = ""
 	V(ig)$color = ifelse(grepl("[Pp]hage", nodeFrame$id), rgb(0,0,1,.75), rgb(1,0,0,.75))
 	# Color edges by type
-	E(ig)$color <- with(edgeFrame, 
-	    ifelse(grepl("Infects_Literature", type), rgb(1,0.25,0.25,0.5),
-	    ifelse(grepl("Infects_CRISPR", type), rgb(0,0.5,1, 0.5),
-	    ifelse(grepl("Infects_Uniprot", type), rgb(0.5,0.5,0,0.5),
-	    ifelse(grepl("Infects_Blast", type), rgb(0.5,0.5,0.5,0.15),
-	    ifelse(grepl("Infects_Pfam", type), rgb(0.5,0,0.5,0.5),
-	    rgb(1,1,1,0.5)
-	))))))
+	E(ig)$color <- rgb(0.25,0.25,0.25,0.5)
 	E(ig)$width <- 0.01
 	V(ig)$frame.color <- NA
 	V(ig)$label.color <- rgb(0,0,.2,.5)
@@ -61,7 +54,7 @@ PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout, clusters=FALSE) {
 	# Create the plot
 	if (clusters) {
 		write("Clustering...", stderr())
-		clustering = fastgreedy.community(ig)
+		clustering = walktrap.community(ig)
 		write("Plotting Network With Clusters", stderr())
 		plot(ig,
 			mark.groups=clustering,
@@ -84,22 +77,6 @@ PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout, clusters=FALSE) {
 			rgb(1,0,0,.75)), 
 		col='black', 
 		pch=21, 
-		pt.cex=3, 
-		cex=1.5, 
-		bty = "n"
-	)
-	legend('bottomright', 
-		legend=c("Infects_Literature", 
-			"Infects_CRISPR", 
-			"Infects_Uniprot", 
-			"Infects_Blast", 
-			"Infects_Pfam"),
-		col=c(rgb(1,0.25,0.25,.5), 
-			rgb(0,0.5,1, 0.5), 
-			rgb(0.5,0.5,0,.5), 
-			rgb(0.5,0.5,0.5,.15), 
-			rgb(0.5,0,0.5,.5)), 
-		pch='-', 
 		pt.cex=3, 
 		cex=1.5, 
 		bty = "n"
@@ -134,10 +111,10 @@ graph = startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
 # Use Cypher query to get a table of the table edges
 query="
-START n=node(*) MATCH (n)-[r]->(m) RETURN n.Name AS from, m.Name AS to, type(r) AS type;
+START n=node(*) MATCH (n)-[r]->(m) RETURN n.Name AS from, m.Name AS to;
 "
 
-GraphOutputList <- ImportGraphToDataframe(filter=50)
+GraphOutputList <- ImportGraphToDataframe(filter=10)
 nodeout <- as.data.frame(GraphOutputList[1])
 edgeout <- as.data.frame(GraphOutputList[2])
 head(nodeout)

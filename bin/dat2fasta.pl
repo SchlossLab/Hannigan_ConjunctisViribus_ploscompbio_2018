@@ -24,6 +24,7 @@ my $formatVar;
 my $sequence;
 my $prot = '';
 my $line;
+my $SaveVariable;
 
 # Set the options
 GetOptions(
@@ -45,13 +46,14 @@ if ($prot) {
         # Start the script by resetting the flag for each iteraction
         # within the file
         if ($line =~ /^ID\s+(\S+)\s/) {
-            my $SaveVariable = $1;
+            $SaveVariable = $1;
             $flag = 0;
             $formatVar = 0;
     		$sequence = 0;
             next;
         } elsif ($flag =~ 0 & $line =~ /^AC\s+(\w.+)\;$/) {
             print OUT ">sp\|$1\|$SaveVariable ";
+            $SaveVariable = '';
             $flag = 0;
             next;
         } elsif ($flag =~ 0 & $line =~ /^OS\s+(\w.+$)/) {

@@ -25,7 +25,6 @@ my $sequence;
 my $prot = '';
 my $line;
 my $SaveVariable;
-my $bufferCount = 0;
 
 # Set the options
 GetOptions(
@@ -47,7 +46,6 @@ if ($prot) {
         # Start the script by resetting the flag for each iteraction
         # within the file
         if ($line =~ /^ID\s+(\S+)\s/) {
-            $bufferCount = ++$bufferCount;
             $SaveVariable = $1;
             $flag = 0;
             $formatVar = 0;
@@ -77,8 +75,6 @@ if ($prot) {
             next;
         }
     }
-    OUT->flush() if ($bufferCount == 1000);
-    $bufferCount = 0 if ($bufferCount == 1000);
 } else {
     foreach $line (<IN>) {
         chomp $line;

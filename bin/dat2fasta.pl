@@ -44,15 +44,18 @@ if ($prot) {
         chomp $line;
         # Start the script by resetting the flag for each iteraction
         # within the file
-        if ($line =~ /^ID\s/) {
-            print STDERR "Resetting counter...\n";
+        if ($line =~ /^ID\s+(\S+)\s/) {
+            print OUT "\>sp\|$1\|";
             $flag = 0;
             $formatVar = 0;
     		$sequence = 0;
             next;
+        } elsif ($flag =~ 0 & $line =~ /^AC\s+(\w.+)\;$/) {
+            print OUT "$1 ";
+            $flag = 1;
+            next;
         } elsif ($flag =~ 0 & $line =~ /^OS\s+(\w.+$)/) {
-            print STDERR "Name is $1\n";
-            print OUT "\>$1\n";
+            print OUT "$1\n";
             $flag = 1;
             next;
         } elsif ($flag =~ 1 && $line =~ /^\s+([A-Z\s]+[A-Z\s])$/) {

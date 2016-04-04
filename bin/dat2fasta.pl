@@ -23,6 +23,7 @@ my $flag;
 my $formatVar;
 my $sequence;
 my $prot = '';
+my $line;
 
 # Set the options
 GetOptions(
@@ -39,7 +40,7 @@ open(IN, "<$input") || die "Unable to read in $input: $!";
 open(OUT, ">$output") || die "Unable to write to $output: $!";
 
 if ($prot) {
-    foreach my $line (<IN>) {
+    foreach $line (<IN>) {
         chomp $line;
         # Start the script by resetting the flag for each iteraction
         # within the file
@@ -69,8 +70,8 @@ if ($prot) {
             next;
         }
     }
-else {
-    foreach my $line (<IN>) {
+} else {
+    foreach $line (<IN>) {
         chomp $line;
         # Start the script by resetting the flag for each iteraction
         # within the file

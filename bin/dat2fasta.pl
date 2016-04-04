@@ -55,12 +55,12 @@ if ($prot) {
             print OUT "\>$1\n";
             $flag = 1;
             next;
-        } elsif ($flag =~ 1 && $line =~ /^\s+([A-Z\s]+[A-Z])\s+[0-9]+$/) {
+        } elsif ($flag =~ 1 && $line =~ /^\s+([A-Z\s]+[A-Z\s])$/) {
             $formatVar = $1;
             $formatVar =~ s/\s//g;
             $sequence = $formatVar;
             $flag = 2;
-        } elsif ($flag =~ 2 && $line =~ /^\s+([A-Z\s]+[A-Z])\s+[0-9]+$/) {
+        } elsif ($flag =~ 2 && $line =~ /^\s+([A-Z\s]+[A-Z\s])$/) {
             $formatVar = $1;
             $formatVar =~ s/\s//g;
             $sequence = $sequence.$formatVar;

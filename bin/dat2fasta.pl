@@ -77,8 +77,8 @@ if ($prot) {
             next;
         }
     }
-    OUT->flush() if ($bufferCount == 10000);
-    $bufferCount = 0 if ($bufferCount == 10000);
+    OUT->flush() if ($bufferCount == 1000);
+    $bufferCount = 0 if ($bufferCount == 1000);
 } else {
     foreach $line (<IN>) {
         chomp $line;

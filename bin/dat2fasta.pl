@@ -18,6 +18,7 @@ use FileHandle;
 my $start_run = time();
 
 # Set variables
+my $buffer=1000;
 my $opt_help;
 my $input;
 my $output;
@@ -34,7 +35,8 @@ GetOptions(
     'h|help' => \$opt_help,
     'd|datInput=s' => \$input,
     'f|fastaOutput=s' => \$output,
-    'p|prot' => \$prot
+    'p|prot' => \$prot,
+    'b|buffer=n' => \$buffer
 );
 
 pod2usage(-verbose => 1) && exit if defined $opt_help;
@@ -79,8 +81,8 @@ if ($prot) {
         } else {
             next;
         }
-        OUT->flush() if ($bufferCount == 1000);
-        $bufferCount = 0 if ($bufferCount == 1000);
+        OUT->flush() if ($bufferCount == $buffer);
+        $bufferCount = 0 if ($bufferCount == $buffer);
     }
 } else {
     foreach $line (<IN>) {

@@ -12,12 +12,10 @@ use strict;
 use warnings;
 use Getopt::Long;
 use Pod::Usage;
-use FileHandle;
 # And because I like timing myself
 my $start_run = time();
 
 # Set variables
-my $buffer=1000;
 my $opt_help;
 my $input;
 my $output;
@@ -34,8 +32,7 @@ GetOptions(
     'h|help' => \$opt_help,
     'd|datInput=s' => \$input,
     'f|fastaOutput=s' => \$output,
-    'p|prot' => \$prot,
-    'b|buffer=s' => \$buffer
+    'p|prot' => \$prot
 );
 
 pod2usage(-verbose => 1) && exit if defined $opt_help;
@@ -43,8 +40,6 @@ pod2usage(-verbose => 1) && exit if defined $opt_help;
 # Open files
 open(IN, "<$input") || die "Unable to read in $input: $!";
 open(OUT, ">$output") || die "Unable to write to $output: $!";
-
-print "Buffer line count is $buffer\n";
 
 if ($prot) {
     while ($line=<IN>) {
@@ -81,8 +76,6 @@ if ($prot) {
         } else {
             next;
         }
-        OUT->flush() if ($bufferCount == $buffer);
-        $bufferCount = 0 if ($bufferCount == $buffer);
     }
 } else {
     foreach $line (<IN>) {

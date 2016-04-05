@@ -13,7 +13,6 @@ use warnings;
 use Getopt::Long;
 use Pod::Usage;
 use FileHandle;
-# use Tie::File;
 # And because I like timing myself
 my $start_run = time();
 
@@ -36,15 +35,16 @@ GetOptions(
     'd|datInput=s' => \$input,
     'f|fastaOutput=s' => \$output,
     'p|prot' => \$prot,
-    'b|buffer=n' => \$buffer
+    'b|buffer=s' => \$buffer
 );
 
 pod2usage(-verbose => 1) && exit if defined $opt_help;
 
 # Open files
 open(IN, "<$input") || die "Unable to read in $input: $!";
-# tie my @InputArray, 'Tie::File', $input or die "Unable to read in $input: $!";
 open(OUT, ">$output") || die "Unable to write to $output: $!";
+
+print "Buffer line count is $buffer\n";
 
 if ($prot) {
     while ($line=<IN>) {

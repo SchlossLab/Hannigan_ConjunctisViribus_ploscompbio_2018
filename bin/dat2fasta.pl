@@ -12,6 +12,7 @@ use strict;
 use warnings;
 use Getopt::Long;
 use Pod::Usage;
+use FileHandle;
 # use Tie::File;
 # And because I like timing myself
 my $start_run = time();
@@ -45,7 +46,6 @@ open(OUT, ">$output") || die "Unable to write to $output: $!";
 
 if ($prot) {
     while ($line=<IN>) {
-        print STDOUT "Hit the line!\n";
 	chomp $line;
         # Start the script by resetting the flag for each iteraction
         # within the file
@@ -81,7 +81,6 @@ if ($prot) {
         }
         OUT->flush() if ($bufferCount == 1000);
         $bufferCount = 0 if ($bufferCount == 1000);
-        print STDOUT "Buffer counter is $bufferCount / 1000\n";
     }
 } else {
     foreach $line (<IN>) {

@@ -26,6 +26,7 @@ my $sequence;
 my $prot = '';
 my $line;
 my $SaveVariable;
+my $bufferCount = 0;
 
 # Set the options
 GetOptions(
@@ -39,7 +40,6 @@ pod2usage(-verbose => 1) && exit if defined $opt_help;
 
 # Open files
 # open(IN, "<$input") || die "Unable to read in $input: $!";
-print "$input\n";
 tie my @InputArray, 'Tie::File', $input or die "Unable to read in $input: $!";
 open(OUT, ">$output") || die "Unable to write to $output: $!";
 
@@ -49,6 +49,7 @@ if ($prot) {
         # Start the script by resetting the flag for each iteraction
         # within the file
         if ($line =~ /^ID\s+(\S+)\s/) {
+            $bufferCount = ++$bufferCount;
             $SaveVariable = $1;
             $flag = 0;
             $formatVar = 0;
@@ -78,6 +79,8 @@ if ($prot) {
             next;
         }
     }
+    OUT->flush() if ($bufferCount == 1000);     
+    $bufferCount = 0 if ($bufferCount == 1000);
 } else {
     foreach $line (<IN>) {
         chomp $line;
@@ -111,8 +114,7 @@ if ($prot) {
     }
 }
 
-close(IN);
-# close(OUT);
+close(OUT);
 
 # See how long it took
 my $end_run = time();

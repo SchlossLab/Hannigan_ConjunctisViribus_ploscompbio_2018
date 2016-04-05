@@ -12,7 +12,7 @@ use strict;
 use warnings;
 use Getopt::Long;
 use Pod::Usage;
-use Tie::File;
+# use Tie::File;
 # And because I like timing myself
 my $start_run = time();
 
@@ -39,17 +39,12 @@ GetOptions(
 pod2usage(-verbose => 1) && exit if defined $opt_help;
 
 # Open files
-# open(IN, "<$input") || die "Unable to read in $input: $!";
-tie my @InputArray, 'Tie::File', $input or die "Unable to read in $input: $!";
+open(IN, "<$input") || die "Unable to read in $input: $!";
+# tie my @InputArray, 'Tie::File', $input or die "Unable to read in $input: $!";
 open(OUT, ">$output") || die "Unable to write to $output: $!";
 
-print STDOUT "Made it past tie.\n";
-print STDOUT "Example is $InputArray[50000]\n";
-my $arrayLength = length @InputArray;
-print STDOUT "Length is $arrayLength\n";
-
 if ($prot) {
-    while ($line=shift(@InputArray)) {
+    while ($line=<IN>) {
         print STDOUT "Hit the line!\n";
 	chomp $line;
         # Start the script by resetting the flag for each iteraction
@@ -121,6 +116,7 @@ if ($prot) {
     }
 }
 
+close(IN);
 close(OUT);
 
 # See how long it took

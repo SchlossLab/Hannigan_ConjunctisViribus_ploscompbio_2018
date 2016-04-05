@@ -12,6 +12,7 @@ use strict;
 use warnings;
 use Getopt::Long;
 use Pod::Usage;
+use Tie::File;
 # And because I like timing myself
 my $start_run = time();
 
@@ -37,11 +38,13 @@ GetOptions(
 pod2usage(-verbose => 1) && exit if defined $opt_help;
 
 # Open files
-open(IN, "<$input") || die "Unable to read in $input: $!";
+# open(IN, "<$input") || die "Unable to read in $input: $!";
+print "$input\n";
+tie my @InputArray, 'Tie::File', $input or die "Unable to read in $input: $!";
 open(OUT, ">$output") || die "Unable to write to $output: $!";
 
 if ($prot) {
-    foreach $line (<IN>) {
+    foreach $line (@InputArray) {
         chomp $line;
         # Start the script by resetting the flag for each iteraction
         # within the file
@@ -109,7 +112,7 @@ if ($prot) {
 }
 
 close(IN);
-close(OUT);
+# close(OUT);
 
 # See how long it took
 my $end_run = time();

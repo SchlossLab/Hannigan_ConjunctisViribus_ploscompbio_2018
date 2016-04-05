@@ -78,8 +78,9 @@ if ($prot) {
         } else {
             next;
         }
-        OUT->flush() if ($bufferCount == 1000);     
+        OUT->flush() if ($bufferCount == 1000);
         $bufferCount = 0 if ($bufferCount == 1000);
+        print STDOUT "Buffer counter is $bufferCount / 1000\n";
     }
 } else {
     foreach $line (<IN>) {

@@ -43,9 +43,15 @@ pod2usage(-verbose => 1) && exit if defined $opt_help;
 tie my @InputArray, 'Tie::File', $input or die "Unable to read in $input: $!";
 open(OUT, ">$output") || die "Unable to write to $output: $!";
 
+print STDOUT "Made it past tie.\n";
+print STDOUT "Example is $InputArray[50000]\n";
+my $arrayLength = length @InputArray;
+print STDOUT "Length is $arrayLength\n";
+
 if ($prot) {
-    foreach $line (@InputArray) {
-        chomp $line;
+    while ($line=shift(@InputArray)) {
+        print STDOUT "Hit the line!\n";
+	chomp $line;
         # Start the script by resetting the flag for each iteraction
         # within the file
         if ($line =~ /^ID\s+(\S+)\s/) {

@@ -40,7 +40,7 @@ ImportGraphToDataframe <- function (GraphConnection=graph, CypherQuery=query, fi
 PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout, clusters=FALSE) {
 	write("Preparing Data for Plotting", stderr())	
 	# Pull out the data for clustering
-	ig = graph_from_data_frame(edgeFrame, directed=F)
+	ig = simplify(graph_from_data_frame(edgeFrame, directed=F))
 	# Set plot paramters
 	V(ig)$label = ""
 	V(ig)$color = rgb(0,0,1,.75)
@@ -54,7 +54,9 @@ PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout, clusters=FALSE) {
 	# Create the plot
 	if (clusters) {
 		write("Clustering...", stderr())
-		clustering = cluster_edge_betweenness(ig)
+		clustering = fastgreedy.community(ig)
+		modular = modularity(clustering)
+		write(paste("Modularity score is:",modular, sep=" "), stderr())
 		write("Plotting Network With Clusters", stderr())
 		plot(ig, 
 			mark.groups=clustering,
@@ -82,7 +84,7 @@ graph = startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
 # Use Cypher query to get a table of the table edges
 query="
-MATCH (n)<-[r]-(m)-[j]->(k) WHERE has(n.Genus) AND has(k.Genus) RETURN DISTINCT n.Genus AS from, k.Genus AS to LIMIT 5000;
+MATCH (n)<-[r]-(m)-[j]->(k) WHERE n <> k RETURN DISTINCT n.Genus AS from, k.Genus AS to;
 "
 
 GraphOutputList <- ImportGraphToDataframe(filter=0)
@@ -95,4 +97,3 @@ head(edgeout)
 pdf(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaTriadicClosures.pdf", width=8, height=8)
 	PlotNetwork(clusters=TRUE)
 dev.off()
-

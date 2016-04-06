@@ -43,7 +43,9 @@ PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout, clusters=FALSE) {
 	# Create the plot
 	if (clusters) {
 		write("Clustering...", stderr())
-		clustering = cluster_edge_betweenness(ig)
+		clustering = fastgreedy.community(ig)
+		modular = modularity(clustering)
+		write(paste("Modularity score is:",modular, sep=" "), stderr())
 		write("Plotting Network With Clusters", stderr())
 		plot(ig, 
 			mark.groups=clustering,
@@ -71,7 +73,7 @@ graph = startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
 # Use Cypher query to get a table of the table edges
 query="
-MATCH (n)-[]->()<-[]-(k) RETURN DISTINCT n.Name AS from, k.Name AS to LIMIT 50000;
+MATCH (n)-[]->()<-[]-(k) WHERE n <> k RETURN DISTINCT n.Name AS from, k.Name AS to;
 "
 
 GraphOutputList <- ImportGraphToDataframe(filter=0)
@@ -81,7 +83,7 @@ edgeout <- as.data.frame(GraphOutputList[2])
 head(edgeout)
 
 # Save as PDF
-pdf(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaTriadicClosures.pdf", width=8, height=8)
+pdf(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/PhageTriadicClosures.pdf", width=8, height=8)
 	PlotNetwork(clusters=TRUE)
 dev.off()
 

@@ -55,6 +55,8 @@ PlotNetwork <- function (nodeFrame=nodeout, edgeFrame=edgeout, clusters=FALSE) {
 	if (clusters) {
 		write("Clustering...", stderr())
 		clustering = walktrap.community(ig)
+		modular = modularity(clustering)
+		write(paste("Modularity score is:",modular, sep=" "), stderr())
 		write("Plotting Network With Clusters", stderr())
 		plot(ig,
 			mark.groups=clustering,

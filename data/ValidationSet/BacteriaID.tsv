@@ -1,4 +1,4 @@
-PhageHit	SpecificBacterialID	AccNumber NOTES
+PhageHit	SpecificBacterialID	AccNumber	NOTES
 Achromobacter sp.	Achromobacter xylosoxidans C54	CP009448	NotSpecifiedSoPulledRepSeqs;OnlyRefAvailable
 Achromobacter sp.	Achromobacter xylosoxidans strain MN001	CP012046	NotSpecifiedSoPulledRepSeqs;OnlyRefAvailable
 Acinetobacter baumannii ATCC 19606	Acinetobacter baumannii ATCC 19606 = CIP 70.34	Taxon:575584	Assembly;FastaOnline
@@ -27,7 +27,7 @@ Enterobacter aerogenes EA7	Enterobacter aerogenes strain FDAARGOS_152	CP014029	N
 Erwinia amylovora	Erwinia amylovora phage Era103	EF160123	NotSpecificButGettingRepSeq
 Escherichia coli ATCC 25922	Escherichia coli ATCC 25922	CP009072	PerfectMatch
 Escherichia coli ATCC 35860	Escherichia coli ATCC 8739	CP000946	NotSpecificButGettingRepSeq
-Escherichia coli K-12 (JM105)—endA Escherichia coli str. K-12 substr. W3110	AP009048	NotSpecificButGettingRepSeq;MissingGeneInThis
+Escherichia coli K-12 (JM105)—endA	Escherichia coli str. K-12 substr. W3110	AP009048	NotSpecificButGettingRepSeq;MissingGeneInThis
 Klebsiella pneumoniae	Klebsiella pneumoniae subsp. pneumoniae strain 234-12	CP011313	NotSpecificButGettingRepSeq
 Klebsiella pneumoniae	Klebsiella pneumoniae subsp. pneumoniae strain HKUOPLC	CP012300	NotSpecificButGettingRepSeq
 Lactococcus lactis strain ML8	Lactococcus lactis subsp. lactis CV56	CP002365	NotSpecificButGettingRepSeq

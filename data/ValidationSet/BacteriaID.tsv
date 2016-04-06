@@ -1,58 +1,106 @@
-Achromobacter sp.
-Acinetobacter baumannii ATCC 19606
-Acinetobacter baumannii AU0783
-Arthrobacter sp.
-B. pumilus G1R
-B. subtilis DSM 5545
-Burkholderia cenocepacia C6433
-Chryseobacterium sp.
-Clostridium perfringens
-Corynebacterium glutamicum
-Cronobacter sakazakii
-E. coli (ATCC 8739)
-E. coli AB1157
-E.coli K12
-Enterobacter aerogenes EA7
-Erwinia amylovora
-Escherichia coli ATCC 25922
-Escherichia coli ATCC 35860
-Escherichia coli K-12 (JM105)—endA 
-Klebsiella pneumoniae
-Lactococcus lactis strain ML8
-Lactococcus lactis subsp. cremoris DPC6860
-Listeria monocytogenes 10403S
-Microbacterium sp.
-Mycobacterium smegmatis mc2 155
-P. aeruginosa (ATCC 15692)
-P. aeruginosa OT684
-P. aeruginosa PAO303
-P. angustum
-Photobacterium leiognathi
-Propionibacterium acnes
-Pseudomonas aeruginosa ATCC 29853
-Pseudomonas putida
-Ralstonia solanacearum
-S. natans ATCC 13338
-Salmonella enterica
-Salmonella subsp. I Typhimurium 4,12:i:1,2 (DT1) RKI:11-06612
-Serratia marcescens ATCC 8100
-Shigella boydii
-Shigella flexneri
-Shigella sonnei NIH1
-Staphylococcus aureus ATCC 25923
-Staphylococcus aureus ATCC 29213
-Staphylococcus epidermidis
-Staphylococcus epidermidis Laboratory collection KNUH-134
-Staphylococcus hominis Laboratory collection KNUH-328
-Streptococcus agalactiae Laboratory collection 188
-Streptococcus gordonii Laboratory collection 143
-Streptococcus pneumoniae Laboratory collection 15
-Streptococcus pneumoniae isolate K13-810
-Streptococcus salivarius Laboratory collection 65
-Thermus thermophilus HB27
-Vibrio alginolyticus VIB20
-Vibrio natriegens ATCC 14048
-Vibrio nereis ATCC 25917
-Vibrio parahaemolyticus VIB8
-Vibrio vulnificus ATCC 27562
-Xylella fastidiosa
+PhageHit	SpecificBacterialID	AccNumber NOTES
+Achromobacter sp.	Achromobacter xylosoxidans C54	CP009448	NotSpecifiedSoPulledRepSeqs;OnlyRefAvailable
+Achromobacter sp.	Achromobacter xylosoxidans strain MN001	CP012046	NotSpecifiedSoPulledRepSeqs;OnlyRefAvailable
+Acinetobacter baumannii ATCC 19606	Acinetobacter baumannii ATCC 19606 = CIP 70.34	Taxon:575584	Assembly;FastaOnline
+Acinetobacter baumannii AU0783	Acinetobacter baumannii ATCC 17978-mff	CP012004	OriginalNotAvailableSoGettingReps
+Acinetobacter baumannii AU0783	Acinetobacter baumannii strain AB5075-UW	CP008706	OriginalNotAvailableSoGettingReps
+Arthrobacter sp.	Arthrobacter sp. LS16	CP012171	OriginalNotAvailableSoGettingReps
+Arthrobacter sp.	Arthrobacter sp. ERGS1:01	CP012479	OriginalNotAvailableSoGettingReps
+Arthrobacter sp.	Arthrobacter sulfonivorans strain Ar51	CP013747	OriginalNotAvailableSoGettingReps
+B. pumilus G1R	Bacillus pumilus strain NJ-V2	CP012482	OriginalNotAvailableSoGettingReps
+B. pumilus G1R	Bacillus pumilus strain GR-8	CP009108	OriginalNotAvailableSoGettingReps
+B. subtilis DSM 5545	Bacillus amyloliquefaciens DSM7	FN597644	OriginalNotAvailableSoGettingReps
+B. subtilis DSM 5545	Bacillus subtilis subsp. subtilis str. BSP1	CP003695	OriginalNotAvailableSoGettingReps
+Burkholderia cenocepacia C6433	Burkholderia cenocepacia J2315	Taxon:216591	OriginalNotAvailableSoGettingReps
+Burkholderia cenocepacia C6433	Burkholderia cenocepacia H111	Taxon:1055524	OriginalNotAvailableSoGettingReps
+Chryseobacterium sp.	Chryseobacterium sp. IHB B 17019	CP013293	NotSpecificButGettingRepSeq
+Clostridium perfringens	Clostridium perfringens strain FORC_003	CP009557	NotSpecificButGettingRepSeq
+Clostridium perfringens	Clostridium perfringens strain JP55	CP010993	NotSpecificButGettingRepSeq
+Corynebacterium glutamicum	Corynebacterium glutamicum strain B253	CP010451	NotSpecificButGettingRepSeq
+Corynebacterium glutamicum	Corynebacterium glutamicum strain CP	CP012194	NotSpecificButGettingRepSeq
+Cronobacter sakazakii	Cronobacter sakazakii strain NCTC 8155	CP012253	NotSpecificButGettingRepSeq
+E. coli (ATCC 8739)	Escherichia coli ATCC 8739	CP000946	PerfectMatch
+E. coli AB1157	Escherichia coli HUSEC2011	HF572917	NotSpecificButGettingRepSeq
+E.coli K-12	Escherichia coli str. K-12 substr. W3110	AP009048	NotSpecificButGettingRepSeq
+Enterobacter aerogenes EA7	Enterobacter aerogenes strain G7	CP011539	NotSpecificButGettingRepSeq
+Enterobacter aerogenes EA7	Enterobacter aerogenes strain FDAARGOS_152	CP014029	NotSpecificButGettingRepSeq
+Erwinia amylovora	Erwinia amylovora phage Era103	EF160123	NotSpecificButGettingRepSeq
+Escherichia coli ATCC 25922	Escherichia coli ATCC 25922	CP009072	PerfectMatch
+Escherichia coli ATCC 35860	Escherichia coli ATCC 8739	CP000946	NotSpecificButGettingRepSeq
+Escherichia coli K-12 (JM105)—endA Escherichia coli str. K-12 substr. W3110	AP009048	NotSpecificButGettingRepSeq;MissingGeneInThis
+Klebsiella pneumoniae	Klebsiella pneumoniae subsp. pneumoniae strain 234-12	CP011313	NotSpecificButGettingRepSeq
+Klebsiella pneumoniae	Klebsiella pneumoniae subsp. pneumoniae strain HKUOPLC	CP012300	NotSpecificButGettingRepSeq
+Lactococcus lactis strain ML8	Lactococcus lactis subsp. lactis CV56	CP002365	NotSpecificButGettingRepSeq
+Lactococcus lactis strain ML8	Lactococcus lactis subsp. lactis Il1403	AE005176	NotSpecificButGettingRepSeq
+Lactococcus lactis subsp. cremoris DPC6860	Lactococcus lactis subsp. cremoris A76	CP003132	NotSpecificButGettingRepSeq
+Lactococcus lactis subsp. cremoris DPC6860	Lactococcus lactis subsp. cremoris MG1363	AM406671	NotSpecificButGettingRepSeq
+Listeria monocytogenes 10403S	Listeria monocytogenes 10403S	CP002002	PerfectMatch
+Microbacterium sp.	Microbacterium sp. CGR1	CP012299	NotSpecificButGettingRepSeq
+Microbacterium sp.	Microbacterium sp. XT11	CP013859	NotSpecificButGettingRepSeq
+Mycobacterium smegmatis mc2 155	Mycobacterium smegmatis str. MC2 155	CP000480	PerfectMatch
+P. aeruginosa (ATCC 15692)	Pseudomonas aeruginosa strain F30658	CP008857	NotSpecificButGettingRepSeq
+P. aeruginosa (ATCC 15692)	Pseudomonas aeruginosa strain T52373	CP008867	NotSpecificButGettingRepSeq
+P. aeruginosa (ATCC 15692)	Pseudomonas aeruginosa strain X78812	CP008872	NotSpecificButGettingRepSeq
+P. aeruginosa PAO303	Pseudomonas aeruginosa strain F30658	CP008857	NotSpecificButGettingRepSeq
+P. aeruginosa PAO303	Pseudomonas aeruginosa strain T52373	CP008867	NotSpecificButGettingRepSeq
+P. aeruginosa PAO303	Pseudomonas aeruginosa strain X78812	CP008872	NotSpecificButGettingRepSeq
+P. aeruginosa PAO303	Pseudomonas aeruginosa strain F30658	CP008857	NotSpecificButGettingRepSeq
+P. aeruginosa PAO303	Pseudomonas aeruginosa strain T52373	CP008867	NotSpecificButGettingRepSeq
+P. aeruginosa PAO303	Pseudomonas aeruginosa strain X78812	CP008872	NotSpecificButGettingRepSeq
+P. angustum	Photobacterium angustum S14	Taxon:314292	Assembly;FastaOnline
+Photobacterium leiognathi	Photobacterium leiognathi	Taxon:553611	Assembly;FastaOnline
+Propionibacterium acnes	Propionibacterium acnes strain PA_30_2_L1	CP012350	NotSpecificButGettingRepSeq
+Propionibacterium acnes	Propionibacterium acnes strain PA_15_1_R1	CP012355	NotSpecificButGettingRepSeq
+Propionibacterium acnes	Propionibacterium phage PAC9	KR902986	NotSpecificButGettingRepSeq
+Pseudomonas aeruginosa ATCC 29853	Pseudomonas aeruginosa strain F30658	CP008857	NotSpecificButGettingRepSeq
+Pseudomonas aeruginosa ATCC 29853	Pseudomonas aeruginosa strain T52373	CP008867	NotSpecificButGettingRepSeq
+Pseudomonas aeruginosa ATCC 29853	Pseudomonas aeruginosa strain X78812	CP008872	NotSpecificButGettingRepSeq
+Pseudomonas putida	Pseudomonas putida strain 1A00316	CP014343	NotSpecificButGettingRepSeq
+Pseudomonas putida	Pseudomonas putida KT2440	AE015451	NotSpecificButGettingRepSeq
+Ralstonia solanacearum	Ralstonia solanacearum strain YC45	CP011997	NotSpecificButGettingRepSeq
+Ralstonia solanacearum	Ralstonia solanacearum strain UW163	CP012939	NotSpecificButGettingRepSeq
+S. natans ATCC 13338	Sphaerotilus natans subsp. natans DSM 6575	Taxon:1286631	Assembly;FastaOnline
+Salmonella enterica	Salmonella enterica subsp. enterica serovar Thompson strain RM1984	CP012513	NotSpecificButGettingRepSeq
+Salmonella enterica	Salmonella enterica strain LT2	CP014051	NotSpecificButGettingRepSeq
+Salmonella subsp. I Typhimurium 4,12:i:1,2 (DT1) RKI:11-06612	Salmonella enterica subsp. enterica serovar Typhimurium strain 138736	CP007581	NotSpecificButGettingRepSeq
+Salmonella subsp. I Typhimurium 4,12:i:1,2 (DT1) RKI:11-06612	Salmonella enterica subsp. enterica serovar Typhimurium str. UK-1	CP002614	NotSpecificButGettingRepSeq
+Serratia marcescens ATCC 8100	Serratia marcescens strain RSC-14	CP012639	NotSpecificButGettingRepSeq
+Serratia marcescens ATCC 8100	Serratia marcescens subsp. marcescens Db11	HG326223	NotSpecificButGettingRepSeq
+Shigella boydii	Shigella boydii strain ATCC 9210	CP011511	NotSpecificButGettingRepSeq
+Shigella boydii	Shigella boydii Sb227	CP000036	NotSpecificButGettingRepSeq
+Shigella flexneri	Shigella flexneri 2002017	CP001383	NotSpecificButGettingRepSeq
+Shigella flexneri	Shigella flexneri G1663	CP007037	NotSpecificButGettingRepSeq
+Shigella sonnei NIH1	Shigella sonnei strain FORC_011	CP010829	NotSpecificButGettingRepSeq
+Shigella sonnei NIH1	Shigella sonnei strain FDAARGOS_90	CP014099	NotSpecificButGettingRepSeq
+Staphylococcus aureus ATCC 25923	Staphylococcus aureus subsp. aureus strain ATCC 25923	CP009361	PerfectMatch
+Staphylococcus aureus ATCC 29213	Staphylococcus aureus subsp. aureus ST398	AM990992	NotSpecificButGettingRepSeq
+Staphylococcus aureus ATCC 29213	Staphylococcus aureus subsp. aureus TW20	FN433596	NotSpecificButGettingRepSeq
+Staphylococcus epidermidis	Staphylococcus epidermidis ATCC 12228	AE015929	NotSpecificButGettingRepSeq
+Staphylococcus epidermidis	Staphylococcus epidermidis RP62A	CP000029	NotSpecificButGettingRepSeq
+Staphylococcus epidermidis Laboratory collection KNUH-134	Staphylococcus epidermidis ATCC 12228	AE015929	NotSpecificButGettingRepSeq
+Staphylococcus epidermidis Laboratory collection KNUH-134	Staphylococcus epidermidis RP62A	CP000029	NotSpecificButGettingRepSeq
+Staphylococcus hominis Laboratory collection KNUH-328	NA	NA	NothingHelpfulForThisBacterium
+Streptococcus agalactiae Laboratory collection 188	Streptococcus agalactiae strain GBS85147	CP010319	NotSpecificButGettingRepSeq
+Streptococcus agalactiae Laboratory collection 188	Streptococcus agalactiae strain HN016	CP011325	NotSpecificButGettingRepSeq
+Streptococcus gordonii Laboratory collection 143	Streptococcus gordonii str. Challis substr. CH1	CP000725	NotSpecificButGettingRepSeq
+Streptococcus gordonii Laboratory collection 143	Streptococcus gordonii strain KCOM 1506 (= ChDC B679)	CP012648	NotSpecificButGettingRepSeq
+Streptococcus pneumoniae Laboratory collection 15	Streptococcus pneumoniae ST556	CP003357	NotSpecificButGettingRepSeq
+Streptococcus pneumoniae Laboratory collection 15	Streptococcus pneumoniae A026	CP006844	NotSpecificButGettingRepSeq
+Streptococcus pneumoniae Laboratory collection 15	Streptococcus pneumoniae INV200	FQ312029	NotSpecificButGettingRepSeq
+Streptococcus pneumoniae isolate K13-810	Streptococcus pneumoniae ST556	CP003357	NotSpecificButGettingRepSeq
+Streptococcus pneumoniae isolate K13-810	Streptococcus pneumoniae A026	CP006844	NotSpecificButGettingRepSeq
+Streptococcus pneumoniae isolate K13-810	Streptococcus pneumoniae INV200	FQ312029	NotSpecificButGettingRepSeq
+Streptococcus salivarius Laboratory collection 65	Streptococcus salivarius strain NCTC 8618	CP009913	NotSpecificButGettingRepSeq
+Streptococcus salivarius Laboratory collection 65	Streptococcus salivarius CCHSS3	FR873481	NotSpecificButGettingRepSeq
+Thermus thermophilus HB27	Thermus thermophilus HB27	AE017221	PerfectMatch
+Vibrio alginolyticus VIB20	NA	NA	NothingHelpfulForThisBacterium
+Vibrio natriegens ATCC 14048	Vibrio natriegens NBRC 15636 = ATCC 14048 = DSM 759 chromosome 1	CP009977	NotSpecificButGettingRepSeq;MergeWithNext
+Vibrio natriegens ATCC 14048	Vibrio natriegens NBRC 15636 = ATCC 14048 = DSM 759 chromosome 2	CP009978	NotSpecificButGettingRepSeq;MergeWithPrevious
+Vibrio nereis ATCC 25917	NA	NA	NothingHelpfulForThisBacterium
+Vibrio parahaemolyticus VIB8	Vibrio parahaemolyticus strain FORC_006 chromosome 1	CP009765	NotSpecificButGettingRepSeq;MergeWithNext
+Vibrio parahaemolyticus VIB8	Vibrio parahaemolyticus strain FORC_006 chromosome 2	CP009766	NotSpecificButGettingRepSeq;MergeWithPrevious
+Vibrio vulnificus ATCC 27562	Vibrio vulnificus strain FORC_009 chromosome 1	CP009984	NotSpecificButGettingRepSeq;MergeWithNext
+Vibrio vulnificus ATCC 27562	Vibrio vulnificus strain FORC_009 chromosome 2	CP009985	NotSpecificButGettingRepSeq;MergeWithPrevious
+Xylella fastidiosa	Xylella fastidiosa 9a5c	AE003849	NotSpecificButGettingRepSeq
+Xylella fastidiosa	Xylella fastidiosa Temecula1	AE009442	NotSpecificButGettingRepSeq
+Xylella fastidiosa	Xylella fastidiosa M12	CP000941	NotSpecificButGettingRepSeq

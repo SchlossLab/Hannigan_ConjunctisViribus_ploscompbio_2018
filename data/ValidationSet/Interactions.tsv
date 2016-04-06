@@ -1,0 +1,102 @@
+Pseudomonas_aeruginosa_phage_F116	P. aeruginosa PAO303	1
+Pseudomonas_aeruginosa_phage_F116	S. natans ATCC 13338	1
+Pseudomonas_aeruginosa_phage_F116	P. aeruginosa OT684	1
+Pseudomonas_aeruginosa_phage_F116	E. coli AB1157 0
+Pseudomonas_phage_D3	P. aeruginosa PAO303	1
+Pseudomonas_phage_D3	S. natans ATCC 13338	1
+Pseudomonas_phage_D3	P. aeruginosa OT684	1
+Pseudomonas_phage_D3	E. coli AB1157 0
+Pbunalikevirus_phiVader	P. aeruginosa (ATCC 15692)	1
+Pbunalikevirus_phiMoody	P. aeruginosa (ATCC 15692)	1
+Pbunalikevirus_phiHabibi	P. aeruginosa (ATCC 15692)	1
+Pbunalikevirus_phiFenriz	P. aeruginosa (ATCC 15692)	1
+Pbunalikevirus_phiVader	Arthrobacter sp.	1
+Pbunalikevirus_phiMoody	Arthrobacter sp.	1
+Pbunalikevirus_phiHabibi	Arthrobacter sp.	1
+Pbunalikevirus_phiFenriz	Arthrobacter sp.	1
+Pbunalikevirus_phiVader	Chryseobacterium sp.	1
+Pbunalikevirus_phiMoody	Chryseobacterium sp.	1
+Pbunalikevirus_phiHabibi	Chryseobacterium sp.	1
+Pbunalikevirus_phiFenriz	Chryseobacterium sp.	1
+Pbunalikevirus_phiVader	Microbacterium sp.	1
+Pbunalikevirus_phiMoody	Microbacterium sp.	1
+Pbunalikevirus_phiHabibi	Microbacterium sp.	1
+Pbunalikevirus_phiFenriz	Microbacterium sp.	1
+Pbunalikevirus_phiVader	E. coli (ATCC 8739)	1
+Pbunalikevirus_phiMoody	E. coli (ATCC 8739)	1
+Pbunalikevirus_phiHabibi	E. coli (ATCC 8739)	1
+Pbunalikevirus_phiFenriz	E. coli (ATCC 8739)	1
+Pbunalikevirus_phiVader	E.coli K12	0
+Pbunalikevirus_phiMoody	E.coli K12	0
+Pbunalikevirus_phiHabibi	E.coli K12	0
+Pbunalikevirus_phiFenriz	E.coli K12	0
+Pbunalikevirus_phiVader	Achromobacter sp.	0
+Pbunalikevirus_phiMoody	Achromobacter sp.	0
+Pbunalikevirus_phiHabibi	Achromobacter sp.	0
+Pbunalikevirus_phiFenriz	Achromobacter sp.	0
+Pbunalikevirus_phiVader	Salmonella enterica	0
+Pbunalikevirus_phiMoody	Salmonella enterica	0
+Pbunalikevirus_phiHabibi	Salmonella enterica	0
+Pbunalikevirus_phiFenriz	Salmonella enterica	0
+Pbunalikevirus_phiVader	Shigella boydii	0
+Pbunalikevirus_phiMoody	Shigella boydii	0
+Pbunalikevirus_phiHabibi	Shigella boydii	0
+Pbunalikevirus_phiFenriz	Shigella boydii	0
+Pbunalikevirus_phiVader	Shigella flexneri	0
+Pbunalikevirus_phiMoody	Shigella flexneri	0
+Pbunalikevirus_phiHabibi	Shigella flexneri	0
+Pbunalikevirus_phiFenriz	Shigella flexneri	0
+Enterobacteria_phage_phi92	Escherichia coli ATCC 35860	1
+Enterobacteria_phage_phi92	Escherichia coli K-12 (JM105)—endA 	1
+Enterobacteria_phage_phi92	Salmonella subsp. I Typhimurium 4,12:i:1,2 (DT1) RKI:11-06612	1
+Enterobacteria_phage_phi92	Pseudomonas putida	0
+Enterobacteria_phage_phi92	B. subtilis DSM 5545	0
+Enterobacteria_phage_phi92	B. pumilus G1R	0
+Enterobacteria_phage_K1F	Escherichia coli ATCC 35860	1
+Enterobacteria_phage_K1F	Escherichia coli K-12 (JM105)—endA 	0
+Enterobacteria_phage_K1F	Salmonella subsp. I Typhimurium 4,12:i:1,2 (DT1) RKI:11-06612	0
+Enterobacteria_phage_K1F	Pseudomonas putida	0
+Enterobacteria_phage_K1F	B. subtilis DSM 5545	0
+Enterobacteria_phage_K1F	B. pumilus G1R	0
+Pseudomonas_phage_PA1phi	Pseudomonas aeruginosa ATCC 29853	1
+Pseudomonas_phage_PA1phi	Shigella sonnei	NIH1	1
+Pseudomonas_phage_PA1phi	Escherichia coli ATCC 25922	0
+Pseudomonas_phage_PA1phi	Serratia marcescens ATCC 8100	0
+Pseudomonas_phage_PA1phi	Acinetobacter baumannii ATCC 19606	0
+Pseudomonas_phage_PA1phi	Enterobacter aerogenes EA7	0
+Pseudomonas_phage_PA1phi	Staphylococcus aureus ATCC 29213	0
+Pseudomonas_phage_PA1phi	Staphylococcus aureus ATCC 25923	0
+Pseudomonas_phage_PA1phi	Staphylococcus epidermidis Laboratory collection KNUH-134	0
+Pseudomonas_phage_PA1phi	Staphylococcus hominis Laboratory collection KNUH-328	0
+Pseudomonas_phage_PA1phi	Streptococcus pneumoniae Laboratory collection 15	0
+Pseudomonas_phage_PA1phi	Streptococcus salivarius Laboratory collection 65	0
+Pseudomonas_phage_PA1phi	Streptococcus gordonii Laboratory collection 143	0
+Pseudomonas_phage_PA1phi	Streptococcus agalactiae Laboratory collection 188	0
+Pseudomonas_phage_PA1phi	Listeria monocytogenes 10403S	0
+Vibrio_phage_KVP40	Vibrio parahaemolyticus VIB8	1
+Vibrio_phage_KVP40	Vibrio alginolyticus VIB20	1
+Vibrio_phage_KVP40	Vibrio natriegens ATCC 14048	1
+Vibrio_phage_KVP40	Vibrio vulnificus ATCC 27562	0
+Vibrio_phage_KVP40	Vibrio nereis ATCC 25917	0
+Vibrio_phage_KVP40	Photobacterium leiognathi	1
+Vibrio_phage_KVP40	P. angustum	0
+Salmonella phage FSL SP-058	Salmonella enterica	1
+Acinetobacter phage Petty	Acinetobacter baumannii AU0783	1
+Lactococcus phage phiL47	Lactococcus lactis subsp. cremoris DPC6860	1
+Streptococcus phage K13	Streptococcus pneumoniae isolate K13-810	1
+Burkholderia phage KL1	Burkholderia cenocepacia C6433	1
+Clostridium phage phiZP2	Clostridium perfringens	1
+Clostridium phage phiCP7R	Clostridium perfringens	1
+Ralstonia phage RSS1	Ralstonia solanacearum	1
+Staphylococcus phage CNPH82	Staphylococcus epidermidis	1
+Corynebacterium phage P1201	Corynebacterium glutamicum	1
+Ralstonia phage RSM3	Ralstonia solanacearum	1
+Xylella phage Xfas53	Xylella fastidiosa	1
+Klebsiella phage KP15	Klebsiella pneumoniae	1
+Mycobacterium phage SWU1	Mycobacterium smegmatis mc2 155	1
+Lactococcus phage 949	Lactococcus lactis strain ML8	1
+Burkholderia phage KS14	Burkholderia cenocepacia C6433	1
+Thermus phage TMA	Thermus thermophilus HB27	1
+Erwinia phage phiEaH2	Erwinia amylovora	1
+Propionibacterium phage PHL112N00	Propionibacterium acnes	1
+Cronobacter phage CR5	Cronobacter sakazakii	1

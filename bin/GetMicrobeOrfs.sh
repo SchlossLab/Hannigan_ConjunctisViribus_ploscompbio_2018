@@ -70,16 +70,19 @@ GetOrfUniprotHits () {
 	# 3 = Bacteria Orfs
 
 	# Create diamond database
+	echo Creating Database...
 	${SchlossBin}diamond makedb \
 		--in ${1} \
 		-d ./${Output}/UniprotSubsetDatabase
 
 	# Use blast to get hits of ORFs to Uniprot genes
+	echo Running Phage ORFs...
 	${SchlossBin}diamond blastp \
 		-q ${2} \
 		-d ./${Output}/UniprotSubsetDatabase \
 		-a ./${Output}/Phage.daa \
 		-t ./
+	echo Running Bacteria ORFs...
 	${SchlossBin}diamond blastp \
 		-q ${3} \
 		-d ./${Output}/UniprotSubsetDatabase \

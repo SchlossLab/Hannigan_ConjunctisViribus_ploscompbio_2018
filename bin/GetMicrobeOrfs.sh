@@ -20,8 +20,7 @@ export PhageGenomes=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisV
 export BacteriaGenomes=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/bacteriaSVAnospace.fa
 export InteractionReference=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageInteractionReference.tsv
 
-export SwissProt=/scratch/pschloss_flux/ghannig/reference/Uniprot/uniprot_sprotNoBlock.fasta
-export Trembl=/scratch/pschloss_flux/ghannig/reference/Uniprot/uniprot_tremblNoBlock.fasta
+export Reference=/scratch/pschloss_flux/ghannig/reference/Uniprot/Uniprot-BacteriaAndVirusNoBlock.fa
 
 export GitBin=/scratch/pschloss_flux/ghannig/git/OpenMetagenomeToolkit/
 export StudyBin=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
@@ -149,13 +148,13 @@ export -f OrfInteractionPairs
 # 	${BacteriaGenomes} \
 # 	BacteriaGenomeOrfs.fa
 
-SubsetUniprot \
-	${InteractionReference} \
-	${SwissProt} \
-	${Trembl}
+# SubsetUniprot \
+# 	${InteractionReference} \
+# 	${SwissProt} \
+# 	${Trembl}
 
 GetOrfUniprotHits \
-	./${Output}/TremblSwiss.fa \
+	${Reference} \
 	/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa \
 	/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
 

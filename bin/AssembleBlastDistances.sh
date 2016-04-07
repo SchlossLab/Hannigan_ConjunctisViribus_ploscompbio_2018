@@ -1,3 +1,4 @@
+#! /bin/bash
 # AssembleBlastDistances.sh
 # Geoffrey Hannigan
 # Pat Schloss Lab
@@ -16,7 +17,7 @@ export Vsearch=/mnt/EXT/Schloss-data/bin/vsearch-1.9.10-linux-x86_64/bin/vsearch
 export PhageGenomes=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/phageSVAnospace.fa
 
 # Set working dir
-cd ${WorkingDirectory}
+cd ${WorkingDirectory} || exit
 mkdir ./${Output}
 
 ###########################
@@ -28,20 +29,20 @@ BlastSeqs () {
 
 	makeblastdb \
 		-dbtype nucl \
-		-in ${2} \
-		-out ./${Output}/${1}-database
+		-in "${2}" \
+		-out ./${Output}/"${1}"-database
 
 	blastn \
-    	-query ${2} \
-    	-out ./${Output}/${1}-BlastResults.tsv \
-    	-db ./${Output}/${1}-database \
+    	-query "${2}" \
+    	-out ./${Output}/"${1}"-BlastResults.tsv \
+    	-db ./${Output}/"${1}"-database \
     	-outfmt 6 \
     	-evalue 100
 
     awk ' { print $1"\t"$2"\t"$11"\t"$12 } ' \
-    	./${Output}/${1}-BlastResults.tsv \
+    	./${Output}/"${1}"-BlastResults.tsv \
     | awk ' !seen[$1$2] { print $0 } { ++seen[$1$2] } ' \
-    > ./${Output}/${1}-BlastResultsFormat.tsv
+    > ./${Output}/"${1}"-BlastResultsFormat.tsv
     # That second awk is for removing duplicates
 }
 

@@ -1,3 +1,4 @@
+#! /bin/bash
 # ProdigalWrapperLargeFiles.sh
 # Geoffrey Hannigan
 # Pat Schloss Lab
@@ -16,9 +17,11 @@ export OutputName=$2
 export SplitSize=20
 export Remove=TRUE
 # Determine file size of input file
-export FileSize=$(wc -c ${FastaInput} | sed 's/ .*//')
+export FileSize
+FileSize=$(wc -c "${FastaInput}" | sed 's/ .*//')
 # Specify working directory
-export WorkDir=$(pwd)
+export WorkDir
+WorkDir=$(pwd)
 echo "We are working in ${WorkDir}"
 
 #############
@@ -32,19 +35,19 @@ if [[ "${FileSize}" -gt "${MaxFileSize}" ]]; then
 	# Split the file
 	split \
 		--lines=${SplitSize} \
-		${FastaInput} \
+		"${FastaInput}" \
 		./tmp/tmpProdigal-
 else
 	echo "File is small so does not need split."
 	# Copy file to tmp for ease
-	cp ${FastaInput} ./tmp/
+	cp "${FastaInput}" ./tmp/
 fi
 
 # Now run pilerCR on the files
 ls ./tmp/* | xargs -I {} --max-procs=512 ${ProdigalPath}prodigal -c -i {} -o {}.genes -a {}.out -p meta
 
 # Collect the results together
-cat ./tmp/*.out > ./${OutputName}
+cat ./tmp/*.out > ./"${OutputName}"
 
 # Finally remove the tmp directories
 if [[ "${Remove}" = "FALSE" ]]; then

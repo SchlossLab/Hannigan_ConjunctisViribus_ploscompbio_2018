@@ -1,4 +1,4 @@
-#!usr/bin/bash
+#! /bin/bash
 # GetCrisprPhagePairs.sh
 # Geoffrey Hannigan
 # Pat Schloss Lab
@@ -10,44 +10,51 @@
 export WorkingDirectory=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data
 export Output='CRISPR'
 
-export ProjectBin=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
+export BinPath=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
 export MothurProg=/share/scratch/schloss/mothur/mothur
 
-export PilerData=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PilerResult.txt
-export PhageGenomes=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data/phageSVA.fa
+export PilerData=${1}
+export PhageGenomes=${2}
+export OutputFile=${3}
 
 # Set working dir
-cd ${WorkingDirectory}
+cd ${WorkingDirectory} || exit
 mkdir ./${Output}
 
 ################################
 # Blast Spacers Against Phages #
 ################################
 # Get the spacer sequences from the Piler-CR CRISPR output
-perl ${ProjectBin}ExtractSpacers.pl -i ${PilerData} -o ./${Output}/Spacers.fa
+perl ${BinPath}ExtractSpacers.pl \
+	-i "${PilerData}" \
+	-o ./${Output}/Spacers.fa \
+	|| exit
 
 # Filter the spacer sequences by length
-${MothurProg} "#screen.seqs(fasta=./${Output}/Spacers.fa, minlength=30, maxlength=45)"
+${MothurProg} "#screen.seqs(fasta=./${Output}/Spacers.fa, minlength=25, maxlength=50)"
 # Output should be Spacers.good.fa
 
 # Get rid of spaces in the files
-sed 's/ /_/g' ${PhageGenomes} > ./${Output}/PhageReferenceNoSpace.fa
-sed 's/ /_/g' ./${Output}/Spacers.good.fa > ./${Output}/SpacersNoSpaceGood.fa
+sed 's/ /_/g' "${PhageGenomes}" > ./${Output}/PhageReferenceNoSpace.fa || exit
+sed 's/ /_/g' ./${Output}/Spacers.good.fa > ./${Output}/SpacersNoSpaceGood.fa || exit
 
 # Blastn the spacers against the phage genomes
 makeblastdb \
 		-dbtype nucl \
 		-in ./${Output}/PhageReferenceNoSpace.fa \
-		-out ./${Output}/PhageGenomeDatabase
+		-out ./${Output}/PhageGenomeDatabase \
+		|| exit
 
 blastn \
     	-query ./${Output}/SpacersNoSpaceGood.fa \
     	-out ./${Output}/SpacerMatches.blast \
     	-db ./${Output}/PhageGenomeDatabase \
-    	-outfmt 6
+    	-outfmt 6 \
+    	|| exit
 
 # Get the Spacer ID, Phage ID, and Percent Identity
 cut -f 1,2,3 ./${Output}/SpacerMatches.blast \
 	| sed 's/_\d\+\t/\t/' \
-	> ./${Output}/SpacerMatchesFormat.tsv
+	> "${OutputFile}" \
+	|| exit
 

@@ -15,6 +15,8 @@ my $start_run = time();
 
 # Set variables
 my $opt_help;
+my $IN;
+my $OUT;
 my $input;
 my $output;
 my $flag = 0;
@@ -35,11 +37,11 @@ GetOptions(
 pod2usage(-verbose => 1) && exit if defined $opt_help;
 
 # Open files
-open(IN, "<$input") || die "Unable to read in $input: $!";
-open(OUT, ">$output") || die "Unable to write to $output: $!";
+open($IN, "<", "$input") || die "Unable to read in $input: $!";
+open($OUT, ">", "$output") || die "Unable to write to $output: $!";
 
 # Parse the piler-cr output
-foreach my $line (<IN>) {
+foreach my $line (<$IN>) {
 	chomp $line;
 	if ($location =~ 0 & $flag =~ 0 & $line =~ /\>\S+/) {
 		$name = $line;
@@ -51,7 +53,7 @@ foreach my $line (<IN>) {
 		($alterLine = $line) =~ s/\s+/\t/g;
 		$alterLine =~ s/^\t//;
 		$spacerSeq = (split /\t/, $alterLine)[-1];
-		print OUT "$name"."_$SpaceCount\n$spacerSeq\n";
+		print $OUT "$name"."_$SpaceCount\n$spacerSeq\n";
 		next;
 	} elsif ($location =~ 0 & $flag =~ 1 & $line =~ /^\===/) {
 		if ($Header =~ 0) {
@@ -75,8 +77,8 @@ foreach my $line (<IN>) {
 }
 
 # Close files
-close(IN);
-close(OUT);
+close($IN);
+close($OUT);
 
 # See how long it took
 my $end_run = time();

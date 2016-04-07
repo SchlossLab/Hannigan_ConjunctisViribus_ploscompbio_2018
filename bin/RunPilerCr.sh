@@ -1,3 +1,4 @@
+#! /bin/bash
 # RunPilerCr.sh
 # Geoffrey Hannigan
 # Pat Schloss Lab
@@ -15,9 +16,9 @@ export OutputName=$2
 export SplitSize=50
 export Remove=FALSE
 # Determine file size of input file
-export FileSize=$(wc -c ${FastaInput} | sed 's/ .*//')
+FileSize=$(wc -c "${FastaInput}" | sed 's/ .*//')
 # Specify working directory
-export WorkDir=$(pwd)
+WorkDir=$(pwd)
 echo "We are working in ${WorkDir}"
 
 ###################
@@ -31,19 +32,19 @@ if [[ "${FileSize}" -gt "${MaxFileSize}" ]]; then
 	# Split the file
 	split \
 		--lines=${SplitSize} \
-		${FastaInput} \
+		"${FastaInput}" \
 		./tmp/tmpPiler-
 else
 	echo "File is small so does not need split."
 	# Copy file to tmp for ease
-	cp ${FastaInput} ./tmp/
+	cp "${FastaInput}" ./tmp/
 fi
 
 # Now run pilerCR on the files
 ls ./tmp/* | xargs -I {} --max-procs=32 ${PilerPath}pilercr -in {} -out {}.out
 
 # Collect the results together
-cat ./tmp/*.out > ./$OutputName
+cat ./tmp/*.out > ./"$OutputName"
 
 # Finally remove the tmp directories
 if [[ "${Remove}" = "FALSE" ]]; then

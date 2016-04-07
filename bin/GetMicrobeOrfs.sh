@@ -1,3 +1,4 @@
+#! /bin/bash
 # GetMicrobeOrfs.sh
 # Geoffrey Hannigan
 # Pat Schloss Lab
@@ -28,26 +29,8 @@ export SchlossBin=/scratch/pschloss_flux/ghannig/bin/
 
 # Make the output directory and move to the working directory
 echo Creating output directory...
-cd ${WorkingDirectory}
+cd ${WorkingDirectory} || exit
 mkdir ./${Output}
-
-PredictOrfs () {
-	# 1 = Contig Fasta File for Prodigal
-	# 2 = Output File Name
-
-	bash ${StudyBin}ProdigalWrapperLargeFiles.sh \
-		${1} \
-		./${Output}/tmp-genes.fa
-
-    # Remove the block formatting
-	perl \
-	${GitBin}remove_block_fasta_format.pl \
-		./${Output}/tmp-genes.fa \
-		./${Output}/${2}
-
-	# # Remove the tmp file
-	# rm ./${Output}/tmp*.fa
-}
 
 SubsetUniprot () {
 	# 1 = Interaction Reference File
@@ -56,12 +39,12 @@ SubsetUniprot () {
 
 	# Note that database should cannot be in block format
 	# Create a list of the accession numbers
-	cut -f 1,2 ${1} \
+	cut -f 1,2 "${1}" \
 		| grep -v "interactor" \
 		| sed 's/uniprotkb\://g' \
 		> ./${Output}/ParsedInteractionRef.tsv
 
-	cat ${2} ${3} > ./${Output}/TremblSwiss.fa
+	cat "${2}" "${3}" > ./${Output}/TremblSwiss.fa
 }
 
 GetOrfUniprotHits () {
@@ -72,19 +55,19 @@ GetOrfUniprotHits () {
 	# Create diamond database
 	echo Creating Database...
 	${SchlossBin}diamond makedb \
-		--in ${1} \
+		--in "${1}" \
 		-d ./${Output}/UniprotSubsetDatabase
 
 	# Use blast to get hits of ORFs to Uniprot genes
 	echo Running Phage ORFs...
 	${SchlossBin}diamond blastp \
-		-q ${2} \
+		-q "${2}" \
 		-d ./${Output}/UniprotSubsetDatabase \
 		-a ./${Output}/Phage.daa \
 		-t ./
 	echo Running Bacteria ORFs...
 	${SchlossBin}diamond blastp \
-		-q ${3} \
+		-q "${3}" \
 		-d ./${Output}/UniprotSubsetDatabase \
 		-a ./${Output}/Bacteria.daa \
 		-t ./
@@ -106,18 +89,18 @@ OrfInteractionPairs () {
 	# Reverse the interaction reference for awk
 	awk \
 		'{ print $2"\t"$1 }' \
-		${3} \
-		> ${3}.inverse
+		"${3}" \
+		> "${3}".inverse
 
 	cat \
-		${3} \
-		${3}.inverse \
+		"${3}" \
+		"${3}".inverse \
 		> ./${Output}/TotalInteractionRef.tsv
 
 	# Get only the ORF IDs and corresponding interactions
 	# Column 1 is the ORF ID, two is Uniprot ID
-	cut -f 1,2 ${1} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/PhageBlastIdReference.tsv
-	cut -f 1,2 ${2} | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/BacteriaBlastIdReference.tsv
+	cut -f 1,2 "${1}" | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/PhageBlastIdReference.tsv
+	cut -f 1,2 "${2}" | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' > ./${Output}/BacteriaBlastIdReference.tsv
 
 	# Convert bacterial file to reference
 	awk \

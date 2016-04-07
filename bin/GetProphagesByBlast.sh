@@ -1,3 +1,4 @@
+#! /bin/bash
 # GetProphagesByBlast.sh
 # Geoffrey Hannigan
 # Pat Schloss Lab
@@ -8,28 +9,19 @@
 # determine whether the phage or it's genes are found within the
 # bacterial host.
 
-# Platform: Axiom
-
-#PBS -N GetProphagesByBlast
-#PBS -q first
-#PBS -l nodes=1:ppn=8,mem=44gb
-#PBS -l walltime=500:00:00
-#PBS -j oe
-#PBS -V
-#PBS -A schloss_lab
-
 #######################
 # Set the Environment #
 #######################
-export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
-export Output='InteractionsByBlast'
+export WorkingDirectory=${4}
+export Output='tmp'
 
-export PhageGenomes=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/phageSVAnospace.fa
-export BacteriaGenomes=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/bacteriaSVAnospace.fa
+export PhageGenomes=${1}
+export BacteriaGenomes=${2}
+export OutputFile=${3}
 
 # Make the output directory and move to the working directory
 echo Creating output directory...
-cd ${WorkingDirectory}
+cd "${WorkingDirectory}" || exit
 mkdir ./${Output}
 
 BlastPhageAgainstBacteria () {
@@ -39,12 +31,12 @@ BlastPhageAgainstBacteria () {
 	echo Making blast database...
 	makeblastdb \
 		-dbtype nucl \
-		-in ${2} \
+		-in "${2}" \
 		-out ./${Output}/BacteraGenomeReference
 
 	echo Running blastn...
 	blastn \
-    	-query ${1} \
+    	-query "${1}" \
     	-out ./${Output}/PhageToBacteria.blastn \
     	-db ./${Output}/BacteraGenomeReference \
     	-evalue 1e-3 \
@@ -55,11 +47,15 @@ BlastPhageAgainstBacteria () {
     # Get the Spacer ID, Phage ID, and Percent Identity
 	cut -f 1,2,3 ./${Output}/PhageToBacteria.blastn \
 		| sed 's/_\d\+\t/\t/' \
-		> ./${Output}/PhageBacteriaHits.tsv
+		> "${3}"
 }
 
 export -f BlastPhageAgainstBacteria
 
 BlastPhageAgainstBacteria \
-	${PhageGenomes} \
-	${BacteriaGenomes}
+	"${PhageGenomes}" \
+	"${BacteriaGenomes}" \
+	"${OutputFile}"
+
+# Remove the tmp output file
+rm -r ./${Output}

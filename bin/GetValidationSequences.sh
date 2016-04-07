@@ -4,9 +4,9 @@
 # Pat Schloss Lab
 # University of Michigan
 
-export WorkingDirectory=/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/data/ValidationSet
-export PhageValidationAcc=/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/data/ValidationSet/PhageID.tsv
-export BacteriaValidationAcc=/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/data/ValidationSet/BacteriaID.tsv
+export WorkingDirectory=~/Hannigan-2016-ConjunctisViribus/data/ValidationSet
+export PhageValidationAcc=~/Hannigan-2016-ConjunctisViribus/data/ValidationSet/PhageID.tsv
+export BacteriaValidationAcc=~/Hannigan-2016-ConjunctisViribus/data/ValidationSet/BacteriaID.tsv
 export ToolPath=~/git/OpenMetagenomeToolkit/bin/
 
 cd ${WorkingDirectory} || exit

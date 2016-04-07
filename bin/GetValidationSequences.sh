@@ -4,9 +4,9 @@
 # Pat Schloss Lab
 # University of Michigan
 
-export WorkingDirectory=/scratch/pschloss_flux/ghannig/Hannigan-2016-ConjunctisViribus/data/ValidationSet
-export PhageValidationAcc=/scratch/pschloss_flux/ghannig/Hannigan-2016-ConjunctisViribus/data/ValidationSet/PhageID.tsv
-export BacteriaValidationAcc=/scratch/pschloss_flux/ghannig/Hannigan-2016-ConjunctisViribus/data/ValidationSet/BacteriaID.tsv
+export WorkingDirectory=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/ValidationSet
+export PhageValidationAcc=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/ValidationSet/PhageID.tsv
+export BacteriaValidationAcc=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/ValidationSet/BacteriaID.tsv
 export ToolPath=/scratch/pschloss_flux/ghannig/git/OpenMetagenomeToolkit/bin/
 
 cd ${WorkingDirectory} || exit

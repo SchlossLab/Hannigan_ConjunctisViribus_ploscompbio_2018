@@ -4,11 +4,11 @@
 # Pat Schloss Lab
 # University of Michigan
 
-#PBS -N PfamDomainInteractPrediction
+#PBS -N GetMicrobeOrfs
 #PBS -A pschloss_flux
 #PBS -q flux
 #PBS -l qos=flux
-#PBS -l nodes=1:ppn=1,mem=2GB
+#PBS -l nodes=1:ppn=24,mem=124GB
 #PBS -l walltime=100:00:00
 #PBS -j oe
 #PBS -V

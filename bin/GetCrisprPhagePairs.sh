@@ -7,8 +7,8 @@
 #######################
 # Set the Environment #
 #######################
-export WorkingDirectory=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data
-export Output='CRISPR'
+WorkingDirectory=$(pwd)
+export Output='tmptmp'
 
 export BinPath=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
 export MothurProg=/share/scratch/schloss/mothur/mothur
@@ -18,7 +18,7 @@ export PhageGenomes=${2}
 export OutputFile=${3}
 
 # Set working dir
-cd ${WorkingDirectory} || exit
+echo CRISPR pair script is working in ${WorkingDirectory}...
 mkdir ./${Output}
 
 ################################
@@ -57,4 +57,6 @@ cut -f 1,2,3 ./${Output}/SpacerMatches.blast \
 	| sed 's/_\d\+\t/\t/' \
 	> "${OutputFile}" \
 	|| exit
+
+rm ./${Output}
 

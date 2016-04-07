@@ -27,6 +27,10 @@ my $line;
 my $SaveVariable;
 my $bufferCount = 0;
 
+hello world
+my variable;
+
+
 # Set the options
 GetOptions(
     'h|help' => \$opt_help,

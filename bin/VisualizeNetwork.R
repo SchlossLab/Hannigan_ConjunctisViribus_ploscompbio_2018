@@ -8,7 +8,7 @@
 ##################
 
 library(igraph)
-library(visNetwork)
+library("visNetwork")
 library(RNeo4j)
 library(scales)
 library(plyr)
@@ -143,5 +143,3 @@ pdf(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPh
 		dev.copy(which=a)
 	dev.off()
 dev.off()
-
-

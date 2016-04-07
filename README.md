@@ -1,4 +1,4 @@
-![Network](https://45.media.tumblr.com/0c420f0898939384eb5555ab216d2d75/tumblr_no0ahfANdz1s4fz4bo1_500.gif)
+![Network](http://original.livestream.com/filestore/logos/9032cecf-3d7c-e0af-3e39-6842ed3147e3-banner.png)
 
 # Hannigan-2016-ConjunctisViribus
 Using graph database techniques to understand the infectious relationships between bacteria and phages.

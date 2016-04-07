@@ -8,7 +8,7 @@
 # Default Values and CL Args #
 ##############################
 # Set pilerCR path
-export PilerPath=~/bin/pilercr1.06/
+export PilerPath=/scratch/pschloss_flux/ghannig/bin/pilercr1.06
 # Maximum input file size in bytes
 export MaxFileSize=500000000 #500 MB
 export FastaInput=$1

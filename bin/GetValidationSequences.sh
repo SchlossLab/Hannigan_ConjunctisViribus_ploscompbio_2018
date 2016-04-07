@@ -4,10 +4,10 @@
 # Pat Schloss Lab
 # University of Michigan
 
-export WorkingDirectory=~/Hannigan-2016-ConjunctisViribus/data/ValidationSet
-export PhageValidationAcc=~/Hannigan-2016-ConjunctisViribus/data/ValidationSet/PhageID.tsv
-export BacteriaValidationAcc=~/Hannigan-2016-ConjunctisViribus/data/ValidationSet/BacteriaID.tsv
-export ToolPath=~/git/OpenMetagenomeToolkit/bin/
+export WorkingDirectory=/scratch/pschloss_flux/ghannig/Hannigan-2016-ConjunctisViribus/data/ValidationSet
+export PhageValidationAcc=/scratch/pschloss_flux/ghannig/Hannigan-2016-ConjunctisViribus/data/ValidationSet/PhageID.tsv
+export BacteriaValidationAcc=/scratch/pschloss_flux/ghannig/Hannigan-2016-ConjunctisViribus/data/ValidationSet/BacteriaID.tsv
+export ToolPath=/scratch/pschloss_flux/ghannig/git/OpenMetagenomeToolkit/bin/
 
 cd ${WorkingDirectory} || exit
 
@@ -15,7 +15,7 @@ AccString=$(cut -f 2 ${PhageValidationAcc} | tr '\n' ',' | sed 's/,$//')
 
 wget "http://www.ebi.ac.uk/ena/data/view/${AccString}&display=fasta" -O ./ValidationPhage.fa
 # Get rid of the block format
-perl ~/git/OpenMetagenomeToolkit/bin/remove_block_fasta_format.pl ./ValidationPhage.fa ./ValidationPhageNoBlock.fa
+perl ${ToolPath}remove_block_fasta_format.pl ./ValidationPhage.fa ./ValidationPhageNoBlock.fa
 
 # Also get a fasta for the bacterial genomes being used
 

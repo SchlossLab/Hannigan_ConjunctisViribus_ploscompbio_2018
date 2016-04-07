@@ -4,7 +4,7 @@
 # Pat Schloss Lab
 # University of Michigan
 
-#PBS -N GetMicrobeOrfs
+#PBS -N BenchmarkingModel
 #PBS -A pschloss_flux
 #PBS -q flux
 #PBS -l qos=flux
@@ -17,9 +17,9 @@
 # Set the Environment #
 #######################
 
-export WorkingDirectory=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/data
+export WorkingDirectory=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data
 export Output='BenchmarkingSet'
-export BinPath=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
+export BinPath=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
 export GitBin=/scratch/pschloss_flux/ghannig/git/OpenMetagenomeToolkit/
 
 export PhageGenomeRef=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/ValidationSet/ValidationPhageNoBlock.fa

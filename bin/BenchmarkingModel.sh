@@ -113,4 +113,5 @@ echo Getting PFAM interactions...
 bash ${BinPath}PfamDomainInteractPrediction.sh \
 	./${Output}/PhageReferenceOrfs.fa \
 	./${Output}/BacteriaReferenceOrfs.fa \
+	./${Output}/PfamInteractions.tsv \
 	|| exit

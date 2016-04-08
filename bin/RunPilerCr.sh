@@ -25,6 +25,7 @@ echo "We are working in ${WorkDir}"
 # Extract CRISPRs #
 ###################
 # Make a tmp123 directory
+rm -r ./tmp123
 mkdir ./tmp123
 # Split files if needed
 if [[ "${FileSize}" -gt "${MaxFileSize}" ]]; then

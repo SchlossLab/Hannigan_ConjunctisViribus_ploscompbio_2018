@@ -10,7 +10,7 @@
 WorkingDirectory=$(pwd)
 export Output='tmptmp'
 
-export BinPath=/home/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
+export BinPath=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
 export MothurProg=/share/scratch/schloss/mothur/mothur
 
 export PilerData=${1}

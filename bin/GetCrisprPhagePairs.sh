@@ -12,6 +12,7 @@ export Output='tmp'
 
 export BinPath=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
 export OpenMet=/scratch/pschloss_flux/ghannig/git/OpenMetagenomeToolkit/bin/
+export BlastPath=/scratch/pschloss_flux/ghannig/bin/ncbi-blast-2.3.0+/bin/
 
 export PilerData=${1}
 export PhageGenomes=${2}
@@ -39,13 +40,13 @@ sed 's/ /_/g' "${PhageGenomes}" > ./${Output}/PhageReferenceNoSpace.fa || exit
 sed 's/ /_/g' ./${Output}/Spacers.good.fa > ./${Output}/SpacersNoSpaceGood.fa || exit
 
 # Blastn the spacers against the phage genomes
-makeblastdb \
+${BlastPath}makeblastdb \
 		-dbtype nucl \
 		-in ./${Output}/PhageReferenceNoSpace.fa \
 		-out ./${Output}/PhageGenomeDatabase \
 		|| exit
 
-blastn \
+${BlastPath}blastn \
     	-query ./${Output}/SpacersNoSpaceGood.fa \
     	-out ./${Output}/SpacerMatches.blast \
     	-db ./${Output}/PhageGenomeDatabase \

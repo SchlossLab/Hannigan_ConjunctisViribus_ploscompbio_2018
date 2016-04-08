@@ -44,7 +44,7 @@ PredictOrfs () {
 	perl \
 	${GitBin}remove_block_fasta_format.pl \
 		./${Output}/tmp-genes.fa \
-		./${Output}/"${2}"
+		"${2}"
 }
 
 # Export the subroutines

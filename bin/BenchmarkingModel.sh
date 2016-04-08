@@ -22,8 +22,8 @@ export Output='BenchmarkingSet'
 export BinPath=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
 export GitBin=/scratch/pschloss_flux/ghannig/git/OpenMetagenomeToolkit/bin/
 
-export PhageGenomeRef=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/ValidationSet/ValidationPhageNoBlock.fa
-export BacteriaGenomeRef=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/ValidationSet/ValidationBacteriaNoBlock.fa
+export PhageGenomeRef=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/ValidationSet/ValidationPhageNoBlockNoSpace.fa
+export BacteriaGenomeRef=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/ValidationSet/ValidationBacteriaNoBlockNoSpace.fa
 
 cd ${WorkingDirectory} || exit
 mkdir ./${Output}
@@ -47,7 +47,6 @@ PredictOrfs () {
 		"${2}"
 
 	sed -i 's/\*//g' "${2}"
-	sed -i 's/ .*//' "${2}"
 	sed -i 's/\/n//g' "${2}"
 }
 

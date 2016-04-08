@@ -14,6 +14,7 @@
 #######################
 export WorkingDirectory=${4}
 export Output='tmp'
+export BlastPath=/scratch/pschloss_flux/ghannig/bin/ncbi-blast-2.3.0+/bin/
 
 export PhageGenomes=${1}
 export BacteriaGenomes=${2}
@@ -29,13 +30,13 @@ BlastPhageAgainstBacteria () {
 	# 2 = Bacterial Genomes
 
 	echo Making blast database...
-	makeblastdb \
+	${BlastPath}makeblastdb \
 		-dbtype nucl \
 		-in "${2}" \
 		-out ./${Output}/BacteraGenomeReference
 
 	echo Running blastn...
-	blastn \
+	${BlastPath}blastn \
     	-query "${1}" \
     	-out ./${Output}/PhageToBacteria.blastn \
     	-db ./${Output}/BacteraGenomeReference \

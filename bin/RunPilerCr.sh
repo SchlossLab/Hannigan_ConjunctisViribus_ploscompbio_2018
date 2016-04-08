@@ -14,7 +14,7 @@ export MaxFileSize=500000000 #500 MB
 export FastaInput=$1
 export OutputName=$2
 export SplitSize=50
-export Remove=FALSE
+export Remove=TRUE
 # Determine file size of input file
 FileSize=$(wc -c "${FastaInput}" | sed 's/ .*//')
 # Specify working directory

@@ -24,8 +24,8 @@ echo "We are working in ${WorkDir}"
 ###################
 # Extract CRISPRs #
 ###################
-# Make a tmp directory
-mkdir ./tmp
+# Make a tmp123 directory
+mkdir ./tmp123
 # Split files if needed
 if [[ "${FileSize}" -gt "${MaxFileSize}" ]]; then
 	echo "Input larger than ${MaxFileSize}."
@@ -33,23 +33,23 @@ if [[ "${FileSize}" -gt "${MaxFileSize}" ]]; then
 	split \
 		--lines=${SplitSize} \
 		"${FastaInput}" \
-		./tmp/tmpPiler-
+		./tmp123/tmp123Piler-
 else
 	echo "File is small so does not need split."
-	# Copy file to tmp for ease
-	cp "${FastaInput}" ./tmp/
+	# Copy file to tmp123 for ease
+	cp "${FastaInput}" ./tmp123/
 fi
 
 # Now run pilerCR on the files
-ls ./tmp/* | xargs -I {} --max-procs=32 ${PilerPath}pilercr -in {} -out {}.out
+ls ./tmp123/* | xargs -I {} --max-procs=32 ${PilerPath}pilercr -in {} -out {}.out
 
 # Collect the results together
-cat ./tmp/*.out > ./"$OutputName"
+cat ./tmp123/*.out > ./"$OutputName"
 
-# Finally remove the tmp directories
+# Finally remove the tmp123 directories
 if [[ "${Remove}" = "FALSE" ]]; then
-	echo "Not removing tmp dir..."
+	echo "Not removing tmp123 dir..."
 else
-	echo "Removing tmp dir..."
-	rm -r ./tmp
+	echo "Removing tmp123 dir..."
+	rm -r ./tmp123
 fi

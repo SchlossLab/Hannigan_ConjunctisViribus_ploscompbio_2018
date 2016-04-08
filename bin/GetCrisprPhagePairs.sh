@@ -18,7 +18,7 @@ export PhageGenomes=${2}
 export OutputFile=${3}
 
 # Set working dir
-echo CRISPR pair script is working in ${WorkingDirectory}...
+echo CRISPR pair script is working in "${WorkingDirectory}"...
 mkdir ./${Output}
 
 ################################

@@ -11,7 +11,7 @@ WorkingDirectory=$(pwd)
 export Output='tmp'
 
 export BinPath=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
-export OpenMet=/scratch/pschloss_flux/ghannig/git/OpenMetagenomeToolkit/
+export OpenMet=/scratch/pschloss_flux/ghannig/git/OpenMetagenomeToolkit/bin/
 
 export PilerData=${1}
 export PhageGenomes=${2}

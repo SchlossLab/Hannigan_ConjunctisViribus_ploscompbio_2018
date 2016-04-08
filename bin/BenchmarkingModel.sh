@@ -45,6 +45,10 @@ PredictOrfs () {
 	${GitBin}remove_block_fasta_format.pl \
 		./${Output}/tmp-genes.fa \
 		"${2}"
+
+	sed -i 's/\*//g' "${2}"
+	sed -i 's/ .*//' "${2}"
+	sed -i 's/\/n//g' "${2}"
 }
 
 # Export the subroutines

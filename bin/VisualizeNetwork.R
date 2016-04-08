@@ -7,6 +7,8 @@
 # Load Libraries #
 ##################
 
+setwd("~/git/Hannigan-2016-ConjunctisViribus")
+
 library("igraph")
 library("visNetwork")
 library("RNeo4j")
@@ -18,9 +20,9 @@ library("plyr")
 ###################
 
 importgraphtodataframe <- function (
-	graphconnection=graph,
-	cypherquery=query,
-	filter=0) {
+  graphconnection=graph,
+  cypherquery=query,
+  filter=0) {
   write("Retrieving Cypher Query Results", stderr())
   # Use cypher to get the edges
   edges <- cypher(graphconnection, cypherquery)
@@ -47,8 +49,8 @@ plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout, clusters=FALSE) {
   # Set plot paramters
   V(ig)$label <- ""
   V(ig)$color <- ifelse(grepl("[Pp]hage", nodeframe$id),
-  	rgb(0,0,1,.75),
-  	rgb(1,0,0,.75))
+    rgb(0,0,1,.75),
+    rgb(1,0,0,.75))
   # Color edges by type
   E(ig)$color <- rgb(0.25,0.25,0.25,0.5)
   E(ig)$width <- 0.01
@@ -65,39 +67,39 @@ plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout, clusters=FALSE) {
     write("Plotting Network With Clusters", stderr())
     plot(ig,
       mark.groups=clustering,
-      vertex.size=0.30, 
+      vertex.size=0.30,
       edge.arrow.size=.1,
       layout=l
     )
   } else {
     write("Plotting Network", stderr())
     plot(ig,
-      vertex.size=0.30, 
+      vertex.size=0.30,
       edge.arrow.size=.1,
       layout=l
     )
   }
   # Finish by adding the legends
-  legend('bottomleft', 
-    legend=c("Phage", "Bacteria"), 
-    pt.bg=c(rgb(0,0,1,.75), 
-      rgb(1,0,0,.75)), 
-    col='black', 
-    pch=21, 
-    pt.cex=3, 
-    cex=1.5, 
+  legend("bottomleft",
+    legend=c("Phage", "Bacteria"),
+    pt.bg=c(rgb(0,0,1,.75),
+      rgb(1,0,0,.75)),
+    col="black",
+    pch=21,
+    pt.cex=3,
+    cex=1.5,
     bty = "n"
   )
 }
 
-ConnectionStrength <- function (nodeframe=nodeout, edgeframe=edgeout) {
+connectionstrength <- function (nodeframe=nodeout, edgeframe=edgeout) {
   write("Testing Connection Strength", stderr())  
   # Pull out the data for clustering
-  ig = graph_from_data_frame(edgeframe, directed=T)
-  connectionResult <- is.connected(ig, mode="strong")
-  if (!connectionResult) {
-    connectionResult <- is.connected(ig, mode="weak")
-      if (connectionResult) {
+  ig <- graph_from_data_frame(edgeframe, directed=T)
+  connectionresult <- is.connected(ig, mode="strong")
+  if (!connectionresult) {
+    connectionresult <- is.connected(ig, mode="weak")
+      if (connectionresult) {
       result <- "RESULT: Graph is weakly connected."
     } else {
       result <- "RESULT: Graph is not weakly or strongly connected."
@@ -114,35 +116,47 @@ ConnectionStrength <- function (nodeframe=nodeout, edgeframe=edgeout) {
 
 # Start the connection to the graph
 # If you are getting a lack of permission, disable local permission on Neo4J
-graph = startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
+graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
 # Use Cypher query to get a table of the table edges
-query="
+query <- "
 START n=node(*) MATCH (n)-[r]->(m) RETURN n.Name AS from, m.Name AS to;
 "
 
-GraphOutputList <- importgraphtodataframe(filter=10)
-nodeout <- as.data.frame(GraphOutputList[1])
-edgeout <- as.data.frame(GraphOutputList[2])
+graphoutputlist <- importgraphtodataframe(filter=10)
+nodeout <- as.data.frame(graphoutputlist[1])
+edgeout <- as.data.frame(graphoutputlist[2])
 head(nodeout)
 head(edgeout)
 
 # Test connection strength of the network
-write(ConnectionStrength(), stderr())
+write(connectionstrength(), stderr())
 
 # Save as PDF & PNG
-pdf(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagramClustered.pdf", width=8, height=8)
-  a<-dev.cur()
-  png(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagramClustered.png", width=8, height=8, units="in", res=800)
+pdf(file="./figures/BacteriaPhageNetworkDiagramClustered.pdf",
+width=8,
+height=8)
+  a <- dev.cur()
+  png(file="./figures/BacteriaPhageNetworkDiagramClustered.png",
+  width=8,
+  height=8,
+  units="in",
+  res=800)
     dev.control("enable")
     plotnetwork(clusters=TRUE)
     dev.copy(which=a)
   dev.off()
 dev.off()
 
-pdf(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagram.pdf", width=8, height=8)
-  a<-dev.cur()
-  png(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaPhageNetworkDiagram.png", width=8, height=8, units="in", res=800)
+pdf(file="./figures/BacteriaPhageNetworkDiagram.pdf",
+width=8,
+height=8)
+  a <- dev.cur()
+  png(file="./figures/BacteriaPhageNetworkDiagram.png",
+  width=8,
+  height=8,
+  units="in",
+  res=800)
     dev.control("enable")
     plotnetwork(clusters=FALSE)
     dev.copy(which=a)

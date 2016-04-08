@@ -31,7 +31,7 @@ perl ${BinPath}ExtractSpacers.pl \
 	|| exit
 
 # Filter the spacer sequences by length
-${OpenMet}LengthFilterSeqs.pl -i ./${Output}/Spacers.fa -o ./${Output}/Spacers.good.fa -m 20 -n 65
+perl ${OpenMet}LengthFilterSeqs.pl -i ./${Output}/Spacers.fa -o ./${Output}/Spacers.good.fa -m 20 -n 65
 # Output should be Spacers.good.fa
 
 # Get rid of spaces in the files

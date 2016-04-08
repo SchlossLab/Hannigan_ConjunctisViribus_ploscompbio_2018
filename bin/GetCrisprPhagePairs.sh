@@ -59,5 +59,5 @@ cut -f 1,2,3 ./${Output}/SpacerMatches.blast \
 	> "${OutputFile}" \
 	|| exit
 
-rm ./${Output}
+rm -r ./${Output}
 

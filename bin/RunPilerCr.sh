@@ -42,7 +42,7 @@ else
 fi
 
 # Now run pilerCR on the files
-ls ./tmp123/* | xargs -I {} --max-procs=32 ${PilerPath}pilercr -in {} -out {}.out
+ls ./tmp123/* | xargs -I {} --max-procs=32 ${PilerPath}pilercr -quiet -in {} -out {}.out
 
 # Collect the results together
 cat ./tmp123/*.out > ./"$OutputName"

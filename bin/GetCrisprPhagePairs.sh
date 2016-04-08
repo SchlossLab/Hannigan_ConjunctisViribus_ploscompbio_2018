@@ -8,10 +8,10 @@
 # Set the Environment #
 #######################
 WorkingDirectory=$(pwd)
-export Output='tmptmp'
+export Output='tmp'
 
 export BinPath=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
-export MothurProg=/share/scratch/schloss/mothur/mothur
+export OpenMet=/scratch/pschloss_flux/ghannig/git/OpenMetagenomeToolkit/
 
 export PilerData=${1}
 export PhageGenomes=${2}
@@ -31,7 +31,7 @@ perl ${BinPath}ExtractSpacers.pl \
 	|| exit
 
 # Filter the spacer sequences by length
-${MothurProg} "#screen.seqs(fasta=./${Output}/Spacers.fa, minlength=25, maxlength=50)"
+${OpenMet}LengthFilterSeqs.pl -i ./${Output}/Spacers.fa -o ./${Output}/Spacers.good.fa -m 20 -n 65
 # Output should be Spacers.good.fa
 
 # Get rid of spaces in the files

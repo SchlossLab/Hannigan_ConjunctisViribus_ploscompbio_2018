@@ -50,8 +50,21 @@ PredictOrfs () {
 	sed -i 's/\/n//g' "${2}"
 }
 
+FormatNames () {
+	# 1 = Input file with names to be formatted
+	# 2 = Output file name
+
+	# Perl here because the regex are easierls
+	perl -pe 's/ENA\S+\.\d_//g' "${1}" \
+	| perl -pe 's/\,_\S+//g' \
+	| perl -pe 's/_complete\S+//g' \
+	| perl -pe 's/_chromosome\S+//g' \
+	> "${2}"
+}
+
 # Export the subroutines
 export -f PredictOrfs
+export -f FormatNames
 
 ######################
 # Run CRISPR scripts #
@@ -75,6 +88,11 @@ bash ${BinPath}GetCrisprPhagePairs.sh \
 
 rm ./${Output}/tmp/*
 
+# Format the output
+bash FormatNames \
+	./${Output}/BenchmarkCrisprs.tsv \
+	./${Output}/BenchmarkCrisprsFormat.tsv
+
 #####################
 # Run BLAST scripts #
 #####################
@@ -86,6 +104,11 @@ bash ${BinPath}GetProphagesByBlast.sh \
 	./${Output}/BenchmarkProphages.tsv \
 	${WorkingDirectory} \
 	|| exit
+
+# Format the output
+bash FormatNames \
+	./${Output}/BenchmarkProphages.tsv \
+	./${Output}/BenchmarkProphagesFormat.tsv
 
 ################
 # Predict ORFs #
@@ -114,3 +137,11 @@ bash ${BinPath}PfamDomainInteractPrediction.sh \
 	./${Output}/BacteriaReferenceOrfs.fa \
 	./${Output}/PfamInteractions.tsv \
 	|| exit
+
+# Format the output
+bash FormatNames \
+	./${Output}/PfamInteractions.tsv \
+	./${Output}/PfamInteractionsFormat.tsv
+
+
+

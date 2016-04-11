@@ -20,9 +20,9 @@ library("plyr")
 ###################
 
 importgraphtodataframe <- function (
-  graphconnection=graph,
-  cypherquery=query,
-  filter=0) {
+graphconnection=graph,
+cypherquery=query,
+filter=0) {
   write("Retrieving Cypher Query Results", stderr())
   # Use cypher to get the edges
   edges <- cypher(graphconnection, cypherquery)

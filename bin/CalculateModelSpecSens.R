@@ -11,7 +11,8 @@ setwd("~/git/Hannigan-2016-ConjunctisViribus/data/BenchmarkingResults")
 
 suppressMessages(c(
 library("igraph"),
-library("RNeo4j")
+library("RNeo4j"),
+library("pROC")
 ))
 
 ###################
@@ -47,6 +48,12 @@ calculatetfpos <- function(x,y) {
   posrate <- posratedf[2,2] / (posratedf[1,2] + posratedf[2,2])
   negrate <- (negratedf[2,2] / (negratedf[1,2] + negratedf[2,2]))
   return(c(posrate, negrate))
+}
+
+roclobster <- function(x,y) {
+  combo <- rbind(x,y)
+  rocobjt <- roc(Interaction ~ Prediction, combo)
+  plot.roc(rocobjt, print.thres=TRUE, print.auc=TRUE)
 }
 
 ################
@@ -86,6 +93,21 @@ negativedf <- getresults(negativequerydata, FALSE)
 
 as.data.frame(table(positivedf$Correct))
 calculatetfpos(positivedf, negativedf)
+
+pdf(file="../../figures/rocCurves.pdf",
+height=8,
+width=8)
+  a <- dev.cur()
+  png(file="../../figures/rocCurves.png",
+  width=8,
+  height=8,
+  units="in",
+  res=800)
+    dev.control("enable")
+    roclobster(positivedf, negativedf)
+    dev.copy(which=a)
+  dev.off()
+dev.off()
 
 ###############
 # Save Output #

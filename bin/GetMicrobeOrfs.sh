@@ -4,21 +4,10 @@
 # Pat Schloss Lab
 # University of Michigan
 
-#PBS -N GetMicrobeOrfs
-#PBS -A pschloss_flux
-#PBS -q flux
-#PBS -l qos=flux
-#PBS -l nodes=1:ppn=24,mem=124GB
-#PBS -l walltime=100:00:00
-#PBS -j oe
-#PBS -V
-
 # Set the variables to be used in this script
-export WorkingDirectory=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data
-export Output='OrfInteractionsDiamond'
+export WorkingDirectory=${4}
+export Output='tmp'
 
-export PhageGenomes=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/phageSVAnospace.fa
-export BacteriaGenomes=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/bacteriaSVAnospace.fa
 export InteractionReference=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageInteractionReference.tsv
 
 export Reference=/scratch/pschloss_flux/ghannig/reference/Uniprot/Uniprot-BacteriaAndVirusNoBlock.fa
@@ -27,25 +16,14 @@ export GitBin=/scratch/pschloss_flux/ghannig/git/OpenMetagenomeToolkit/
 export StudyBin=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
 export SchlossBin=/scratch/pschloss_flux/ghannig/bin/
 
+export PhageOrfs=${1}
+export BacteriaOrfs=${2}
+export OutputFile=${3}
+
 # Make the output directory and move to the working directory
 echo Creating output directory...
-cd ${WorkingDirectory} || exit
+cd "${WorkingDirectory}" || exit
 mkdir ./${Output}
-
-SubsetUniprot () {
-	# 1 = Interaction Reference File
-	# 2 = SwissProt Database No Block
-	# 3 = Trembl Database No Block
-
-	# Note that database should cannot be in block format
-	# Create a list of the accession numbers
-	cut -f 1,2 "${1}" \
-		| grep -v "interactor" \
-		| sed 's/uniprotkb\://g' \
-		> ./${Output}/ParsedInteractionRef.tsv
-
-	cat "${2}" "${3}" > ./${Output}/TremblSwiss.fa
-}
 
 GetOrfUniprotHits () {
 	# 1 = UniprotFasta
@@ -114,35 +92,19 @@ OrfInteractionPairs () {
 		./${Output}/BacteriaBlastIdReference.tsv \
 		./${Output}/tmpMerge.tsv \
 		| cut -f 3,4 \
-		> ./${Output}/InteractiveIds.tsv
+		> "${OutputFile}"
 
 	# This output can be used for input into perl script for adding
 	# to the graph database.
 }
 
-export -f PredictOrfs
-export -f SubsetUniprot
 export -f GetOrfUniprotHits
 export -f OrfInteractionPairs
 
-
-# PredictOrfs \
-# 	${PhageGenomes} \
-# 	PhageGenomeOrfs.fa
-
-# PredictOrfs \
-# 	${BacteriaGenomes} \
-# 	BacteriaGenomeOrfs.fa
-
-# SubsetUniprot \
-# 	${InteractionReference} \
-# 	${SwissProt} \
-# 	${Trembl}
-
 GetOrfUniprotHits \
 	${Reference} \
-	/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageGenomeOrfs.fa \
-	/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/BacteriaGenomeOrfs.fa
+	"${PhageOrfs}" \
+	"${BacteriaOrfs}"
 
 OrfInteractionPairs \
 	./${Output}/PhageBlast.txt \

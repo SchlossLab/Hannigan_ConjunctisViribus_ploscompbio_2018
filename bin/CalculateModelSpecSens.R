@@ -7,6 +7,8 @@
 # Set Libraries #
 #################
 
+setwd("~/git/Hannigan-2016-ConjunctisViribus/data/BenchmarkingResults")
+
 suppressMessages(c(
 library("igraph"),
 library("RNeo4j")
@@ -32,6 +34,19 @@ getresults <- function(x, direction=TRUE) {
       "NO")
   }
   return(x)
+}
+
+calculatetfpos <- function(x,y) {
+  # Get the frequency rates
+  posratedf <- as.data.frame(table(x$Correct))
+  posratedf <- as.data.frame(sapply(posratedf, as.numeric))
+
+  negratedf <- as.data.frame(table(y$Correct))
+  negratedf <- as.data.frame(sapply(negratedf, as.numeric))
+
+  posrate <- posratedf[2,2] / (posratedf[1,2] + posratedf[2,2])
+  negrate <- (negratedf[2,2] / (negratedf[1,2] + negratedf[2,2]))
+  return(c(posrate, negrate))
 }
 
 ################
@@ -63,8 +78,25 @@ r.PFAM as Pfam;
 "
 
 # Run the cypher queries
-positivedf <- cypher(graph, querypositive)
-negativedf <- cypher(graph, querynegative)
+positivequerydata <- cypher(graph, querypositive)
+negativequerydata <- cypher(graph, querynegative)
 
-getresults(positivedf)
-getresults(negativedf, FALSE)
+positivedf <- getresults(positivequerydata)
+negativedf <- getresults(negativequerydata, FALSE)
+
+as.data.frame(table(positivedf$Correct))
+calculatetfpos(positivedf, negativedf)
+
+###############
+# Save Output #
+###############
+
+write.table(positivedf, file="./PositiveHitResults.tsv",
+  sep="\t",
+  quote=FALSE,
+  row.names=FALSE)
+
+write.table(negativedf, file="./NegativeHitResults.tsv",
+  sep="\t",
+  quote=FALSE,
+  row.names=FALSE)

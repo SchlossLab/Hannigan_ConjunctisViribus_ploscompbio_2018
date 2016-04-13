@@ -166,16 +166,16 @@ print STDERR "\n\n\nProgress: Adding Experimentally Validated Interactions\n";
 AddGenericFile(\*$IN, "Interaction", "TRUE");
 
 print STDERR "\n\n\nProgress: Adding Predicted CRISPR Interactions\n";
-AddGenericFile(\*$CRISPR, "CRISPR", "FALSE");
+AddGenericFile(\*$CRISPR, "CRISPR", "TRUE");
 
 # print STDERR "\n\n\nProgress: Adding Predicted Uniprot results\n";
 # AddGenericFile(\*$UNIPROT, "Uniprot");
 
 print STDERR "\n\n\nProgress: Adding Predicted BLAST Interactions\n";
-AddGenericFile(\*$BLAST, "BLAST", "FALSE");
+AddGenericFile(\*$BLAST, "BLAST", "TRUE");
 
 print STDERR "\n\n\nProgress: Adding Predicted Pfam Interactions\n";
-AddGenericFile(\*$PFAM, "PFAM", "FALSE");
+AddGenericFile(\*$PFAM, "PFAM", "TRUE");
 
 
 # See how long it took

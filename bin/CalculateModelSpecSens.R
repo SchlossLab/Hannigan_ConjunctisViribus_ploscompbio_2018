@@ -88,6 +88,8 @@ r.PFAM as Pfam;
 positivequerydata <- cypher(graph, querypositive)
 negativequerydata <- cypher(graph, querynegative)
 
+head(positivequerydata)
+
 positivedf <- getresults(positivequerydata)
 negativedf <- getresults(negativequerydata, FALSE)
 

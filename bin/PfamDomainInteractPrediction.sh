@@ -69,18 +69,18 @@ OrfInteractionPairs () {
 
 	# Get only the ORF IDs and corresponding interactions
 	# Column 1 is the ORF ID, two is Uniprot ID
-	cut -f 12,1,2 "${1}" | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' | sed 's/\/.*$//' > ./${Output}/PhageBlastIdReference.tsv
-	cut -f 12,1,2 "${2}" | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' | sed 's/\/.*$//' > ./${Output}/BacteriaBlastIdReference.tsv
+	cut -f 12,1,2 "${1}" | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' | sed 's/\/.*\t/\t/' > ./${Output}/PhageBlastIdReference.tsv
+	cut -f 12,1,2 "${2}" | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' | sed 's/\/.*\t/\t/' > ./${Output}/BacteriaBlastIdReference.tsv
 
 	# Convert the acc numbers to pfam IDs
 	awk \
-		'NR == FNR { a[$1] = $2; next } { print $2"\t"a[$3]"\t"$1 }' \
+		'NR == FNR { a[$1] = $2; next } { print $1"\t"a[$2]"\t"$3 }' \
 		"${4}" \
 		./${Output}/PhageBlastIdReference.tsv \
 	> ./${Output}/PhageBlastIdReferencePfams.tsv
 
 	awk \
-		'NR == FNR { a[$1] = $2; next } { print $2"\t"a[$3]"\t"$1 }' \
+		'NR == FNR { a[$1] = $2; next } { print $1"\t"a[$2]"\t"$3 }' \
 		"${4}" \
 		./${Output}/BacteriaBlastIdReference.tsv \
 	> ./${Output}/BacteriaBlastIdReferencePfams.tsv
@@ -106,10 +106,10 @@ OrfInteractionPairs () {
 export -f GetPfamHits
 export -f OrfInteractionPairs
 
-GetPfamHits \
-	${PfamDatabase} \
-	"${PhageOrfs}" \
-	"${BacteriaOrfs}"
+# GetPfamHits \
+# 	${PfamDatabase} \
+# 	"${PhageOrfs}" \
+# 	"${BacteriaOrfs}"
 
 OrfInteractionPairs \
 	./${Output}/PhageBlast.txt \

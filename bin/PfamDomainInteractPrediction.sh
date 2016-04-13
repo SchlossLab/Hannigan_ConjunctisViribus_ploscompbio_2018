@@ -74,13 +74,13 @@ OrfInteractionPairs () {
 
 	# Convert the acc numbers to pfam IDs
 	awk \
-		'NR == FNR { a[$2] = $3"\t"$1; next } { print $1"\t"a[$2] }' \
+		'NR == FNR { a[$1] = $2; next } { print $2"\t"a[$3]"\t"$1 }' \
 		"${4}" \
 		./${Output}/PhageBlastIdReference.tsv \
 	> ./${Output}/PhageBlastIdReferencePfams.tsv
 
 	awk \
-		'NR == FNR { a[$2] = $3"\t"$1; next } { print $1"\t"a[$2] }' \
+		'NR == FNR { a[$1] = $2; next } { print $2"\t"a[$3]"\t"$1 }' \
 		"${4}" \
 		./${Output}/BacteriaBlastIdReference.tsv \
 	> ./${Output}/BacteriaBlastIdReferencePfams.tsv

@@ -66,49 +66,49 @@ FormatNames () {
 export -f PredictOrfs
 export -f FormatNames
 
-######################
-# Run CRISPR scripts #
-######################
+# ######################
+# # Run CRISPR scripts #
+# ######################
 
-# Use a tmp directory
-mkdir ./${Output}/tmp
+# # Use a tmp directory
+# mkdir ./${Output}/tmp
 
-echo Extracting CRISPRs...
-bash ${BinPath}RunPilerCr.sh \
-	${BacteriaGenomeRef} \
-	./${Output}/tmp/BenchmarkCrisprs.txt \
-	|| exit
+# echo Extracting CRISPRs...
+# bash ${BinPath}RunPilerCr.sh \
+# 	${BacteriaGenomeRef} \
+# 	./${Output}/tmp/BenchmarkCrisprs.txt \
+# 	|| exit
 
-echo Getting CRISPR pairs...
-bash ${BinPath}GetCrisprPhagePairs.sh \
-	./${Output}/tmp/BenchmarkCrisprs.txt \
-	${PhageGenomeRef} \
-	./${Output}/BenchmarkCrisprs.tsv \
-	|| exit
+# echo Getting CRISPR pairs...
+# bash ${BinPath}GetCrisprPhagePairs.sh \
+# 	./${Output}/tmp/BenchmarkCrisprs.txt \
+# 	${PhageGenomeRef} \
+# 	./${Output}/BenchmarkCrisprs.tsv \
+# 	|| exit
 
-rm ./${Output}/tmp/*
+# rm ./${Output}/tmp/*
 
-# Format the output
-bash FormatNames \
-	./${Output}/BenchmarkCrisprs.tsv \
-	./${Output}/BenchmarkCrisprsFormat.tsv
+# # Format the output
+# bash FormatNames \
+# 	./${Output}/BenchmarkCrisprs.tsv \
+# 	./${Output}/BenchmarkCrisprsFormat.tsv
 
-#####################
-# Run BLAST scripts #
-#####################
+# #####################
+# # Run BLAST scripts #
+# #####################
 
-echo Getting prophages by blast...
-bash ${BinPath}GetProphagesByBlast.sh \
-	${PhageGenomeRef} \
-	${BacteriaGenomeRef} \
-	./${Output}/BenchmarkProphages.tsv \
-	${WorkingDirectory} \
-	|| exit
+# echo Getting prophages by blast...
+# bash ${BinPath}GetProphagesByBlast.sh \
+# 	${PhageGenomeRef} \
+# 	${BacteriaGenomeRef} \
+# 	./${Output}/BenchmarkProphages.tsv \
+# 	${WorkingDirectory} \
+# 	|| exit
 
-# Format the output
-bash FormatNames \
-	./${Output}/BenchmarkProphages.tsv \
-	./${Output}/BenchmarkProphagesFormat.tsv
+# # Format the output
+# bash FormatNames \
+# 	./${Output}/BenchmarkProphages.tsv \
+# 	./${Output}/BenchmarkProphagesFormat.tsv
 
 # ################
 # # Predict ORFs #
@@ -139,7 +139,7 @@ bash ${BinPath}PfamDomainInteractPrediction.sh \
 	|| exit
 
 # Format the output
-bash FormatNames \
+FormatNames \
 	./${Output}/PfamInteractions.tsv \
 	./${Output}/PfamInteractionsFormat.tsv
 

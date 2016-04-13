@@ -69,34 +69,34 @@ OrfInteractionPairs () {
 
 	# Get only the ORF IDs and corresponding interactions
 	# Column 1 is the ORF ID, two is Uniprot ID
-	cut -f 1,2 "${1}" | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' | sed 's/\/.*$//' > ./${Output}/PhageBlastIdReference.tsv
-	cut -f 1,2 "${2}" | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' | sed 's/\/.*$//' > ./${Output}/BacteriaBlastIdReference.tsv
+	cut -f 12,1,2 "${1}" | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' | sed 's/\/.*$//' > ./${Output}/PhageBlastIdReference.tsv
+	cut -f 12,1,2 "${2}" | sed 's/\S\+|\(\S\+\)|\S\+$/\1/' | sed 's/\/.*$//' > ./${Output}/BacteriaBlastIdReference.tsv
 
 	# Convert the acc numbers to pfam IDs
 	awk \
-		'NR == FNR { a[$1] = $2; next } { print $1"\t"a[$2] }' \
+		'NR == FNR { a[$2] = $3"\t"$1; next } { print $1"\t"a[$2] }' \
 		"${4}" \
 		./${Output}/PhageBlastIdReference.tsv \
 	> ./${Output}/PhageBlastIdReferencePfams.tsv
 
 	awk \
-		'NR == FNR { a[$1] = $2; next } { print $1"\t"a[$2] }' \
+		'NR == FNR { a[$2] = $3"\t"$1; next } { print $1"\t"a[$2] }' \
 		"${4}" \
 		./${Output}/BacteriaBlastIdReference.tsv \
 	> ./${Output}/BacteriaBlastIdReferencePfams.tsv
 	
 	# Convert bacterial file to reference
 	awk \
-		'NR == FNR {a[$2] = $1; next} $1 in a { print $1"\t"$2"\t"a[$1] }' \
+		'NR == FNR {a[$2] = $1"\t"$3; next} $1 in a { print $1"\t"$2"\t"a[$1] }' \
 		./${Output}/PhageBlastIdReferencePfams.tsv \
 		./${Output}/TotalInteractionRef.tsv \
 		> ./${Output}/tmpMerge.tsv
 
 	awk \
-		'NR == FNR {a[$2] = $1; next} $2 in a { print $1"\t"$2"\t"$3"\t"a[$2] }' \
+		'NR == FNR {a[$2] = $1"\t"$3; next} $2 in a { print $1"\t"$2"\t"$3"\t"$4"\t"a[$2] }' \
 		./${Output}/BacteriaBlastIdReferencePfams.tsv \
 		./${Output}/tmpMerge.tsv \
-		| cut -f 3,4 \
+		| cut -f 3,4,5,6 \
 		> "${OutputFile}"
 
 	# This output can be used for input into perl script for adding

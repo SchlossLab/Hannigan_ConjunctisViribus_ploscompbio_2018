@@ -149,7 +149,7 @@ export -f FormatNames
 
 echo Getting Uniprot interactions...
 
-bash GetMicrobeOrfs.sh \
+bash ${BinPath}GetMicrobeOrfs.sh \
 	./${Output}/PhageReferenceOrfs.fa \
 	./${Output}/BacteriaReferenceOrfs.fa \
 	./${Output}/BenchmarkUniprotResults.tsv \

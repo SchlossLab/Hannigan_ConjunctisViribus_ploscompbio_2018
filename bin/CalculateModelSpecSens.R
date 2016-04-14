@@ -12,7 +12,10 @@ setwd("~/git/Hannigan-2016-ConjunctisViribus/data/BenchmarkingResults")
 suppressMessages(c(
 library("igraph"),
 library("RNeo4j"),
-library("pROC")
+library("pROC"),
+library("ggplot2"),
+library("gridExtra"),
+library("grid")
 ))
 
 ###################
@@ -21,8 +24,8 @@ library("pROC")
 getresults <- function(x, direction=TRUE) {
   x[is.na(x)] <- 0
   x[x == "TRUE"] <- 1
-  x <- as.data.frame(sapply(x, as.numeric))
-  x$Prediction <- rowSums(x[,c(2:4)])
+  x[,3:6] <- as.data.frame(sapply(x[,3:6], as.numeric))
+  x$Prediction <- rowSums(x[,c(4:6)])
   if (direction) {
     x$Correct <- ifelse(
       x$Interaction <= x$Prediction,
@@ -56,6 +59,31 @@ roclobster <- function(x,y) {
   plot.roc(rocobjt, print.thres=TRUE, print.auc=TRUE)
 }
 
+plotheatmap <- function(x,y) {
+  singleplot <- function(z, letter) {
+    heatmap <- ggplot(z, aes(Bacteria, Phage)) +
+      theme_classic() +
+      geom_tile(aes(fill=factor(Correct))) +
+      scale_fill_brewer(palette="Set1",
+        guide = guide_legend(title = "Interactions")) +
+      theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+      ylab("Bacteria") +
+      xlab("Bacteriophages") +
+      ggtitle("Bacteriophage - Bacteria Benchmark Interactions")
+    # Add letter label to corner
+    heatmap <- arrangeGrob(heatmap,
+      top = textGrob(letter, x = unit(0, "npc"),
+      y = unit(1, "npc"),
+      just=c("left","top"),
+      gp=gpar(col="black", fontsize=28, fontfamily="Helvetica")))
+    return(heatmap)
+  }
+  grid.arrange(
+    singleplot(x, "A"),
+    singleplot(y, "B"),
+    ncol = 1)
+}
+
 ################
 # Run Analysis #
 ################
@@ -68,6 +96,8 @@ querypositive <- "
 MATCH (n)-[r]->(m)
 WHERE r.Interaction='1'
 RETURN
+m.Name as Bacteria,
+n.Name as Phage,
 r.Interaction as Interaction,
 r.CRISPR as CRISPR,
 r.BLAST as Blast,
@@ -78,6 +108,8 @@ querynegative <- "
 MATCH (n)-[r]->(m)
 WHERE NOT r.Interaction='1'
 RETURN
+m.Name as Bacteria,
+n.Name as Phage,
 r.Interaction as Interaction,
 r.CRISPR as CRISPR,
 r.BLAST as Blast,
@@ -96,6 +128,10 @@ negativedf <- getresults(negativequerydata, FALSE)
 as.data.frame(table(positivedf$Correct))
 calculatetfpos(positivedf, negativedf)
 
+###############
+# Save Output #
+###############
+
 pdf(file="../../figures/rocCurves.pdf",
 height=8,
 width=8)
@@ -111,9 +147,20 @@ width=8)
   dev.off()
 dev.off()
 
-###############
-# Save Output #
-###############
+pdf(file="../../figures/ResultHeatmaps.pdf",
+height=18,
+width=10)
+  a <- dev.cur()
+  png(file="../../figures/ResultHeatmaps.png",
+  width=10,
+  height=12,
+  units="in",
+  res=800)
+    dev.control("enable")
+    plotheatmap(positivedf, negativedf)
+    dev.copy(which=a)
+  dev.off()
+dev.off()
 
 write.table(positivedf, file="./PositiveHitResults.tsv",
   sep="\t",

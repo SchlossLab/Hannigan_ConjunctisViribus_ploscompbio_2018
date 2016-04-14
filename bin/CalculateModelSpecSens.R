@@ -71,6 +71,7 @@ plotheatmap <- function(x,y) {
       xlab("Bacteriophages") +
       ggtitle("Bacteriophage - Bacteria Benchmark Interactions")
     # Add letter label to corner
+    # Hard coded now so need to fix
     heatmap <- arrangeGrob(heatmap,
       top = textGrob(letter, x = unit(0, "npc"),
       y = unit(1, "npc"),
@@ -152,8 +153,8 @@ height=18,
 width=10)
   a <- dev.cur()
   png(file="../../figures/ResultHeatmaps.png",
+  height=18,
   width=10,
-  height=12,
   units="in",
   res=800)
     dev.control("enable")

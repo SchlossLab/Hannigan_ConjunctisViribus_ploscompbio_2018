@@ -148,15 +148,17 @@ awk '{ print $1"\t"$3"\t"($2 + $4) }' \
 	./${Output}/PfamInteractionsFormat.tsv \
 	> ./${Output}/PfamInteractionsFormatScored.tsv 
 
-# #######################
-# # Run Uniprot scripts #
-# #######################
+#######################
+# Run Uniprot scripts #
+#######################
 
-# echo Getting Uniprot interactions...
+echo Getting Uniprot interactions...
 
-# bash ${BinPath}GetMicrobeOrfsBlast.sh \
-# 	./${Output}/PhageReferenceOrfs.fa \
-# 	./${Output}/BacteriaReferenceOrfs.fa \
-# 	./${Output}/BenchmarkUniprotResults.tsv \
-# 	${WorkingDirectory} \
-# 	|| exit
+bash ${BinPath}GetMicrobeOrfs.sh \
+	./${Output}/PhageReferenceOrfs.fa \
+	./${Output}/BacteriaReferenceOrfs.fa \
+	./${Output}/BenchmarkUniprotResults.tsv \
+	${WorkingDirectory} \
+	|| exit
+
+

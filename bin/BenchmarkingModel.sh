@@ -101,14 +101,19 @@ echo Getting prophages by blast...
 bash ${BinPath}GetProphagesByBlast.sh \
 	${PhageGenomeRef} \
 	${BacteriaGenomeRef} \
-	./${Output}/BenchmarkProphages.tsv \
+	./${Output}/BenchmarkProphagesBlastn.tsv \
+	./${Output}/BenchmarkProphagesTblastx.tsv \
 	${WorkingDirectory} \
 	|| exit
 
 # Format the output
 FormatNames \
-	./${Output}/BenchmarkProphages.tsv \
-	./${Output}/BenchmarkProphagesFormat.tsv
+	./${Output}/BenchmarkProphagesBlastn.tsv \
+	./${Output}/BenchmarkProphagesBlastnFormat.tsv
+
+FormatNames \
+	./${Output}/BenchmarkProphagesTblastx.tsv \
+	./${Output}/BenchmarkProphagesTblastxFormat.tsv
 
 # ################
 # # Predict ORFs #
@@ -148,17 +153,17 @@ awk '{ print $1"\t"$3"\t"($2 + $4) }' \
 	./${Output}/PfamInteractionsFormat.tsv \
 	> ./${Output}/PfamInteractionsFormatScored.tsv 
 
-#######################
-# Run Uniprot scripts #
-#######################
+# #######################
+# # Run Uniprot scripts #
+# #######################
 
-echo Getting Uniprot interactions...
+# echo Getting Uniprot interactions...
 
-bash ${BinPath}GetMicrobeOrfs.sh \
-	./${Output}/PhageReferenceOrfs.fa \
-	./${Output}/BacteriaReferenceOrfs.fa \
-	./${Output}/BenchmarkUniprotResults.tsv \
-	${WorkingDirectory} \
-	|| exit
+# bash ${BinPath}GetMicrobeOrfs.sh \
+# 	./${Output}/PhageReferenceOrfs.fa \
+# 	./${Output}/BacteriaReferenceOrfs.fa \
+# 	./${Output}/BenchmarkUniprotResults.tsv \
+# 	${WorkingDirectory} \
+# 	|| exit
 
 

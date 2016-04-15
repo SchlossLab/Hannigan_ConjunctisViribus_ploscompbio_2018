@@ -8,7 +8,7 @@
 export WorkingDirectory=${4}
 export Output='tmp'
 
-export InteractionReference=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PhageInteractionReference.tsv
+export InteractionReference=/scratch/pschloss_flux/ghannig/reference/IntAct/intact-micluster-uniprot.txt
 
 export Reference=/scratch/pschloss_flux/ghannig/reference/Uniprot/Uniprot-BacteriaAndVirusNoBlock.fa
 
@@ -64,15 +64,17 @@ OrfInteractionPairs () {
 	# 2 = Bacterial Blast Results
 	# 3 = Interaction Reference
 
+	# Cut down the interaction matrix
+
 	# Reverse the interaction reference for awk
 	awk \
 		'{ print $2"\t"$1 }' \
 		"${3}" \
-		> "${3}".inverse
+		> ./${Output}"${3}".inverse
 
 	cat \
 		"${3}" \
-		"${3}".inverse \
+		./${Output}"${3}".inverse \
 		> ./${Output}/TotalInteractionRef.tsv
 
 	# Get only the ORF IDs and corresponding interactions
@@ -109,5 +111,4 @@ GetOrfUniprotHits \
 OrfInteractionPairs \
 	./${Output}/PhageBlast.txt \
 	./${Output}/BacteriaBlast.txt \
-	./${Output}/ParsedInteractionRef.tsv
-
+	${InteractionReference}

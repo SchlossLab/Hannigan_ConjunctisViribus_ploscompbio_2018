@@ -106,10 +106,10 @@ OrfInteractionPairs () {
 export -f GetPfamHits
 export -f OrfInteractionPairs
 
-# GetPfamHits \
-# 	${PfamDatabase} \
-# 	"${PhageOrfs}" \
-# 	"${BacteriaOrfs}"
+GetPfamHits \
+	${PfamDatabase} \
+	"${PhageOrfs}" \
+	"${BacteriaOrfs}"
 
 OrfInteractionPairs \
 	./${Output}/PhageBlast.txt \

@@ -12,13 +12,14 @@
 #######################
 # Set the Environment #
 #######################
-export WorkingDirectory=${4}
+export WorkingDirectory=${5}
 export Output='tmp'
 export BlastPath=/scratch/pschloss_flux/ghannig/bin/ncbi-blast-2.3.0+/bin/
 
 export PhageGenomes=${1}
 export BacteriaGenomes=${2}
 export OutputFile=${3}
+export SecondOutFile=${4}
 
 # Make the output directory and move to the working directory
 echo Creating output directory...
@@ -44,11 +45,24 @@ BlastPhageAgainstBacteria () {
     	-num_threads 8\
     	-outfmt 6
 
+    echo Running tblastx...
+	${BlastPath}tblastx \
+    	-query "${1}" \
+    	-out ./${Output}/PhageToBacteria.tblastx \
+    	-db ./${Output}/BacteraGenomeReference \
+    	-evalue 1e10 \
+    	-num_threads 8\
+    	-outfmt 6
+
     echo Formatting blast output...
     # Get the Spacer ID, Phage ID, and BitScore
 	cut -f 1,2,12 ./${Output}/PhageToBacteria.blastn \
 		| sed 's/_\d\+\t/\t/' \
 		> "${3}"
+
+	cut -f 1,2,12 ./${Output}/PhageToBacteria.tblastx \
+		| sed 's/_\d\+\t/\t/' \
+		> "${4}"
 }
 
 export -f BlastPhageAgainstBacteria
@@ -56,7 +70,8 @@ export -f BlastPhageAgainstBacteria
 BlastPhageAgainstBacteria \
 	"${PhageGenomes}" \
 	"${BacteriaGenomes}" \
-	"${OutputFile}"
+	"${OutputFile}" \
+	"${SecondOutFile}"
 
 # Remove the tmp output file
 rm -r ./${Output}

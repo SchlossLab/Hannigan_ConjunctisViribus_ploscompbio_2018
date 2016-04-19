@@ -4,6 +4,15 @@
 # Pat Schloss Lab
 # University of Michigan
 
+#PBS -N BenchmarkingModel
+#PBS -A pschloss_flux
+#PBS -q flux
+#PBS -l qos=flux
+#PBS -l nodes=1:ppn=12,mem=64GB
+#PBS -l walltime=100:00:00
+#PBS -j oe
+#PBS -V
+
 #################
 # Set Variables #
 #################

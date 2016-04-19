@@ -4,7 +4,7 @@
 # Pat Schloss Lab
 # University of Michigan
 
-#PBS -N BenchmarkingModel
+#PBS -N PrepareProtClusters
 #PBS -A pschloss_flux
 #PBS -q flux
 #PBS -l qos=flux
@@ -51,19 +51,45 @@ GetGeneFasta () {
 ClusterProteins () {
 	# 1 = Name
 	# 2 = Input Fasta
+	# 3 = Similarity Cutoff Threshold (Default should be 0.9)
 
-	# The 0.9 similarity threshold is default but
-	# I am still specifying here.
 	${BigBin}cd-hit-v4.6.5-2016-0304/cd-hit \
 		-i "${2}" \
-		-o ./${Output}/"${1}"Clustered \
-		-c 0.9 \
+		-o ./${Output}/"${1}"Clustered.fa \
+		-c "${3}" \
 		-M 64000 \
 		-T 8
 }
 
+GetClusteringStats () {
+	# 1 = Input File
+
+	# Remove the file that will be appended to
+	rm ./${Output}/BenchmarkingCounts.tsv
+
+	for int in $(seq 60 5 100); do
+		# Get the clusters
+		ClusterProteins \
+			"Benchmark" \
+			"${1}" \
+			"${int}"
+
+		# Get how many sequences are in the file
+		wc -l ./${Output}/BenchmarkClustered.fa \
+			| sed 's/ \+/\t/' \
+			| awk -v num="$int" '{print num"\t"$1}' \
+			>> ./${Output}/BenchmarkingCounts.tsv
+	done
+
+	# Plot the results
+	${BinPath}PlotClusterBenchmark.R \
+		-i ./${Output}/BenchmarkingCounts.tsv \
+		-o ./${Output}/BenchmarkingCounts.png
+}
+
 export -f GetGeneFasta
 export -f ClusterProteins
+export -f GetClusteringStats
 
 ################
 # Run Analysis #
@@ -75,4 +101,7 @@ GetGeneFasta \
 
 ClusterProteins \
 	"Phage" \
+	./${Output}/PhageProt.fa
+
+GetClusteringStats \
 	./${Output}/PhageProt.fa

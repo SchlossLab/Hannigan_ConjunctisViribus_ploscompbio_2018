@@ -83,7 +83,7 @@ GetClusteringStats () {
 		# Get how many sequences are in the file
 		wc -l ./${Output}/BenchmarkClustered.fa \
 			| sed 's/ \+/\t/' \
-			| awk -v num="$int" '{print num"\t"$1}' \
+			| awk -v num="$int" '{print num"\t"$1/2}' \
 			>> ./${Output}/BenchmarkingCounts.tsv
 	done
 

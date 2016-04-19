@@ -101,7 +101,8 @@ GetGeneFasta \
 
 ClusterProteins \
 	"Phage" \
-	./${Output}/PhageProt.fa
+	./${Output}/PhageProt.fa \
+	0.9
 
 GetClusteringStats \
 	./${Output}/PhageProt.fa

@@ -41,6 +41,7 @@ input <- read.delim(file=opt$input, sep="\t", header=FALSE)
 statsplot <- ggplot(input, aes(x=V1, y=V2)) +
   theme_classic() +
   geom_line() +
+  geom_point() +
   xlab("Percent Similarity Threshold") +
   ylab("Unique Sequence Count")
 

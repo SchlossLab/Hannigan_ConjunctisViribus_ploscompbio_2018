@@ -13,6 +13,12 @@
 #PBS -j oe
 #PBS -V
 
+################
+# Load Modules #
+################
+
+module load R/3.2.2
+
 #################
 # Set Variables #
 #################
@@ -67,7 +73,7 @@ GetClusteringStats () {
 	# Remove the file that will be appended to
 	rm ./${Output}/BenchmarkingCounts.tsv
 
-	for int in $(seq 60 5 100); do
+	for int in $(seq 0.6 0.05 1); do
 		# Get the clusters
 		ClusterProteins \
 			"Benchmark" \
@@ -82,7 +88,7 @@ GetClusteringStats () {
 	done
 
 	# Plot the results
-	${BinPath}PlotClusterBenchmark.R \
+	Rscript ${BinPath}PlotClusterBenchmark.R \
 		-i ./${Output}/BenchmarkingCounts.tsv \
 		-o ./${Output}/BenchmarkingCounts.png
 }

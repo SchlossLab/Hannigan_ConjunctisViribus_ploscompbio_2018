@@ -25,12 +25,14 @@ module load R/3.2.2
 
 # Paths
 export WorkingDirectory=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data
+export FigureDir=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/figures
 export Output='PrepareProtClusters'
 export BinPath=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
 export BigBin=/scratch/pschloss_flux/ghannig/bin/
 
 # Files
 export PhageDat=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/phageSVA.dat
+export BacteriaDat=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/bacteriaSVA.dat
 
 ###########
 # Set Env #
@@ -90,7 +92,7 @@ GetClusteringStats () {
 	# Plot the results
 	Rscript ${BinPath}PlotClusterBenchmark.R \
 		-i ./${Output}/BenchmarkingCounts.tsv \
-		-o ./${Output}/BenchmarkingCounts.png
+		-o ${FigureDir}/"${2}"BenchmarkingCounts.png
 }
 
 export -f GetGeneFasta
@@ -105,10 +107,24 @@ GetGeneFasta \
 	"Phage" \
 	${PhageDat}
 
+GetGeneFasta \
+	"Bacteria" \
+	${BacteriaDat}
+
 ClusterProteins \
 	"Phage" \
 	./${Output}/PhageProt.fa \
 	0.9
 
+ClusterProteins \
+	"Bacteria" \
+	./${Output}/BacteriaProt.fa \
+	0.9
+
 GetClusteringStats \
-	./${Output}/PhageProt.fa
+	./${Output}/PhageProt.fa \
+	"Phage"
+
+GetClusteringStats \
+	./${Output}/BacteriaProt.fa \
+	"Bacteria"

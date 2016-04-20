@@ -66,7 +66,8 @@ ClusterProteins () {
 		-o ./${Output}/"${1}"Clustered.fa \
 		-c "${3}" \
 		-M 64000 \
-		-T 8
+		-T 8 \
+		-d 150
 }
 
 GetClusteringStats () {

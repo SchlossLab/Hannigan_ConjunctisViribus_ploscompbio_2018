@@ -58,7 +58,7 @@ GetGeneFasta () {
 		-p \
 		-g
 
-	sed -i 
+	perl -p -i -e 's/ /_/g' ./${Output}/"${1}"Prot.fa #Hmmmmm pie
 }
 
 ClusterProteins () {
@@ -73,8 +73,6 @@ ClusterProteins () {
 		-M 64000 \
 		-T 8 \
 		-d 0
-
-	perl -p -i -e 's/ /_/g' ./${Output}/"${1}"Clustered.fa #Hmmmmm pie
 }
 
 GetClusteringStats () {

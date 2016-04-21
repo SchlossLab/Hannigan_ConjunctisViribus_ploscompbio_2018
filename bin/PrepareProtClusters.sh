@@ -34,6 +34,9 @@ export BigBin=/scratch/pschloss_flux/ghannig/bin/
 export PhageDat=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/phageSVA.dat
 export BacteriaDat=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/bacteriaSVA.dat
 
+# Should we run the benchmarking scripts?
+export Benching=false
+
 ###########
 # Set Env #
 ###########
@@ -54,6 +57,8 @@ GetGeneFasta () {
 		-f ./${Output}/"${1}"Prot.fa \
 		-p \
 		-g
+
+	sed -i 
 }
 
 ClusterProteins () {
@@ -67,7 +72,9 @@ ClusterProteins () {
 		-c "${3}" \
 		-M 64000 \
 		-T 8 \
-		-d 150
+		-d 0
+
+	perl -p -i -e 's/ /_/g' ./${Output}/"${1}"Clustered.fa #Hmmmmm pie
 }
 
 GetClusteringStats () {
@@ -122,10 +129,14 @@ ClusterProteins \
 	./${Output}/BacteriaProt.fa \
 	0.9
 
-GetClusteringStats \
-	./${Output}/PhageProt.fa \
-	"Phage"
+if [ "$Benching" = true ] ; then
 
-GetClusteringStats \
-	./${Output}/BacteriaProt.fa \
-	"Bacteria"
+	GetClusteringStats \
+		./${Output}/PhageProt.fa \
+		"Phage"
+	
+	GetClusteringStats \
+		./${Output}/BacteriaProt.fa \
+		"Bacteria"
+
+fi

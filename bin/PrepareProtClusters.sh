@@ -120,12 +120,12 @@ GetGeneFasta \
 ClusterProteins \
 	"Phage" \
 	./${Output}/PhageProt.fa \
-	0.9
+	0.8
 
 ClusterProteins \
 	"Bacteria" \
 	./${Output}/BacteriaProt.fa \
-	0.9
+	0.8
 
 if [ "$Benching" = true ] ; then
 

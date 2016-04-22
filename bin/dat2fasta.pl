@@ -1,4 +1,4 @@
-#!usr/bin/perl
+#! usr/bin/perl
 # dat2fasta.pl
 # Geoffrey Hannigan
 # Patrick Schloss Lab
@@ -63,14 +63,14 @@ if ($prot) {
             next;
         } elsif ($flag == 0 && $line =~ /^AC\s+(\w.+)\;$/) {
             $secondVariable = "sp\|$1\|$SaveVariable";
-            # $SaveVariable = '';
+            undef $SaveVariable;
             $flag = 0;
             next;
         } elsif ($flag == 0 && $line =~ /^OS\s+(\w.+$)/) {
             print $OUT ">$secondVariable $1\n" unless ($genome);
             $genomeSaver = "$secondVariable $1" if ($genome);
             $flag = 1;
-            # undef $secondVariable;
+            undef $secondVariable;
             next;
         # If this is not a genome protein file set
         } elsif ($flag == 1 && $line =~ /^\s+([A-Z\s]+[A-Z\s])$/ && !$genome) {
@@ -105,6 +105,8 @@ if ($prot) {
             $flag = 2;
         } elsif ($flag == 2 && $line =~ /^\/\//) {
             print $OUT "$sequence\n";
+            undef $genomeSaver;
+            $flag = 0;
         }
     }
 } else {

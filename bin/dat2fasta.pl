@@ -31,6 +31,7 @@ my $genome;
 my $secondVariable;
 my $genomeSaver;
 my $genename;
+my $uniqcounter = 0;
 
 # Set the options
 GetOptions(
@@ -61,7 +62,7 @@ if ($prot) {
     		$sequence = 0;
             next;
         } elsif ($flag == 0 && $line =~ /^AC\s+(\w.+)\;$/) {
-            $secondVariable = ">sp\|$1\|$SaveVariable";
+            $secondVariable = "sp\|$1\|$SaveVariable";
             # $SaveVariable = '';
             $flag = 0;
             next;
@@ -73,13 +74,11 @@ if ($prot) {
             next;
         # If this is not a genome protein file set
         } elsif ($flag == 1 && $line =~ /^\s+([A-Z\s]+[A-Z\s])$/ && !$genome) {
-            print "error\n";
             $formatVar = $1;
             $formatVar =~ s/\s//g;
             $sequence = $formatVar;
             $flag = 2;
         } elsif ($flag == 2 && $line =~ /^\s+([A-Z\s]+[A-Z\s])$/ && !$genome) {
-            print "error\n";
             $formatVar = $1;
             $formatVar =~ s/\s//g;
             $sequence = $sequence.$formatVar;
@@ -87,7 +86,9 @@ if ($prot) {
         } elsif ($flag == 1 && $line =~ /^FT\s+\/product\="(.+)"$/ && $genome) {
             $genename = $1;
             $genename =~ s/\s/_/g;
-            print $OUT "$genomeSaver || $genename\n";
+            my $seqnumber = sprintf("%012d", $uniqcounter);
+            print $OUT ">$seqnumber|$genomeSaver || $genename\n";
+            ++$uniqcounter;
             $flag = 2;
         } elsif ($flag == 2 && $line =~ /^FT\s+\/translation\=\"([A-Z]+)$/ && $genome) {
             $formatVar = $1;

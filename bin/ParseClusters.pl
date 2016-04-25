@@ -49,13 +49,15 @@ while (my $line = <$IN>) {
 	} elsif ($line !~ /^>.+/) {
 		$line =~ s/\s+/\t/g;
 		my $string = (split /\t/, $line)[2];
-		$uniqueid = $1 if ($string =~ />(\d+)\|sp\|([A-Za-z0-9]\|+)\;(\S+)_\|\|_(\S+).../);
-		$acc = $2 if ($string =~ />(\d+)\|sp\|([A-Za-z0-9]\|+)\;(\S+)_\|\|_(\S+).../);
-		$orgname = $3 if ($string =~ />(\d+)\|sp\|([A-Za-z0-9]\|+)\;(\S+)_\|\|_(\S+).../);
-		$protid = $4 if ($string =~ />(\d+)\|sp\|([A-Za-z0-9]\|+)\;(\S+)_\|\|_(\S+).../);
+		print "$string\n";
+		$uniqueid = $1 if ($string =~ />(\d+)\|sp\|.*\|(\S+)\;_(\S+)_\|\|_(\S+).../);
+		print "$uniqueid\n";
+		$acc = $2 if ($string =~ />(\d+)\|sp\|.*\|(\S+)\;_(\S+)_\|\|_(\S+).../);
+		$orgname = $3 if ($string =~ />(\d+)\|sp\|.*\|(\S+)\;_(\S+)_\|\|_(\S+).../);
+		$protid = $4 if ($string =~ />(\d+)\|sp\|.*\|(\S+)\;_(\S+)_\|\|_(\S+).../);
 		$percentid = (split /\t/, $line)[3];
 		$percentidname = "ref" if ($percentid =~ /\*/);
 		$percentidname = (split /\t/, $line)[4] if ($percentid =~ /at/);
-		print "$uniqueid\t$acc\t$orgname\t$protid\t$percentidname\n";
+		print $OUT "$uniqueid\t$acc\t$orgname\t$protid\t$percentidname\n";
 	}
 }

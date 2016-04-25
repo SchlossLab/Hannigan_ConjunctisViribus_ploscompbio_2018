@@ -66,13 +66,18 @@ ClusterProteins () {
 	# 2 = Input Fasta
 	# 3 = Similarity Cutoff Threshold (Default should be 0.9)
 
-	${BigBin}cd-hit-v4.6.5-2016-0304/cd-hit \
-		-i "${2}" \
-		-o ./${Output}/"${1}"Clustered.fa \
-		-c "${3}" \
-		-M 64000 \
-		-T 8 \
-		-d 0
+	# ${BigBin}cd-hit-v4.6.5-2016-0304/cd-hit \
+	# 	-i "${2}" \
+	# 	-o ./${Output}/"${1}"Clustered.fa \
+	# 	-c "${3}" \
+	# 	-M 64000 \
+	# 	-T 8 \
+	# 	-d 0
+
+	# Parse the clusters using perl script
+	perl ${BinPath}ParseClusters.pl \
+		-i ./${Output}/"${1}"Clustered.fa.clstr \
+		-o ./${Output}/"${1}"Parsed.tsv
 }
 
 GetClusteringStats () {
@@ -109,13 +114,13 @@ export -f GetClusteringStats
 # Run Analysis #
 ################
 
-GetGeneFasta \
-	"Phage" \
-	${PhageDat}
+# GetGeneFasta \
+# 	"Phage" \
+# 	${PhageDat}
 
-GetGeneFasta \
-	"Bacteria" \
-	${BacteriaDat}
+# GetGeneFasta \
+# 	"Bacteria" \
+# 	${BacteriaDat}
 
 ClusterProteins \
 	"Phage" \

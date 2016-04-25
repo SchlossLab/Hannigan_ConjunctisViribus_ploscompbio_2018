@@ -58,6 +58,6 @@ while (my $line = <$IN>) {
 		$percentid = (split /\t/, $line)[3];
 		$percentidname = "ref" if ($percentid =~ /\*/);
 		$percentidname = (split /\t/, $line)[4] if ($percentid =~ /at/);
-		print $OUT "$uniqueid\t$acc\t$orgname\t$protid\t$percentidname\n";
+		print $OUT "$uniqueid\t$cluster\t$acc\t$orgname\t$protid\t$percentidname\n";
 	}
 }

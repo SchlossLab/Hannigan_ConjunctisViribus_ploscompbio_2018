@@ -1,0 +1,6 @@
+#! /bin/bash
+
+perl ./ProteinNetworkCreation.pl \
+	-b ../data/PrepareProtClusters/BacteriaParsed.tsv \
+	-p ../data/PrepareProtClusters/PhageParsed.tsv \
+	-d ../data/phageSVA.dat

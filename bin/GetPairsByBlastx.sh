@@ -31,7 +31,7 @@ GetPfamHits () {
 		-d ./${Output}/DiamondReference
 
 	# Use blast to get hits of ORFs to Uniprot genes
-	${SchlossBin}diamond blastx \
+	${SchlossBin}diamond blastp \
 		-q "${1}" \
 		-d ./${Output}/DiamondReference \
 		-a ./${Output}/Blastx.daa \

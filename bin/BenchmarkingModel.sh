@@ -66,54 +66,54 @@ FormatNames () {
 export -f PredictOrfs
 export -f FormatNames
 
-######################
-# Run CRISPR scripts #
-######################
+# ######################
+# # Run CRISPR scripts #
+# ######################
 
-# Use a tmp directory
-mkdir ./${Output}/tmp
+# # Use a tmp directory
+# mkdir ./${Output}/tmp
 
-echo Extracting CRISPRs...
-bash ${BinPath}RunPilerCr.sh \
-	${BacteriaGenomeRef} \
-	./${Output}/tmp/BenchmarkCrisprs.txt \
-	|| exit
+# echo Extracting CRISPRs...
+# bash ${BinPath}RunPilerCr.sh \
+# 	${BacteriaGenomeRef} \
+# 	./${Output}/tmp/BenchmarkCrisprs.txt \
+# 	|| exit
 
-echo Getting CRISPR pairs...
-bash ${BinPath}GetCrisprPhagePairs.sh \
-	./${Output}/tmp/BenchmarkCrisprs.txt \
-	${PhageGenomeRef} \
-	./${Output}/BenchmarkCrisprs.tsv \
-	|| exit
+# echo Getting CRISPR pairs...
+# bash ${BinPath}GetCrisprPhagePairs.sh \
+# 	./${Output}/tmp/BenchmarkCrisprs.txt \
+# 	${PhageGenomeRef} \
+# 	./${Output}/BenchmarkCrisprs.tsv \
+# 	|| exit
 
-rm ./${Output}/tmp/*
+# rm ./${Output}/tmp/*
 
-# Format the output
-FormatNames \
-	./${Output}/BenchmarkCrisprs.tsv \
-	./${Output}/BenchmarkCrisprsFormat.tsv
+# # Format the output
+# FormatNames \
+# 	./${Output}/BenchmarkCrisprs.tsv \
+# 	./${Output}/BenchmarkCrisprsFormat.tsv
 
-#####################
-# Run BLAST scripts #
-#####################
+# #####################
+# # Run BLAST scripts #
+# #####################
 
-echo Getting prophages by blast...
-bash ${BinPath}GetProphagesByBlast.sh \
-	${PhageGenomeRef} \
-	${BacteriaGenomeRef} \
-	./${Output}/BenchmarkProphagesBlastn.tsv \
-	./${Output}/BenchmarkProphagesTblastx.tsv \
-	${WorkingDirectory} \
-	|| exit
+# echo Getting prophages by blast...
+# bash ${BinPath}GetProphagesByBlast.sh \
+# 	${PhageGenomeRef} \
+# 	${BacteriaGenomeRef} \
+# 	./${Output}/BenchmarkProphagesBlastn.tsv \
+# 	./${Output}/BenchmarkProphagesTblastx.tsv \
+# 	${WorkingDirectory} \
+# 	|| exit
 
-# Format the output
-FormatNames \
-	./${Output}/BenchmarkProphagesBlastn.tsv \
-	./${Output}/BenchmarkProphagesBlastnFormat.tsv
+# # Format the output
+# FormatNames \
+# 	./${Output}/BenchmarkProphagesBlastn.tsv \
+# 	./${Output}/BenchmarkProphagesBlastnFormat.tsv
 
-FormatNames \
-	./${Output}/BenchmarkProphagesTblastx.tsv \
-	./${Output}/BenchmarkProphagesTblastxFormat.tsv
+# FormatNames \
+# 	./${Output}/BenchmarkProphagesTblastx.tsv \
+# 	./${Output}/BenchmarkProphagesTblastxFormat.tsv
 
 # ################
 # # Predict ORFs #
@@ -131,27 +131,44 @@ FormatNames \
 # 	./${Output}/BacteriaReferenceOrfs.fa \
 # 	|| exit
 
-####################
-# Run Pfam scripts #
-####################
+#####################
+# Run BLASTx scripts #
+#####################
+echo Getting gene matches by blastx...
 
-echo Getting PFAM interactions...
-
-bash ${BinPath}PfamDomainInteractPrediction.sh \
+bash ${BinPath}GetPairsByBlastx.sh \
 	./${Output}/PhageReferenceOrfs.fa \
 	./${Output}/BacteriaReferenceOrfs.fa \
-	./${Output}/PfamInteractions.tsv \
+	./${Output}/MatchesByBlastx.tsv \
+	${WorkingDirectory} \
 	|| exit
 
 # Format the output
 FormatNames \
-	./${Output}/PfamInteractions.tsv \
-	./${Output}/PfamInteractionsFormat.tsv
+	./${Output}/MatchesByBlastx.tsv \
+	./${Output}/MatchesByBlastxFormat.tsv
 
-# Format the output order and score sum
-awk '{ print $1"\t"$3"\t"($2 + $4) }' \
-	./${Output}/PfamInteractionsFormat.tsv \
-	> ./${Output}/PfamInteractionsFormatScored.tsv 
+# ####################
+# # Run Pfam scripts #
+# ####################
+
+# echo Getting PFAM interactions...
+
+# bash ${BinPath}PfamDomainInteractPrediction.sh \
+# 	./${Output}/PhageReferenceOrfs.fa \
+# 	./${Output}/BacteriaReferenceOrfs.fa \
+# 	./${Output}/PfamInteractions.tsv \
+# 	|| exit
+
+# # Format the output
+# FormatNames \
+# 	./${Output}/PfamInteractions.tsv \
+# 	./${Output}/PfamInteractionsFormat.tsv
+
+# # Format the output order and score sum
+# awk '{ print $1"\t"$3"\t"($2 + $4) }' \
+# 	./${Output}/PfamInteractionsFormat.tsv \
+# 	> ./${Output}/PfamInteractionsFormatScored.tsv 
 
 # #######################
 # # Run Uniprot scripts #

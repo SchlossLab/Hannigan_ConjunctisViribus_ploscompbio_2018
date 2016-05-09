@@ -18,6 +18,11 @@ module load med perl-modules
 # Run test perl script
 perl /scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/testConnection.pl || echo "Failed Test"
 
+# Print success if it passes
+if [ $? -eq 0 ]; then
+	echo "Passed Test"
+fi
+
 # Stop local neo4j server
 /scratch/pschloss_flux/ghannig/bin/neo4j-enterprise-2.3.2/bin/neo4j stop
 

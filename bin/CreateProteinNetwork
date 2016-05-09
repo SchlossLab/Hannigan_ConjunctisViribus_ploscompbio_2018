@@ -1,6 +1,29 @@
 #! /bin/bash
 
-perl ./ProteinNetworkCreation.pl \
+#PBS -N BenchmarkingModel
+#PBS -A pschloss_flux
+#PBS -q flux
+#PBS -l qos=flux
+#PBS -l nodes=1:ppn=12,mem=64GB
+#PBS -l walltime=100:00:00
+#PBS -j oe
+#PBS -V
+
+# Load perl module
+module load med perl-modules
+
+# Move to working directory
+cd /scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin
+
+# Start neo4j server locally
+/scratch/pschloss_flux/ghannig/bin/neo4j-enterprise-2.3.2/bin/neo4j start
+
+# Run network creation
+perl /scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/ProteinNetworkCreation.pl \
 	-b ../data/PrepareProtClusters/BacteriaParsed.tsv \
 	-p ../data/PrepareProtClusters/PhageParsed.tsv \
 	-d ../data/phageSVA.dat
+
+# Stop local neo4j server
+/scratch/pschloss_flux/ghannig/bin/neo4j-enterprise-2.3.2/bin/neo4j stop
+

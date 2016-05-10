@@ -46,6 +46,7 @@ my $PhageTargetForm;
 my $relnHit;
 my $score;
 my $scorenum;
+my $blastx;
 
 # Startup the neo4j connection using default location
 # Be sure to set username and password as neo4j
@@ -62,7 +63,8 @@ GetOptions(
     'c|crispr=s' => \$crispr,
     # 'u|uniprot=s' => \$uniprot,
     'b|blast=s' => \$blast,
-    'p|pfam=s' => \$pfam
+    'p|pfam=s' => \$pfam,
+    'x|blastx=s' => \$blastx
 );
 
 pod2usage(-verbose => 1) && exit if defined $opt_help;
@@ -73,6 +75,7 @@ open(my $CRISPR, "<", "$crispr") || die "Unable to read in $crispr: $!";
 # open(my $UNIPROT, "<", "$uniprot") || die "Unable to read in $uniprot: $!";
 open(my $BLAST, "<", "$blast") || die "Unable to read in $blast: $!";
 open(my $PFAM, "<", "$pfam") || die "Unable to read in $pfam: $!";
+open(my $BLASTX, "<", "$blastx") || die "Unable to read in $blastx: $!";
 
 sub AddGenericFile {
     # Import file handle
@@ -176,6 +179,9 @@ AddGenericFile(\*$BLAST, "BLAST", "TRUE");
 
 print STDERR "\n\n\nProgress: Adding Predicted Pfam Interactions\n";
 AddGenericFile(\*$PFAM, "PFAM", "TRUE");
+
+print STDERR "\n\n\nProgress: Adding Blastx comparisons\n";
+AddGenericFile(\*$BLASTX, "BLASTX", "TRUE");
 
 
 # See how long it took

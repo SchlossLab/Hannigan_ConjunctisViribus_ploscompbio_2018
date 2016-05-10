@@ -24,8 +24,8 @@ library("grid")
 getresults <- function(x, direction=TRUE) {
   x[is.na(x)] <- 0
   x[x == "TRUE"] <- 1
-  x[,3:6] <- as.data.frame(sapply(x[,3:6], as.numeric))
-  x$Prediction <- rowSums(x[,c(4:6)])
+  x[,3:7] <- as.data.frame(sapply(x[,3:7], as.numeric))
+  x$Prediction <- rowSums(x[,c(4:7)])
   if (direction) {
     x$Correct <- ifelse(
       x$Interaction <= x$Prediction,
@@ -102,6 +102,7 @@ n.Name as Phage,
 r.Interaction as Interaction,
 r.CRISPR as CRISPR,
 r.BLAST as Blast,
+r.BLASTX as Blastx,
 r.PFAM as Pfam;
 "
 
@@ -114,6 +115,7 @@ n.Name as Phage,
 r.Interaction as Interaction,
 r.CRISPR as CRISPR,
 r.BLAST as Blast,
+r.BLASTX as Blastx,
 r.PFAM as Pfam;
 "
 

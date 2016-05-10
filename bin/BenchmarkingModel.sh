@@ -148,6 +148,11 @@ FormatNames \
 	./${Output}/MatchesByBlastx.tsv \
 	./${Output}/MatchesByBlastxFormat.tsv
 
+# Format to get the right columns in the right order
+awk '{ print $2"\t"$1"\t"$12 }' \
+	./${Output}/MatchesByBlastxFormat.tsv \
+	> MatchesByBlastxFormatOrder.tsv
+
 # ####################
 # # Run Pfam scripts #
 # ####################

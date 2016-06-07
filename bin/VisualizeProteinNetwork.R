@@ -7,11 +7,11 @@
 # Set Subroutines #
 ###################
 
-custominstallpackages <- function (
+custominstallpackages <- function () {
   listofpackages <- c("igraph", "visNetwork", "RNeo4j", "scales", "plyr")
   newpackages <- listofpackages [!(listofpackages %in% installedpackages()[,"Package"])]
   if(length(newpackages)) installpackages(newpackages)
-)
+}
 
 importgraphtodataframe <- function (
 graphconnection=graph,

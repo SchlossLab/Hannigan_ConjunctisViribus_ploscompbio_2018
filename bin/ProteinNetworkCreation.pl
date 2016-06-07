@@ -127,7 +127,7 @@ while (my $line = <$DAT>) {
 		print STDOUT "$FullName\n";
 		my @bactrianodes = REST::Neo4p->get_nodes_by_label( $FullName );
 		my $BacteriaLength = length scalar(@bactrianodes);
-		print STDOUT "Phage node count is $BacteriaLength\n";
+		print STDOUT "Bacteria node count is $BacteriaLength\n";
 		foreach my $phagenode (@phagenodes) {
 			foreach my $bacterianode (@bacterianodes) {
 				$phagenode->relate_to($bacterianode, 'LinkedGenes')->set_property({Literature => "TRUE"})

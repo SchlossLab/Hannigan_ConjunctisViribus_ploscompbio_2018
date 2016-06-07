@@ -102,7 +102,6 @@ my @phagenodes;
 my @bacterianodes;
 
 while (my $line = <$DAT>) {
-	print STDOUT "Running loop\n";
 	chomp $line;
 	if ($line =~ /^ID\s/) {
 		$flag = 0;
@@ -116,6 +115,8 @@ while (my $line = <$DAT>) {
 		($formname = $1) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
 		print STDOUT "$formname\n";
 		@phagenodes = REST::Neo4p->get_nodes_by_label( $formname );
+		my $PhageLength = length scalar(@phagenodes);
+		print STDOUT "Phage node count is $PhageLength\n";
 		$flag = 1;
 		next;
 	} elsif ($flag =~ 1 & $line =~ /host=\"(.+)\"/) {

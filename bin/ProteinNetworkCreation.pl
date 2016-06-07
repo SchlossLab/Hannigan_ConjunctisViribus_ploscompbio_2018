@@ -113,12 +113,14 @@ while (my $line = <$DAT>) {
 	} elsif ($flag =~ 0 & $line =~ /^OS\s+(\w.+$)/) {
 		# File really should already be without spaces though
 		($formname = $1) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
+		print STDOUT "$formname\n";
 		@phagenodes = REST::Neo4p->get_nodes_by_label( $formname );
 		$flag = 1;
 		next;
 	} elsif ($flag =~ 1 & $line =~ /host=\"(.+)\"/) {
 		(my $FullName = $1) =~ s/\s/_/g;
 		$FullName =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
+		print STDOUT "$FullName\n";
 		my @bactrianodes = REST::Neo4p->get_nodes_by_label( $FullName );
 		foreach my $phagenode (@phagenodes) {
 			foreach my $bacterianode (@bacterianodes) {

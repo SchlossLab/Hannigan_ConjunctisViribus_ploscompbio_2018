@@ -129,6 +129,7 @@ while (my $line = <$DAT>) {
 		my $BacteriaLength = length scalar(@bactrianodes);
 		print STDOUT "Bacteria node count is $BacteriaLength\n";
 		foreach my $phagenode (@phagenodes) {
+			print STDOUT "Made it to phage node.\n";
 			foreach my $bacterianode (@bacterianodes) {
 				$phagenode->relate_to($bacterianode, 'LinkedGenes')->set_property({Literature => "TRUE"});
 				print STDOUT "Relationship created from $bacterianode to $phagenode\n";

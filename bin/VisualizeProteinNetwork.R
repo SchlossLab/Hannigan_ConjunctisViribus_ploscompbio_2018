@@ -9,8 +9,8 @@
 
 custominstallpackages <- function () {
   listofpackages <- c("igraph", "visNetwork", "RNeo4j", "scales", "plyr")
-  newpackages <- listofpackages [!(listofpackages %in% installedpackages()[,"Package"])]
-  if(length(newpackages)) installpackages(newpackages)
+  newpackages <- listofpackages [!(listofpackages %in% installed.packages()[,"Package"])]
+  if(length(newpackages)) install.packages(newpackages)
 }
 
 importgraphtodataframe <- function (

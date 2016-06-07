@@ -102,6 +102,7 @@ my @phagenodes;
 my @bacterianodes;
 
 while (my $line = <$DAT>) {
+	print STDOUT "Running loop\n";
 	chomp $line;
 	if ($line =~ /^ID\s/) {
 		$flag = 0;

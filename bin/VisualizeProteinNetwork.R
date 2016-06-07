@@ -3,19 +3,15 @@
 # Pat Schloss Lab
 # University of Michigan
 
-##################
-# Load Libraries #
-##################
-
-library("igraph")
-library("visNetwork")
-library("RNeo4j")
-library("scales")
-library("plyr")
-
 ###################
 # Set Subroutines #
 ###################
+
+custominstallpackages <- function(
+  list.of.packages <- c("igraph", "visNetwork", "RNeo4j", "scales", "plyr")
+  new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+  if(length(new.packages)) install.packages(new.packages)
+)
 
 importgraphtodataframe <- function (
 graphconnection=graph,
@@ -107,6 +103,16 @@ connectionstrength <- function (nodeframe=nodeout, edgeframe=edgeout) {
   }
   return(result)
 }
+
+##################
+# Load Libraries #
+##################
+
+library("igraph")
+library("visNetwork")
+library("RNeo4j")
+library("scales")
+library("plyr")
 
 ##############################
 # Run Analysis & Save Output #

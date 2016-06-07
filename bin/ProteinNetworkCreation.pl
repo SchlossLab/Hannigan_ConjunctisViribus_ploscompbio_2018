@@ -125,11 +125,10 @@ while (my $line = <$DAT>) {
 		$FullName =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
 		$FullName =~ s/_$//;
 		print STDOUT "$FullName\n";
-		my @bactrianodes = REST::Neo4p->get_nodes_by_label( $FullName );
-		my $BacteriaLength = length scalar(@bactrianodes);
+		my @bacterianodes = REST::Neo4p->get_nodes_by_label( $FullName );
+		my $BacteriaLength = length scalar(@bacterianodes);
 		print STDOUT "Bacteria node count is $BacteriaLength\n";
 		foreach my $phagenode (@phagenodes) {
-			print STDOUT "Made it to phage node.\n";
 			foreach my $bacterianode (@bacterianodes) {
 				$phagenode->relate_to($bacterianode, 'LinkedGenes')->set_property({Literature => "TRUE"});
 				print STDOUT "Relationship created from $bacterianode to $phagenode\n";

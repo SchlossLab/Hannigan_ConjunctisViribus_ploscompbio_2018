@@ -114,20 +114,16 @@ while (my $line = <$DAT>) {
 		# File really should already be without spaces though
 		($formname = $1) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
 		$formname =~ s/_$//;
-		print STDOUT "$formname\n";
 		@phagenodes = REST::Neo4p->get_nodes_by_label( $formname );
 		my $PhageLength = length scalar(@phagenodes);
-		print STDOUT "Phage node count is $PhageLength\n";
 		$flag = 1;
 		next;
 	} elsif ($flag =~ 1 & $line =~ /host=\"(.+)\"/) {
 		(my $FullName = $1) =~ s/\s/_/g;
 		$FullName =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
 		$FullName =~ s/_$//;
-		print STDOUT "$FullName\n";
 		my @bacterianodes = REST::Neo4p->get_nodes_by_label( $FullName );
 		my $BacteriaLength = length scalar(@bacterianodes);
-		print STDOUT "Bacteria node count is $BacteriaLength\n";
 		foreach my $phagenode (@phagenodes) {
 			foreach my $bacterianode (@bacterianodes) {
 				$phagenode->relate_to($bacterianode, 'LinkedGenes')->set_property({Literature => "TRUE"});

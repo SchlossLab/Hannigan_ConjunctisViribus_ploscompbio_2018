@@ -123,6 +123,7 @@ while (my $line = <$DAT>) {
 	} elsif ($flag =~ 1 & $line =~ /host=\"(.+)\"/) {
 		(my $FullName = $1) =~ s/\s/_/g;
 		$FullName =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
+		$FullName =~ s/_$//;
 		print STDOUT "$FullName\n";
 		my @bactrianodes = REST::Neo4p->get_nodes_by_label( $FullName );
 		my $BacteriaLength = length scalar(@bactrianodes);

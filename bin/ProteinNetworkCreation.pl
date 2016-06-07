@@ -113,6 +113,7 @@ while (my $line = <$DAT>) {
 	} elsif ($flag =~ 0 & $line =~ /^OS\s+(\w.+$)/) {
 		# File really should already be without spaces though
 		($formname = $1) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
+		$formname =~ s/_$//;
 		print STDOUT "$formname\n";
 		@phagenodes = REST::Neo4p->get_nodes_by_label( $formname );
 		my $PhageLength = length scalar(@phagenodes);

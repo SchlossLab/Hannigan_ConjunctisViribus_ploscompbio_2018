@@ -7,10 +7,10 @@
 # Set Subroutines #
 ###################
 
-custominstallpackages <- function(
-  list.of.packages <- c("igraph", "visNetwork", "RNeo4j", "scales", "plyr")
-  new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-  if(length(new.packages)) install.packages(new.packages)
+custominstallpackages <- function (
+  listofpackages <- c("igraph", "visNetwork", "RNeo4j", "scales", "plyr")
+  newpackages <- listofpackages [!(listofpackages %in% installedpackages()[,"Package"])]
+  if(length(newpackages)) installpackages(newpackages)
 )
 
 importgraphtodataframe <- function (
@@ -107,6 +107,8 @@ connectionstrength <- function (nodeframe=nodeout, edgeframe=edgeout) {
 ##################
 # Load Libraries #
 ##################
+
+custominstallpackages()
 
 library("igraph")
 library("visNetwork")

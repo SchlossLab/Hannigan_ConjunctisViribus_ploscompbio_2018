@@ -66,70 +66,70 @@ FormatNames () {
 export -f PredictOrfs
 export -f FormatNames
 
-# ######################
-# # Run CRISPR scripts #
-# ######################
+######################
+# Run CRISPR scripts #
+######################
 
-# # Use a tmp directory
-# mkdir ./${Output}/tmp
+# Use a tmp directory
+mkdir ./${Output}/tmp
 
-# echo Extracting CRISPRs...
-# bash ${BinPath}RunPilerCr.sh \
-# 	${BacteriaGenomeRef} \
-# 	./${Output}/tmp/BenchmarkCrisprs.txt \
-# 	|| exit
+echo Extracting CRISPRs...
+bash ${BinPath}RunPilerCr.sh \
+	${BacteriaGenomeRef} \
+	./${Output}/tmp/BenchmarkCrisprs.txt \
+	|| exit
 
-# echo Getting CRISPR pairs...
-# bash ${BinPath}GetCrisprPhagePairs.sh \
-# 	./${Output}/tmp/BenchmarkCrisprs.txt \
-# 	${PhageGenomeRef} \
-# 	./${Output}/BenchmarkCrisprs.tsv \
-# 	|| exit
+echo Getting CRISPR pairs...
+bash ${BinPath}GetCrisprPhagePairs.sh \
+	./${Output}/tmp/BenchmarkCrisprs.txt \
+	${PhageGenomeRef} \
+	./${Output}/BenchmarkCrisprs.tsv \
+	|| exit
 
-# rm ./${Output}/tmp/*
+rm ./${Output}/tmp/*
 
-# # Format the output
-# FormatNames \
-# 	./${Output}/BenchmarkCrisprs.tsv \
-# 	./${Output}/BenchmarkCrisprsFormat.tsv
+# Format the output
+FormatNames \
+	./${Output}/BenchmarkCrisprs.tsv \
+	./${Output}/BenchmarkCrisprsFormat.tsv
 
-# #####################
-# # Run BLAST scripts #
-# #####################
+#####################
+# Run BLAST scripts #
+#####################
 
-# echo Getting prophages by blast...
-# bash ${BinPath}GetProphagesByBlast.sh \
-# 	${PhageGenomeRef} \
-# 	${BacteriaGenomeRef} \
-# 	./${Output}/BenchmarkProphagesBlastn.tsv \
-# 	./${Output}/BenchmarkProphagesTblastx.tsv \
-# 	${WorkingDirectory} \
-# 	|| exit
+echo Getting prophages by blast...
+bash ${BinPath}GetProphagesByBlast.sh \
+	${PhageGenomeRef} \
+	${BacteriaGenomeRef} \
+	./${Output}/BenchmarkProphagesBlastn.tsv \
+	./${Output}/BenchmarkProphagesTblastx.tsv \
+	${WorkingDirectory} \
+	|| exit
 
-# # Format the output
-# FormatNames \
-# 	./${Output}/BenchmarkProphagesBlastn.tsv \
-# 	./${Output}/BenchmarkProphagesBlastnFormat.tsv
+# Format the output
+FormatNames \
+	./${Output}/BenchmarkProphagesBlastn.tsv \
+	./${Output}/BenchmarkProphagesBlastnFormat.tsv
 
-# FormatNames \
-# 	./${Output}/BenchmarkProphagesTblastx.tsv \
-# 	./${Output}/BenchmarkProphagesTblastxFormat.tsv
+FormatNames \
+	./${Output}/BenchmarkProphagesTblastx.tsv \
+	./${Output}/BenchmarkProphagesTblastxFormat.tsv
 
-# ################
-# # Predict ORFs #
-# ################
+################
+# Predict ORFs #
+################
 
-# echo Predicting ORFs...
+echo Predicting ORFs...
 
-# PredictOrfs \
-# 	${PhageGenomeRef} \
-# 	./${Output}/PhageReferenceOrfs.fa \
-# 	|| exit
+PredictOrfs \
+	${PhageGenomeRef} \
+	./${Output}/PhageReferenceOrfs.fa \
+	|| exit
 
-# PredictOrfs \
-# 	${BacteriaGenomeRef} \
-# 	./${Output}/BacteriaReferenceOrfs.fa \
-# 	|| exit
+PredictOrfs \
+	${BacteriaGenomeRef} \
+	./${Output}/BacteriaReferenceOrfs.fa \
+	|| exit
 
 #####################
 # Run BLASTx scripts #
@@ -153,39 +153,24 @@ awk '{ print $2"\t"$1"\t"$12 }' \
 	./${Output}/MatchesByBlastxFormat.tsv \
 	> MatchesByBlastxFormatOrder.tsv
 
-# ####################
-# # Run Pfam scripts #
-# ####################
+####################
+# Run Pfam scripts #
+####################
 
-# echo Getting PFAM interactions...
+echo Getting PFAM interactions...
 
-# bash ${BinPath}PfamDomainInteractPrediction.sh \
-# 	./${Output}/PhageReferenceOrfs.fa \
-# 	./${Output}/BacteriaReferenceOrfs.fa \
-# 	./${Output}/PfamInteractions.tsv \
-# 	|| exit
+bash ${BinPath}PfamDomainInteractPrediction.sh \
+	./${Output}/PhageReferenceOrfs.fa \
+	./${Output}/BacteriaReferenceOrfs.fa \
+	./${Output}/PfamInteractions.tsv \
+	|| exit
 
-# # Format the output
-# FormatNames \
-# 	./${Output}/PfamInteractions.tsv \
-# 	./${Output}/PfamInteractionsFormat.tsv
+# Format the output
+FormatNames \
+	./${Output}/PfamInteractions.tsv \
+	./${Output}/PfamInteractionsFormat.tsv
 
-# # Format the output order and score sum
-# awk '{ print $1"\t"$3"\t"($2 + $4) }' \
-# 	./${Output}/PfamInteractionsFormat.tsv \
-# 	> ./${Output}/PfamInteractionsFormatScored.tsv 
-
-# #######################
-# # Run Uniprot scripts #
-# #######################
-
-# echo Getting Uniprot interactions...
-
-# bash ${BinPath}GetMicrobeOrfs.sh \
-# 	./${Output}/PhageReferenceOrfs.fa \
-# 	./${Output}/BacteriaReferenceOrfs.fa \
-# 	./${Output}/BenchmarkUniprotResults.tsv \
-# 	${WorkingDirectory} \
-# 	|| exit
-
-
+# Format the output order and score sum
+awk '{ print $1"\t"$3"\t"($2 + $4) }' \
+	./${Output}/PfamInteractionsFormat.tsv \
+	> ./${Output}/PfamInteractionsFormatScored.tsv 

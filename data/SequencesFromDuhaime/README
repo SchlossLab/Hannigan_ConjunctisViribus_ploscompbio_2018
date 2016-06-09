@@ -1,0 +1,6 @@
+This directory holds fasta sequences and a figure of the interactions between some environmental phages that Melissa Duhaime tested against each other. 
+
+The blue sections of the heatmap show positive interactions (confirmed infections) and the yellow show negative interactions (confirmed lack of interactions).
+
+I got these files from Melissa and added them into my validation dataset.
+

@@ -18,6 +18,8 @@ cd /scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin
 # Start neo4j server locally
 /scratch/pschloss_flux/ghannig/bin/neo4j-enterprise-2.3.2/bin/neo4j start
 
+# Remove proxy env variables before running the perl script
+
 # Run network creation
 perl /scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/ProteinNetworkCreation.pl \
 	-b ../data/PrepareProtClusters/BacteriaParsed.tsv \

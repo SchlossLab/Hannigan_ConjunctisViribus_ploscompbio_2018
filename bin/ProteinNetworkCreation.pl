@@ -93,9 +93,9 @@ sub AddNodes {
 
 # Run the subroutines
 print STDERR "\nPROGRESS: Creating Phage Nodes.\n";
-# AddNodes(\*$PHAGE, "Phage", $phagelinecount);
+AddNodes(\*$PHAGE, "Phage", $phagelinecount);
 print STDERR "\nPROGRESS: Creating Bacteria Nodes.\n";
-# AddNodes(\*$BACTERIA, "Bacteria", $bacterialinecount);
+AddNodes(\*$BACTERIA, "Bacteria", $bacterialinecount);
 print STDERR "\nPROGRESS: Establishing Relationships.\n";
 
 my @phagenodes;

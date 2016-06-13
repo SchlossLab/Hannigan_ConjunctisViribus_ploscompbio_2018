@@ -15,11 +15,11 @@ module load med perl-modules
 # Move to working directory
 cd /scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin
 
-# Start neo4j server locally
-/scratch/pschloss_flux/ghannig/bin/neo4j-enterprise-2.3.2/bin/neo4j start
-
 # Remove proxy env variables before running the perl script
 unset http_proxy https_proxy ftp_proxy no_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY NO_PROXY
+
+# Start neo4j server locally
+/scratch/pschloss_flux/ghannig/bin/neo4j-enterprise-2.3.2/bin/neo4j start
 
 # Run network creation
 perl /scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/ProteinNetworkCreation.pl \

@@ -35,8 +35,9 @@ DownloadFromSRA () {
 	mkdir ./${Output}/"${line}"
 	shorterLine=${line:0:3}
 	shortLine=${line:0:6}
+	echo Looking for ${shorterLine} with ${shortLine}
 	# Recursively download the contents of the 
-	wget -r -q --no-parent --reject "index.html*" ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/${shorterLine}/${shortLine}/${line}/*
+	wget -q ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/${shorterLine}/${shortLine}/${line}/*/*.sra
 	mv ./ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/"${shorterLine}"/"${shortLine}"/"${line}"/*/*.sra ./${Output}/"${line}"
 	rm -r ./ftp-trace.ncbi.nih.gov
 }

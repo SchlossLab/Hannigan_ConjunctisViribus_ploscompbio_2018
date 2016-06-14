@@ -20,6 +20,8 @@
 export WorkingDirectory=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data
 export Output='PublishedViromeDatasets'
 
+export Metadatafile=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PublishedDatasets/SutdyInformation.tsv
+
 cd ${WorkingDirectory} || exit
 mkdir ./${Output}
 
@@ -58,7 +60,9 @@ DownloadFromMGRAST () {
 		echo Loading MG-RAST Sample ID is "${acc}"
 		# file=050.1 means the raw input that the author meant to archive
 		wget -O ./${Output}/"${line}"/"${acc}".fa "http://api.metagenomics.anl.gov/1/download/${acc}?file=050.1"
-	done
+	done < ./${Output}/"${line}"/SampleIDs.tsv
+	# Get rid of the sample list file
+	rm ./${Output}/"${line}"/SampleIDs.tsv
 }
 
 DownloadFromMicrobe () {
@@ -68,3 +72,25 @@ DownloadFromMicrobe () {
 	wget ftp://ftp.imicrobe.us/projects/"${line}"/samples/*/*.fasta.gz
 	mv ./*.fasta.gz ./${Output}/"${line}"
 }
+
+############################
+# Run Through the Analysis #
+############################
+
+while read line; do
+	# Save the sixth variable, which is the archive type (e.g. SRA, MG-RAST)
+	ArchiveType=$(cut -f 6 "${line}")
+	# Save the seventh variable, which is the archive accession number
+	AccNumber=$(cut -f 7 "${line}")
+	# Now download the samples based on the archive type
+	if [ "${ArchiveType}" == "SRA" ]; then
+		DownloadFromSRA "${AccNumber}"
+	elif [ "${ArchiveType}" == "MGRAST" ]; then
+		DownloadFromMGRAST "${AccNumber}"
+	elif [ "${ArchiveType}" == "iMicrobe" ]; then
+		DownloadFromMicrobe "${AccNumber}"
+	else
+		echo Error in parsing accession numbers!
+	fi
+done < ${Metadatafile}
+

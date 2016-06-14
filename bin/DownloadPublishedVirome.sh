@@ -79,9 +79,9 @@ DownloadFromMicrobe () {
 
 while read line; do
 	# Save the sixth variable, which is the archive type (e.g. SRA, MG-RAST)
-	ArchiveType=$(cut -f 6 "${line}")
+	ArchiveType=$(echo "${line}" | awk '{ print $6 }')
 	# Save the seventh variable, which is the archive accession number
-	AccNumber=$(cut -f 7 "${line}")
+	AccNumber=$(echo "${line}" | awk '{ print $7 }')
 	# Now download the samples based on the archive type
 	if [ "${ArchiveType}" == "SRA" ]; then
 		DownloadFromSRA "${AccNumber}"
@@ -89,6 +89,8 @@ while read line; do
 		DownloadFromMGRAST "${AccNumber}"
 	elif [ "${ArchiveType}" == "iMicrobe" ]; then
 		DownloadFromMicrobe "${AccNumber}"
+	elif ["${ArchiveType}" == "ArchiveSystem"]; then
+		echo Skipping file header.
 	else
 		echo Error in parsing accession numbers!
 	fi

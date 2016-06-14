@@ -36,7 +36,7 @@ DownloadFromSRA () {
 	shorterLine=${line:0:3}
 	shortLine=${line:0:6}
 	# Recursively download the contents of the 
-	wget -r ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/"${shorterLine}"/"${shortLine}"/"${line}"
+	wget -r --no-parent --reject "index.html*" ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/"${shorterLine}"/"${shortLine}"/"${line}"
 	mv ./ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/"${shorterLine}"/"${shortLine}"/"${line}"/*/*.sra ./${Output}/"${line}"
 	rm -r ./ftp-trace.ncbi.nih.gov
 }
@@ -89,7 +89,7 @@ while read line; do
 		DownloadFromMGRAST "${AccNumber}"
 	elif [ "${ArchiveType}" == "iMicrobe" ]; then
 		DownloadFromMicrobe "${AccNumber}"
-	elif ["${ArchiveType}" == "ArchiveSystem"]; then
+	elif [ "${ArchiveType}" == "ArchiveSystem" ]; then
 		echo Skipping file header.
 	else
 		echo Error in parsing accession numbers!

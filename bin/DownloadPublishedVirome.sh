@@ -37,9 +37,9 @@ DownloadFromSRA () {
 	shortLine=${line:0:6}
 	echo Looking for ${shorterLine} with ${shortLine}
 	# Recursively download the contents of the 
-	wget -r -q --no-parent ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/${shorterLine}/${shortLine}/${line}/*
+	wget -r --no-parent ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/${shorterLine}/${shortLine}/${line}/*
 	mv ./ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/${shorterLine}/${shortLine}/${line}/*/*.sra ./${Output}/"${line}"
-	# rm -r ./ftp-trace.ncbi.nih.gov
+	rm -r ./ftp-trace.ncbi.nih.gov
 }
 
 DownloadFromMGRAST () {

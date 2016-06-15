@@ -5,7 +5,7 @@
 # University of Michigan
 # Use this to submit the makefile to the server
 
-#PBS -N DownloadPublishedVirome
+#PBS -N runmakefile
 #PBS -A pschloss_flux
 #PBS -q flux
 #PBS -l qos=flux
@@ -14,4 +14,8 @@
 #PBS -j oe
 #PBS -V
 
+# Set working directory
+cd /scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus || exit
+
+# Run make
 make

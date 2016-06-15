@@ -37,7 +37,7 @@ DownloadFromSRA () {
 	shortLine=${line:0:6}
 	echo Looking for ${shorterLine} with ${shortLine}
 	# Recursively download the contents of the 
-	wget -r --no-parent ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/${shorterLine}/${shortLine}/${line}/*
+	wget -r --no-parent -A ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/${shorterLine}/${shortLine}/${line}/
 	mv ./ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/${shorterLine}/${shortLine}/${line}/*/*.sra ./${Output}/"${line}"
 	rm -r ./ftp-trace.ncbi.nih.gov
 }
@@ -83,6 +83,7 @@ while read line; do
 	ArchiveType=$(echo "${line}" | awk '{ print $6 }')
 	# Save the seventh variable, which is the archive accession number
 	AccNumber=$(echo "${line}" | awk '{ print $7 }')
+	echo Processing ${AccNumber} in ${ArchiveType}
 	# Now download the samples based on the archive type
 	if [ "${ArchiveType}" == "SRA" ]; then
 		DownloadFromSRA "${AccNumber}"

@@ -4,5 +4,5 @@
 # Pat Schloss Lab
 
 # Download datasets
-../data/PublishedViromeDatasets:
-	bash ./DownloadPublishedVirome.sh
+./data/PublishedViromeDatasets:
+	bash ./bin/DownloadPublishedVirome.sh

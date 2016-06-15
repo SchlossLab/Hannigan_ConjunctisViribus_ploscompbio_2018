@@ -12,13 +12,16 @@
 # Load perl module
 module load med perl-modules
 
+# 1/2 Remove proxy env variables before running the perl script
+unset http_proxy https_proxy ftp_proxy no_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY NO_PROXY
+
 # Move to working directory
 cd /scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin || exit
 
 # Start neo4j server locally
 /scratch/pschloss_flux/ghannig/bin/neo4j-enterprise-2.3.2/bin/neo4j start
 
-# Remove proxy env variables before running the perl script
+# 2/2 Again make sure it is unset
 unset http_proxy https_proxy ftp_proxy no_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY NO_PROXY
 
 # Run network creation

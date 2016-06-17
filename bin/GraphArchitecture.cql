@@ -19,7 +19,6 @@ CREATE
 		librarysource : 'Metagneomic or other',
 		platform : 'Platform used to sequence the sample',
 		location : 'Area of subject from which sample was taken',
-		disease : 'Type of disease this sample was associated with',
 		seqnum : 'Total number of sequences in the sample'
 	}),(subject:Subject {
 		type : 'Subject',
@@ -41,6 +40,9 @@ CREATE
 		type : 'Orf',
 		orfid : 'Sample ID given to the ORF',
 		annotation : 'ORF annotation'
+	}),(disease:Disease {
+		type : 'Disease',
+		Name : 'Name of the disease'
 	})
 
 // Relationships
@@ -60,5 +62,5 @@ CREATE
 		protasn : 'Protein association score'
 		}]->(bacteria),
 	(phage)-[:GenomeContains]->(orf),
-	(bacteria)-[:GenomeContains]->(orf)
-
+	(bacteria)-[:GenomeContains]->(orf),
+	(sample)-[:HealthStatus]->(disease)

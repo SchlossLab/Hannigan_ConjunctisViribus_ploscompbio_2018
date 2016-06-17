@@ -24,17 +24,6 @@ filter=0) {
   } else {
     multipleedge <- edges[,c(1:2)]
   }
-  # Set nodes
-  node1 <- data.frame(edges[,-2])
-  node2 <- data.frame(edges[,-1])
-  colnames(node1) <- c("ONE","TWO")
-  colnames(node2) <- c("ONE","TWO")
-
-  boundnodes <- data.frame(rbind(
-    node1,
-    node2
-  ))
-
   return(list(nodes, multipleedge))
 }
 
@@ -46,6 +35,7 @@ plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout, clusters=FALSE) {
   write("Plotting Network", stderr())
   ig %v% "vertex.properties" <- c(apply(nodeframe[2], 1, function(x) gsub(", ","  ---  ", toString(unlist(x)), perl = TRUE)))[-7]
 
+  sink(file="../data/GraphArchitecture/GraphArchitecture.html")
   render.d3movie(
   	ig, 
   	usearrows = T,
@@ -58,9 +48,10 @@ plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout, clusters=FALSE) {
   	edge.col = '#55555599',
   	vertex.col = "tomato",
   	vertex.tooltip = (ig %v% "vertex.properties"),
-  	filename="../data/GraphArchitecture/GraphArchitecture.html",
-  	launchBrowser=F
+  	launchBrowser=F,
+    output.mode='inline'
   )
+  sink()
 }
 
 # Start the connection to the graph

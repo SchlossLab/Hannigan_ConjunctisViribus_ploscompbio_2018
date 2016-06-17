@@ -2,3 +2,5 @@
 
 # Hannigan-2016-ConjunctisViribus
 Using graph database techniques to understand the infectious relationships between bacteria and phages.
+
+[Click Here To View Graph Architecture](file:///Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/data/GraphArchitecture/GraphArchitecture.html)

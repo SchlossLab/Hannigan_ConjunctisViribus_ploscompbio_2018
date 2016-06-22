@@ -5,22 +5,21 @@
 # University of Michigan
 
 #PBS -N DownloadPublishedVirome
-#PBS -A pschloss_flux
-#PBS -q flux
-#PBS -l qos=flux
-#PBS -l nodes=1:ppn=12,mem=64GB
-#PBS -l walltime=100:00:00
+#PBS -q first
+#PBS -l nodes=1:ppn=1,mem=40gb
+#PBS -l walltime=600:00:00
 #PBS -j oe
 #PBS -V
+#PBS -A schloss_lab
 
 #######################
 # Set the Environment #
 #######################
 
-export WorkingDirectory=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data
+export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
 export Output='PublishedViromeDatasets'
 
-export Metadatafile=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/PublishedDatasets/SutdyInformation.tsv
+export Metadatafile=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PublishedDatasets/SutdyInformation.tsv
 
 cd ${WorkingDirectory} || exit
 mkdir ./${Output}

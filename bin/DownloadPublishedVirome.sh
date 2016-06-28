@@ -12,6 +12,8 @@
 #PBS -V
 #PBS -A schloss_lab
 
+module load samtools/1.2
+
 #######################
 # Set the Environment #
 #######################
@@ -73,27 +75,37 @@ DownloadFromMicrobe () {
 	mv ./*.fasta.gz ./${Output}/"${line}"
 }
 
-############################
-# Run Through the Analysis #
-############################
+export -f DownloadFromSRA
+export -f DownloadFromMGRAST
+export -f DownloadFromMicrobe
 
-while read line; do
-	# Save the sixth variable, which is the archive type (e.g. SRA, MG-RAST)
-	ArchiveType=$(echo "${line}" | awk '{ print $6 }')
-	# Save the seventh variable, which is the archive accession number
-	AccNumber=$(echo "${line}" | awk '{ print $7 }')
-	echo Processing ${AccNumber} in ${ArchiveType}
-	# Now download the samples based on the archive type
-	if [ "${ArchiveType}" == "SRA" ]; then
-		DownloadFromSRA "${AccNumber}"
-	elif [ "${ArchiveType}" == "MGRAST" ]; then
-		DownloadFromMGRAST "${AccNumber}"
-	elif [ "${ArchiveType}" == "iMicrobe" ]; then
-		DownloadFromMicrobe "${AccNumber}"
-	elif [ "${ArchiveType}" == "ArchiveSystem" ]; then
-		echo Skipping file header.
-	else
-		echo Error in parsing accession numbers!
-	fi
-done < ${Metadatafile}
+# ############################
+# # Run Through the Analysis #
+# ############################
 
+# while read line; do
+# 	# Save the sixth variable, which is the archive type (e.g. SRA, MG-RAST)
+# 	ArchiveType=$(echo "${line}" | awk '{ print $6 }')
+# 	# Save the seventh variable, which is the archive accession number
+# 	AccNumber=$(echo "${line}" | awk '{ print $7 }')
+# 	echo Processing ${AccNumber} in ${ArchiveType}
+# 	# Now download the samples based on the archive type
+# 	if [ "${ArchiveType}" == "SRA" ]; then
+# 		DownloadFromSRA "${AccNumber}"
+# 	elif [ "${ArchiveType}" == "MGRAST" ]; then
+# 		DownloadFromMGRAST "${AccNumber}"
+# 	elif [ "${ArchiveType}" == "iMicrobe" ]; then
+# 		DownloadFromMicrobe "${AccNumber}"
+# 	elif [ "${ArchiveType}" == "ArchiveSystem" ]; then
+# 		echo Skipping file header.
+# 	else
+# 		echo Error in parsing accession numbers!
+# 	fi
+# done < ${Metadatafile}
+
+mkdir ./${Output}/raw
+
+for file in $(ls ./${Output}/PublishedViromeDatasets/*/*.sra); do
+	echo Processing file ${file}...
+	fastq-dump ${file} --outdir ./${Output}/raw
+done

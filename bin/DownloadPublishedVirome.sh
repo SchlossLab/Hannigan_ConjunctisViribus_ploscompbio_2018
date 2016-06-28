@@ -105,7 +105,7 @@ export -f DownloadFromMicrobe
 
 mkdir ./${Output}/raw
 
-for file in $(ls ./${Output}/PublishedViromeDatasets/*/*.sra); do
+for file in $(ls ./${Output}/*/*.sra); do
 	echo Processing file ${file}...
 	fastq-dump ${file} --outdir ./${Output}/raw
 done

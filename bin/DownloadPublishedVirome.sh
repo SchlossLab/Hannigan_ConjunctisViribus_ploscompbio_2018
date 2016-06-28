@@ -108,4 +108,5 @@ mkdir ./${Output}/raw
 for file in $(ls ./${Output}/*/*.sra); do
 	echo Processing file ${file}...
 	fastq-dump ${file} --outdir ./${Output}/raw
+	gzip ${file}
 done

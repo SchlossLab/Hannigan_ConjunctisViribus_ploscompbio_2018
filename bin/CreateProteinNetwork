@@ -18,7 +18,7 @@ unset http_proxy https_proxy ftp_proxy no_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY
 cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin || exit
 
 # Start neo4j server locally
-/home/ghannig/bin/neo4j-enterprise-2.3.2/bin/neo4j start
+/home/ghannig/bin/neo4j-enterprise-2.3.0/bin/neo4j start
 
 # 2/2 Again make sure it is unset
 unset http_proxy https_proxy ftp_proxy no_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY NO_PROXY
@@ -30,5 +30,5 @@ perl /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin/ProteinNe
 	-d ../data/phageSVA.dat
 
 # Stop local neo4j server
-/home/ghannig/bin/neo4j-enterprise-2.3.2/bin/neo4j stop
+/home/ghannig/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
 

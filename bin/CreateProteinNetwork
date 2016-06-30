@@ -15,20 +15,20 @@ module load med perl-modules
 unset http_proxy https_proxy ftp_proxy no_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY NO_PROXY
 
 # Move to working directory
-cd /scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin || exit
+cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin || exit
 
 # Start neo4j server locally
-/scratch/pschloss_flux/ghannig/bin/neo4j-enterprise-2.3.2/bin/neo4j start
+/home/ghannig/bin/neo4j-enterprise-2.3.2/bin/neo4j start
 
 # 2/2 Again make sure it is unset
 unset http_proxy https_proxy ftp_proxy no_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY NO_PROXY
 
 # Run network creation
-perl /scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/ProteinNetworkCreation.pl \
+perl /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin/ProteinNetworkCreation.pl \
 	-b ../data/PrepareProtClusters/BacteriaParsed.tsv \
 	-p ../data/PrepareProtClusters/PhageParsed.tsv \
 	-d ../data/phageSVA.dat
 
 # Stop local neo4j server
-/scratch/pschloss_flux/ghannig/bin/neo4j-enterprise-2.3.2/bin/neo4j stop
+/home/ghannig/bin/neo4j-enterprise-2.3.2/bin/neo4j stop
 

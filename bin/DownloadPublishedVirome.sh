@@ -114,9 +114,13 @@ export -f runFastx
 
 mkdir ./${Output}/raw
 
+# unzip the files first
 ls ./${Output}/*/*.sra.gz | xargs -I {} --max-procs=16 sh -c '
-	echo Processing file {}...
 	gunzip {}
+'
+
+ls ./${Output}/*/*.sra | xargs -I {} --max-procs=16 sh -c '
+	echo Processing file {}...
 	fastq-dump {} --outdir ./${Output}/raw
 	gzip {}
 '

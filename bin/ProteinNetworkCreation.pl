@@ -66,16 +66,16 @@ sub AddNodes {
 		++$progcounter;
 		chomp $line;
 		$line =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
-		my $name = (split /\t/, $line)[3];
-
+		my $uniqueid = (split /\t/, $line)[0];
+		
 		# Skip if it has already been added
-		my @n11 = REST::Neo4p->get_nodes_by_label( $name );
-		# die "Oh no! You have duplicate unique nodes: $!" if (scalar(@n11) gt 1);
+		my @n11 = REST::Neo4p->get_nodes_by_label( $uniqueid );
+		die "Oh no! You have duplicate unique nodes: $!" if (scalar(@n11) gt 1);
 		next if (@n11);
 
-		my $uniqueid = (split /\t/, $line)[0];
 		my $clusterid = (split /\t/, $line)[1];
 		my $acc = (split /\t/, $line)[2];
+		my $name = (split /\t/, $line)[3];
 		my $protname = (split /\t/, $line)[4];
 		my $percentid = (split /\t/, $line)[5];
 		$n1 = REST::Neo4p::Node->new( {UniqueID => $uniqueid} );
@@ -86,7 +86,7 @@ sub AddNodes {
 		$n1->set_property( {PercentID => $percentid} );
 		$n1->set_property( {Organism => $label} );
 		$n1->set_property( {DataType => "ReferenceGenes"} );
-		$n1->set_labels($label,$name);
+		$n1->set_labels($label,$uniqueid);
 		if ($label eq "Bacteria") {
 			my $Genus = (split /_/, $name)[0];
 			my $Species = $Genus."_".(split /_/, $name)[1];

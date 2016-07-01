@@ -22,6 +22,9 @@ export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisVi
 export Output='PublishedViromeDatasets'
 
 export Metadatafile=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PublishedDatasets/SutdyInformation.tsv
+export FastqFiles=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PublishedViromeDatasets/raw
+
+export fastx=/home/ghannig/bin/fastq_quality_trimmer
 
 cd ${WorkingDirectory} || exit
 mkdir ./${Output}
@@ -75,9 +78,15 @@ DownloadFromMicrobe () {
 	mv ./*.fasta.gz ./${Output}/"${line}"
 }
 
+runFastx () {
+	${fastx} -t 33 -Q 33 -l 75 -i "${1}" -o "${2}" || exit
+	rm "${1}"
+}
+
 export -f DownloadFromSRA
 export -f DownloadFromMGRAST
 export -f DownloadFromMicrobe
+export -f runFastx
 
 # ############################
 # # Run Through the Analysis #
@@ -105,8 +114,19 @@ export -f DownloadFromMicrobe
 
 mkdir ./${Output}/raw
 
-for file in $(ls ./${Output}/*/*.sra); do
-	echo Processing file ${file}...
-	fastq-dump ${file} --outdir ./${Output}/raw
-	gzip ${file}
+ls ./${Output}/*/*.sra | xargs -I {} --max-procs=16 sh -c '
+	echo Processing file {}...
+	gunzip {}
+	fastq-dump {} --outdir ./${Output}/raw
+	gzip {}
+'
+
+mkdir ./${Output}/qualityTrimmed
+
+for file in $(ls ${FastqFiles}); do
+	echo Quality Trimming...
+	echo File is ${file}
+	runFastx \
+			${FastqFiles}/${file} \
+			./${Output}/qualityTrimmed/${file}
 done

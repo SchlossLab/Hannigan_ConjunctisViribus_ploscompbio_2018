@@ -17,7 +17,7 @@ use Pod::Usage;
 # Be sure to set username and password as neo4j
 # User = 2nd value, PW = 3rd value
 eval {
-	REST::Neo4p->connect('http://localhost:7474/', "neo4j", "neo4j");
+	REST::Neo4p->connect('http://127.0.0.1:7474', "neo4j", "neo4j");
 };
 ref $@ ? $@->rethrow : die $@ if $@;
 
@@ -66,13 +66,18 @@ sub AddNodes {
 		++$progcounter;
 		chomp $line;
 		$line =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
+		my $name = (split /\t/, $line)[3];
+
+		# Skip if it has already been added
+		my @n11 = REST::Neo4p->get_nodes_by_label( $name );
+		# die "Oh no! You have duplicate unique nodes: $!" if (scalar(@n11) gt 1);
+		next if (@n11);
+
 		my $uniqueid = (split /\t/, $line)[0];
 		my $clusterid = (split /\t/, $line)[1];
 		my $acc = (split /\t/, $line)[2];
-		my $name = (split /\t/, $line)[3];
 		my $protname = (split /\t/, $line)[4];
 		my $percentid = (split /\t/, $line)[5];
-	
 		$n1 = REST::Neo4p::Node->new( {UniqueID => $uniqueid} );
 		$n1->set_property( {ClusterID => $clusterid} );
 		$n1->set_property( {Acccession => $acc} );

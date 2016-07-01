@@ -112,25 +112,23 @@ export -f runFastx
 # 	fi
 # done < ${Metadatafile}
 
-mkdir ./${Output}/raw
+# mkdir ./${Output}/raw
 
-# unzip the files first
-ls ./${Output}/*/*.sra.gz | xargs -I {} --max-procs=16 sh -c '
-	gunzip {}
-'
+# # unzip the files first
+# ls ./${Output}/*/*.sra.gz | xargs -I {} --max-procs=16 sh -c '
+# 	gunzip {}
+# '
 
-ls ./${Output}/*/*.sra | xargs -I {} --max-procs=16 sh -c '
-	echo Processing file {}...
-	fastq-dump {} --outdir ./${Output}/raw
-	gzip {}
-'
+# ls ./${Output}/*/*.sra | xargs -I {} --max-procs=16 sh -c '
+# 	echo Processing file {}...
+# 	fastq-dump {} --outdir ./${Output}/raw
+# 	gzip {}
+# '
 
 mkdir ./${Output}/qualityTrimmed
 
-for file in $(ls ${FastqFiles}); do
-	echo Quality Trimming...
-	echo File is ${file}
+ls ${FastqFiles} | xargs -I {} --max-procs=16 sh -c '
 	runFastx \
-			${FastqFiles}/${file} \
-			./${Output}/qualityTrimmed/${file}
-done
+			${FastqFiles}/{} \
+			./${Output}/qualityTrimmed/{}
+'

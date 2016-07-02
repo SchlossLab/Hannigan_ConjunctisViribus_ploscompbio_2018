@@ -112,18 +112,18 @@ export -f runFastx
 # 	fi
 # done < ${Metadatafile}
 
-# mkdir ./${Output}/raw
+mkdir ./${Output}/raw
 
-# # unzip the files first
-# ls ./${Output}/*/*.sra.gz | xargs -I {} --max-procs=16 sh -c '
-# 	gunzip {}
-# '
+# unzip the files first
+ls ./${Output}/*/*.sra.gz | xargs -I {} --max-procs=16 sh -c '
+	gunzip {}
+'
 
-# ls ./${Output}/*/*.sra | xargs -I {} --max-procs=16 sh -c '
-# 	echo Processing file {}...
-# 	fastq-dump {} --outdir ./${Output}/raw
-# 	gzip {}
-# '
+ls ./${Output}/*/*.sra | xargs -I {} --max-procs=16 sh -c '
+	echo Processing file {}...
+	fastq-dump --split-3 {} --outdir ./${Output}/raw
+	gzip {}
+'
 
 mkdir ./${Output}/qualityTrimmed
 

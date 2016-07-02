@@ -132,3 +132,6 @@ ls ${FastqFiles} | xargs -I {} --max-procs=16 sh -c '
 			${FastqFiles}/{} \
 			./${Output}/qualityTrimmed/{}
 '
+
+# Remove the now empty raw directory
+rm -r ./${Output}/raw

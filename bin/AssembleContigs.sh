@@ -42,7 +42,7 @@ export -f ConvertFq2Fa
 # Run Analysis #
 ################
 
-ls ${FastqFiles}/*R1.fastq | xargs -I {} --max-procs=16 sh -c '
+ls ${FastqFiles}/*_1.fastq | xargs -I {} --max-procs=16 sh -c '
 	filename=$(echo {} | sed 's/.*\///')
 	echo Processing file ${filename}...
 '

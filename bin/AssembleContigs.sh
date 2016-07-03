@@ -43,6 +43,7 @@ export -f ConvertFq2Fa
 ################
 
 ls ${FastqFiles}/*_1.fastq | xargs -I {} --max-procs=16 sh -c '
-	filename=$(echo {} | sed "s/.*\///g")
+	filename=$(echo {} | sed "s/.*\///g" | sed "s/_1.*//g")
 	echo Processing file ${filename}...
+	# Convert the first of the pairs
 '

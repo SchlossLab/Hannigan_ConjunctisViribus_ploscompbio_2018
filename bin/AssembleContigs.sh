@@ -42,8 +42,18 @@ export -f ConvertFq2Fa
 # Run Analysis #
 ################
 
+mkdir ./${Output}/fastaForAssembly
+
 ls ${FastqFiles}/*_1.fastq | xargs -I {} --max-procs=16 sh -c '
 	filename=$(echo {} | sed "s/.*\///g" | sed "s/_1.*//g")
 	echo Processing file ${filename}...
+	
 	# Convert the first of the pairs
+	ConvertFq2Fa \
+		${FastqFiles}/${filename}_1.fastq \
+		./${Output}/fastaForAssembly/${filename}_1.fa
+
+	ConvertFq2Fa \
+		${FastqFiles}/${filename}_2.fastq \
+		./${Output}/fastaForAssembly/${filename}_2.fa
 '

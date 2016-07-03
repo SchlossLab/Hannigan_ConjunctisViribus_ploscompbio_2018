@@ -17,11 +17,11 @@
 #######################
 
 export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
-export Output='Assembled Contigs'
+export Output='AssembledContigs'
 
 export FastqFiles=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PublishedViromeDatasets/qualityTrimmed
 
-export fastxfq2fa=/home/ghannig/bin/fastq_to_fasta
+export fastxfq2fa=/home/ghannig/bin/idba-1.1.1/bin/fq2fa
 
 cd ${WorkingDirectory} || exit
 mkdir ./${Output}
@@ -32,7 +32,7 @@ mkdir ./${Output}
 
 ConvertFq2Fa () {
 	# 1 = File Name
-	${fastxfq2fa} -i ${1} -o ${2}
+	${fastxfq2fa} --filter ${1} ${2}
 	rm ${1}
 }
 

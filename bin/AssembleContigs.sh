@@ -42,7 +42,7 @@ export -f ConvertFq2Fa
 # Run Analysis #
 ################
 
-ls /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PublishedViromeDatasets/qualityTrimmed/*_1.fastq | xargs -I {} --max-procs=16 sh -c '
+ls ${FastqFiles}/*_1.fastq | xargs -I {} --max-procs=16 sh -c '
 	filename=$(echo {} | sed "s/.*\///g")
 	echo Processing file ${filename}...
 '

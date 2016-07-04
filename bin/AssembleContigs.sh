@@ -22,6 +22,7 @@ export Output='AssembledContigs'
 export FastqFiles=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PublishedViromeDatasets/qualityTrimmed
 
 export fastxfq2fa=/home/ghannig/bin/idba-1.1.1/bin/fq2fa
+export idba=/home/ghannig/bin/idba-1.1.1/bin/idba_ud
 
 cd ${WorkingDirectory} || exit
 mkdir ./${Output}
@@ -31,18 +32,24 @@ mkdir ./${Output}
 ###################
 
 ConvertFq2Fa () {
-	# 1 = File Name
-	${fastxfq2fa} --filter ${1} ${2}
+	${fastxfq2fa} --filter --merge ${1} ${2} ${3}
 	rm ${1}
+	rm ${2}
+}
+
+AssembleContigs () {
+	${idba} -l ${1} -o ${2} --pre_correction --num_threads 1 --min_contig 1000
 }
 
 export -f ConvertFq2Fa
+export -f AssembleContigs
 
 ################
 # Run Analysis #
 ################
 
 mkdir ./${Output}/fastaForAssembly
+mkdir ./${Output}/FinalContigs
 
 ls ${FastqFiles}/*_1.fastq | xargs -I {} --max-procs=16 sh -c '
 	filename=$(echo {} | sed "s/.*\///g" | sed "s/_1.*//g")
@@ -51,9 +58,11 @@ ls ${FastqFiles}/*_1.fastq | xargs -I {} --max-procs=16 sh -c '
 	# Convert the first of the pairs
 	ConvertFq2Fa \
 		${FastqFiles}/${filename}_1.fastq \
-		./${Output}/fastaForAssembly/${filename}_1.fa
-
-	ConvertFq2Fa \
 		${FastqFiles}/${filename}_2.fastq \
-		./${Output}/fastaForAssembly/${filename}_2.fa
+		./${Output}/fastaForAssembly/${filename}_merged.fa
+
+	# Run the assembler
+	AssembleContigs \
+		./${Output}/fastaForAssembly/${filename}_merged.fa \
+		./${Output}/FinalContigs/${filename}_contigs
 '

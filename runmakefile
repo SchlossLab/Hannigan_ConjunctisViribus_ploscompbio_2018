@@ -6,13 +6,12 @@
 # Use this to submit the makefile to the server
 
 #PBS -N runmakefile
-#PBS -A pschloss_flux
-#PBS -q flux
-#PBS -l qos=flux
-#PBS -l nodes=1:ppn=12,mem=64GB
-#PBS -l walltime=100:00:00
+#PBS -q first
+#PBS -l nodes=1:ppn=1,mem=40gb
+#PBS -l walltime=600:00:00
 #PBS -j oe
 #PBS -V
+#PBS -A schloss_lab
 
 # Set working directory
 cd /scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus || exit

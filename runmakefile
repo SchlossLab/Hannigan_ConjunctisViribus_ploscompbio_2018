@@ -14,7 +14,7 @@
 #PBS -A schloss_lab
 
 # Set working directory
-cd /scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus || exit
+cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
 make

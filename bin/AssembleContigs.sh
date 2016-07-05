@@ -48,21 +48,26 @@ export -f AssembleContigs
 # Run Analysis #
 ################
 
-mkdir ./${Output}/fastaForAssembly
-mkdir ./${Output}/FinalContigs
+# mkdir ./${Output}/fastaForAssembly
+# mkdir ./${Output}/FinalContigs
 
-ls ${FastqFiles}/*_1.fastq | xargs -I {} --max-procs=4 sh -c '
-	filename=$(echo {} | sed "s/.*\///g" | sed "s/_1.*//g")
-	echo Processing file ${filename}...
+# ls ${FastqFiles}/*_1.fastq | xargs -I {} --max-procs=4 sh -c '
+# 	filename=$(echo {} | sed "s/.*\///g" | sed "s/_1.*//g")
+# 	echo Processing file ${filename}...
 	
-	# Convert the first of the pairs
-	ConvertFq2Fa \
-		${FastqFiles}/${filename}_1.fastq \
-		${FastqFiles}/${filename}_2.fastq \
-		./${Output}/fastaForAssembly/${filename}_merged.fa
+# 	# Convert the first of the pairs
+# 	ConvertFq2Fa \
+# 		${FastqFiles}/${filename}_1.fastq \
+# 		${FastqFiles}/${filename}_2.fastq \
+# 		./${Output}/fastaForAssembly/${filename}_merged.fa
 
-	# Run the assembler
-	AssembleContigs \
-		./${Output}/fastaForAssembly/${filename}_merged.fa \
-		./${Output}/FinalContigs/${filename}_contigs
+# 	# Run the assembler
+# 	AssembleContigs \
+# 		./${Output}/fastaForAssembly/${filename}_merged.fa \
+# 		./${Output}/FinalContigs/${filename}_contigs
+# '
+
+ls ./${Output}/FinalContigs/ | xargs -I {} --max-procs=4 sh -c '
+	filename=$(echo {} | sed "s/.*\///g" | sed "s/_1.*//g")
+	cp ./${Output}/FinalContigs/${filename}/contig.fa ./${Output}/FinalContigs/${filename}_contig.fa
 '

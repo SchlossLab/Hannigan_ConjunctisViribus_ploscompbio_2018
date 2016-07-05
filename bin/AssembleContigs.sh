@@ -69,5 +69,5 @@ export -f AssembleContigs
 
 ls ./${Output}/FinalContigs/ | xargs -I {} --max-procs=4 sh -c '
 	filename=$(echo {} | sed "s/.*\///g" | sed "s/_1.*//g")
-	cp ./${Output}/FinalContigs/${filename}/contig.fa ./${Output}/FinalContigs/${filename}_contig.fa
+	cp ./${Output}/FinalContigs/${filename}/contig.fa ./${Output}/FinalContigs/${filename}.fa
 '

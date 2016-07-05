@@ -4,12 +4,13 @@
 # Pat Schloss Lab
 # University of Michigan
 # WARNING: This cannot take block formatted fasta files!
+# WARNING: This contains a tmp directory removal step!
 
 ##############################
 # Default Values and CL Args #
 ##############################
 # Set pilerCR path
-export ProdigalPath=/scratch/pschloss_flux/ghannig/bin/
+export ProdigalPath=/mnt/EXT/Schloss-data/bin
 # Maximum input file size in bytes
 export MaxFileSize=25000000 #25 MB
 export FastaInput=$1
@@ -44,7 +45,7 @@ else
 fi
 
 # Now run pilerCR on the files
-ls ./tmp/* | xargs -I {} --max-procs=512 ${ProdigalPath}prodigal.linux -c -i {} -o {}.genes -a {}.out -p meta
+ls ./tmp/* | xargs -I {} --max-procs=512 ${ProdigalPath}/prodigal -c -i {} -o {}.genes -a {}.out -p meta
 
 # Collect the results together
 cat ./tmp/*.out > ./"${OutputName}"
@@ -56,4 +57,3 @@ else
 	echo "Removing tmp dir..."
 	rm -r ./tmp
 fi
-

@@ -17,6 +17,7 @@
 #######################
 
 export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
+export ProjectBin=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin
 export Output='AssembledContigs'
 
 export FastqFiles=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PublishedViromeDatasets/qualityTrimmed
@@ -67,7 +68,14 @@ export -f AssembleContigs
 # 		./${Output}/FinalContigs/${filename}_contigs
 # '
 
-ls ./${Output}/FinalContigs/ | xargs -I {} --max-procs=4 sh -c '
-	filename=$(echo {} | sed "s/.*\///g" | sed "s/_1.*//g")
-	cp ./${Output}/FinalContigs/${filename}/contig.fa ./${Output}/FinalContigs/${filename}.fa
-'
+# ls ./${Output}/FinalContigs/ | xargs -I {} --max-procs=4 sh -c '
+# 	filename=$(echo {} | sed "s/.*\///g" | sed "s/_1.*//g")
+# 	cp ./${Output}/FinalContigs/${filename}/contig.fa ./${Output}/FinalContigs/${filename}.fa
+# 	rm -r ./${Output}/FinalContigs/${filename}
+# '
+
+mkdir ./${Output}/ContigOrfs
+
+for file in $(ls ./${Output}/FinalContigs/); do
+	${ProjectBin}/ProdigalWrapperLargeFiles.sh ./${Output}/FinalContigs/${file} ./${Output}/ContigOrfs/${file}
+done

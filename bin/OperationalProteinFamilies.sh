@@ -26,6 +26,7 @@ export fastxfq2fa=/home/ghannig/bin/idba-1.1.1/bin/fq2fa
 export idba=/home/ghannig/bin/idba-1.1.1/bin/idba_ud
 export SchlossBin=/scratch/pschloss_flux/ghannig/bin/
 export LocalBin=/home/ghannig/bin/
+export RemoveBlock=/mnt/EXT/Schloss-data/ghannig/OpenMetagenomeToolkit/pakbin/remove_block_fasta_format.pl
 
 cd ${WorkingDirectory} || exit
 mkdir ./${Output}
@@ -40,7 +41,7 @@ GetProteinHits () {
 	# 3 = Output File
 
 	# Create diamond database
-	echo Creating Bacteria Gene Database...
+	echo Creating Diamond Database
 	${SchlossBin}diamond makedb \
 		--in "${2}" \
 		-d ./${Output}/DiamondReference
@@ -60,15 +61,15 @@ GetProteinHits () {
 EstablishOpfs () {
 	# 1 = Open Reading Frame fasta
 
-	mkdir ./${Output}/OpfBlastDb
-
 	# Blast them to themselves for clustering
+	echo Running Diamond Local Alignment
 	GetProteinHits \
 		${1} \
 		${1} \
 		./${Output}/OpfBlastResults.blast
 
     # Cluster the ORFs into OPS using blast output
+    echo Running Mothur Clustering
     ${MothurProg} "#mgcluster(blast=./${Output}/OpfBlastResults.blast, cutoff=0.75)"
 
     # Create alignment file
@@ -102,4 +103,7 @@ export -f EstablishOpfs
 
 cat ${FastaFiles}/* > ./${Output}/TotalOrfs.fa
 
-EstablishOpfs ./${Output}/TotalOrfs.fa
+# Remove block
+perl ${RemoveBlock} ./${Output}/TotalOrfs.fa ./${Output}/TotalOrfsNoBlock.fa 
+
+EstablishOpfs ./${Output}/TotalOrfsNoBlock.fa

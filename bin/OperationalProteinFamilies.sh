@@ -67,30 +67,30 @@ EstablishOpfs () {
 		${1} \
 		${1}
 
- #    # Cluster the ORFs into OPS using blast output
- #    echo Running Mothur Clustering
- #    ${MothurProg} "#mgcluster(blast=./${Output}/OpfBlastResults.blast, cutoff=0.75)"
+    # Cluster the ORFs into OPS using blast output
+    echo Running Mothur Clustering
+    ${MothurProg} "#mgcluster(blast=./${Output}/OpfBlastResults.blast, cutoff=0.75)"
 
- #    # Create alignment file
- #    ${LocalBin}mafft-linux64/mafft.bat \
- #    	${1} \
- #    	> ./${Output}/OrfAlignment.fa
+    # Create alignment file
+    ${LocalBin}mafft-linux64/mafft.bat \
+    	${1} \
+    	> ./${Output}/OrfAlignment.fa
 
- #    # Create dist matrix for picking representative OPF seqs
- #    ${MothurProg} "#dist.seqs(fasta=./${Output}/OrfAlignment.fa, output=lt)"
+    # Create dist matrix for picking representative OPF seqs
+    ${MothurProg} "#dist.seqs(fasta=./${Output}/OrfAlignment.fa, output=lt)"
 
- #    # Now get the rep seuqneces
- #    ${MothurProg} "#get.oturep(phylip=./${Output}/OrfAlignment.phylip.dist, list=./${Output}/OpfBlastResults.an.list, fasta=${1}, label=0.22)"
+    # Now get the rep seuqneces
+    ${MothurProg} "#get.oturep(phylip=./${Output}/OrfAlignment.phylip.dist, list=./${Output}/OpfBlastResults.an.list, fasta=${1}, label=0.22)"
 
- #    # And format the file
- #    sed -i 's/\t/_/g' ./${Output}/OpfBlastResults.an.0.22.rep.fasta
- #    sed -i 's/|/_/g' ./${Output}/OpfBlastResults.an.0.22.rep.fasta
+    # And format the file
+    sed -i 's/\t/_/g' ./${Output}/OpfBlastResults.an.0.22.rep.fasta
+    sed -i 's/|/_/g' ./${Output}/OpfBlastResults.an.0.22.rep.fasta
 
-	# # Make master reference ID list
-	# sed -n 1~2p ./${Output}/OpfBlastResults.an.0.22.rep.fasta \
-	# | sed s'/>//g' \
-	# | sed '1 s/^/Reference_ID\n/' \
-	# > ./${Output}/MasterReferenceList.tsv
+	# Make master reference ID list
+	sed -n 1~2p ./${Output}/OpfBlastResults.an.0.22.rep.fasta \
+	| sed s'/>//g' \
+	| sed '1 s/^/Reference_ID\n/' \
+	> ./${Output}/MasterReferenceList.tsv
 }
 
 export -f GetProteinHits

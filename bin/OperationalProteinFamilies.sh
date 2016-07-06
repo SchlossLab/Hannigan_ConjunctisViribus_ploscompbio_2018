@@ -24,7 +24,7 @@ export FastaFiles=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/
 
 export fastxfq2fa=/home/ghannig/bin/idba-1.1.1/bin/fq2fa
 export idba=/home/ghannig/bin/idba-1.1.1/bin/idba_ud
-export SchlossBin=/scratch/pschloss_flux/ghannig/bin/
+export SchlossBin=/mnt/EXT/Schloss-data/bin/
 export LocalBin=/home/ghannig/bin/
 export RemoveBlock=/mnt/EXT/Schloss-data/ghannig/OpenMetagenomeToolkit/pakbin/remove_block_fasta_format.pl
 

@@ -101,7 +101,7 @@ export -f EstablishOpfs
 # Run Analysis #
 ################
 
-cat ${FastaFiles}/* > ./${Output}/TotalOrfs.fa
+cat ${FastaFiles}/* | sed 's/\*//g' > ./${Output}/TotalOrfs.fa
 
 # Remove block
 perl ${RemoveBlock} ./${Output}/TotalOrfs.fa ./${Output}/TotalOrfsNoBlock.fa 

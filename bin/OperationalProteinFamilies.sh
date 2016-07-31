@@ -103,16 +103,16 @@ export -f EstablishOpfs
 
 
 
-# Get together the sequences
+# # Get together the sequences
 
-cat ${FastaSequences}/* | sed 's/\*//g' > ./${Output}/TotalSeqs.fa
-cat ${FastaFiles}/*.nucleotide | sed 's/\*//g' > ./${Output}/TotalOrfsNucl.fa
+# cat ${FastaSequences}/* | sed 's/\*//g' > ./${Output}/TotalSeqs.fa
+# cat ${FastaFiles}/*.nucleotide | sed 's/\*//g' > ./${Output}/TotalOrfsNucl.fa
 
-# Remove block
-perl ${RemoveBlock} ./${Output}/TotalOrfsNucl.fa ./${Output}/TotalOrfsNuclNoBlock.fa
+# # Remove block
+# perl ${RemoveBlock} ./${Output}/TotalOrfsNucl.fa ./${Output}/TotalOrfsNuclNoBlock.fa
 
-sed -i 's/\/n//g' ./${Output}/TotalSeqs.fa
+# sed -i 's/\/n//g' ./${Output}/TotalSeqs.fa
 
 GetProteinHits \
-	./${Output}/TotalSeqs.fa
+	./${Output}/TotalSeqs.fa \
 	./${Output}/TotalOrfsNuclNoBlock.fa

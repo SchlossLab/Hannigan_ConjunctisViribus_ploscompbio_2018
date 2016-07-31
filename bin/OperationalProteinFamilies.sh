@@ -62,8 +62,9 @@ EstablishOpfs () {
 	# 1 = Open Reading Frame fasta
 
 	# Set MMseqs variables
-	export MMDIR=$(/home/ghannig/bin/mmseqs2)
+	export MMDIR=/home/ghannig/bin/mmseqs2
 	export PATH=$MMDIR/bin:$PATH
+	echo Path is $PATH
 
 	cd ./${Output}
 

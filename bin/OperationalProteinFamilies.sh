@@ -28,6 +28,10 @@ export SchlossBin=/mnt/EXT/Schloss-data/bin/
 export LocalBin=/home/ghannig/bin/
 export RemoveBlock=/mnt/EXT/Schloss-data/ghannig/OpenMetagenomeToolkit/pakbin/remove_block_fasta_format.pl
 
+# Set MMseqs variables
+export MMDIR=$(/home/ghannig/bin/mmseqs2)
+export PATH=$MMDIR/bin:$PATH
+
 cd ${WorkingDirectory} || exit
 mkdir ./${Output}
 
@@ -61,36 +65,17 @@ GetProteinHits () {
 EstablishOpfs () {
 	# 1 = Open Reading Frame fasta
 
-	# Blast them to themselves for clustering
-	echo Running Diamond Local Alignment
-	GetProteinHits \
-		${1} \
-		${1}
+	cd ./${Output}
 
-    # Cluster the ORFs into OPS using blast output
-    echo Running Mothur Clustering
-    ${MothurProg} "#mgcluster(blast=./${Output}/OpfBlastResults.blast, cutoff=0.75)"
+	# Create database
+	mmseqs createdb ./TotalOrfsNoBlock.fa DB
 
-    # Create alignment file
-    ${LocalBin}mafft-linux64/mafft.bat \
-    	${1} \
-    	> ./${Output}/OrfAlignment.fa
+	mkdir ./tmp
+    mmseqs clusteringworkflow DB clu tmp
 
-    # Create dist matrix for picking representative OPF seqs
-    ${MothurProg} "#dist.seqs(fasta=./${Output}/OrfAlignment.fa, output=lt)"
-
-    # Now get the rep seuqneces
-    ${MothurProg} "#get.oturep(phylip=./${Output}/OrfAlignment.phylip.dist, list=./${Output}/OpfBlastResults.an.list, fasta=${1}, label=0.22)"
-
-    # And format the file
-    sed -i 's/\t/_/g' ./${Output}/OpfBlastResults.an.0.22.rep.fasta
-    sed -i 's/|/_/g' ./${Output}/OpfBlastResults.an.0.22.rep.fasta
-
-	# Make master reference ID list
-	sed -n 1~2p ./${Output}/OpfBlastResults.an.0.22.rep.fasta \
-	| sed s'/>//g' \
-	| sed '1 s/^/Reference_ID\n/' \
-	> ./${Output}/MasterReferenceList.tsv
+    # Convert to fasta
+    mmseqs addsequences clu DB clu_seq
+    mmseqs createfasta DB DB clu_seq clu_seq.fasta
 }
 
 export -f GetProteinHits
@@ -100,11 +85,11 @@ export -f EstablishOpfs
 # Run Analysis #
 ################
 
-cat ${FastaFiles}/* | sed 's/\*//g' > ./${Output}/TotalOrfs.fa
+# cat ${FastaFiles}/* | sed 's/\*//g' > ./${Output}/TotalOrfs.fa
 
-# Remove block
-perl ${RemoveBlock} ./${Output}/TotalOrfs.fa ./${Output}/TotalOrfsNoBlock.fa
+# # Remove block
+# perl ${RemoveBlock} ./${Output}/TotalOrfs.fa ./${Output}/TotalOrfsNoBlock.fa
 
-sed -i 's/\/n//g' ./${Output}/TotalOrfsNoBlock.fa
+# sed -i 's/\/n//g' ./${Output}/TotalOrfsNoBlock.fa
 
-EstablishOpfs ./${Output}/TotalOrfsNoBlock.fa
+EstablishOpfs

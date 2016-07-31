@@ -28,10 +28,6 @@ export SchlossBin=/mnt/EXT/Schloss-data/bin/
 export LocalBin=/home/ghannig/bin/
 export RemoveBlock=/mnt/EXT/Schloss-data/ghannig/OpenMetagenomeToolkit/pakbin/remove_block_fasta_format.pl
 
-# Set MMseqs variables
-export MMDIR=$(/home/ghannig/bin/mmseqs2)
-export PATH=$MMDIR/bin:$PATH
-
 cd ${WorkingDirectory} || exit
 mkdir ./${Output}
 
@@ -64,6 +60,10 @@ GetProteinHits () {
 
 EstablishOpfs () {
 	# 1 = Open Reading Frame fasta
+
+	# Set MMseqs variables
+	export MMDIR=$(/home/ghannig/bin/mmseqs2)
+	export PATH=$MMDIR/bin:$PATH
 
 	cd ./${Output}
 

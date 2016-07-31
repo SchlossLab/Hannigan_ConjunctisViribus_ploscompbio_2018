@@ -40,22 +40,25 @@ GetProteinHits () {
 	# 1 = Input Orfs
 	# 2 = Reference Orfs
 
-	# Create diamond database
-	echo Creating Diamond Database
-	${SchlossBin}diamond makedb \
-		--in "${2}" \
-		-d ./${Output}/DiamondReference
+	mkdir ./${Output}/bowtieReference
 
-	# Use blast to get hits of ORFs to Uniprot genes
-	${SchlossBin}diamond blastx \
-		-q "${1}" \
-		-d ./${Output}/DiamondReference \
-		-a ./${Output}/Blastx.daa \
-		-t ./
+	bowtie2-build \
+		-f ${2} \
+		./${Output}/bowtieReference/bowtieReference
 
-	${SchlossBin}diamond view \
-		-a ./${Output}/Blastx.daa \
-		-o ./${Output}/OpfBlastResults.blast
+	bowtie2 \
+		-x ./${Output}/bowtieReference/bowtieReference \
+		-f ${1} \
+		-S ./${Output}/${1}-bowtie.sam \
+		-p 32 \
+		-L 25 \
+		-N 1
+
+	# Quantify alignment hits
+	perl \
+		${ProjectBin}calculate_abundance_from_sam.pl \
+			./${Output}/${1}-bowtie.sam \
+			./${Output}/${1}-bowtie.tsv
 }
 
 EstablishOpfs () {
@@ -103,9 +106,13 @@ export -f EstablishOpfs
 # Get together the sequences
 
 cat ${FastaSequences}/* | sed 's/\*//g' > ./${Output}/TotalSeqs.fa
+cat ${FastaFiles}/*.nucleotide | sed 's/\*//g' > ./${Output}/TotalOrfsNucl.fa
+
+# Remove block
+perl ${RemoveBlock} ./${Output}/TotalOrfsNucl.fa ./${Output}/TotalOrfsNuclNoBlock.fa
 
 sed -i 's/\/n//g' ./${Output}/TotalSeqs.fa
 
 GetProteinHits \
 	./${Output}/TotalSeqs.fa
-	./${Output}/TotalOrfsNoBlock.fa
+	./${Output}/TotalOrfsNuclNoBlock.fa

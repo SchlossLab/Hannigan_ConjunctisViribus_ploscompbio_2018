@@ -49,7 +49,7 @@ GetProteinHits () {
 	bowtie2 \
 		-x ./${Output}/bowtieReference/bowtieReference \
 		-f ${1} \
-		-S ./${Output}/${1}-bowtie.sam \
+		-S ${1}-bowtie.sam \
 		-p 32 \
 		-L 25 \
 		-N 1
@@ -57,8 +57,8 @@ GetProteinHits () {
 	# Quantify alignment hits
 	perl \
 		${ProjectBin}calculate_abundance_from_sam.pl \
-			./${Output}/${1}-bowtie.sam \
-			./${Output}/${1}-bowtie.tsv
+			${1}-bowtie.sam \
+			${1}-bowtie.tsv
 }
 
 EstablishOpfs () {

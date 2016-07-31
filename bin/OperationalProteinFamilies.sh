@@ -21,6 +21,7 @@ export ProjectBin=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/
 export Output='OPFs'
 
 export FastaFiles=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/AssembledContigs/ContigOrfs
+export FastaSequences=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/AssembledContigs/fastaForAssembly
 
 export fastxfq2fa=/home/ghannig/bin/idba-1.1.1/bin/fq2fa
 export idba=/home/ghannig/bin/idba-1.1.1/bin/idba_ud
@@ -38,7 +39,6 @@ mkdir ./${Output}
 GetProteinHits () {
 	# 1 = Input Orfs
 	# 2 = Reference Orfs
-	# 3 = Output File
 
 	# Create diamond database
 	echo Creating Diamond Database
@@ -47,7 +47,7 @@ GetProteinHits () {
 		-d ./${Output}/DiamondReference
 
 	# Use blast to get hits of ORFs to Uniprot genes
-	${SchlossBin}diamond blastp \
+	${SchlossBin}diamond blastx \
 		-q "${1}" \
 		-d ./${Output}/DiamondReference \
 		-a ./${Output}/Blastx.daa \
@@ -64,9 +64,9 @@ EstablishOpfs () {
 	# Set MMseqs variables
 	export MMDIR=/home/ghannig/bin/mmseqs2
 	export PATH=$MMDIR/bin:$PATH
-	echo Path is $PATH
+	echo Path is "$PATH"
 
-	cd ./${Output}
+	cd ./${Output} || exit
 
 	# Create database
 	mmseqs createdb ./TotalOrfsNoBlock.fa DB
@@ -77,6 +77,9 @@ EstablishOpfs () {
     # Convert to fasta
     mmseqs addsequences clu DB clu_seq
     mmseqs createfasta DB DB clu_seq clu_seq.fasta
+
+    # Back out of the directory
+    cd .. || exit
 }
 
 export -f GetProteinHits
@@ -93,4 +96,16 @@ export -f EstablishOpfs
 
 # sed -i 's/\/n//g' ./${Output}/TotalOrfsNoBlock.fa
 
-EstablishOpfs
+# EstablishOpfs
+
+
+
+# Get together the sequences
+
+cat ${FastaSequences}/* | sed 's/\*//g' > ./${Output}/TotalSeqs.fa
+
+sed -i 's/\/n//g' ./${Output}/TotalSeqs.fa
+
+GetProteinHits \
+	./${Output}/TotalSeqs.fa
+	./${Output}/TotalOrfsNoBlock.fa

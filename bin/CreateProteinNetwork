@@ -21,11 +21,13 @@ cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin || exit
 # Start neo4j server locally
 /home/ghannig/bin/neo4j-enterprise-2.3.0/bin/neo4j start
 
-# 2/2 Again make sure it is unset
-unset http_proxy https_proxy ftp_proxy no_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY NO_PROXY
+# # 2/2 Again make sure it is unset
+# unset http_proxy https_proxy ftp_proxy no_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY NO_PROXY
 
 # Run network creation
 # /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin/ProteinNetworkCreation.pl
+
+echo Running Script...
 
 perl ./ProteinNetworkCreation.pl \
 	-b ../data/PrepareProtClusters/BacteriaParsed.tsv \

@@ -25,7 +25,9 @@ cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin || exit
 unset http_proxy https_proxy ftp_proxy no_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY NO_PROXY
 
 # Run network creation
-perl /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin/ProteinNetworkCreation.pl \
+# /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin/ProteinNetworkCreation.pl
+
+perl ./ProteinNetworkCreation.pl \
 	-b ../data/PrepareProtClusters/BacteriaParsed.tsv \
 	-p ../data/PrepareProtClusters/PhageParsed.tsv \
 	-d ../data/phageSVA.dat

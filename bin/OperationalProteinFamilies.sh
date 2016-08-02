@@ -17,7 +17,7 @@
 #######################
 
 export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
-export ProjectBin=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin
+export ProjectBin=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin/
 export Output='OPFs'
 
 export FastaFiles=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/AssembledContigs/ContigOrfs
@@ -40,19 +40,19 @@ GetProteinHits () {
 	# 1 = Input Orfs
 	# 2 = Reference Orfs
 
-	mkdir ./${Output}/bowtieReference
+	# mkdir ./${Output}/bowtieReference
 
-	bowtie2-build \
-		-f ${2} \
-		./${Output}/bowtieReference/bowtieReference
+	# bowtie2-build \
+	# 	-f ${2} \
+	# 	./${Output}/bowtieReference/bowtieReference
 
-	bowtie2 \
-		-x ./${Output}/bowtieReference/bowtieReference \
-		-f ${1} \
-		-S ${1}-bowtie.sam \
-		-p 32 \
-		-L 25 \
-		-N 1
+	# bowtie2 \
+	# 	-x ./${Output}/bowtieReference/bowtieReference \
+	# 	-f ${1} \
+	# 	-S ${1}-bowtie.sam \
+	# 	-p 32 \
+	# 	-L 25 \
+	# 	-N 1
 
 	# Quantify alignment hits
 	perl \

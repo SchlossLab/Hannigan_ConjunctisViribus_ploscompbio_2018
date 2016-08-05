@@ -40,19 +40,19 @@ GetProteinHits () {
 	# 1 = Input Orfs
 	# 2 = Reference Orfs
 
-	# mkdir ./${Output}/bowtieReference
+	mkdir ./${Output}/bowtieReference
 
-	# bowtie2-build \
-	# 	-f ${2} \
-	# 	./${Output}/bowtieReference/bowtieReference
+	bowtie2-build \
+		-f ${2} \
+		./${Output}/bowtieReference/bowtieReference
 
-	# bowtie2 \
-	# 	-x ./${Output}/bowtieReference/bowtieReference \
-	# 	-f ${1} \
-	# 	-S ${1}-bowtie.sam \
-	# 	-p 32 \
-	# 	-L 25 \
-	# 	-N 1
+	bowtie2 \
+		-x ./${Output}/bowtieReference/bowtieReference \
+		-f ${1} \
+		-S ${1}-bowtie.sam \
+		-p 32 \
+		-L 25 \
+		-N 1
 
 	# Quantify alignment hits
 	perl \
@@ -113,6 +113,20 @@ export -f EstablishOpfs
 
 # sed -i 's/\/n//g' ./${Output}/TotalSeqs.fa
 
-GetProteinHits \
-	./${Output}/TotalSeqs.fa \
-	./${Output}/TotalOrfsNuclNoBlock.fa
+# GetProteinHits \
+# 	./${Output}/TotalSeqs.fa \
+# 	./${Output}/TotalOrfsNuclNoBlock.fa
+
+# I also want to go through each of the samples and map the reads so that I can
+# look at the core and pan OPFs.
+
+# First make a master list of the ORF IDs
+sed -n 1~2p ./${Output}/TotalOrfsNuclNoBlock.fa | sed s'/>//g' | sed 's/ .*$//' | sed '1 s/^/Contig_ID\n/' > ./${Output}/MasterOpfList.txt
+
+for file in $(ls ${FastaFiles}/*.nucleotide | sed "s/.*\///g"); do
+	GetProteinHits \
+		${FastaFiles}/${file} \
+		./${Output}/TotalOrfsNuclNoBlock.fa
+done
+
+

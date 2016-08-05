@@ -125,7 +125,7 @@ sed -n 1~2p ./${Output}/TotalOrfsNuclNoBlock.fa | sed s'/>//g' | sed 's/ .*$//' 
 
 for file in $(ls ${FastaFiles}/*.nucleotide | sed "s/.*\///g"); do
 	GetProteinHits \
-		${FastaFiles}/${file} \
+		${FastaSequences}/${file} \
 		./${Output}/TotalOrfsNuclNoBlock.fa
 done
 

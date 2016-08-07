@@ -123,7 +123,7 @@ export -f EstablishOpfs
 # First make a master list of the ORF IDs
 sed -n 1~2p ./${Output}/TotalOrfsNuclNoBlock.fa | sed s'/>//g' | sed 's/ .*$//' | sed '1 s/^/Contig_ID\n/' > ./${Output}/MasterOpfList.txt
 
-for file in $(ls ${FastaFiles}/*.nucleotide | sed "s/.*\///g"); do
+for file in $(ls ${FastaSequences}/* | sed "s/.*\///g"); do
 	GetProteinHits \
 		${FastaSequences}/${file} \
 		./${Output}/TotalOrfsNuclNoBlock.fa

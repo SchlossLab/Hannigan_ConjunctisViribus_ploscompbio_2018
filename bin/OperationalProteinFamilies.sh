@@ -120,13 +120,30 @@ export -f EstablishOpfs
 # I also want to go through each of the samples and map the reads so that I can
 # look at the core and pan OPFs.
 
-# First make a master list of the ORF IDs
-sed -n 1~2p ./${Output}/TotalOrfsNuclNoBlock.fa | sed s'/>//g' | sed 's/ .*$//' | sed '1 s/^/Contig_ID\n/' > ./${Output}/MasterOpfList.txt
+# # First make a master list of the ORF IDs
+# sed -n 1~2p ./${Output}/TotalOrfsNuclNoBlock.fa \
+# 	| sed s'/>//g' \
+# 	| sed 's/ .*$//' \
+# 	| sed '1 s/^/Contig_ID\n/' \
+# 	> ./${Output}/MasterOpfList.txt
 
 for file in $(ls ${FastaSequences}/* | sed "s/.*\///g"); do
-	GetProteinHits \
-		${FastaSequences}/${file} \
-		./${Output}/TotalOrfsNuclNoBlock.fa
+	# GetProteinHits \
+	# 	${FastaSequences}/${file} \
+	# 	./${Output}/TotalOrfsNuclNoBlock.fa
+
+	awk 'FNR==NR {a[$1]=$2;next}{ print $1"\t"a[$1] }' \
+			${FastaSequences}/${file}-bowtie.tsv\
+			./${Output}/MasterOpfList.txt \
+		| sed '/[0-9]\t[0-9]/!s/$/0/' \
+		| sed '1 s/\t0//' \
+		| sed '1 s/0$//' \
+		| cut -f 2 \
+		> ./${Output}/${file}-joined
 done
 
-
+# Paste together the files
+paste \
+	./${Output}/MasterOpfList.txt \
+	./${Output}/*-joined \
+	> ./OpfAbundanceTable.tsv

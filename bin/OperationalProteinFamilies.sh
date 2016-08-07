@@ -127,7 +127,7 @@ export -f EstablishOpfs
 # 	| sed '1 s/^/Contig_ID\n/' \
 # 	> ./${Output}/MasterOpfList.txt
 
-for file in $(ls ${FastaSequences}/* | sed "s/.*\///g"); do
+for file in $(ls ${FastaSequences}/*_merged.fa | sed "s/.*\///g"); do
 	# GetProteinHits \
 	# 	${FastaSequences}/${file} \
 	# 	./${Output}/TotalOrfsNuclNoBlock.fa

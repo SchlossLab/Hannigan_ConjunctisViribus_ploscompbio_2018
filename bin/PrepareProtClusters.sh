@@ -23,15 +23,15 @@ module load R/3.2.2
 #################
 
 # Paths
-export WorkingDirectory=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data
-export FigureDir=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/figures
+export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
+export FigureDir=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/figures
 export Output='PrepareProtClusters'
-export BinPath=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
-export BigBin=/scratch/pschloss_flux/ghannig/bin/
+export BinPath=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin/
+export BigBin=/mnt/EXT/Schloss-data/bin/
 
 # Files
-export PhageDat=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/phageSVA.dat
-export BacteriaDat=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/bacteriaSVA.dat
+export PhageDat=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/phageSVA.dat
+export BacteriaDat=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/bacteriaSVA.dat
 
 # Should we run the benchmarking scripts?
 export Benching=false
@@ -65,7 +65,7 @@ ClusterProteins () {
 	# 2 = Input Fasta
 	# 3 = Similarity Cutoff Threshold (Default should be 0.9)
 
-	${BigBin}cd-hit-v4.6.5-2016-0304/cd-hit \
+	${BigBin}/cd-hit \
 		-i "${2}" \
 		-o ./${Output}/"${1}"Clustered.fa \
 		-c "${3}" \

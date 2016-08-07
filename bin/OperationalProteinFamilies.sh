@@ -146,4 +146,4 @@ done
 paste \
 	./${Output}/MasterOpfList.txt \
 	./${Output}/*-joined \
-	> ./OpfAbundanceTable.tsv
+	> ./${Output}/OpfAbundanceTable.tsv

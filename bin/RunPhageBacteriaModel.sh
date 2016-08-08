@@ -168,6 +168,8 @@ bash ${BinPath}PfamDomainInteractPrediction.sh \
 	./${Output}/PhageReferenceOrfs.fa \
 	./${Output}/BacteriaReferenceOrfs.fa \
 	./${Output}/PfamInteractions.tsv \
+	"/mnt/EXT/Schloss-data/bin/" \
+	"/home/ghannig/Pfam/" \
 	|| exit
 
 # Format the output

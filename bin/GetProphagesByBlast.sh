@@ -12,17 +12,13 @@
 #######################
 # Set the Environment #
 #######################
-export WorkingDirectory=${5}
+export WorkingDirectory=${4}
 export Output='tmp'
-export BlastPath=/scratch/pschloss_flux/ghannig/bin/ncbi-blast-2.3.0+/bin/
-export SchlossBin=/scratch/pschloss_flux/ghannig/bin/
+export BlastPath=${5}
 
 export PhageGenomes=${1}
 export BacteriaGenomes=${2}
 export OutputFile=${3}
-export SecondOutFile=${4}
-export PhageOrfs=${6}
-export BacteriaOrfs=${7}
 
 # Make the output directory and move to the working directory
 echo Creating output directory...
@@ -53,24 +49,6 @@ BlastPhageAgainstBacteria () {
 	cut -f 1,2,12 ./${Output}/PhageToBacteria.blastn \
 		| sed 's/_\d\+\t/\t/' \
 		> "${3}"
-
-	# Now look at the genes with diamond
-	# Make database
-	echo Making Diamond Database...
-	${SchlossBin}diamond makedb \
-		--in "${5}" \
-		-d ./${Output}/PhageOrfsDiamond
-
-	echo Running Phage ORFs...
-	${SchlossBin}diamond blastx \
-		-q "${6}" \
-		-d ./${Output}/PhageOrfsDiamond \
-		-a ./${Output}/PhageOrfToBacteria.daa \
-		-t ./
-
-	${SchlossBin}diamond view \
-		-a ./${Output}/PhageOrfToBacteria.daa \
-		-o ./${Output}/PhageOrfToBacteriaResults.txt
 }
 
 export -f BlastPhageAgainstBacteria
@@ -78,10 +56,7 @@ export -f BlastPhageAgainstBacteria
 BlastPhageAgainstBacteria \
 	"${PhageGenomes}" \
 	"${BacteriaGenomes}" \
-	"${OutputFile}" \
-	"${SecondOutFile}" \
-	"${PhageOrfs}" \
-	"${BacteriaOrfs}"
+	"${OutputFile}"
 
 # Remove the tmp output file
 rm -r ./${Output}

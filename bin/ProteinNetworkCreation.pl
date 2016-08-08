@@ -61,8 +61,10 @@ sub AddNodes {
 	my $progcounter = 0;
 	my $progress = 0;
 	while (my $line = <$fileInput>) {
-		$progress = 100 * $progcounter / $linecount;
-		print STDERR "\rNodes Processed: $progress\%"; #if ($progcounter % 1000 == 0);
+		if ($progcounter % 1000 == 0) {
+			$progress = 100 * $progcounter / $linecount;
+			print STDERR "\rNodes Processed: $progress\%";
+		}
 		++$progcounter;
 		chomp $line;
 		$line =~ s/[^A-Z^a-z^0-9^\t]+/_/g;

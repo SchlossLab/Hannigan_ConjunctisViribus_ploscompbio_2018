@@ -38,7 +38,7 @@ mkdir ./${Output}
 # were already processed in their original study. Here I am just going to trim the fat.
 
 runFastx () {
-	${fastx} -t 33 -Q 33 -l 75 -z -i "${1}" -o "${2}" || exit
+	${fastx} -t 33 -Q 33 -l 75 -i "${1}" -o "${2}" || exit
 	rm "${1}"
 }
 

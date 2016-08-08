@@ -35,10 +35,10 @@ permuteddf <- do.call("rbind", lapply(c(1:10), function(y)
 coreOpfPermute <- ggplot(permuteddf, aes(x=Samples, y=CoreOpfs, group=factor(permutation), colour=factor(permutation))) +
 	theme_classic() +
 	theme(axis.line.x = element_line(color="black"),
-		axis.line.y = element_line(color="black")) +
+		axis.line.y = element_line(color="black"),
+		legend.position="none") +
 	geom_line() +
-	scale_colour_brewer(palette="Paired") +
-	ggtitle("Core OPFs Across Increasing Human Virome Samples")
+	scale_colour_brewer(palette="Paired")
 coreOpfPermute
 
 pdf("../figures/CoreOpfPermutations.pdf", height=4, width=6)

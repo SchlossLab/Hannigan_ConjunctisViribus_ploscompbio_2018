@@ -8,11 +8,12 @@
 export WorkingDirectory=${4}
 export Output='tmp'
 
-export PfamDatabase=/scratch/pschloss_flux/ghannig/reference/Pfam/Pfam-A-diamond
-export PfamConversion=/scratch/pschloss_flux/ghannig/reference/Pfam/PfamAccToPF.tsv
-export InteractionReference=/scratch/pschloss_flux/ghannig/reference/Pfam/PfamAccInteractions.tsv
+export PfamLocation=${5}
+export PfamDatabase=${PfamLocation}Pfam-A-diamond
+export PfamConversion=${PfamLocation}PfamAccToPF.tsv
+export InteractionReference=${PfamLocation}PfamAccInteractions.tsv
 
-export SchlossBin=/scratch/pschloss_flux/ghannig/bin/
+export SchlossBin=${4}
 
 # Get the orfs that were already predicted in 'GerMicrobeOrfs.sh'
 export PhageOrfs=${1}
@@ -35,6 +36,7 @@ GetPfamHits () {
 		-d "${1}" \
 		-a ./${Output}/Phage.daa \
 		-t ./
+
 	${SchlossBin}diamond blastp \
 		-q "${3}" \
 		-d "${1}" \

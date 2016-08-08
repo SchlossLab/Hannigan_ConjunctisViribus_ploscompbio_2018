@@ -41,11 +41,11 @@ coreOpfPermute <- ggplot(permuteddf, aes(x=Samples, y=CoreOpfs, group=factor(per
 	ggtitle("Core OPFs Across Increasing Human Virome Samples")
 coreOpfPermute
 
-pdf("../figures/CoreOpfPermutations.pdf", height=6, width=4)
+pdf("../figures/CoreOpfPermutations.pdf", height=4, width=6)
 	coreOpfPermute
 dev.off()
 
-png("../figures/CoreOpfPermutations.png", height=6, width=4, units = "in", res=800)
+png("../figures/CoreOpfPermutations.png", height=4, width=6, units = "in", res=800)
 	coreOpfPermute
 dev.off()
 

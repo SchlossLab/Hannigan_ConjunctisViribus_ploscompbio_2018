@@ -14,9 +14,8 @@ The microbiome is a primary driver in global chemical processes, including envir
 In addition to studying specific virome cohorts, it will be important to investigate the global trends associated with these communities. Such large scale virus studies have proven valuable for understanding the global marine virome, and we are leveraging a similar approach here for the human virome (cite sullivan science and hurwitz pnas). This view from ten thousand feet provides us with a new tier of understanding the ecology of the human virome, and how it relates to human metabolism and disease.
 
 # Results
-
 ## The Global Human Virome Dataset
-We leveraged the extensive public sequence archives to assemble a robust human virome dataset that spans diverse body site environments. Our sampling includes the gut, oral cavity, skin, and lungs, all of which were collected by multiple, independent groups. The dataset contains over X number of sequences from Y manuscript archives. See the figure for the project meta-data. (Here I want to include a figure that has a map of where the samples were taken both geographically and on a human model, as well as a table with patient meta-data like male vs female. This could also be represented in graphical form. I'll try it out and see how it looks.) To effectively navigate this dataset, we relied on a graph database data structure. We used this dataset to assemble A contigs, B of which represented complete circular genomes. (I could also add a representation of contig abundance, coverage, and highlight the complete circular genomes). (Be sure to include information about how many diseases were represented in the dataset, and how many samples were associated with each state).
+We leveraged the extensive public sequence archives to assemble a robust human virome dataset that spans diverse body site environments. Our sampling includes the gut, oral cavity, skin, and lungs, all of which were collected by multiple, independent groups. The dataset contains over X number of sequences from Y manuscript archives. See the figure for the project meta-data. (Here I want to include a figure that has a map of where the samples were taken both geographically and on a human model, as well as a table with patient meta-data like male vs female. This could also be represented in graphical form. I'll try it out and see how it looks.) To effectively navigate this dataset, we relied on a graph database data structure. We used this dataset to assemble A contigs, B of which represented complete circular genomes. (I could also add a representation of contig abundance, coverage, and highlight the complete circular genomes). (Be sure to include information about how many diseases were represented in the dataset, and how many samples were associated with each state). Maybe also add a section about contig coverage and whatnot. Like number of circular complete genomes as more samples are added. And rarefaction for unique sequences.
 
 ## Operational Protein Family Richness Across the Core and Pan Virome
 Because the virome sequence space is dominated by unknown and poorly annotated genomes, we focused on the Operational Protein Families (OPFs) within the assembled contigs of the dataset. Operational protein families are functionally similar to operational taxonomic units, in that they are groups of open reading frames with similar nucleotide sequences.
@@ -59,6 +58,10 @@ The virome has been associated with a variety of disease states across many body
 # Figures
 
 ![Analysis of sequencing coverage required to sufficiently sample the human virome. A) Rarefaction analysis of the number of OPFs detected (richness) as more sequences are used from the dataset. B) Distribution of the number of sequences that mapped to each OPF.\label{OpfRarefaction}](../figures/OpfRarefaction.pdf)
+
+\newpage
+
+![Rarefaction of decreasing core OPFs in the human virome with increasing samples. Colors represent iterative permutations using randomly added samples in different orders.\label{OpfCoreRarefaction}](../figures/CoreOpfPermutations.pdf)
 
 \newpage
 

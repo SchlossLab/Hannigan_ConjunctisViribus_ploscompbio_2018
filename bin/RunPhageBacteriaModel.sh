@@ -84,7 +84,7 @@ bash ${BinPath}GetCrisprPhagePairs.sh \
 	./${Output}/tmp/BenchmarkCrisprs.txt \
 	${PhageGenomeRef} \
 	./${Output}/BenchmarkCrisprs.tsv \
-	"/mnt/EXT/Schloss-data/bin/blast-2.2.24/bin/" \
+	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
 	${GitBin} \
 	${BinPath} \
 	|| exit
@@ -106,7 +106,7 @@ bash ${BinPath}GetProphagesByBlast.sh \
 	${BacteriaGenomeRef} \
 	./${Output}/BenchmarkProphagesBlastn.tsv \
 	${WorkingDirectory} \
-	"/mnt/EXT/Schloss-data/bin/blast-2.2.24/bin/" \
+	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
 	|| exit
 
 # Format the output

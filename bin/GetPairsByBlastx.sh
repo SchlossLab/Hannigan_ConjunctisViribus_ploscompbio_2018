@@ -8,7 +8,7 @@
 export WorkingDirectory=${4}
 export Output='tmp'
 
-export SchlossBin=${4}
+export SchlossBin=${5}
 
 # Get the orfs that were already predicted in 'GerMicrobeOrfs.sh'
 export PhageOrfs=${1}

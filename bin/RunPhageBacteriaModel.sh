@@ -65,97 +65,93 @@ FormatNames () {
 export -f PredictOrfs
 export -f FormatNames
 
-######################
-# Run CRISPR scripts #
-######################
+# ######################
+# # Run CRISPR scripts #
+# ######################
 
-# Use a tmp directory
-mkdir ./${Output}/tmp
+# # Use a tmp directory
+# mkdir ./${Output}/tmp
 
-echo Extracting CRISPRs...
-bash ${BinPath}RunPilerCr.sh \
-	${BacteriaGenomeRef} \
-	./${Output}/tmp/BenchmarkCrisprs.txt \
-	"/home/ghannig/bin/pilercr1.06/" \
-	|| exit
+# echo Extracting CRISPRs...
+# bash ${BinPath}RunPilerCr.sh \
+# 	${BacteriaGenomeRef} \
+# 	./${Output}/tmp/BenchmarkCrisprs.txt \
+# 	"/home/ghannig/bin/pilercr1.06/" \
+# 	|| exit
 
-echo Getting CRISPR pairs...
-bash ${BinPath}GetCrisprPhagePairs.sh \
-	./${Output}/tmp/BenchmarkCrisprs.txt \
-	${PhageGenomeRef} \
-	./${Output}/BenchmarkCrisprs.tsv \
-	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
-	${GitBin} \
-	${BinPath} \
-	|| exit
+# echo Getting CRISPR pairs...
+# bash ${BinPath}GetCrisprPhagePairs.sh \
+# 	./${Output}/tmp/BenchmarkCrisprs.txt \
+# 	${PhageGenomeRef} \
+# 	./${Output}/BenchmarkCrisprs.tsv \
+# 	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
+# 	${GitBin} \
+# 	${BinPath} \
+# 	|| exit
 
-rm ./${Output}/tmp/*
+# rm ./${Output}/tmp/*
 
-# Format the output
-FormatNames \
-	./${Output}/BenchmarkCrisprs.tsv \
-	./${Output}/BenchmarkCrisprsFormat.tsv
+# # Format the output
+# FormatNames \
+# 	./${Output}/BenchmarkCrisprs.tsv \
+# 	./${Output}/BenchmarkCrisprsFormat.tsv
 
-#####################
-# Run BLAST scripts #
-#####################
+# #####################
+# # Run BLAST scripts #
+# #####################
 
-echo Getting prophages by blast...
-bash ${BinPath}GetProphagesByBlast.sh \
-	${PhageGenomeRef} \
-	${BacteriaGenomeRef} \
-	./${Output}/BenchmarkProphagesBlastn.tsv \
-	${WorkingDirectory} \
-	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
-	|| exit
+# echo Getting prophages by blast...
+# bash ${BinPath}GetProphagesByBlast.sh \
+# 	${PhageGenomeRef} \
+# 	${BacteriaGenomeRef} \
+# 	./${Output}/BenchmarkProphagesBlastn.tsv \
+# 	${WorkingDirectory} \
+# 	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
+# 	|| exit
 
-# Format the output
-FormatNames \
-	./${Output}/BenchmarkProphagesBlastn.tsv \
-	./${Output}/BenchmarkProphagesBlastnFormat.tsv
+# # Format the output
+# FormatNames \
+# 	./${Output}/BenchmarkProphagesBlastn.tsv \
+# 	./${Output}/BenchmarkProphagesBlastnFormat.tsv
 
-FormatNames \
-	./${Output}/BenchmarkProphagesTblastx.tsv \
-	./${Output}/BenchmarkProphagesTblastxFormat.tsv
+# ################
+# # Predict ORFs #
+# ################
 
-################
-# Predict ORFs #
-################
+# echo Predicting ORFs...
 
-echo Predicting ORFs...
+# PredictOrfs \
+# 	${PhageGenomeRef} \
+# 	./${Output}/PhageReferenceOrfs.fa \
+# 	|| exit
 
-PredictOrfs \
-	${PhageGenomeRef} \
-	./${Output}/PhageReferenceOrfs.fa \
-	|| exit
+# PredictOrfs \
+# 	${BacteriaGenomeRef} \
+# 	./${Output}/BacteriaReferenceOrfs.fa \
+# 	|| exit
 
-PredictOrfs \
-	${BacteriaGenomeRef} \
-	./${Output}/BacteriaReferenceOrfs.fa \
-	|| exit
+# ######################
+# # Run BLASTx scripts #
+# ######################
+# echo Getting gene matches by blastx...
 
-######################
-# Run BLASTx scripts #
-######################
-echo Getting gene matches by blastx...
+# bash ${BinPath}GetPairsByBlastx.sh \
+# 	./${Output}/PhageReferenceOrfs.fa \
+# 	./${Output}/BacteriaReferenceOrfs.fa \
+# 	./${Output}/MatchesByBlastx.tsv \
+# 	${WorkingDirectory} \
+# 	"/mnt/EXT/Schloss-data/bin/" \
+# 	|| exit
 
-bash ${BinPath}GetPairsByBlastx.sh \
-	./${Output}/PhageReferenceOrfs.fa \
-	./${Output}/BacteriaReferenceOrfs.fa \
-	./${Output}/MatchesByBlastx.tsv \
-	${WorkingDirectory} \
-	"/mnt/EXT/Schloss-data/bin/" \
-	|| exit
+# # Format the output
+# FormatNames \
+# 	./${Output}/MatchesByBlastx.tsv \
+# 	./${Output}/MatchesByBlastxFormat.tsv
 
-# Format the output
-FormatNames \
-	./${Output}/MatchesByBlastx.tsv \
-	./${Output}/MatchesByBlastxFormat.tsv
-
-# Format to get the right columns in the right order
-awk '{ print $2"\t"$1"\t"$12 }' \
-	./${Output}/MatchesByBlastxFormat.tsv \
-	> MatchesByBlastxFormatOrder.tsv
+# # Format to get the right columns in the right order
+# awk '{ print $2"\t"$1"\t"$12 }' \
+# 	./${Output}/MatchesByBlastxFormat.tsv \
+# 	> MatchesByBlastxFormatOrder.tsv
 
 ####################
 # Run Pfam scripts #
@@ -167,6 +163,7 @@ bash ${BinPath}PfamDomainInteractPrediction.sh \
 	./${Output}/PhageReferenceOrfs.fa \
 	./${Output}/BacteriaReferenceOrfs.fa \
 	./${Output}/PfamInteractions.tsv \
+	${WorkingDirectory} \
 	"/mnt/EXT/Schloss-data/bin/" \
 	"/home/ghannig/Pfam/" \
 	|| exit

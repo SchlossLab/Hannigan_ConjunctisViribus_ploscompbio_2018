@@ -8,12 +8,12 @@
 export WorkingDirectory=${4}
 export Output='tmp'
 
-export PfamLocation=${5}
+export PfamLocation=${6}
 export PfamDatabase=${PfamLocation}Pfam-A-diamond
 export PfamConversion=${PfamLocation}PfamAccToPF.tsv
 export InteractionReference=${PfamLocation}PfamAccInteractions.tsv
 
-export SchlossBin=${4}
+export SchlossBin=${5}
 
 # Get the orfs that were already predicted in 'GerMicrobeOrfs.sh'
 export PhageOrfs=${1}

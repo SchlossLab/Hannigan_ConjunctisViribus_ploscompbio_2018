@@ -59,7 +59,7 @@ ref $@ ? $@->rethrow : die $@ if $@;
 # Set the options
 GetOptions(
     'h|help' => \$opt_help,
-    'i|input=s' => \$input,
+    # 'i|input=s' => \$input,
     'c|crispr=s' => \$crispr,
     # 'u|uniprot=s' => \$uniprot,
     'b|blast=s' => \$blast,
@@ -70,7 +70,7 @@ GetOptions(
 pod2usage(-verbose => 1) && exit if defined $opt_help;
 
 # Open files
-open(my $IN, "<", "$input") || die "Unable to read in $input: $!";
+# open(my $IN, "<", "$input") || die "Unable to read in $input: $!";
 open(my $CRISPR, "<", "$crispr") || die "Unable to read in $crispr: $!";
 # open(my $UNIPROT, "<", "$uniprot") || die "Unable to read in $uniprot: $!";
 open(my $BLAST, "<", "$blast") || die "Unable to read in $blast: $!";
@@ -165,8 +165,8 @@ sub AddGenericFile {
     }
 }
 
-print STDERR "\n\n\nProgress: Adding Experimentally Validated Interactions\n";
-AddGenericFile(\*$IN, "Interaction", "TRUE");
+# print STDERR "\n\n\nProgress: Adding Experimentally Validated Interactions\n";
+# AddGenericFile(\*$IN, "Interaction", "TRUE");
 
 print STDERR "\n\n\nProgress: Adding Predicted CRISPR Interactions\n";
 AddGenericFile(\*$CRISPR, "CRISPR", "TRUE");

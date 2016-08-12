@@ -14,6 +14,7 @@ library("visNetwork")
 library("RNeo4j")
 library("scales")
 library("plyr")
+library("ggplot2")
 
 ###################
 # Set Subroutines #
@@ -48,7 +49,7 @@ plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout, clusters=FALSE) {
   ig <- graph_from_data_frame(edgeframe, directed=F)
   # Set plot paramters
   V(ig)$label <- ""
-  V(ig)$color <- ifelse(grepl("[Pp]hage", nodeframe$id),
+  V(ig)$color <- ifelse(grepl("contig_", nodeframe$id),
     rgb(0,0,1,.75),
     rgb(1,0,0,.75))
   # Color edges by type
@@ -57,7 +58,7 @@ plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout, clusters=FALSE) {
   V(ig)$frame.color <- NA
   V(ig)$label.color <- rgb(0,0,.2,.5)
   # Set network plot layout
-  l <- layout.auto(ig)
+  l <- layout.fruchterman.reingold(ig)
   # Create the plot
   if (clusters) {
     write("Clustering...", stderr())
@@ -92,10 +93,18 @@ plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout, clusters=FALSE) {
   )
 }
 
+graphDiameter <- function (nodeframe=nodeout, edgeframe=edgeout) {
+  write("Calculating Graph Diameter", stderr())  
+  # Pull out the data for clustering
+  ig <- graph_from_data_frame(edgeframe, directed=F)
+  connectionresult <- diameter(ig, directed=F)
+  return(connectionresult)
+}
+
 connectionstrength <- function (nodeframe=nodeout, edgeframe=edgeout) {
   write("Testing Connection Strength", stderr())  
   # Pull out the data for clustering
-  ig <- graph_from_data_frame(edgeframe, directed=T)
+  ig <- graph_from_data_frame(edgeframe, directed=F)
   connectionresult <- is.connected(ig, mode="strong")
   if (!connectionresult) {
     connectionresult <- is.connected(ig, mode="weak")
@@ -131,6 +140,7 @@ head(edgeout)
 
 # Test connection strength of the network
 write(connectionstrength(), stderr())
+write(graphDiameter(), stderr())
 
 # Save as PDF & PNG
 pdf(file="./figures/BacteriaPhageNetworkDiagramClustered.pdf",
@@ -159,6 +169,72 @@ height=8)
   res=800)
     dev.control("enable")
     plotnetwork(clusters=FALSE)
+    dev.copy(which=a)
+  dev.off()
+dev.off()
+
+# Get number of hosts for each phage as histogram
+edgecount <- count(edgeout$from)
+edgecount <- edgecount[order(edgecount$freq, decreasing=FALSE),]
+edgecount$x <- factor(edgecount$x, levels=edgecount$x)
+
+edgehist <- ggplot(edgecount, aes(x=freq)) +
+  theme_classic() +
+  theme(axis.line.x = element_line(color="black"),
+    axis.line.y = element_line(color="black")) +
+  geom_histogram(fill="tomato3") +
+  xlab("Phage Host Count (Bacterial Strains)") +
+  ylab("Frequency")
+
+pdf(file="./figures/PhageHostHist.pdf",
+width=8,
+height=8)
+  a <- dev.cur()
+  png(file="./figures/PhageHostHist.png",
+  width=8,
+  height=8,
+  units="in",
+  res=800)
+    dev.control("enable")
+    edgehist
+    dev.copy(which=a)
+  dev.off()
+dev.off()
+
+# Get number of phages hitting bacteria
+querygenus <- "
+START n=node(*) MATCH (n)-[r]->(m) RETURN n.Name AS from, m.Species AS to;
+"
+graphoutputlist <- importgraphtodataframe(filter=0, cypherquery=querygenus)
+nodeout <- as.data.frame(graphoutputlist[1])
+edgeout <- as.data.frame(graphoutputlist[2])
+head(nodeout)
+head(edgeout)
+
+edgecount <- count(edgeout$to)
+edgecount <- edgecount[order(edgecount$freq, decreasing=FALSE),]
+edgecount$x <- factor(edgecount$x, levels=edgecount$x)
+
+edgeplotgg <- ggplot(edgecount, aes(x=x, y=freq)) +
+  theme_classic() +
+  theme(axis.line.x = element_line(color="black"),
+    axis.line.y = element_line(color="black")) +
+  geom_bar(stat="identity", fill="tomato3") +
+  coord_flip() +
+  ylab("Unweighted Count of Targeted Phage") +
+  xlab("")
+
+pdf(file="./figures/BacteriaEdgeCount.pdf",
+width=8,
+height=8)
+  a <- dev.cur()
+  png(file="./figures/BacteriaEdgeCount.png",
+  width=8,
+  height=8,
+  units="in",
+  res=800)
+    dev.control("enable")
+    edgeplotgg
     dev.copy(which=a)
   dev.off()
 dev.off()

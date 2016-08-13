@@ -217,17 +217,17 @@ export -f GetHits
 # Contig Relative Abundance #
 #############################
 
-GetHits \
-		${FastaSequences}/${file} \
-		${PhageGenomeRef}
-
 echo Getting contig relative abundance table...
 
 rm ./${Output}/ContigRelAbundForNetwork.tsv
 
-for file in $(ls ${FastaSequences}/*_merged.fa-bowtie.tsv | sed "s/.*\///g"); do
-	sampleid=$(echo ${file} | sed 's/_merged.fa-bowtie.tsv//')
+for file in $(ls ${FastaSequences}/*_merged.fa | sed "s/.*\///g"); do
+	sampleid=$(echo ${file} | sed 's/_merged.fa//')
 	echo Sample ID is ${sampleid}
+
+	GetHits \
+		${FastaSequences}/${file} \
+		${PhageGenomeRef}
 
 	# Remove the header
 	sed -e "1d" ${FastaSequences}/${file} > ${FastaSequences}/${file}-noheader

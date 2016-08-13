@@ -62,9 +62,35 @@ FormatNames () {
 		> "${2}"
 }
 
+GetHits () {
+	# 1 = Input Orfs
+	# 2 = Reference Orfs
+
+	mkdir ./${Output}/bowtieReference
+
+	bowtie2-build \
+		-f ${2} \
+		./${Output}/bowtieReference/bowtieReference
+
+	bowtie2 \
+		-x ./${Output}/bowtieReference/bowtieReference \
+		-f ${1} \
+		-S ${1}-bowtie.sam \
+		-p 32 \
+		-L 25 \
+		-N 1
+
+	# Quantify alignment hits
+	perl \
+		${ProjectBin}calculate_abundance_from_sam.pl \
+			${1}-bowtie.sam \
+			${1}-bowtie.tsv
+}
+
 # Export the subroutines
 export -f PredictOrfs
 export -f FormatNames
+export -f GetHits
 
 # ######################
 # # Run CRISPR scripts #
@@ -190,6 +216,10 @@ export -f FormatNames
 #############################
 # Contig Relative Abundance #
 #############################
+
+GetHits \
+		${FastaSequences}/${file} \
+		${PhageGenomeRef}
 
 echo Getting contig relative abundance table...
 

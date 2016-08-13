@@ -196,7 +196,7 @@ echo Getting contig relative abundance table...
 rm ./${Output}/ContigRelAbundForNetwork.tsv
 
 for file in $(ls ${FastaSequences}/*_merged.fa-bowtie.tsv | sed "s/.*\///g"); do
-	sampleid=${echo ${file} | sed 's/_merged.fa-bowtie.tsv//'}
+	sampleid=$(echo ${file} | sed 's/_merged.fa-bowtie.tsv//')
 	echo Sample ID is ${sampleid}
 
 	# Remove the header

@@ -200,9 +200,10 @@ for file in $(ls ${FastaSequences}/*_merged.fa-bowtie.tsv | sed "s/.*\///g"); do
 	echo Sample ID is ${sampleid}
 
 	# Remove the header
-	sed -e "1d" ${FastaSequences}/${file}-noheader
+	sed -e "1d" ${FastaSequences}/${file} > ${FastaSequences}/${file}-noheader
 
-	awk -v name=${sampleid} '{ print $0"\t"name }' ${FastaSequences}/${file} >> ./${Output}/ContigRelAbundForNetwork.tsv
+	awk -v name=${sampleid} '{ print $0"\t"name }' ${FastaSequences}/${file}-noheader >> ./${Output}/ContigRelAbundForNetwork.tsv
+	rm ${FastaSequences}/${file}-noheader
 done
 
 

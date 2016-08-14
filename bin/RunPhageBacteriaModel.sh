@@ -226,12 +226,12 @@ for file in $(ls ${FastaSequences}/*_merged.fa | sed "s/.*\///g"); do
 	sampleid=$(echo ${file} | sed 's/_merged.fa//')
 	echo Sample ID is ${sampleid}
 
-	GetHits \
-		${FastaSequences}/${file} \
-		${PhageGenomeRef}
+	# GetHits \
+	# 	${FastaSequences}/${file} \
+	# 	${PhageGenomeRef}
 
 	# Remove the header
-	sed -e "1d" ${FastaSequences}/${file} > ${FastaSequences}/${file}-noheader
+	sed -e "1d" ${FastaSequences}/${file}-bowtie.tsv > ${FastaSequences}/${file}-noheader
 
 	awk -v name=${sampleid} '{ print $0"\t"name }' ${FastaSequences}/${file}-noheader >> ./${Output}/ContigRelAbundForNetwork.tsv
 	rm ${FastaSequences}/${file}-noheader

@@ -51,7 +51,7 @@ DownloadFromMGRAST () {
 	echo Processing MG-RAST Accession Number "${line}"
 	mkdir ./${Output}/"${line}"
 	# Download the raw information for the metagenomic run from MG-RAST
-	wget -O ./${Output}/"${line}"/tmpout.txt "http://api.metagenomics.anl.gov/1/project/mgp7236?verbosity=full"
+	wget -O ./${Output}/"${line}"/tmpout.txt "http://api.metagenomics.anl.gov/1/project/mgp${line}?verbosity=full"
 	# Pasre the raw metagenome information for indv sample IDs
 	sed 's/mgm/\nmgm/g' mgp7236.txt \
 		| grep mgm \
@@ -59,7 +59,7 @@ DownloadFromMGRAST () {
 		| sed 's/\"\].*//' \
 		> ./${Output}/"${line}"/SampleIDs.tsv
 	# Get rid of the raw metagenome information now that we are done with it
-	rm ./${Output}/"${line}"/tmpout.txt
+	# rm ./${Output}/"${line}"/tmpout.txt
 	# Now loop through all of the accession numbers from the metagenome library
 	while read acc; do
 		echo Loading MG-RAST Sample ID is "${acc}"
@@ -67,7 +67,7 @@ DownloadFromMGRAST () {
 		wget -O ./${Output}/"${line}"/"${acc}".fa "http://api.metagenomics.anl.gov/1/download/${acc}?file=050.1"
 	done < ./${Output}/"${line}"/SampleIDs.tsv
 	# Get rid of the sample list file
-	rm ./${Output}/"${line}"/SampleIDs.tsv
+	# rm ./${Output}/"${line}"/SampleIDs.tsv
 }
 
 DownloadFromMicrobe () {

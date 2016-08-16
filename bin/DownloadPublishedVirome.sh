@@ -53,7 +53,7 @@ DownloadFromMGRAST () {
 	# Download the raw information for the metagenomic run from MG-RAST
 	wget -O ./${Output}/"${line}"/tmpout.txt "http://api.metagenomics.anl.gov/1/project/mgp7236?verbosity=full"
 	# Pasre the raw metagenome information for indv sample IDs
-	gsed 's/mgm/\nmgm/g' mgp7236.txt \
+	sed 's/mgm/\nmgm/g' mgp7236.txt \
 		| grep mgm \
 		| grep -v http \
 		| sed 's/\"\].*//' \

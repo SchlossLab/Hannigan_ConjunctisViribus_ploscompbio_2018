@@ -92,6 +92,8 @@ export -f runFastx
 # # Run Through the Analysis #
 # ############################
 
+DownloadFromMGRAST 9680
+
 # while read line; do
 # 	# Save the sixth variable, which is the archive type (e.g. SRA, MG-RAST)
 # 	ArchiveType=$(echo "${line}" | awk '{ print $6 }')
@@ -112,26 +114,26 @@ export -f runFastx
 # 	fi
 # done < ${Metadatafile}
 
-mkdir ./${Output}/raw
+# mkdir ./${Output}/raw
 
-# unzip the files first
-ls ./${Output}/*/*.sra.gz | xargs -I {} --max-procs=16 sh -c '
-	gunzip {}
-'
+# # unzip the files first
+# ls ./${Output}/*/*.sra.gz | xargs -I {} --max-procs=16 sh -c '
+# 	gunzip {}
+# '
 
-ls ./${Output}/*/*.sra | xargs -I {} --max-procs=16 sh -c '
-	echo Processing file {}...
-	fastq-dump --split-3 {} --outdir ./${Output}/raw
-	gzip {}
-'
+# ls ./${Output}/*/*.sra | xargs -I {} --max-procs=16 sh -c '
+# 	echo Processing file {}...
+# 	fastq-dump --split-3 {} --outdir ./${Output}/raw
+# 	gzip {}
+# '
 
-mkdir ./${Output}/qualityTrimmed
+# mkdir ./${Output}/qualityTrimmed
 
-ls ${FastqFiles} | xargs -I {} --max-procs=16 sh -c '
-	runFastx \
-			${FastqFiles}/{} \
-			./${Output}/qualityTrimmed/{}
-'
+# ls ${FastqFiles} | xargs -I {} --max-procs=16 sh -c '
+# 	runFastx \
+# 			${FastqFiles}/{} \
+# 			./${Output}/qualityTrimmed/{}
+# '
 
-# Remove the now empty raw directory
-rm -r ./${Output}/raw
+# # Remove the now empty raw directory
+# rm -r ./${Output}/raw

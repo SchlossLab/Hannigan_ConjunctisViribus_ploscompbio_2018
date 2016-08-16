@@ -19,7 +19,7 @@ module load samtools/1.2
 #######################
 
 export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
-export Output='PublishedViromeDatasets'
+export Output='ViromePublications'
 
 export Metadatafile=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PublishedDatasets/SutdyInformation.tsv
 export FastqFiles=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PublishedViromeDatasets/raw

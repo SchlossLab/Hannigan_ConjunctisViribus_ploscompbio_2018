@@ -59,7 +59,7 @@ DownloadFromMGRAST () {
 		| sed 's/\"\].*//' \
 		> ./${Output}/"${line}"/SampleIDs.tsv
 	# Get rid of the raw metagenome information now that we are done with it
-	# rm ./${Output}/"${line}"/tmpout.txt
+	rm ./${Output}/"${line}"/tmpout.txt
 	# Now loop through all of the accession numbers from the metagenome library
 	while read acc; do
 		echo Loading MG-RAST Sample ID is "${acc}"
@@ -67,7 +67,7 @@ DownloadFromMGRAST () {
 		wget -O ./${Output}/"${line}"/"${acc}".fa "http://api.metagenomics.anl.gov/1/download/${acc}?file=050.1"
 	done < ./${Output}/"${line}"/SampleIDs.tsv
 	# Get rid of the sample list file
-	# rm ./${Output}/"${line}"/SampleIDs.tsv
+	rm ./${Output}/"${line}"/SampleIDs.tsv
 }
 
 DownloadFromMicrobe () {
@@ -92,27 +92,25 @@ export -f runFastx
 # # Run Through the Analysis #
 # ############################
 
-DownloadFromMGRAST 9680
-
-# while read line; do
-# 	# Save the sixth variable, which is the archive type (e.g. SRA, MG-RAST)
-# 	ArchiveType=$(echo "${line}" | awk '{ print $6 }')
-# 	# Save the seventh variable, which is the archive accession number
-# 	AccNumber=$(echo "${line}" | awk '{ print $7 }')
-# 	echo Processing ${AccNumber} in ${ArchiveType}
-# 	# Now download the samples based on the archive type
-# 	if [ "${ArchiveType}" == "SRA" ]; then
-# 		DownloadFromSRA "${AccNumber}"
-# 	elif [ "${ArchiveType}" == "MGRAST" ]; then
-# 		DownloadFromMGRAST "${AccNumber}"
-# 	elif [ "${ArchiveType}" == "iMicrobe" ]; then
-# 		DownloadFromMicrobe "${AccNumber}"
-# 	elif [ "${ArchiveType}" == "ArchiveSystem" ]; then
-# 		echo Skipping file header.
-# 	else
-# 		echo Error in parsing accession numbers!
-# 	fi
-# done < ${Metadatafile}
+while read line; do
+	# Save the sixth variable, which is the archive type (e.g. SRA, MG-RAST)
+	ArchiveType=$(echo "${line}" | awk '{ print $6 }')
+	# Save the seventh variable, which is the archive accession number
+	AccNumber=$(echo "${line}" | awk '{ print $7 }')
+	echo Processing ${AccNumber} in ${ArchiveType}
+	# Now download the samples based on the archive type
+	if [ "${ArchiveType}" == "SRA" ]; then
+		DownloadFromSRA "${AccNumber}"
+	elif [ "${ArchiveType}" == "MGRAST" ]; then
+		DownloadFromMGRAST "${AccNumber}"
+	elif [ "${ArchiveType}" == "iMicrobe" ]; then
+		DownloadFromMicrobe "${AccNumber}"
+	elif [ "${ArchiveType}" == "ArchiveSystem" ]; then
+		echo Skipping file header.
+	else
+		echo Error in parsing accession numbers!
+	fi
+done < ${Metadatafile}
 
 # mkdir ./${Output}/raw
 

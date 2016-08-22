@@ -22,8 +22,8 @@ download : ${DOWNLOAD}
 # Download Global Virome Dataset Studies #
 ##########################################
 # Download the sequences for the dataset
-./ViromePublications : ./data/PublishedDatasets/SutdyInformation.tsv
-	bash DownloadPublishedVirome.sh \
+./data/ViromePublications : ./data/PublishedDatasets/SutdyInformation.tsv
+	bash ./bin/DownloadPublishedVirome.sh \
 		./data/PublishedDatasets/SutdyInformation.tsv
 
 ####################

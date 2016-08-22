@@ -17,4 +17,4 @@
 cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
-make
+make download

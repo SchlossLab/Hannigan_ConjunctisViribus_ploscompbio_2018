@@ -9,11 +9,22 @@
 #########################
 WORKINGDIRECTORY = ./data
 
+DOWNLOAD = ./ViromePublications
+
 OBJECTS = \
 	./data/ValidationSet/ValidationPhageNoBlock.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa \
 	./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv
 
 all : ${OBJECTS}
+download : ${DOWNLOAD}
+
+##########################################
+# Download Global Virome Dataset Studies #
+##########################################
+# Download the sequences for the dataset
+./ViromePublications : ./data/PublishedDatasets/SutdyInformation.tsv
+	bash DownloadPublishedVirome.sh \
+		./data/PublishedDatasets/SutdyInformation.tsv
 
 ####################
 # Model Validation #
@@ -35,10 +46,4 @@ all : ${OBJECTS}
 			./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv \
 			./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv 
 
-##########################################
-# Download Global Virome Dataset Studies #
-##########################################
-# Download the sequences for the dataset
-./ViromePublications : ./data/PublishedDatasets/SutdyInformation.tsv
-	bash DownloadPublishedVirome.sh \
-		./data/PublishedDatasets/SutdyInformation.tsv
+

@@ -9,7 +9,7 @@
 #########################
 WORKINGDIRECTORY = ./data
 
-DOWNLOAD = ./ViromePublications
+DOWNLOAD = ./data/ViromePublications
 
 OBJECTS = \
 	./data/ValidationSet/ValidationPhageNoBlock.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa \

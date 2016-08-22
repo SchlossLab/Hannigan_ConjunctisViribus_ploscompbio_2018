@@ -18,15 +18,13 @@ module load samtools/1.2
 # Set the Environment #
 #######################
 
-export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
 export Output='ViromePublications'
 
-export Metadatafile=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PublishedDatasets/SutdyInformation.tsv
+export Metadatafile=$1
 export FastqFiles=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PublishedViromeDatasets/raw
 
 export fastx=/home/ghannig/bin/fastq_quality_trimmer
 
-cd ${WorkingDirectory} || exit
 mkdir ./${Output}
 
 ###################

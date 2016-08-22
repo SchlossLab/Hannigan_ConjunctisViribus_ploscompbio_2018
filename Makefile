@@ -4,14 +4,41 @@
 # Pat Schloss Lab
 # University of Michigan
 
-# Download datasets
-./data/PublishedViromeDatasets/*:
-	bash ./bin/DownloadPublishedVirome.sh
+#########################
+# Set General Variables #
+#########################
+WORKINGDIRECTORY = ./data
 
-# Perform quality control
-./data/QualityControl:./bin/DownloadPublishedVirome.sh
-	bash ./bin/RunQualityControl.sh
+OBJECTS = \
+	./data/ValidationSet/ValidationPhageNoBlock.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa \
+	./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv
 
-# Assemble contigs
-./data/AssembledContigs:./bin/DownloadPublishedVirome.sh
-	bash ./bin/AssembleContigs.sh
+all : ${OBJECTS}
+
+####################
+# Model Validation #
+####################
+# Get the sequences to use in this analysis
+./data/ValidationSet/ValidationPhageNoBlock.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa : ./data/ValidationSet/PhageID.tsv ./data/ValidationSet/BacteriaID.tsv
+	bash ./bin/GetValidationSequences.sh \
+		./data/ValidationSet/PhageID.tsv \
+		./data/ValidationSet/BacteriaID.tsv \
+		./data/ValidationSet/ValidationPhageNoBlock.fa \
+		./data/ValidationSet/ValidationBacteriaNoBlock.fa
+
+./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv : ./data/ValidationSet/ValidationPhageNoBlock.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa
+		bash ./bin/BenchmarkingModel.sh \
+			./data/ValidationSet/ValidationPhageNoBlock.fa \
+			./data/ValidationSet/ValidationBacteriaNoBlock.fa \
+			./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv \
+			./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv \
+			./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv \
+			./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv 
+
+##########################################
+# Download Global Virome Dataset Studies #
+##########################################
+# Download the sequences for the dataset
+./ViromePublications : ./data/PublishedDatasets/SutdyInformation.tsv
+	bash DownloadPublishedVirome.sh \
+		./data/PublishedDatasets/SutdyInformation.tsv

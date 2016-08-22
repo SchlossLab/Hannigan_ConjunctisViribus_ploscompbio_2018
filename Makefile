@@ -9,7 +9,7 @@
 #########################
 WORKINGDIRECTORY = ./data
 
-DOWNLOAD = ./data/ViromePublications
+DOWNLOAD = ./data/ViromePublications/*
 
 OBJECTS = \
 	./data/ValidationSet/ValidationPhageNoBlock.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa \
@@ -22,7 +22,7 @@ download : ${DOWNLOAD}
 # Download Global Virome Dataset Studies #
 ##########################################
 # Download the sequences for the dataset
-./data/ViromePublications : ./data/PublishedDatasets/SutdyInformation.tsv
+./data/ViromePublications/* : ./data/PublishedDatasets/SutdyInformation.tsv
 	bash ./bin/DownloadPublishedVirome.sh \
 		./data/PublishedDatasets/SutdyInformation.tsv
 
@@ -45,5 +45,3 @@ download : ${DOWNLOAD}
 			./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv \
 			./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv \
 			./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv 
-
-

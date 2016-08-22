@@ -25,7 +25,7 @@ export FastqFiles=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/
 
 export fastx=/home/ghannig/bin/fastq_quality_trimmer
 
-mkdir ./${Output}
+mkdir ./data/${Output}
 
 ###################
 # Set Subroutines #
@@ -34,46 +34,46 @@ mkdir ./${Output}
 DownloadFromSRA () {
 	line="${1}"
 	echo Processing SRA Accession Number "${line}"
-	mkdir ./${Output}/"${line}"
+	mkdir ./data/${Output}/"${line}"
 	shorterLine=${line:0:3}
 	shortLine=${line:0:6}
 	echo Looking for ${shorterLine} with ${shortLine}
 	# Recursively download the contents of the 
 	wget -r --no-parent -A "*" ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/${shorterLine}/${shortLine}/${line}/
-	mv ./ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/${shorterLine}/${shortLine}/${line}/*/*.sra ./${Output}/"${line}"
+	mv ./ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/${shorterLine}/${shortLine}/${line}/*/*.sra ./data/${Output}/"${line}"
 	rm -r ./ftp-trace.ncbi.nih.gov
 }
 
 DownloadFromMGRAST () {
 	line="${1}"
 	echo Processing MG-RAST Accession Number "${line}"
-	mkdir ./${Output}/"${line}"
+	mkdir ./data/${Output}/"${line}"
 	# Download the raw information for the metagenomic run from MG-RAST
-	wget -O ./${Output}/"${line}"/tmpout.txt "http://api.metagenomics.anl.gov/1/project/mgp${line}?verbosity=full"
+	wget -O ./data/${Output}/"${line}"/tmpout.txt "http://api.metagenomics.anl.gov/1/project/mgp${line}?verbosity=full"
 	# Pasre the raw metagenome information for indv sample IDs
-	sed 's/mgm/\nmgm/g' ./${Output}/"${line}"/tmpout.txt \
+	sed 's/mgm/\nmgm/g' ./data/${Output}/"${line}"/tmpout.txt \
 		| grep mgm \
 		| grep -v http \
 		| sed 's/\"\].*//' \
-		> ./${Output}/"${line}"/SampleIDs.tsv
+		> ./data/${Output}/"${line}"/SampleIDs.tsv
 	# Get rid of the raw metagenome information now that we are done with it
-	rm ./${Output}/"${line}"/tmpout.txt
+	rm ./data/${Output}/"${line}"/tmpout.txt
 	# Now loop through all of the accession numbers from the metagenome library
 	while read acc; do
 		echo Loading MG-RAST Sample ID is "${acc}"
 		# file=050.1 means the raw input that the author meant to archive
-		wget -O ./${Output}/"${line}"/"${acc}".fa "http://api.metagenomics.anl.gov/1/download/${acc}?file=050.1"
-	done < ./${Output}/"${line}"/SampleIDs.tsv
+		wget -O ./data/${Output}/"${line}"/"${acc}".fa "http://api.metagenomics.anl.gov/1/download/${acc}?file=050.1"
+	done < ./data/${Output}/"${line}"/SampleIDs.tsv
 	# Get rid of the sample list file
-	rm ./${Output}/"${line}"/SampleIDs.tsv
+	rm ./data/${Output}/"${line}"/SampleIDs.tsv
 }
 
 DownloadFromMicrobe () {
 	line="${1}"
 	echo Processing iMicrobe Accession Number "${line}"
-	mkdir ./${Output}/"${line}"
+	mkdir ./data/${Output}/"${line}"
 	wget ftp://ftp.imicrobe.us/projects/"${line}"/samples/*/*.fasta.gz
-	mv ./*.fasta.gz ./${Output}/"${line}"
+	mv ./*.fasta.gz ./data/${Output}/"${line}"
 }
 
 runFastx () {
@@ -110,26 +110,26 @@ while read line; do
 	fi
 done < ${Metadatafile}
 
-# mkdir ./${Output}/raw
+# mkdir ./data/${Output}/raw
 
 # # unzip the files first
-# ls ./${Output}/*/*.sra.gz | xargs -I {} --max-procs=16 sh -c '
+# ls ./data/${Output}/*/*.sra.gz | xargs -I {} --max-procs=16 sh -c '
 # 	gunzip {}
 # '
 
-# ls ./${Output}/*/*.sra | xargs -I {} --max-procs=16 sh -c '
+# ls ./data/${Output}/*/*.sra | xargs -I {} --max-procs=16 sh -c '
 # 	echo Processing file {}...
-# 	fastq-dump --split-3 {} --outdir ./${Output}/raw
+# 	fastq-dump --split-3 {} --outdir ./data/${Output}/raw
 # 	gzip {}
 # '
 
-# mkdir ./${Output}/qualityTrimmed
+# mkdir ./data/${Output}/qualityTrimmed
 
 # ls ${FastqFiles} | xargs -I {} --max-procs=16 sh -c '
 # 	runFastx \
 # 			${FastqFiles}/{} \
-# 			./${Output}/qualityTrimmed/{}
+# 			./data/${Output}/qualityTrimmed/{}
 # '
 
 # # Remove the now empty raw directory
-# rm -r ./${Output}/raw
+# rm -r ./data/${Output}/raw

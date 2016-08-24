@@ -4,29 +4,20 @@
 # Pat Schloss Lab
 # University of Michigan
 
-#PBS -N BenchmarkingModel
-#PBS -A pschloss_flux
-#PBS -q flux
-#PBS -l qos=flux
-#PBS -l nodes=1:ppn=12,mem=64GB
-#PBS -l walltime=100:00:00
-#PBS -j oe
-#PBS -V
-
 #######################
 # Set the Environment #
 #######################
 
-export WorkingDirectory=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data
 export Output='BenchmarkingSet'
-export BinPath=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/bin/
-export GitBin=/scratch/pschloss_flux/ghannig/git/OpenMetagenomeToolkit/bin/
 
-export PhageGenomeRef=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/ValidationSet/ValidationPhageNoBlockNoSpace.fa
-export BacteriaGenomeRef=/scratch/pschloss_flux/ghannig/git/Hannigan-2016-ConjunctisViribus/data/ValidationSet/ValidationBacteriaNoBlockNoSpace.fa
+export PhageGenomeRef=${1}
+export BacteriaGenomeRef=${2}
+export CRISPRout=${3}
+export ProphageOutFile=${4}
+export BlastxOut=${5}
+export PfamOut=${6}
 
-cd ${WorkingDirectory} || exit
-mkdir ./${Output}
+mkdir ./data/${Output}
 
 ###################
 # Set Subroutines #
@@ -36,14 +27,14 @@ PredictOrfs () {
 	# 1 = Contig Fasta File for Prodigal
 	# 2 = Output File Name
 
-	bash ${BinPath}ProdigalWrapperLargeFiles.sh \
+	bash ./bin/ProdigalWrapperLargeFiles.sh \
 		"${1}" \
-		./${Output}/tmp-genes.fa
+		./data/${Output}/tmp-genes.fa
 
     # Remove the block formatting
 	perl \
-	${GitBin}remove_block_fasta_format.pl \
-		./${Output}/tmp-genes.fa \
+	./bin/remove_block_fasta_format.pl \
+		./data/${Output}/tmp-genes.fa \
 		"${2}"
 
 	sed -i 's/\*//g' "${2}"
@@ -62,58 +53,88 @@ FormatNames () {
 		> "${2}"
 }
 
+GetHits () {
+	# 1 = Input Orfs
+	# 2 = Reference Orfs
+
+	mkdir ./data/${Output}/bowtieReference
+
+	bowtie2-build \
+		-f ${2} \
+		./data/${Output}/bowtieReference/bowtieReference
+
+	bowtie2 \
+		-x ./data/${Output}/bowtieReference/bowtieReference \
+		-f ${1} \
+		-S ${1}-bowtie.sam \
+		-p 32 \
+		-L 25 \
+		-N 1
+
+	# Quantify alignment hits
+	perl \
+		${ProjectBin}calculate_abundance_from_sam.pl \
+			${1}-bowtie.sam \
+			${1}-bowtie.tsv
+}
+
 # Export the subroutines
 export -f PredictOrfs
 export -f FormatNames
+export -f GetHits
 
 ######################
 # Run CRISPR scripts #
 ######################
 
 # Use a tmp directory
-mkdir ./${Output}/tmp
+mkdir ./data/${Output}/tmp
 
 echo Extracting CRISPRs...
-bash ${BinPath}RunPilerCr.sh \
+bash ./bin/RunPilerCr.sh \
 	${BacteriaGenomeRef} \
-	./${Output}/tmp/BenchmarkCrisprs.txt \
+	./data/${Output}/tmp/BenchmarkCrisprs.txt \
+	"/home/ghannig/bin/pilercr1.06/" \
 	|| exit
 
 echo Getting CRISPR pairs...
-bash ${BinPath}GetCrisprPhagePairs.sh \
-	./${Output}/tmp/BenchmarkCrisprs.txt \
+bash ./bin/GetCrisprPhagePairs.sh \
+	./data/${Output}/tmp/BenchmarkCrisprs.txt \
 	${PhageGenomeRef} \
-	./${Output}/BenchmarkCrisprs.tsv \
+	./data/${Output}/BenchmarkCrisprs.tsv \
+	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
+	./bin/ \
+	./bin/ \
 	|| exit
 
-rm ./${Output}/tmp/*
+rm ./data/${Output}/tmp/*
 
 # Format the output
 FormatNames \
-	./${Output}/BenchmarkCrisprs.tsv \
-	./${Output}/BenchmarkCrisprsFormat.tsv
+	./data/${Output}/BenchmarkCrisprs.tsv \
+	${CRISPRout}
 
 #####################
 # Run BLAST scripts #
 #####################
 
 echo Getting prophages by blast...
-bash ${BinPath}GetProphagesByBlast.sh \
+bash ./bin/GetProphagesByBlast.sh \
 	${PhageGenomeRef} \
 	${BacteriaGenomeRef} \
-	./${Output}/BenchmarkProphagesBlastn.tsv \
-	./${Output}/BenchmarkProphagesTblastx.tsv \
+	./data/${Output}/BenchmarkProphagesBlastn.tsv \
 	${WorkingDirectory} \
+	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
 	|| exit
 
 # Format the output
 FormatNames \
-	./${Output}/BenchmarkProphagesBlastn.tsv \
-	./${Output}/BenchmarkProphagesBlastnFormat.tsv
+	./data/${Output}/BenchmarkProphagesBlastn.tsv \
+	./data/${Output}/BenchmarkProphagesBlastnFormat.tsv
 
-FormatNames \
-	./${Output}/BenchmarkProphagesTblastx.tsv \
-	./${Output}/BenchmarkProphagesTblastxFormat.tsv
+# Flip the output
+awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/BenchmarkProphagesBlastnFormat.tsv \
+	> ${ProphageOutFile}
 
 ################
 # Predict ORFs #
@@ -123,35 +144,36 @@ echo Predicting ORFs...
 
 PredictOrfs \
 	${PhageGenomeRef} \
-	./${Output}/PhageReferenceOrfs.fa \
+	./data/${Output}/PhageReferenceOrfs.fa \
 	|| exit
 
 PredictOrfs \
 	${BacteriaGenomeRef} \
-	./${Output}/BacteriaReferenceOrfs.fa \
+	./data/${Output}/BacteriaReferenceOrfs.fa \
 	|| exit
 
-#####################
+######################
 # Run BLASTx scripts #
-#####################
+######################
 echo Getting gene matches by blastx...
 
-bash ${BinPath}GetPairsByBlastx.sh \
-	./${Output}/PhageReferenceOrfs.fa \
-	./${Output}/BacteriaReferenceOrfs.fa \
-	./${Output}/MatchesByBlastx.tsv \
+bash ./bin/GetPairsByBlastx.sh \
+	./data/${Output}/PhageReferenceOrfs.fa \
+	./data/${Output}/BacteriaReferenceOrfs.fa \
+	./data/${Output}/MatchesByBlastx.tsv \
 	${WorkingDirectory} \
+	"/mnt/EXT/Schloss-data/bin/" \
 	|| exit
 
 # Format the output
 FormatNames \
-	./${Output}/MatchesByBlastx.tsv \
-	./${Output}/MatchesByBlastxFormat.tsv
+	./data/${Output}/MatchesByBlastx.tsv \
+	./data/${Output}/MatchesByBlastxFormat.tsv
 
 # Format to get the right columns in the right order
 awk '{ print $2"\t"$1"\t"$12 }' \
-	./${Output}/MatchesByBlastxFormat.tsv \
-	> MatchesByBlastxFormatOrder.tsv
+	./data/${Output}/MatchesByBlastxFormat.tsv \
+	> ${BlastxOut}
 
 ####################
 # Run Pfam scripts #
@@ -159,18 +181,25 @@ awk '{ print $2"\t"$1"\t"$12 }' \
 
 echo Getting PFAM interactions...
 
-bash ${BinPath}PfamDomainInteractPrediction.sh \
-	./${Output}/PhageReferenceOrfs.fa \
-	./${Output}/BacteriaReferenceOrfs.fa \
-	./${Output}/PfamInteractions.tsv \
+bash ./bin/PfamDomainInteractPrediction.sh \
+	./data/${Output}/PhageReferenceOrfs.fa \
+	./data/${Output}/BacteriaReferenceOrfs.fa \
+	./data/${Output}/PfamInteractions.tsv \
+	${WorkingDirectory} \
+	"/mnt/EXT/Schloss-data/bin/" \
+	"/home/ghannig/Pfam/" \
 	|| exit
 
 # Format the output
 FormatNames \
-	./${Output}/PfamInteractions.tsv \
-	./${Output}/PfamInteractionsFormat.tsv
+	./data/${Output}/PfamInteractions.tsv \
+	./data/${Output}/PfamInteractionsFormat.tsv
 
 # Format the output order and score sum
 awk '{ print $1"\t"$3"\t"($2 + $4) }' \
-	./${Output}/PfamInteractionsFormat.tsv \
-	> ./${Output}/PfamInteractionsFormatScored.tsv 
+	./data/${Output}/PfamInteractionsFormat.tsv \
+	> ./data/${Output}/PfamInteractionsFormatScored.tsv 
+
+# Flip output
+awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/PfamInteractionsFormatScored.tsv  \
+	> ${PfamOut}

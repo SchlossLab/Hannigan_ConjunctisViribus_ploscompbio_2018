@@ -4,14 +4,6 @@
 # Pat Schloss Lab
 # University of Michigan
 
-#PBS -N DownloadPublishedVirome
-#PBS -q first
-#PBS -l nodes=1:ppn=1,mem=40gb
-#PBS -l walltime=600:00:00
-#PBS -j oe
-#PBS -V
-#PBS -A schloss_lab
-
 module load samtools/1.2
 
 #######################

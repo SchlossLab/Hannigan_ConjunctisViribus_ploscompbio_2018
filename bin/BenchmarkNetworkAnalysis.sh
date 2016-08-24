@@ -8,4 +8,4 @@ perl BenchmarkDatabaseCreation.pl \
 	-c ../data/RunPhageBacteriaModel/BenchmarkCrisprsFormat.tsv \
 	-b ../data/RunPhageBacteriaModel/BenchmarkProphagesFormatFlip.tsv \
 	-p ../data/RunPhageBacteriaModel/PfamInteractionsFormatScoredFlip.tsv \
-	-x ../data/RunPhageBacteriaModel/MatchesByBlastxFormatOrder.tsv
+	-x ../data/RunPhageBacteriaModel/MatchesByBlastxFormatFlip.tsv

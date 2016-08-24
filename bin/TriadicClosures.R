@@ -20,6 +20,7 @@ ImportGraphToDataframe <- function (GraphConnection=graph, CypherQuery=query, fi
 	# Use cypher to get the edges
 	edges = cypher(GraphConnection, CypherQuery)
 	edges <- edges[!duplicated(edges[1:2]),]
+	write("Running Filters", stderr())
 	# Filter out nodes with fewer edges than specified
 	if (filter > 0) {
 		# Remove the edges to singleton nodes
@@ -30,6 +31,7 @@ ImportGraphToDataframe <- function (GraphConnection=graph, CypherQuery=query, fi
 	} else {
 		MultipleEdge <- edges
 	}
+	write("Setting Nodes", stderr())
 	# Set nodes
 	nodes = data.frame(id=unique(c(MultipleEdge$from, MultipleEdge$to)))
 	nodes$label = nodes$id
@@ -84,16 +86,16 @@ graph = startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
 # Use Cypher query to get a table of the table edges
 query="
-MATCH (n)<-[r]-(m)-[j]->(k) WHERE n <> k RETURN DISTINCT n.Genus AS from, k.Genus AS to;
+MATCH (n)-[]->(m)<-[]-(k) WHERE n <> k RETURN DISTINCT n.Name AS from, k.Name AS to LIMIT 50000;
 "
 
 GraphOutputList <- ImportGraphToDataframe(filter=0)
 nodeout <- as.data.frame(GraphOutputList[1])
 edgeout <- as.data.frame(GraphOutputList[2])
-
+head(nodeout)
 head(edgeout)
 
 # Save as PDF
-pdf(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/BacteriaTriadicClosures.pdf", width=8, height=8)
-	PlotNetwork(clusters=TRUE)
+pdf(file="/Users/Hannigan/git/Hannigan-2016-ConjunctisViribus/figures/PhageTriadicClosures.pdf", width=8, height=8)
+	PlotNetwork(clusters=FALSE)
 dev.off()

@@ -47,6 +47,7 @@ my $relnHit;
 my $score;
 my $scorenum;
 my $blastx;
+my $validation;
 
 # Startup the neo4j connection using default location
 # Be sure to set username and password as neo4j
@@ -61,10 +62,10 @@ GetOptions(
     'h|help' => \$opt_help,
     # 'i|input=s' => \$input,
     'c|crispr=s' => \$crispr,
-    # 'u|uniprot=s' => \$uniprot,
     'b|blast=s' => \$blast,
     'p|pfam=s' => \$pfam,
-    'x|blastx=s' => \$blastx
+    'x|blastx=s' => \$blastx,
+    'v|validation' => \$validation
 );
 
 pod2usage(-verbose => 1) && exit if defined $opt_help;
@@ -72,7 +73,6 @@ pod2usage(-verbose => 1) && exit if defined $opt_help;
 # Open files
 # open(my $IN, "<", "$input") || die "Unable to read in $input: $!";
 open(my $CRISPR, "<", "$crispr") || die "Unable to read in $crispr: $!";
-# open(my $UNIPROT, "<", "$uniprot") || die "Unable to read in $uniprot: $!";
 open(my $BLAST, "<", "$blast") || die "Unable to read in $blast: $!";
 open(my $PFAM, "<", "$pfam") || die "Unable to read in $pfam: $!";
 open(my $BLASTX, "<", "$blastx") || die "Unable to read in $blastx: $!";
@@ -102,6 +102,7 @@ sub AddGenericFile {
             $n1 = REST::Neo4p::Node->new( {Name => $formname} );
             $n1->set_property( {Organism => 'Phage'} );
             $n1->set_labels('Phage',$formname);
+            $n1->set_labels('ValidationSet') if defined $validation;
         }
         unless (@n12) {
             ($FullName = $Spacer) =~ s/\s/_/g;
@@ -120,6 +121,7 @@ sub AddGenericFile {
             $n2->set_property( {Species => $Species} );
             $n2->set_property( {Organism => 'Bacterial_Host'} );
             $n2->set_labels('Bacterial_Host',$FullName);
+            $n2->set_labels('ValidationSet') if defined $validation;
         }
         
         # Then get the newly created nodes as arrays
@@ -167,6 +169,8 @@ sub AddGenericFile {
 
 # print STDERR "\n\n\nProgress: Adding Experimentally Validated Interactions\n";
 # AddGenericFile(\*$IN, "Interaction", "TRUE");
+
+print STDERR "\nRunning Data As Validation Dataset\n" if defined $validation;
 
 print STDERR "\n\n\nProgress: Adding Predicted CRISPR Interactions\n";
 AddGenericFile(\*$CRISPR, "CRISPR", "TRUE");

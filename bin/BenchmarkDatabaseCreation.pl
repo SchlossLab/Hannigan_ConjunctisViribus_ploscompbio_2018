@@ -99,7 +99,7 @@ sub AddGenericFile {
         # Create new phage target node if it does not exist
         unless (@n11) {
             $formname = $PhageTargetForm;
-            # print STDERR "New CRISPR phage target is $formname\n";
+            print STDERR "New CRISPR phage target is $formname\n";
             $n1 = REST::Neo4p::Node->new( {Name => $formname} );
             $n1->set_property( {Organism => 'Phage'} );
             $n1->set_labels('Phage',$formname);
@@ -107,7 +107,7 @@ sub AddGenericFile {
         }
         unless (@n12) {
             ($FullName = $Spacer) =~ s/\s/_/g;
-            # print STDERR "New spacer host is $FullName\n";
+            print STDERR "New spacer host is $FullName\n";
             $Genus = (split /_/, $FullName)[0];
             $Species = $Genus."_".(split /_/, $FullName)[1];
             # Remove all non-standard characters from the variable names
@@ -115,8 +115,8 @@ sub AddGenericFile {
             $FullName =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
             $Genus =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
             $Species =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
-            # print STDERR "CRISPR host genus is $Genus\n";
-            # print STDERR "CRISPR host species is $Species\n";
+            print STDERR "CRISPR host genus is $Genus\n";
+            print STDERR "CRISPR host species is $Species\n";
             $n2 = REST::Neo4p::Node->new( {Name => $FullName} );
             $n2->set_property( {Genus => $Genus} );
             $n2->set_property( {Species => $Species} );

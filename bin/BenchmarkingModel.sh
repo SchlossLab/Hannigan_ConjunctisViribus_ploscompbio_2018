@@ -46,7 +46,7 @@ FormatNames () {
 	# 1 = Input file with names to be formatted
 	# 2 = Output file name
 
-	# Perl here because the regex are easierls
+	# Perl here because the regex are easier
 	perl -pe 's/ENA\S+\.\d_//g' "${1}" \
 		| perl -pe 's/\,_\S+//g' \
 		| perl -pe 's/_complete\S+//g' \

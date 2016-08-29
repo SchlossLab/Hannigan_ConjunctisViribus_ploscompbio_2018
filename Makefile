@@ -48,14 +48,4 @@ download : ${DOWNLOAD}
 		./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv
 
 createnetwork : ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv
-	# Start neo4j server locally
-	/mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j start
-	perl ./bin/BenchmarkDatabaseCreation.pl \
-		-c ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv \
-		-b ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv \
-		-p ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv \
-		-x ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv \
-		-v \
-	|| /mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
-	# Stop local neo4j server
-	/mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
+	bash ./bin/CreateProteinNetwork 

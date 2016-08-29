@@ -13,7 +13,8 @@ DOWNLOAD = ./data/ViromePublications/*
 
 OBJECTS = \
 	./data/ValidationSet/ValidationPhageNoBlock.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa \
-	./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv
+	./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv \
+	createnetwork
 
 all : ${OBJECTS}
 download : ${DOWNLOAD}
@@ -38,10 +39,20 @@ download : ${DOWNLOAD}
 		./data/ValidationSet/ValidationBacteriaNoBlock.fa
 
 ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv : ./data/ValidationSet/ValidationPhageNoBlock.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa
-		bash ./bin/BenchmarkingModel.sh \
-			./data/ValidationSet/ValidationPhageNoBlock.fa \
-			./data/ValidationSet/ValidationBacteriaNoBlock.fa \
-			./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv \
-			./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv \
-			./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv \
-			./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv 
+	bash ./bin/BenchmarkingModel.sh \
+		./data/ValidationSet/ValidationPhageNoBlock.fa \
+		./data/ValidationSet/ValidationBacteriaNoBlock.fa \
+		./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv \
+		./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv \
+		./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv \
+		./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv
+
+createnetwork : ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatFlip.tsv
+	perl ./bin/BenchmarkDatabaseCreation.pl \
+		-c ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv \
+		-b ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv \
+		-p ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv \
+		-x ./data/BenchmarkingSet/MatchesByBlastxFormatFlip.tsv \
+		-v
+
+

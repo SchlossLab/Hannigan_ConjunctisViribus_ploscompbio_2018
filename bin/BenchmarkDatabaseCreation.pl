@@ -93,8 +93,9 @@ sub AddGenericFile {
         ($PhageTargetForm = $PhageTarget) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
         print "Phage Form: $PhageTargetForm\n";
         my @n11 = REST::Neo4p->get_nodes_by_label( $PhageTargetForm );
-        # print scalar(@n11)."\n";
+        print scalar(@n11)."\n";
         my @n12 = REST::Neo4p->get_nodes_by_label( $SpacerForm );
+        print scalar(@n12)."\n";
         # Create new phage target node if it does not exist
         unless (@n11) {
             $formname = $PhageTargetForm;
@@ -172,8 +173,8 @@ sub AddGenericFile {
 
 print STDERR "\nRunning Data As Validation Dataset\n" if defined $validation;
 
-# print STDERR "\n\n\nProgress: Adding Predicted CRISPR Interactions\n";
-# AddGenericFile(\*$CRISPR, "CRISPR", "TRUE");
+print STDERR "\n\n\nProgress: Adding Predicted CRISPR Interactions\n";
+AddGenericFile(\*$CRISPR, "CRISPR", "TRUE");
 
 # print STDERR "\n\n\nProgress: Adding Predicted Uniprot results\n";
 # AddGenericFile(\*$UNIPROT, "Uniprot");

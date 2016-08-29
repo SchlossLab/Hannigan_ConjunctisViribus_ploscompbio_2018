@@ -80,7 +80,7 @@ open(my $BLASTX, "<", "$blastx") || die "Unable to read in $blastx: $!";
 sub AddGenericFile {
     # Import file handle
     my ($fileInput, $label, $score) = @_;
-    print "Score is $score\n";
+    # print "Score is $score\n";
     foreach my $line (<$fileInput>) {
         # print $line;
         chomp $line;
@@ -89,25 +89,25 @@ sub AddGenericFile {
         $scorenum = (split /\t/, $line)[2] unless ($score eq "FALSE");
         # Remove illegal characters
         ($SpacerForm = $Spacer) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
-        print "Bacteria Form: $SpacerForm\n";
+        # print "Bacteria Form: $SpacerForm\n";
         ($PhageTargetForm = $PhageTarget) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
-        print "Phage Form: $PhageTargetForm\n";
+        # print "Phage Form: $PhageTargetForm\n";
         my @n11 = REST::Neo4p->get_nodes_by_label( $PhageTargetForm );
-        print scalar(@n11)."\n";
+        # print scalar(@n11)."\n";
         my @n12 = REST::Neo4p->get_nodes_by_label( $SpacerForm );
-        print scalar(@n12)."\n";
+        # print scalar(@n12)."\n";
         # Create new phage target node if it does not exist
         unless (@n11) {
             $formname = $PhageTargetForm;
-            print STDERR "New CRISPR phage target is $formname\n";
+            # print STDERR "New CRISPR phage target is $formname\n";
             $n1 = REST::Neo4p::Node->new( {Name => $formname} );
-            print STDERR "$n1\n";
+            # print STDERR "$n1\n";
             $n1->set_property( {Organism => 'Phage'} );
             $n1->set_labels('Phage',$formname);
         }
         unless (@n12) {
             ($FullName = $Spacer) =~ s/\s/_/g;
-            print STDERR "New spacer host is $FullName\n";
+            # print STDERR "New spacer host is $FullName\n";
             $Genus = (split /_/, $FullName)[0];
             $Species = $Genus."_".(split /_/, $FullName)[1];
             # Remove all non-standard characters from the variable names
@@ -115,8 +115,8 @@ sub AddGenericFile {
             $FullName =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
             $Genus =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
             $Species =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
-            print STDERR "CRISPR host genus is $Genus\n";
-            print STDERR "CRISPR host species is $Species\n";
+            # print STDERR "CRISPR host genus is $Genus\n";
+            # print STDERR "CRISPR host species is $Species\n";
             $n2 = REST::Neo4p::Node->new( {Name => $FullName} );
             $n2->set_property( {Genus => $Genus} );
             $n2->set_property( {Species => $Species} );
@@ -127,8 +127,8 @@ sub AddGenericFile {
         # Then get the newly created nodes as arrays
         @n11 = REST::Neo4p->get_nodes_by_label( $PhageTargetForm );
         @n12 = REST::Neo4p->get_nodes_by_label( $SpacerForm );
-        print scalar(@n11)."\n";
-        print scalar(@n12)."\n";
+        # print scalar(@n11)."\n";
+        # print scalar(@n12)."\n";
         # Ensure there are no duplicated nodes
         die "You dont have only one phage node ID: $!" unless (scalar(@n11) eq 1);
         die "You dont have only one duplicate bacteria node ID: $!" unless (scalar(@n12) eq 1);

@@ -128,6 +128,8 @@ sub AddGenericFile {
         # Then get the newly created nodes as arrays
         @n11 = REST::Neo4p->get_nodes_by_label( $PhageTargetForm );
         @n12 = REST::Neo4p->get_nodes_by_label( $SpacerForm );
+        print scalar(@n11)."\n";
+        print scalar(@n12)."\n";
         # Ensure there are no duplicated nodes
         die "You dont have only one phage node ID: $!" unless (scalar(@n11) eq 1);
         die "You dont have only one duplicate bacteria node ID: $!" unless (scalar(@n12) eq 1);

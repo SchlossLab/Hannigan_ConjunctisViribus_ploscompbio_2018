@@ -51,13 +51,13 @@ createnetwork : ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/Benchma
 	# Remove proxy env variables before running the perl script
 	unset http_proxy https_proxy ftp_proxy no_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY NO_PROXY
 	# Start neo4j server locally
-	/home/ghannig/bin/neo4j-enterprise-2.3.0/bin/neo4j start
+	/mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j start
 	perl ./bin/BenchmarkDatabaseCreation.pl \
 		-c ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv \
 		-b ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv \
 		-p ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv \
 		-x ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv \
 		-v \
-	|| /home/ghannig/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
+	|| /mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
 	# Stop local neo4j server
-	/home/ghannig/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
+	/mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j stop

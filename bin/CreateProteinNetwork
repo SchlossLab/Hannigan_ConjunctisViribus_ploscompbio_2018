@@ -8,7 +8,7 @@ module load perl-modules/5.22.1
 unset http_proxy https_proxy ftp_proxy no_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY NO_PROXY
 
 # Start neo4j server locally
-/mnt/EXT/Schloss-data/bin/neo4j-community-3.0.4/bin/neo4j start
+/mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j start
 
 echo Running neo4j script...
 
@@ -18,8 +18,8 @@ perl ./bin/BenchmarkDatabaseCreation.pl \
 		-p ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv \
 		-x ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv \
 		-v \
-	|| /mnt/EXT/Schloss-data/bin/neo4j-community-3.0.4/bin/neo4j stop
+	|| /mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
 
 # Stop local neo4j server
-/mnt/EXT/Schloss-data/bin/neo4j-community-3.0.4/bin/neo4j stop
+/mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
 

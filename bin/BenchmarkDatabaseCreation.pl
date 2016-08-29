@@ -128,8 +128,8 @@ sub AddGenericFile {
         @n11 = REST::Neo4p->get_nodes_by_label( $PhageTargetForm );
         @n12 = REST::Neo4p->get_nodes_by_label( $SpacerForm );
         # Ensure there are no duplicated nodes
-        die "You have duplicate phage node IDs: $!" unless (scalar(@n11) le 1);
-        die "You have duplicate bacteria node IDs: $!" unless (scalar(@n12) le 1);
+        die "You dont have only one phage node ID: $!" unless (scalar(@n11) eq 1);
+        die "You dont have only one duplicate bacteria node ID: $!" unless (scalar(@n12) eq 1);
         # Get nodes into scalar variables
         $array1 = pop @n11;
         $array2 = pop @n12;
@@ -172,8 +172,8 @@ sub AddGenericFile {
 
 print STDERR "\nRunning Data As Validation Dataset\n" if defined $validation;
 
-print STDERR "\n\n\nProgress: Adding Predicted CRISPR Interactions\n";
-AddGenericFile(\*$CRISPR, "CRISPR", "TRUE");
+# print STDERR "\n\n\nProgress: Adding Predicted CRISPR Interactions\n";
+# AddGenericFile(\*$CRISPR, "CRISPR", "TRUE");
 
 # print STDERR "\n\n\nProgress: Adding Predicted Uniprot results\n";
 # AddGenericFile(\*$UNIPROT, "Uniprot");

@@ -14,7 +14,7 @@ AccString=$(cut -f 2 ${PhageValidationAcc} | tr '\n' ',' | sed 's/,$//')
 wget "http://www.ebi.ac.uk/ena/data/view/${AccString}&display=fasta" -O ./ValidationPhage.fa
 # Get rid of the block format
 perl ./bin/remove_block_fasta_format.pl ./ValidationPhage.fa ./ValidationPhageNoBlock.fa
-perl -pe 's/^ENA\S+\S/^>/' ./ValidationPhageNoBlock.fa |
+perl -pe 's/^>ENA\S+\s/>/' ./ValidationPhageNoBlock.fa |
 	perl -pe 's/\, .*//' |
 	perl -pe 's/ complete.*//' |
 	> "${PhageOutput}"
@@ -28,7 +28,7 @@ AccBacteria=$(cut -f 3 ${BacteriaValidationAcc} | egrep -v 'Taxon' | egrep -v 'N
 wget "http://www.ebi.ac.uk/ena/data/view/${AccBacteria}&display=fasta" -O ./ValidationBacteria.fa
 # Get rid of the block format
 perl ./bin/remove_block_fasta_format.pl ./ValidationBacteria.fa ./ValidationBacteriaNoBlock.fa
-perl -pe 's/^ENA\S+\S/^>/' ./ValidationBacteriaNoBlock.fa |
+perl -pe 's/^>ENA\S+\s/>/' ./ValidationBacteriaNoBlock.fa |
 	perl -pe 's/\, .*//' |
 	perl -pe 's/ complete.*//' |
 	> "${BacteriaOutput}"

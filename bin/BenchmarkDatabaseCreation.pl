@@ -128,8 +128,8 @@ sub AddGenericFile {
         @n11 = REST::Neo4p->get_nodes_by_label( $PhageTargetForm );
         @n12 = REST::Neo4p->get_nodes_by_label( $SpacerForm );
         # Ensure there are no duplicated nodes
-        die "You have duplicate phage node IDs: $!" unless (scalar(@n11) eq 1);
-        die "You have duplicate bacteria node IDs: $!" unless (scalar(@n12) eq 1);
+        die "You have duplicate phage node IDs: $!" unless (scalar(@n11) le 1);
+        die "You have duplicate bacteria node IDs: $!" unless (scalar(@n12) le 1);
         # Get nodes into scalar variables
         $array1 = pop @n11;
         $array2 = pop @n12;

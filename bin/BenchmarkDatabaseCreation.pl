@@ -101,6 +101,7 @@ sub AddGenericFile {
             $formname = $PhageTargetForm;
             print STDERR "New CRISPR phage target is $formname\n";
             $n1 = REST::Neo4p::Node->new( {Name => $formname} );
+            print STDERR "$n1\n";
             $n1->set_property( {Organism => 'Phage'} );
             $n1->set_labels('Phage',$formname);
             $n1->set_labels('ValidationSet') if defined $validation;

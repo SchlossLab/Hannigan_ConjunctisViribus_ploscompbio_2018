@@ -104,9 +104,7 @@ sub AddGenericFile {
             print STDERR "$n1\n";
             $n1->set_property( {Organism => 'Phage'} );
             $n1->set_labels('Phage',$formname);
-            # $n1->set_labels('ValidationSet') if defined $validation;
-            @n11 = REST::Neo4p->get_nodes_by_label( $PhageTargetForm );
-            print scalar(@n11)."\n";
+            $n1->set_labels('ValidationSet') if defined $validation;
         }
         unless (@n12) {
             ($FullName = $Spacer) =~ s/\s/_/g;
@@ -125,7 +123,7 @@ sub AddGenericFile {
             $n2->set_property( {Species => $Species} );
             $n2->set_property( {Organism => 'Bacterial_Host'} );
             $n2->set_labels('Bacterial_Host',$FullName);
-            # $n2->set_labels('ValidationSet') if defined $validation;
+            $n2->set_labels('ValidationSet') if defined $validation;
         }
         
         # Then get the newly created nodes as arrays

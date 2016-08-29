@@ -18,8 +18,8 @@ perl -pe 's/^>ENA\S+\s/>/' ./ValidationPhageNoBlock.fa |
 	perl -pe 's/\, .*//' |
 	perl -pe 's/ complete.*//' |
 	> "${PhageOutput}"
-rm ./ValidationPhage.fa
-rm ./ValidationPhageNoBlock.fa
+# rm ./ValidationPhage.fa
+# rm ./ValidationPhageNoBlock.fa
 
 # Also get a fasta for the bacterial genomes being used
 

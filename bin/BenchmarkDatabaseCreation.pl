@@ -105,6 +105,8 @@ sub AddGenericFile {
             $n1->set_property( {Organism => 'Phage'} );
             $n1->set_labels('Phage',$formname);
             $n1->set_labels('ValidationSet') if defined $validation;
+            @n11 = REST::Neo4p->get_nodes_by_label( $PhageTargetForm );
+            print scalar(@n11)."\n";
         }
         unless (@n12) {
             ($FullName = $Spacer) =~ s/\s/_/g;

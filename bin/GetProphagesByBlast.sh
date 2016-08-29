@@ -41,7 +41,7 @@ BlastPhageAgainstBacteria () {
     	-out ./${Output}/PhageToBacteria.blastn \
     	-db ./${Output}/BacteraGenomeReference \
     	-evalue 1e10 \
-    	-num_threads 8\
+    	-num_threads 8 \
     	-outfmt 6
 
     echo Formatting blast output...

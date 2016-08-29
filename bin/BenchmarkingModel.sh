@@ -16,6 +16,7 @@ export CRISPRout=${3}
 export ProphageOutFile=${4}
 export BlastxOut=${5}
 export PfamOut=${6}
+export WorkingDirectory=$(pwd)
 
 mkdir ./data/${Output}
 

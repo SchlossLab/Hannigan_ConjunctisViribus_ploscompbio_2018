@@ -20,6 +20,8 @@ echo Creating output directory...
 cd "${WorkingDirectory}" || exit
 mkdir ./${Output}
 
+echo Diamond is found in ${SchlossBin}...
+
 GetPfamHits () {
 	# 1 = Phage Orfs
 	# 2 = Bacteria Orfs

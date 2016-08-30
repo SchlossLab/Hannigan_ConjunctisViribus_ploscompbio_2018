@@ -6,9 +6,6 @@
 #################
 # Set Libraries #
 #################
-
-setwd("~/git/Hannigan-2016-ConjunctisViribus/data/BenchmarkingResults")
-
 suppressMessages(c(
 library("igraph"),
 library("RNeo4j"),
@@ -135,11 +132,11 @@ calculatetfpos(positivedf, negativedf)
 # Save Output #
 ###############
 
-pdf(file="../../figures/rocCurves.pdf",
+pdf(file="./figures/rocCurves.pdf",
 height=8,
 width=8)
   a <- dev.cur()
-  png(file="../../figures/rocCurves.png",
+  png(file="./figures/rocCurves.png",
   width=8,
   height=8,
   units="in",
@@ -150,11 +147,11 @@ width=8)
   dev.off()
 dev.off()
 
-pdf(file="../../figures/ResultHeatmaps.pdf",
+pdf(file="./figures/ResultHeatmaps.pdf",
 height=18,
 width=10)
   a <- dev.cur()
-  png(file="../../figures/ResultHeatmaps.png",
+  png(file="./figures/ResultHeatmaps.png",
   height=18,
   width=10,
   units="in",
@@ -165,12 +162,12 @@ width=10)
   dev.off()
 dev.off()
 
-write.table(positivedf, file="./PositiveHitResults.tsv",
-  sep="\t",
-  quote=FALSE,
-  row.names=FALSE)
+# write.table(positivedf, file="./PositiveHitResults.tsv",
+#   sep="\t",
+#   quote=FALSE,
+#   row.names=FALSE)
 
-write.table(negativedf, file="./NegativeHitResults.tsv",
-  sep="\t",
-  quote=FALSE,
-  row.names=FALSE)
+# write.table(negativedf, file="./NegativeHitResults.tsv",
+#   sep="\t",
+#   quote=FALSE,
+#   row.names=FALSE)

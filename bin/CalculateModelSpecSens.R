@@ -3,6 +3,13 @@
 # Pat Schloss Lab
 # University of Michigan
 
+##################################
+# Install Dependencies if Needed #
+##################################
+list.of.packages <- c("igraph", "RNeo4j", "pROC", "ggplot2", "gridExtra", "grid")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
 #################
 # Set Libraries #
 #################
@@ -92,11 +99,9 @@ graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
 querypositive <- "
 MATCH (n)-[r]->(m)
-WHERE r.Interaction='1'
 RETURN
 m.Name as Bacteria,
 n.Name as Phage,
-r.Interaction as Interaction,
 r.CRISPR as CRISPR,
 r.BLAST as Blast,
 r.BLASTX as Blastx,
@@ -105,11 +110,9 @@ r.PFAM as Pfam;
 
 querynegative <- "
 MATCH (n)-[r]->(m)
-WHERE NOT r.Interaction='1'
 RETURN
 m.Name as Bacteria,
 n.Name as Phage,
-r.Interaction as Interaction,
 r.CRISPR as CRISPR,
 r.BLAST as Blast,
 r.BLASTX as Blastx,

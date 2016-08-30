@@ -28,8 +28,8 @@ library("grid")
 getresults <- function(x, direction=TRUE) {
   x[is.na(x)] <- 0
   x[x == "TRUE"] <- 1
-  x[,3:7] <- as.data.frame(sapply(x[,3:7], as.numeric))
-  x$Prediction <- rowSums(x[,c(4:7)])
+  x[,3:6] <- as.data.frame(sapply(x[,3:6], as.numeric))
+  x$Prediction <- rowSums(x[,c(3:6)])
   if (direction) {
     x$Correct <- ifelse(
       x$Interaction <= x$Prediction,

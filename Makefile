@@ -14,7 +14,8 @@ DOWNLOAD = ./data/ViromePublications/*
 OBJECTS = \
 	./data/ValidationSet/ValidationPhageNoBlock.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa \
 	./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv \
-	createnetwork
+	createnetwork \
+	./figures/rocCurves.pdf ./figures/rocCurves.png ./figures/ResultHeatmaps.pdf ./figures/ResultHeatmaps.png
 
 all : ${OBJECTS}
 download : ${DOWNLOAD}
@@ -48,4 +49,8 @@ download : ${DOWNLOAD}
 		./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv
 
 createnetwork : ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv
-	bash ./bin/CreateProteinNetwork 
+	bash ./bin/CreateProteinNetwork
+
+# Run the R script for the validation ROC curve analysis
+./figures/rocCurves.pdf ./figures/rocCurves.png ./figures/ResultHeatmaps.pdf ./figures/ResultHeatmaps.png:
+	bash ./bin/RunRocAnalysisWithNeo4j.sh

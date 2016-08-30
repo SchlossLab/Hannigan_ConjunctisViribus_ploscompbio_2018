@@ -60,7 +60,7 @@ ref $@ ? $@->rethrow : die $@ if $@;
 # Set the options
 GetOptions(
     'h|help' => \$opt_help,
-    # 'i|input=s' => \$input,
+    'i|input=s' => \$input,
     'c|crispr=s' => \$crispr,
     'b|blast=s' => \$blast,
     'p|pfam=s' => \$pfam,
@@ -71,7 +71,7 @@ GetOptions(
 pod2usage(-verbose => 1) && exit if defined $opt_help;
 
 # Open files
-# open(my $IN, "<", "$input") || die "Unable to read in $input: $!";
+open(my $IN, "<", "$input") || die "Unable to read in $input: $!";
 open(my $CRISPR, "<", "$crispr") || die "Unable to read in $crispr: $!";
 open(my $BLAST, "<", "$blast") || die "Unable to read in $blast: $!";
 open(my $PFAM, "<", "$pfam") || die "Unable to read in $pfam: $!";
@@ -169,8 +169,8 @@ sub AddGenericFile {
     }
 }
 
-# print STDERR "\n\n\nProgress: Adding Experimentally Validated Interactions\n";
-# AddGenericFile(\*$IN, "Interaction", "TRUE");
+print STDERR "\n\n\nProgress: Adding Experimentally Validated Interactions\n";
+AddGenericFile(\*$IN, "Interaction", "TRUE");
 
 print STDERR "\nRunning Data As Validation Dataset\n" if defined $validation;
 

@@ -28,8 +28,8 @@ library("grid")
 getresults <- function(x, direction=TRUE) {
   x[is.na(x)] <- 0
   x[x == "TRUE"] <- 1
-  x[,3:6] <- as.data.frame(sapply(x[,3:6], as.numeric))
-  x$Prediction <- rowSums(x[,c(3:6)])
+  x[,3:7] <- as.data.frame(sapply(x[,3:7], as.numeric))
+  x$Prediction <- rowSums(x[,c(4:7)])
   if (direction) {
     x$Correct <- ifelse(
       x$Interaction <= x$Prediction,
@@ -99,9 +99,11 @@ graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
 querypositive <- "
 MATCH (n)-[r]->(m)
+WHERE r.Interaction='1'
 RETURN
 m.Name as Bacteria,
 n.Name as Phage,
+r.Interaction as Interaction,
 r.CRISPR as CRISPR,
 r.BLAST as Blast,
 r.BLASTX as Blastx,
@@ -110,9 +112,11 @@ r.PFAM as Pfam;
 
 querynegative <- "
 MATCH (n)-[r]->(m)
+WHERE NOT r.Interaction='1'
 RETURN
 m.Name as Bacteria,
 n.Name as Phage,
+r.Interaction as Interaction,
 r.CRISPR as CRISPR,
 r.BLAST as Blast,
 r.BLASTX as Blastx,

@@ -31,7 +31,7 @@ getresults <- function(x, direction=TRUE) {
   return(x)
 }
 
-c50model <- function(x, trialcount=10, percentsplit=0.75) {
+c50model <- function(x, trialcount=10, percentsplit=0.5) {
   x <- x[sample(nrow(x)),]
   # Note this assumes the first column is the category
   categories <- data.frame(x[,1])
@@ -48,7 +48,7 @@ c50model <- function(x, trialcount=10, percentsplit=0.75) {
   model <-  C50::C5.0(trainvalues, traincat, trials=trialcount)
   pred <- predict(model, testvalues, type="class")
   accuracy <- sum( pred == testcat ) / length( pred )
-  return(accuracy)
+  return(as.list(summary( model ), accuracy))
 }
 
 ################

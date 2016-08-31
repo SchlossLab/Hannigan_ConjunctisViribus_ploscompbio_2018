@@ -98,6 +98,7 @@ negativequerydata <- cypher(graph, querynegative)
 positivedf <- getresults(positivequerydata)
 negativedf <- getresults(negativequerydata, FALSE)
 
-dfbind <- rbind(positivedf, negativedf)
+dfbind <- cbind(positivedf, negativedf)
+dfbind
 
-c50model(dfbind)
+# c50model(dfbind)

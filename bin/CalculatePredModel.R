@@ -48,7 +48,7 @@ c50model <- function(x, trialcount=10, percentsplit=0.75) {
   model <-  C50::C5.0(trainvalues, traincat, trials=trialcount)
   pred <- predict(model, testvalues, type="class")
   accuracy <- sum( pred == testcat ) / length( pred )
-  return(results)
+  return(accuracy)
 }
 
 ################

@@ -29,11 +29,11 @@ getresults <- function(x, direction=TRUE) {
   x[,3:7] <- as.data.frame(sapply(x[,3:7], as.numeric))
   x <- x[,-c(1:2)]
   rownames(x) <- NULL
-  # Convert blastn to factor
-  x$Blast <- factor(ifelse(
-    x$Blast > 0,
-    "TRUE",
-    "FALSE"))
+  # # Convert blastn to factor
+  # x$Blast <- factor(ifelse(
+  #   x$Blast > 0,
+  #   "TRUE",
+  #   "FALSE"))
   return(x)
 }
 
@@ -110,6 +110,6 @@ negativedf <- getresults(negativequerydata, FALSE)
 dfbind <- rbind(positivedf, negativedf)
 dfbind <- data.frame(dfbind[complete.cases(dfbind),])
 
-c50model(dfbind)
+# c50model(dfbind)
 
 caretc50model(dfbind)

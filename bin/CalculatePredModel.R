@@ -28,6 +28,11 @@ getresults <- function(x, direction=TRUE) {
   x[,3:7] <- as.data.frame(sapply(x[,3:7], as.numeric))
   x <- x[,-c(1:2)]
   rownames(x) <- NULL
+  # Convert blastn to factor
+  x$Blast <- factor(ifelse(
+    x$Blast > 0,
+    "TRUE",
+    "FALSE"))
   return(x)
 }
 
@@ -48,7 +53,7 @@ c50model <- function(x, trialcount=10, percentsplit=0.5) {
   model <-  C50::C5.0(trainvalues, traincat, trials=trialcount)
   pred <- predict(model, testvalues, type="class")
   accuracy <- sum( pred == testcat ) / length( pred )
-  return(values)
+  return(list(summary( model ), accuracy))
 }
 
 ################

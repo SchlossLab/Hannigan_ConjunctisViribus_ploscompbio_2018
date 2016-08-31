@@ -34,17 +34,17 @@ getresults <- function(x, direction=TRUE) {
 c50model <- function(x, trialcount=10, percentsplit=0.75) {
   x <- x[sample(nrow(x)),]
   # Note this assumes the first column is the category
-  cats <- data.frame(x[,1])
-  write(cats, stderr())
+  categories <- data.frame(x[,1])
+  write(categories, stderr())
   values <- data.frame(x[,-1])
   trainingcount <- round(nrow(x) * percentsplit)
   write(trainingcount, stderr())
   totalcount <- nrow(x)
   write(totalcount, stderr())
   testingcount <- trainingcount + 1
-  traincat <- cats[c(1:trainingcount), ]
+  traincat <- categories[c(1:trainingcount), ]
   trainvalues <- values[c(1:trainingcount), ]
-  testcat <- cats[c(testingcount:totalcount), ]
+  testcat <- categories[c(testingcount:totalcount), ]
   testvalues <- values[c(testingcount:totalcount), ]
 
   # Boost the model
@@ -92,8 +92,8 @@ r.PFAM as Pfam;
 positivequerydata <- cypher(graph, querypositive)
 negativequerydata <- cypher(graph, querynegative)
 
-head(positivequerydata)
-head(negativequerydata)
+# head(positivequerydata)
+# head(negativequerydata)
 
 positivedf <- getresults(positivequerydata)
 negativedf <- getresults(negativequerydata, FALSE)

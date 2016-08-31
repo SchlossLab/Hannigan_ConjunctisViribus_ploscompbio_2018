@@ -33,25 +33,25 @@ getresults <- function(x, direction=TRUE) {
 
 c50model <- function(x, trialcount=10, percentsplit=0.75) {
   x <- x[sample(nrow(x)),]
-  # Note this assumes the first column is the category
-  categories <- data.frame(x[,1])
-  write(categories, stderr())
-  values <- data.frame(x[,-1])
-  trainingcount <- round(nrow(x) * percentsplit)
-  write(trainingcount, stderr())
-  totalcount <- nrow(x)
-  write(totalcount, stderr())
-  testingcount <- trainingcount + 1
-  traincat <- categories[c(1:trainingcount), ]
-  trainvalues <- values[c(1:trainingcount), ]
-  testcat <- categories[c(testingcount:totalcount), ]
-  testvalues <- values[c(testingcount:totalcount), ]
+  write(x, stderr())
+  # # Note this assumes the first column is the category
+  # categories <- data.frame(x[,1])
+  # values <- data.frame(x[,-1])
+  # trainingcount <- round(nrow(x) * percentsplit)
+  # write(trainingcount, stderr())
+  # totalcount <- nrow(x)
+  # write(totalcount, stderr())
+  # testingcount <- trainingcount + 1
+  # traincat <- categories[c(1:trainingcount), ]
+  # trainvalues <- values[c(1:trainingcount), ]
+  # testcat <- categories[c(testingcount:totalcount), ]
+  # testvalues <- values[c(testingcount:totalcount), ]
 
-  # Boost the model
-  model <-  C50::C5.0(trainvalues, traincat, trials=trialcount)
-  pred <- predict(model, testvalues)
-  results <- postResample(pred, testcat)
-  return(results)
+  # # Boost the model
+  # model <-  C50::C5.0(trainvalues, traincat, trials=trialcount)
+  # pred <- predict(model, testvalues)
+  # results <- postResample(pred, testcat)
+  # return(results)
 }
 
 ################

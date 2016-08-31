@@ -39,9 +39,9 @@ c50model <- function(x, trialcount=10, percentsplit=0.75) {
   trainingcount <- round(nrow(x) * percentsplit)
   totalcount <- nrow(x)
   testingcount <- trainingcount + 1
-  traincat <- categories[c(1:trainingcount), ]
+  traincat <- factor(categories[c(1:trainingcount), ])
   trainvalues <- values[c(1:trainingcount), ]
-  testcat <- categories[c(testingcount:totalcount), ]
+  testcat <- factor(categories[c(testingcount:totalcount), ])
   testvalues <- values[c(testingcount:totalcount), ]
 
   # Boost the model
@@ -97,6 +97,5 @@ negativedf <- getresults(negativequerydata, FALSE)
 
 dfbind <- rbind(positivedf, negativedf)
 dfbind <- data.frame(dfbind[complete.cases(dfbind),])
-dfbind
 
 c50model(dfbind)

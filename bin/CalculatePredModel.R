@@ -34,9 +34,9 @@ getresults <- function(x, direction=TRUE) {
 c50model <- function(x, trialcount=10, percentsplit=0.75) {
   x <- x[sample(nrow(x)),]
   # Note this assumes the first column is the category
-  cats <- x[,1]
+  cats <- data.frame(x[,1])
   write(cats, stderr())
-  values <- x[,-1]
+  values <- data.frame(x[,-1])
   trainingcount <- round(nrow(x) * percentsplit)
   write(trainingcount, stderr())
   totalcount <- nrow(x)

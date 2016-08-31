@@ -59,7 +59,7 @@ c50model <- function(x, trialcount=10, percentsplit=0.5) {
 
 caretc50model <- function(x) {
   train_control <- trainControl(method="LOOCV")
-  model <- train(Interaction~., data=x, trControl=train_control, method="C5.0")
+  model <- train(Interaction~., data=x, trControl=train_control, method="nb")
   return(model)
 }
 

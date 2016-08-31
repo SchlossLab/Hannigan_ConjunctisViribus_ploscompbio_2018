@@ -6,6 +6,7 @@
 write("Collapsing Gene Scores", stderr())
 
 library("optparse")
+library("plyr")
 
 option_list <- list(
   make_option(c("-i", "--input"),
@@ -25,7 +26,7 @@ opt <- parse_args(opt_parser);
 
 input <- read.delim(opt$input, head=FALSE, sep="\t")
 
-agtable <- ddply(input, c("V1", "V2"), summarize, sum=sum(V1))
+agtable <- ddply(input, c("V1", "V2"), summarize, sum=sum(V3))
 
 write.table(
   x = agtable,

@@ -32,7 +32,7 @@ getresults <- function(x, direction=TRUE) {
 }
 
 c50model <- function(x, trialcount=10, percentsplit=0.75) {
-  write(x, stderr())
+  return(x)
   # x <- x[sample(nrow(x)),]
   # write(x, stderr())
   # # Note this assumes the first column is the category

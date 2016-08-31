@@ -6,7 +6,7 @@
 ##################################
 # Install Dependencies if Needed #
 ##################################
-list.of.packages <- c("RNeo4j", "ggplot2", "C50")
+list.of.packages <- c("RNeo4j", "ggplot2", "C50", "caret")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
@@ -16,7 +16,8 @@ if(length(new.packages)) install.packages(new.packages)
 suppressMessages(c(
 library("RNeo4j"),
 library("ggplot2"),
-library("C50")
+library("C50"),
+library("caret")
 ))
 
 ###################
@@ -54,6 +55,12 @@ c50model <- function(x, trialcount=10, percentsplit=0.5) {
   pred <- predict(model, testvalues, type="class")
   accuracy <- sum( pred == testcat ) / length( pred )
   return(list(summary( model ), accuracy))
+}
+
+caretc50model <- function(x) {
+  train_control <- trainControl(method="LOOCV")
+  model <- train(Interaction~., data=x, trControl=train_control, method="C5.0")
+  return(model)
 }
 
 ################
@@ -104,3 +111,5 @@ dfbind <- rbind(positivedf, negativedf)
 dfbind <- data.frame(dfbind[complete.cases(dfbind),])
 
 c50model(dfbind)
+
+caretc50model(dfbind)

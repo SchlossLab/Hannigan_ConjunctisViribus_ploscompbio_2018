@@ -176,6 +176,8 @@ awk '{ print $2"\t"$1"\t"$12 }' \
 	./data/${Output}/MatchesByBlastxFormat.tsv \
 	> ${BlastxOut}
 
+sed -i 's/_[0-9]*$//' ${BlastxOut}
+
 ####################
 # Run Pfam scripts #
 ####################
@@ -204,3 +206,5 @@ awk '{ print $1"\t"$3"\t"($2 + $4) }' \
 # Flip output
 awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/PfamInteractionsFormatScored.tsv  \
 	> ${PfamOut}
+
+sed -i 's/_[0-9]*$//' ${PfamOut}

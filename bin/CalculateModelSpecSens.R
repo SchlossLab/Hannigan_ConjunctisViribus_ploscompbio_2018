@@ -128,6 +128,7 @@ positivequerydata <- cypher(graph, querypositive)
 negativequerydata <- cypher(graph, querynegative)
 
 head(positivequerydata)
+head(negativequerydata)
 
 positivedf <- getresults(positivequerydata)
 negativedf <- getresults(negativequerydata, FALSE)

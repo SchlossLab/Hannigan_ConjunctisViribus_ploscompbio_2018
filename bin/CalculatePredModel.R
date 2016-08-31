@@ -37,12 +37,13 @@ c50model <- function(x, trialcount=10, percentsplit=0.75) {
   cats <- x[,1]
   values <- x[,-1]
   trainingcount <- round(nrow(x) * percentsplit)
+  write(trainingcount, stderr())
   totalcount <- nrow(x)
   testingcount <- trainingcount + 1
-  traincat <- cats[1:trainingcount,]
-  trainvalues <- values[1:trainingcount,]
-  testcat <- cats[testingcount:totalcount,]
-  testvalues <- values[testingcount:totalcount,]
+  traincat <- cats[c(1:trainingcount),]
+  trainvalues <- values[c(1:trainingcount),]
+  testcat <- cats[c(testingcount:totalcount),]
+  testvalues <- values[c(testingcount:totalcount),]
 
   # Boost the model
   model <-  C50::C5.0(trainvalues, traincat, trials=trialcount)

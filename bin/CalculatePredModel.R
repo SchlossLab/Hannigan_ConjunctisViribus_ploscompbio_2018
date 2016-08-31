@@ -1,0 +1,100 @@
+#! /usr/local/bin/R
+# Geoffrey Hannigan
+# Pat Schloss Lab
+# University of Michigan
+
+##################################
+# Install Dependencies if Needed #
+##################################
+list.of.packages <- c("igraph", "RNeo4j", "pROC", "ggplot2", "gridExtra", "grid")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
+#################
+# Set Libraries #
+#################
+suppressMessages(c(
+library("RNeo4j"),
+library("ggplot2"),
+library("C50")
+))
+
+###################
+# Set Subroutines #
+###################
+getresults <- function(x, direction=TRUE) {
+  x[is.na(x)] <- 0
+  x[x == "TRUE"] <- 1
+  x[,3:7] <- as.data.frame(sapply(x[,3:7], as.numeric))
+  x <- x[,-c(1:2)]
+  rownames(x) <- NULL
+  return(x)
+}
+
+c50model <- function(x, trialcount=10, percentsplit=0.75) {
+  x <- x[sample(nrow(x)),]
+  # Note this assumes the first column is the category
+  cats <- x[,1]
+  values <- x[,-1]
+  trainingcount <- round(nrow(x) * percentsplit)
+  totalcount <- nrow(x)
+  testingcount <- trainingcount + 1
+  traincat <- cats[1:trainingcount,]
+  trainvalues <- values[1:trainingcount,]
+  testcat <- cats[testingcount:totalcount,]
+  testvalues <- values[testingcount:totalcount,]
+
+  # Boost the model
+  model <-  C50::C5.0(trainvalues, traincat, trials=trialcount)
+  pred <- predict(model, testvalues)
+  results <- postResample(pred, testcat)
+  return(results)
+}
+
+################
+# Run Analysis #
+################
+
+# Start the connection to the graph
+# If you are getting a lack of permission, disable local permission on Neo4J
+graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
+
+querypositive <- "
+MATCH (n)-[r]->(m)
+WHERE r.Interaction='1'
+RETURN
+m.Name as Bacteria,
+n.Name as Phage,
+r.Interaction as Interaction,
+r.CRISPR as CRISPR,
+r.BLAST as Blast,
+r.BLASTX as Blastx,
+r.PFAM as Pfam;
+"
+
+querynegative <- "
+MATCH (n)-[r]->(m)
+WHERE NOT r.Interaction='1'
+RETURN
+m.Name as Bacteria,
+n.Name as Phage,
+r.Interaction as Interaction,
+r.CRISPR as CRISPR,
+r.BLAST as Blast,
+r.BLASTX as Blastx,
+r.PFAM as Pfam;
+"
+
+# Run the cypher queries
+positivequerydata <- cypher(graph, querypositive)
+negativequerydata <- cypher(graph, querynegative)
+
+head(positivequerydata)
+head(negativequerydata)
+
+positivedf <- getresults(positivequerydata)
+negativedf <- getresults(negativequerydata, FALSE)
+
+dfbind <- rbind(positivedf, negativedf)
+
+c50model(dfbind)

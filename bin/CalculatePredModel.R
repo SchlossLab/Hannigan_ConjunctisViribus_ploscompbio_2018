@@ -6,7 +6,7 @@
 ##################################
 # Install Dependencies if Needed #
 ##################################
-list.of.packages <- c("igraph", "RNeo4j", "pROC", "ggplot2", "gridExtra", "grid")
+list.of.packages <- c("RNeo4j", "ggplot2", "C50")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 

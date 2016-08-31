@@ -174,9 +174,15 @@ FormatNames \
 # Format to get the right columns in the right order
 awk '{ print $2"\t"$1"\t"$12 }' \
 	./data/${Output}/MatchesByBlastxFormat.tsv \
-	> ${BlastxOut}
+	> ./data/${Output}/tmpMatchesByBlastxFormat.tsv
 
-sed -i 's/_[0-9]*$//' ${BlastxOut}
+sed -i 's/_[0-9]*\t/\t/g' ./data/${Output}/tmpMatchesByBlastxFormat.tsv
+
+Rscript ./bin/CollapseGeneScores.R \
+	-i ./data/${Output}/tmpMatchesByBlastxFormat.tsv \
+	-o ${BlastxOut}
+
+rm ./data/${Output}/tmpMatchesByBlastxFormat.tsv
 
 ####################
 # Run Pfam scripts #
@@ -205,6 +211,12 @@ awk '{ print $1"\t"$3"\t"($2 + $4) }' \
 
 # Flip output
 awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/PfamInteractionsFormatScored.tsv  \
-	> ${PfamOut}
+	> ./data/${Output}/tmpPfamInteractionsFormatScored.tsv
 
-sed -i 's/_[0-9]*$//' ${PfamOut}
+sed -i 's/_[0-9]*\t/\t/g' ./data/${Output}/tmpPfamInteractionsFormatScored.tsv
+
+Rscript ./bin/CollapseGeneScores.R \
+	-i ./data/${Output}/tmpPfamInteractionsFormatScored.tsv \
+	-o ${PfamOut}
+
+rm ./data/${Output}/tmpPfamInteractionsFormatScored.tsv

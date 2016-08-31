@@ -26,7 +26,7 @@ opt <- parse_args(opt_parser);
 
 input <- read.delim(opt$input, head=FALSE, sep="\t")
 
-agtable <- ddply(input, c("V1", "V2"), summarize, mean=mean(V3))
+agtable <- ddply(input, c("V1", "V2"), summarize, Final=mean(V3)+(25*length(V3)))
 
 write.table(
   x = agtable,

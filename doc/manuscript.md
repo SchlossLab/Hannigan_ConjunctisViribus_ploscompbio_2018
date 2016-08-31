@@ -1,6 +1,6 @@
 ---
 title: Global Interactions & Disease Drivers of the Human Virome
-author: Geoffrey D Hannigan, Melissa B. Duhaime, Patrick D Schloss
+author: Geoffrey D Hannigan, Melissa B Duhaime, Patrick D Schloss
 geometry: margin=0.5in
 ---
 
@@ -10,22 +10,23 @@ geometry: margin=0.5in
 Here we present a global view of phage-bacteria interactions across the human virome. We present our model for phage-bacteria interactions with validation for accuracy and sampling coverage. These networks are valuable because they do not rely on the sub-optimal reference genome datasets, and provide a more accurate view of the relationships within the community. We find that interactive dynamics are associated with disease states and anatomical body sites, using a global virome meta-analysis dataset. Our comprehensive approach to understanding the virome provide new insights not only inro composition and diversity, but their context in the greater community. We find that disease states and anatomical sites are not only linked to altered community composition and diversity, but also represent significant shifts in interactive dynamics.
 
 # Introduction
-The human virome is a crucial component to the human microbiome, and consists largely of bacteriophages (bacterial viruses). Because phages lack metabolic capabilities, they rely on hijacking their bacterial hosts to perform their metabolic tasks. In this sense, the impact of phages is dependent on their infectious interactions with their bacterial hosts, which can include community composition modulation through predation and lysis, or impact on bacterial functionality through altered gene expression or horizontal gene transfer (transduction). To date, analysis of the human virome has focused annotation techniques largely adopted from bacterial metagenomic methods, but the virome system is different due to the inability of phages to act on their own. By incorporating system-wide infectious interactions into our analyses, we can begin to gain a more complete understanding of the human virome.
+Predator-prey interactions are one of the fundamental pillars to an ecosystem's persistence, diversity, and functionality [@Poisot071993;@Thompson:2012ki]. This is particularily evident in the predator-prey dynamics of bacteria and bacteriophage (bacterial virus) communities. Because phages are incapable of their own metabolic processes, they rely on bacteria as reproductive vessels and functional conduits without which they cannot act or persist. Although bacteria are metabolically capable, their evolution and community stability depend on bacteriophage predation and transduction (phage mediated gene transfer). Together these communities are capable of stable persistence in a mutually beneficial relationship.
 
-One such barrier is the dismal state of contemporary virus referece databases. The majority of phage genomes are predicted to be unannotated, and the exisiting phage reference genomes have been isolated on bacteria from only 3 phyla (cite sullivan maybe).
+Despite the mutual dependence of phage and bacteria communities, they are often studied in isolation. This is especially true for the human virome and microbiome. The majority of microbiome studies to date have focused exclusively on bacterial community composition and diversity, largely due to technical limitations. Some studies of the human virome have analyzed the bacterial communities in parallel, but often using cursory techniques. Here we present the use network analyses across a global human virome dataset to understand the ecological network signatures associated with disease states.
 
-The microbiome is a primary driver in global chemical processes, including environments as diverse as the ocean and the human body. Organisms such as bacteria perform metabolic processes but are controlled in large part by the associated virus community (the virome). Viruses control microbiome metabolism through predation, gene expression control, and horizontal gene transfer. In humans, this translates into virus control of disease and metabolism. Despite being crucial members of the human microbiome, we understand remarkably little about the human virome.
+By understanding the signatures of the interacting communities, we are able to gain new insights into the biology of these systems. The ecological networks can be used to assess community stability and fragility, and components of that network can be used to assess the specific microbial players in that stability. We also know that these networks can be impacted by environmental factors such as resource availability [@Poisot:2011jc].
 
-In addition to studying specific virome cohorts, it will be important to investigate the global trends associated with these communities. Such large scale virus studies have proven valuable for understanding the global marine virome, and we are leveraging a similar approach here for the human virome (cite sullivan science and hurwitz pnas). This view from ten thousand feet provides us with a new tier of understanding the ecology of the human virome, and how it relates to human metabolism and disease.
+Until recently, a global human virome analysis has been largely infeasible. Recent advances in sequencing technology and virus purification techinques have allowed for an influx of paired virome and bacterial metagenomic data that have begun to power meta-analysis capabilities.
 
 # Results
 ## The Global Human Virome Dataset
-We leveraged the extensive public sequence archives to assemble a global human virome dataset; a robust human virome dataset that spans diverse body site environments. Our sampling includes the gut, oral cavity, skin, and urinary tract systems, all of which are associated with healthy and disease states, and were all collected by multiple, independent groups. We only worked with virome datasets that were purified for virus like particles (VLPs) before sequencing. This provides us with greater analytical strength and more power conclusions about the observed virus biology. The resulting dataset contains data from ten virus metagenomic studies [@Norman:2015kb;@Monaco:2016it;@Minot:2011ez;@Hannigan:2015fz;@Modi:2013fi;@Ly:2014ew;@Abeles:2015dy;@Reyes:2010cw;@SantiagoRodriguez:2015gd].
+We leveraged the extensive public sequence archives to assemble a **global human virome** dataset; a robust human virus community metagenomic dataset that spans diverse body site environments. Dataset sampling includes the gut, oral cavity, skin, and urinary tract systems, all of which are associated with healthy and disease states, and were all collected by multiple, independent groups. By working only with virome datasets that were purified for virus like particles (VLPs), we are able to establish confiendence that we are detecting the *active* virome component. The resulting dataset contains data from ten virus metagenomic studies [@Norman:2015kb;@Monaco:2016it;@Minot:2011ez;@Hannigan:2015fz;@Modi:2013fi;@Ly:2014ew;@Abeles:2015dy;@Reyes:2010cw;@SantiagoRodriguez:2015gd;@Lim:2015bq].
 
 <!--
 - Number of sequences and samples.
 - Gender and geographic distributions.
 - Diseases included in the studies
+- I need to finish metadata information
 -->
 
 ## Sampling Depth and Dataset Validity
@@ -48,6 +49,7 @@ The resulting model had an AUC of 0.651, an optimal sensitivity of 0.872, and an
 
 <!--
 - Update ROC curve to include species and genus level IDs.
+- Update ROC to include predictive power of each individual method
 -->
 
 ## Interactive Dynamics Are Associated with Anatomical Sites
@@ -65,6 +67,11 @@ Here I want to get at the fact that at first, given a stable bacterial reference
 I can use eccentricity centrality to define the most central microbial nodes of the complex graph.
 
 The diameter of the network is short, suggesting a small-world distribution. Because it follows a scale-free distribution, it is also protected from random attack, but highly susceptible when hub nodes are impacted. I will need to expand on this later.
+
+<!--
+- Include general changes in centrality, as well as the specific phages and bacteria assocaited with highest centrality.
+- Look at the network both with bacteria from the metagenomes, as well as the reference bacteria. References are valuable because they take the bacterial variability out of the picture.
+-->
 
 # Discussion
 An application that we alluded to here is a graphical approach to microbiome research in general. 

@@ -32,7 +32,7 @@ getresults <- function(x, direction=TRUE) {
 }
 
 c50model <- function(x, trialcount=10, percentsplit=0.75) {
-  x <- x[sample(nrow(x)),]
+  x <- data.frame(x[sample(nrow(x)),])
   write(x, stderr())
   # # Note this assumes the first column is the category
   # categories <- data.frame(x[,1])
@@ -99,6 +99,7 @@ positivedf <- getresults(positivequerydata)
 negativedf <- getresults(negativequerydata, FALSE)
 
 dfbind <- rbind(positivedf, negativedf)
+dfbind <- data.frame(dfbind[complete.cases(dfbind),])
 dfbind
 
-# c50model(dfbind)
+c50model(dfbind)

@@ -7,9 +7,7 @@
 #########################
 # Set General Variables #
 #########################
-# ACCLIST=`awk '{ print $$7 }' ./data/PublishedDatasets/SutdyInformation.tsv`
-
-ACCLIST:=$(date)
+ACCLIST := $(shell awk '{ print "data/ViromePublications/"$$7 }' ./data/PublishedDatasets/SutdyInformation.tsv)
 
 PHONY: print
 print:
@@ -29,11 +27,13 @@ download : ${DOWNLOAD}
 # ##########################################
 # # Download Global Virome Dataset Studies #
 # ##########################################
-# # Download the sequences for the dataset
-# $(ACCLIST): ./data/ViromePublications/%: ./data/PublishedDatasets/SutdyInformation.tsv
-# 	bash ./bin/DownloadPublishedVirome.sh \
-# 		./data/PublishedDatasets/SutdyInformation.tsv \
-# 		./data/ViromePublications/%
+# Download the sequences for the dataset
+# Use the list because it allows for test of targets
+$(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv
+	echo $@
+	bash ./bin/DownloadPublishedVirome.sh \
+		$< \
+		$@
 
 # ./data/ViromePublications/* : ./data/PublishedDatasets/SutdyInformation.tsv
 # 	bash ./bin/DownloadPublishedVirome.sh \

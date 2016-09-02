@@ -7,26 +7,37 @@
 #########################
 # Set General Variables #
 #########################
-WORKINGDIRECTORY = ./data
+# ACCLIST=`awk '{ print $$7 }' ./data/PublishedDatasets/SutdyInformation.tsv`
 
-DOWNLOAD = ./data/ViromePublications/*
+ACCLIST:=$(date)
 
-OBJECTS = \
+PHONY: print
+print:
+	echo ${ACCLIST}
+
+DOWNLOAD = ${ACCLIST}
+
+VALIDATION = \
 	./data/ValidationSet/ValidationPhageNoBlock.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa \
 	./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv \
 	createnetwork \
-	./figures/rocCurves.pdf ./figures/rocCurves.png ./figures/ResultHeatmaps.pdf ./figures/ResultHeatmaps.png
+	./figures/rocCurves.pdf ./figures/rocCurves.png
 
-all : ${OBJECTS}
+all : ${VALIDATION}
 download : ${DOWNLOAD}
 
-##########################################
-# Download Global Virome Dataset Studies #
-##########################################
-# Download the sequences for the dataset
-./data/ViromePublications/* : ./data/PublishedDatasets/SutdyInformation.tsv
-	bash ./bin/DownloadPublishedVirome.sh \
-		./data/PublishedDatasets/SutdyInformation.tsv
+# ##########################################
+# # Download Global Virome Dataset Studies #
+# ##########################################
+# # Download the sequences for the dataset
+# $(ACCLIST): ./data/ViromePublications/%: ./data/PublishedDatasets/SutdyInformation.tsv
+# 	bash ./bin/DownloadPublishedVirome.sh \
+# 		./data/PublishedDatasets/SutdyInformation.tsv \
+# 		./data/ViromePublications/%
+
+# ./data/ViromePublications/* : ./data/PublishedDatasets/SutdyInformation.tsv
+# 	bash ./bin/DownloadPublishedVirome.sh \
+# 		./data/PublishedDatasets/SutdyInformation.tsv
 
 ####################
 # Model Validation #
@@ -59,5 +70,10 @@ createnetwork : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/Ben
 	bash ./bin/CreateProteinNetwork
 
 # Run the R script for the validation ROC curve analysis
-./figures/rocCurves.pdf ./figures/rocCurves.png ./figures/ResultHeatmaps.pdf ./figures/ResultHeatmaps.png :
+./figures/rocCurves.pdf ./figures/rocCurves.png : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv
 	bash ./bin/RunRocAnalysisWithNeo4j.sh
+
+############################
+# Total Dataset Processing #
+############################
+

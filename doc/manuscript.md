@@ -1,7 +1,7 @@
 ---
 title: Global Interactions & Disease Drivers of the Human Virome
 author: Geoffrey D Hannigan, Melissa B Duhaime, Patrick D Schloss
-geometry: margin=0.5in
+geometry: margin=0.75in
 ---
 
 \newpage
@@ -41,15 +41,16 @@ Here I will want to add rarefaction for the number of contigs I am getting as I 
 -->
 
 ## Modeling Phage-Bacteria Interactions Across the Human Virome
-We used Neo4J graph database software to construct a network of predicted interactions between bacteria and bacteriophages. Results from a variety of complementary interaction prediction approaches were layered into a single network **(Figure 1)**. *In vitro*, experimentally validated interactive relationships were taken from the existing literature. Clustered Regularly Inter-spaced Short Palindromic Repeats (CRISPRs) are a sort of bacterial adaptive immune system that serves as a genomic record of phage infections by preserving genomic content from the infectious phage genome. These records were used to predict infectious relationships between bacteria and phages. Infectious relationships were also predicted by identifying expected protein-protein interactions and known interacting protein domains between phages and their bacterial hosts. We finally used nucleotide blast to identify genomic similarity between bacteriophage genomes and sections of bacterial genomes. Such a match is a good predictor of an interaction between the phage and it's bacterial host.
+We used Neo4J graph database software to construct a network of predicted interactions between bacteria and bacteriophages. Results from a variety of complementary interaction prediction approaches were layered into a single network. *In vitro*, experimentally validated interactive relationships were taken from the existing literature. Clustered Regularly Inter-spaced Short Palindromic Repeats (CRISPRs) are a sort of bacterial adaptive immune system that serves as a genomic record of phage infections by preserving genomic content from the infectious phage genome. These records were used to predict infectious relationships between bacteria and phages. Infectious relationships were also predicted by identifying expected protein-protein interactions and known interacting protein domains between phages and their bacterial hosts. We finally used nucleotide blast to identify genomic similarity between bacteriophage genomes and sections of bacterial genomes. Such a match is a good predictor of an interaction between the phage and it's bacterial host.
 
-We validated our predictive graph model by quantifying the sensitivity and specificity using a manually curated dataset of experimentally validated positive and negative interactions. Experimental results were extracted from manuscripts published between 1992 and 2015 **(Figure \ref{BenchmarkHeat})** [@Jensen:1998vh;@Malki:2015tm;@Schwarzer:2012ez;@Kim:2012dh;@Matsuzaki:1992gw;@Edwards:2015iz]. This allowed us to both evaluate the utility of the model, as well as determine the optimal decision thresholds to use for predictions.
+We began by working in a controled data environment in which the interactions and lack of interactions had been experimentally validated. This dataset was extracted from manuscripts published between 1992 and 2015 [@Jensen:1998vh;@Malki:2015tm;@Schwarzer:2012ez;@Kim:2012dh;@Matsuzaki:1992gw;@Edwards:2015iz]. It is important to note the strength of our approach in that we used data of confirmed non-interactions as well as confirmed interactions. Previous approached have claimed to perform tests of sensitivity and specificity, but assumed a lack of empirical evidence denoted a lack of interactions, which we know to be untrue. Our approach circumvents this problematic assumption.
 
-The resulting model had an AUC of 0.651, an optimal sensitivity of 0.872, and an associated optimal specificity of 0.517 **(Figure \ref{roccurve})**. We are therefore able to effectively avoid false positive interactions, while at the same time detecting the minimum amount of interactions within the system.
+We used four predictive score categories of the controlled dataset with a tuned random forest model to classify each sample as an interaction or lack of interaction. The model was validated using repeated k-fold cross validation with k = 5 and ten repetitions. The model was optimized using the receiver operating characteristic (ROC) algorithm for the higher area under the curve (AUC) as implemented in R {caret}. The resulting model exhibited an AUC of 0.853, a sensitivity of 0.851, and a specificity of 0.774 **(Figure \ref{RocCurve})**. These parameters describe only the interactions that were scored. Those that did not have scores were classified as having no interaction prior to predictive modeling.
 
 <!--
-- Update ROC curve to include species and genus level IDs.
-- Update ROC to include predictive power of each individual method
+I need to add the proportion of interactions and no interactions that failed to acheive any score.
+I dunno, maybe include the other models that I tried, including SVM and NNs.
+Also important to add CRISPR information to the database.
 -->
 
 ## Interactive Dynamics Are Associated with Anatomical Sites
@@ -58,6 +59,8 @@ Phages are known to transfer genetic content between bacteria in the process of 
 We predicted the phage-mediated relationships between bacteria by executing triadic closures as (bacteria)-[phage]->[bacteria]. Triadic closure theory states that a strong relationship of two entities to a shared intermediate suggests a relationship between the two previously unrelated entities. In our case, we are assigning relationships between bacteria based on shared strong relationships to a phage intermediate.
 
 One of the most powerful aspects of this analysis is that it allows us to evaluate the global interactive properties of the interactive networks across the body and thus provide insight into the complex ecological dynamics. We found that the phage-bacteria interactive network follows a scale-free distribution instead of a random exponential distribution. Not only does this indicate a lack of randomness in the population, it also suggests the hub is composed of hubs that are highly interconnected to the remaining nodes.
+
+<!-- I am less excited about this secction to be honest -->
 
 ## Disease States Drive Altered Interactive Network Dynamics
 The virome has been associated with a variety of disease states across many body sites. Because many of the virome samples within our global virome dataset were associated with diseases, we were able to identify and confirm global virome trends in the human virome. We found that the diversity of disease samples was impacted by the body site. Despite the disease, the body site contributed to the virome diversity signature.
@@ -74,7 +77,7 @@ The diameter of the network is short, suggesting a small-world distribution. Bec
 -->
 
 # Discussion
-An application that we alluded to here is a graphical approach to microbiome research in general. 
+An application that we alluded to here is a graphical approach to microbiome research in general.
 
 # Materials & Methods
 
@@ -82,20 +85,7 @@ An application that we alluded to here is a graphical approach to microbiome res
 \newpage
 
 # Figures
-
-![Analysis of sequencing coverage required to sufficiently sample the human virome. A) Rarefaction analysis of the number of OPFs detected (richness) as more sequences are used from the dataset. B) Distribution of the number of sequences that mapped to each OPF.\label{OpfRarefaction}](../figures/OpfRarefaction.pdf)
-
-\newpage
-
-![Rarefaction of decreasing core OPFs in the human virome with increasing samples. Colors represent iterative permutations using randomly added samples in different orders.\label{OpfCoreRarefaction}](../figures/CoreOpfPermutations.pdf)
-
-\newpage
-
-![Positive and negative interactions of our reference dataset.\label{BenchmarkHeat}](../figures/BenchmarkDataset.pdf)
-
-\newpage
-
-![ROC curve used to validate the graph model of phage-bacteria interactions.\label{roccurve}](../figures/rocCurves.pdf)
+![Random forest model for bacteria - phage interactions. A) ROC curve of the ten iterations used to create the prediction model. B) Density plot of the distribution of sample interaction probability. Groups indicate whether the sample represented an interaction. C) Importance scores associated with the criteria used to create the random forest model.\label{RocCurve}](../figures/rocCurves.pdf)
 
 \newpage
 

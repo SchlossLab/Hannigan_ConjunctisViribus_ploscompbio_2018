@@ -8,7 +8,9 @@
 # Set General Variables #
 #########################
 ACCLIST := $(shell awk '{ print "data/ViromePublications/"$$7 }' ./data/PublishedDatasets/SutdyInformation.tsv)
+SAMPLELIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable.tsv)
 
+# For debugging right now
 PHONY: print
 print:
 	echo ${ACCLIST}
@@ -76,4 +78,6 @@ createnetwork : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/Ben
 ############################
 # Total Dataset Processing #
 ############################
+# Run quality control and contig assembly
+
 

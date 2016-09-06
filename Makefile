@@ -23,7 +23,10 @@ VALIDATION = \
 	createnetwork \
 	./figures/rocCurves.pdf ./figures/rocCurves.png
 
-all : ${VALIDATION}
+SAMPLEPROCS = \
+	./QualityOutput
+
+all : ${VALIDATION} ${SAMPLEPROCS}
 download : ${DOWNLOAD}
 
 # ##########################################

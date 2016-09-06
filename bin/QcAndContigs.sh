@@ -94,7 +94,7 @@ else
 	'
 
 	# Set correct permissions
-	chmod 775 ${SampleDirectory}*/${SampleID}*.sra
+	chmod 777 ${SampleDirectory}*/${SampleID}*.sra
 
 	${SampleDirectory}*/${SampleID}*.sra | xargs -I {} --max-procs=16 sh -c '
 		echo Processing file {}...

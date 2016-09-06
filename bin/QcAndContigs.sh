@@ -92,6 +92,10 @@ else
 	${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=16 sh -c '
 		gunzip {}
 	'
+
+	# Set correct permissions
+	chmod 775 ${SampleDirectory}*/${SampleID}*.sra
+
 	${SampleDirectory}*/${SampleID}*.sra | xargs -I {} --max-procs=16 sh -c '
 		echo Processing file {}...
 			fastq-dump --split-3 {} --outdir ./data/${Output}/raw

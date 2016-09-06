@@ -8,12 +8,11 @@
 # Set General Variables #
 #########################
 ACCLIST := $(shell awk '{ print "data/ViromePublications/"$$7 }' ./data/PublishedDatasets/SutdyInformation.tsv)
-SAMPLELIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable.tsv)
+SAMPLELIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable.tsv | sort | uniq)
 
 # For debugging right now
-PHONY: print
 print:
-	echo ${ACCLIST}
+	echo ${SAMPLELIST}
 
 DOWNLOAD = ${ACCLIST}
 
@@ -23,10 +22,7 @@ VALIDATION = \
 	createnetwork \
 	./figures/rocCurves.pdf ./figures/rocCurves.png
 
-SAMPLEPROCS = \
-	./QualityOutput
-
-all : ${VALIDATION} ${SAMPLEPROCS}
+all : ${VALIDATION} ${SAMPLELIST}
 download : ${DOWNLOAD}
 
 # ##########################################
@@ -79,12 +75,12 @@ createnetwork : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/Ben
 ############################
 # Run quality control and contig assembly
 # Need to decompress the fastq files first from SRA
-${SAMPLELIST}: ./QualityOutput: ./data/ViromePublications ./data/PublishedDatasets/metadatatable.tsv
-	bash QcAndContigs.sh \
-		$< \
+${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatable.tsv
+	echo $@
+	bash ./bin/QcAndContigs.sh \
+		$@ \
 		./data/ViromePublications/ \
 		./data/PublishedDatasets/metadatatable.tsv \
 		"QualityOutput"
-}
 
 

@@ -19,6 +19,7 @@ export megahitvar=/mnt/EXT/Schloss-data/bin/megahit/megahit
 # Set Subroutines #
 ###################
 runFastx () {
+	echo Running fastx with "${1}"
 	# Holding the data to a high standard
 	${fastx} -t 33 -Q 33 -l 75 -i "${1}" -o "${2}" || exit
 	rm "${1}"
@@ -68,7 +69,7 @@ mkdir ./data/${Output}/raw
 if [[ PAIREDVAR == "PAIRED" ]]; then
 	# Set correct permissions
 	chmod 777 ${SampleDirectory}*/${SampleID}*.sra
-	
+
 	# Unzip the files first
 	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=16 sh -c '
 		gunzip {}
@@ -87,9 +88,7 @@ if [[ PAIREDVAR == "PAIRED" ]]; then
 	PairedAssembleContigs \
 		./data/${Output}/fastxoutput1.fq \
 		./data/${Output}/fastxoutput2.fq \
-		${OutputFile}
-	rm ./data/${Output}/fastxoutput1.fq
-	rm ./data/${Output}/fastxoutput2.fq
+		./data/${Output}
 else
 	# Unzip the files first
 	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=16 sh -c '
@@ -109,6 +108,5 @@ else
 		./data/${Output}/fastxoutput1.fq
 	PairedAssembleContigs \
 		./data/${Output}/fastxoutput1.fq \
-		${OutputFile}
-	rm ./data/${Output}/fastxoutput1.fq
+		./data/${Output}
 fi

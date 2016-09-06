@@ -70,6 +70,9 @@ if [[ PAIREDVAR == "PAIRED" ]]; then
 	# Set correct permissions
 	chmod 777 ${SampleDirectory}*/${SampleID}*.sra
 
+	# Clean before running
+	rm -r ./data/${Output}/${SampleID}
+
 	# Unzip the files first
 	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=16 sh -c '
 		gunzip {}
@@ -88,12 +91,15 @@ if [[ PAIREDVAR == "PAIRED" ]]; then
 	PairedAssembleContigs \
 		./data/${Output}/fastxoutput1.fq \
 		./data/${Output}/fastxoutput2.fq \
-		./data/${Output}
+		./data/${Output}/${SampleID}
 else
 	# Unzip the files first
 	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=16 sh -c '
 		gunzip {}
 	'
+
+	# Clean before running
+	rm -r ./data/${Output}/${SampleID}
 
 	# Set correct permissions
 	chmod 777 ${SampleDirectory}*/${SampleID}*.sra
@@ -108,5 +114,5 @@ else
 		./data/${Output}/fastxoutput1.fq
 	PairedAssembleContigs \
 		./data/${Output}/fastxoutput1.fq \
-		./data/${Output}
+		./data/${Output}/${SampleID}
 fi

@@ -67,10 +67,10 @@ mkdir ./data/${Output}/raw
 
 if [[ PAIREDVAR == "PAIRED" ]]; then
 	# Unzip the files first
-	${SampleDirectory}/*/${SampleID}/*.gz | xargs -I {} --max-procs=16 sh -c '
+	${SampleDirectory}*/${SampleID}/*.gz | xargs -I {} --max-procs=16 sh -c '
 		gunzip {}
 	'
-	${SampleDirectory}/*/${SampleID}/*.sra | xargs -I {} --max-procs=16 sh -c '
+	${SampleDirectory}*/${SampleID}/*.sra | xargs -I {} --max-procs=16 sh -c '
 		echo Processing file {}...
 			fastq-dump --split-3 {} --outdir ./data/${Output}/raw
 			gzip {}
@@ -89,10 +89,10 @@ if [[ PAIREDVAR == "PAIRED" ]]; then
 	rm ./data/${Output}/fastxoutput2.fq
 else
 	# Unzip the files first
-	${SampleDirectory}/*/${SampleID}/*.gz | xargs -I {} --max-procs=16 sh -c '
+	${SampleDirectory}*/${SampleID}/*.gz | xargs -I {} --max-procs=16 sh -c '
 		gunzip {}
 	'
-	${SampleDirectory}/*/${SampleID}/*.sra | xargs -I {} --max-procs=16 sh -c '
+	${SampleDirectory}*/${SampleID}/*.sra | xargs -I {} --max-procs=16 sh -c '
 		echo Processing file {}...
 			fastq-dump --split-3 {} --outdir ./data/${Output}/raw
 			gzip {}

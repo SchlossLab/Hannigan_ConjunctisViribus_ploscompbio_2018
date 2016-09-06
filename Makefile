@@ -37,10 +37,6 @@ $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv
 		$< \
 		$@
 
-# ./data/ViromePublications/* : ./data/PublishedDatasets/SutdyInformation.tsv
-# 	bash ./bin/DownloadPublishedVirome.sh \
-# 		./data/PublishedDatasets/SutdyInformation.tsv
-
 ####################
 # Model Validation #
 ####################
@@ -79,5 +75,13 @@ createnetwork : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/Ben
 # Total Dataset Processing #
 ############################
 # Run quality control and contig assembly
+# Need to decompress the fastq files first from SRA
+${SAMPLELIST}: ./QualityOutput: ./data/ViromePublications ./data/PublishedDatasets/metadatatable.tsv
+	bash QcAndContigs.sh \
+		$< \
+		./data/ViromePublications/ \
+		./data/PublishedDatasets/metadatatable.tsv \
+		"QualityOutput"
+}
 
 

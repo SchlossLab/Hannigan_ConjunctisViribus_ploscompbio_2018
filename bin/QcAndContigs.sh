@@ -7,33 +7,15 @@
 #################
 # Set Variables #
 #################
-usage() { echo -e "Usage: This is the standardized Grice Lab QIIME workflow, with the following options: 
-    [-a] First sequencing file.
-    [-b] Second sequencing file (only for paired end).
-    [-o] Output file."; exit 1;}
-
-while getopts ":ha:b:o:" option; do
-    case "$option" in
-        h) usage ;;
-        a) ONE="$OPTARG";;
-        b) TWO="$OPTARG";;
-        o) OUTPUT="$OPTARG";;
-        :)  echo "Error: -$OPTARG requires an argument" ; exit 1;;
-        ?)  echo "Error: unknown option -$OPTARG" ; exit 1;;
-    esac
-done
-
-if [[ -z $ONE ]]; then
-    echo "ERROR: Sequencing file is missing!"; exit 1;
-elif [[ -z $TWO ]]; then
-    echo "Cool, looks like some paired end data!";
-elif [[ -z $OUTPUT ]]; then
-    echo "ERROR: Output file name was not defined!"; exit 1;
-fi
+export SampleID=${1}
+export SampleDirectory=${2}
+export Metadata=${3}
+export OutputFile=${4}
 
 export Output='tmp'
 
 export fastx=/home/ghannig/bin/fastq_quality_trimmer
+export megahitvar=/mnt/EXT/Schloss-data/bin/megahit/megahit
 
 ###################
 # Set Subroutines #
@@ -63,16 +45,16 @@ SingleAssembleContigs () {
 	python ${megahitvar} \
 		--min-contig-len 2500 \
 		--k-min 21 \
-		--k-max 99\
+		--k-max 101\
 		--k-step 20 \
 		-t 16 \
 		-r "${1}" \
 		-o "${2}"
 }
 
-
-
 export -f runFastx
+export -f PairedAssembleContigs
+export -f SingleAssembleContigs
 
 ################
 # Run Analysis #
@@ -80,32 +62,51 @@ export -f runFastx
 mkdir ./${Output}
 rm ./${Output}/fastxoutput1.fq
 rm ./${Output}/fastxoutput2.fq
-runFastx \
-	${1} \
-	./${Output}/fastxoutput.fq
 
-if [[ -z $TWO ]]; then
+# Tread carefully, these column locations are hard coded.
+# Diverge not from the format, lest there be wailing and grinding of teeth.
+PAIREDVAR=$(awk -v sampleid="${SampleID}" ' $3 == sampleid { print $4 } ' ${Metadata})
+PLATFORM=$(awk -v sampleid="${SampleID}" ' $3 == sampleid { print $5 } ' ${Metadata})
+
+mkdir ./data/${Output}/raw
+
+if [[ PAIREDVAR == "PAIRED" ]]; then
+	# Unzip the files first
+	${SampleDirectory}${SampleID}/*.gz | xargs -I {} --max-procs=16 sh -c '
+		gunzip {}
+	'
+	${SampleDirectory}${SampleID}/*.sra | xargs -I {} --max-procs=16 sh -c '
+		echo Processing file {}...
+			fastq-dump --split-3 {} --outdir ./data/${Output}/raw
+			gzip {}
+	'
 	runFastx \
-		${1} \
+		./data/${Output}/raw/*R1* \
 		./${Output}/fastxoutput1.fq
 	runFastx \
-		${2} \
+		./data/${Output}/raw/*R2* \
 		./${Output}/fastxoutput2.fq
 	PairedAssembleContigs \
 		./${Output}/fastxoutput1.fq \
 		./${Output}/fastxoutput2.fq \
-		${3}
+		${OutputFile}
 	rm ./${Output}/fastxoutput1.fq
 	rm ./${Output}/fastxoutput2.fq
 else
+	# Unzip the files first
+	${SampleDirectory}${SampleID}/*.gz | xargs -I {} --max-procs=16 sh -c '
+		gunzip {}
+	'
+	${SampleDirectory}${SampleID}/*.sra | xargs -I {} --max-procs=16 sh -c '
+		echo Processing file {}...
+			fastq-dump --split-3 {} --outdir ./data/${Output}/raw
+			gzip {}
+	'
 	runFastx \
-		${1} \
+		./data/${Output}/raw/* \
 		./${Output}/fastxoutput1.fq
 	PairedAssembleContigs \
 		./${Output}/fastxoutput1.fq \
-		${3}
+		${OutputFile}
 	rm ./${Output}/fastxoutput1.fq
 fi
-
-rm -r ./${Output}
-

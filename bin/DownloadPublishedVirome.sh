@@ -4,8 +4,6 @@
 # Pat Schloss Lab
 # University of Michigan
 
-module load samtools/1.2
-
 #######################
 # Set the Environment #
 #######################
@@ -13,7 +11,11 @@ module load samtools/1.2
 export Output='ViromePublications'
 
 export Metadatafile=$1
+export FileName=$2
+export AccNumber=$(echo ${FileName} | sed 's/.*\///g')
 export FastqFiles=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/PublishedViromeDatasets/raw
+
+echo ${AccNumber}
 
 export fastx=/home/ghannig/bin/fastq_quality_trimmer
 
@@ -82,46 +84,18 @@ export -f runFastx
 # # Run Through the Analysis #
 # ############################
 
-while read line; do
-	# Save the sixth variable, which is the archive type (e.g. SRA, MG-RAST)
-	ArchiveType=$(echo "${line}" | awk '{ print $6 }')
-	# Save the seventh variable, which is the archive accession number
-	AccNumber=$(echo "${line}" | awk '{ print $7 }')
-	echo Processing ${AccNumber} in ${ArchiveType}
-	# Now download the samples based on the archive type
-	if [ "${ArchiveType}" == "SRA" ]; then
-		DownloadFromSRA "${AccNumber}"
-	elif [ "${ArchiveType}" == "MGRAST" ]; then
-		DownloadFromMGRAST "${AccNumber}"
-	elif [ "${ArchiveType}" == "iMicrobe" ]; then
-		DownloadFromMicrobe "${AccNumber}"
-	elif [ "${ArchiveType}" == "ArchiveSystem" ]; then
-		echo Skipping file header.
-	else
-		echo Error in parsing accession numbers!
-	fi
-done < ${Metadatafile}
-
-# mkdir ./data/${Output}/raw
-
-# # unzip the files first
-# ls ./data/${Output}/*/*.sra.gz | xargs -I {} --max-procs=16 sh -c '
-# 	gunzip {}
-# '
-
-# ls ./data/${Output}/*/*.sra | xargs -I {} --max-procs=16 sh -c '
-# 	echo Processing file {}...
-# 	fastq-dump --split-3 {} --outdir ./data/${Output}/raw
-# 	gzip {}
-# '
-
-# mkdir ./data/${Output}/qualityTrimmed
-
-# ls ${FastqFiles} | xargs -I {} --max-procs=16 sh -c '
-# 	runFastx \
-# 			${FastqFiles}/{} \
-# 			./data/${Output}/qualityTrimmed/{}
-# '
-
-# # Remove the now empty raw directory
-# rm -r ./data/${Output}/raw
+# Save the sixth variable, which is the archive type (e.g. SRA, MG-RAST)
+ArchiveType=$(awk -v id=${AccNumber} ' $7 == id { print $6 } ' ${Metadatafile})
+echo Processing ${AccNumber} in ${ArchiveType}
+# Now download the samples based on the archive type
+if [ "${ArchiveType}" == "SRA" ]; then
+	DownloadFromSRA "${AccNumber}"
+elif [ "${ArchiveType}" == "MGRAST" ]; then
+	DownloadFromMGRAST "${AccNumber}"
+elif [ "${ArchiveType}" == "iMicrobe" ]; then
+	DownloadFromMicrobe "${AccNumber}"
+elif [ "${ArchiveType}" == "ArchiveSystem" ]; then
+	echo Skipping file header.
+else
+	echo Error in parsing accession numbers!
+fi

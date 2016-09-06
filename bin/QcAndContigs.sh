@@ -10,9 +10,7 @@
 export SampleID=${1}
 export SampleDirectory=${2}
 export Metadata=${3}
-export OutputFile=${4}
-
-export Output='tmp'
+export Output=${4}
 
 export fastx=/home/ghannig/bin/fastq_quality_trimmer
 export megahitvar=/mnt/EXT/Schloss-data/bin/megahit/megahit

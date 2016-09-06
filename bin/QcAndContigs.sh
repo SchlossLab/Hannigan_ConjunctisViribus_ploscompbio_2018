@@ -18,9 +18,6 @@ export megahitvar=/mnt/EXT/Schloss-data/bin/megahit/megahit
 ###################
 # Set Subroutines #
 ###################
-
-# CONVERT FROM SRA TO FATSQ
-
 runFastx () {
 	# Holding the data to a high standard
 	${fastx} -t 33 -Q 33 -l 75 -i "${1}" -o "${2}" || exit
@@ -57,9 +54,9 @@ export -f SingleAssembleContigs
 ################
 # Run Analysis #
 ################
-mkdir ./${Output}
-rm ./${Output}/fastxoutput1.fq
-rm ./${Output}/fastxoutput2.fq
+mkdir ./data/${Output}
+rm ./data/${Output}/fastxoutput1.fq
+rm ./data/${Output}/fastxoutput2.fq
 
 # Tread carefully, these column locations are hard coded.
 # Diverge not from the format, lest there be wailing and grinding of teeth.
@@ -80,16 +77,16 @@ if [[ PAIREDVAR == "PAIRED" ]]; then
 	'
 	runFastx \
 		./data/${Output}/raw/*R1* \
-		./${Output}/fastxoutput1.fq
+		./data/${Output}/fastxoutput1.fq
 	runFastx \
 		./data/${Output}/raw/*R2* \
-		./${Output}/fastxoutput2.fq
+		./data/${Output}/fastxoutput2.fq
 	PairedAssembleContigs \
-		./${Output}/fastxoutput1.fq \
-		./${Output}/fastxoutput2.fq \
+		./data/${Output}/fastxoutput1.fq \
+		./data/${Output}/fastxoutput2.fq \
 		${OutputFile}
-	rm ./${Output}/fastxoutput1.fq
-	rm ./${Output}/fastxoutput2.fq
+	rm ./data/${Output}/fastxoutput1.fq
+	rm ./data/${Output}/fastxoutput2.fq
 else
 	# Unzip the files first
 	${SampleDirectory}${SampleID}/*.gz | xargs -I {} --max-procs=16 sh -c '
@@ -102,9 +99,9 @@ else
 	'
 	runFastx \
 		./data/${Output}/raw/* \
-		./${Output}/fastxoutput1.fq
+		./data/${Output}/fastxoutput1.fq
 	PairedAssembleContigs \
-		./${Output}/fastxoutput1.fq \
+		./data/${Output}/fastxoutput1.fq \
 		${OutputFile}
-	rm ./${Output}/fastxoutput1.fq
+	rm ./data/${Output}/fastxoutput1.fq
 fi

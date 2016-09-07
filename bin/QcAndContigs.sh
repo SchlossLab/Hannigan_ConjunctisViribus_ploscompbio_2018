@@ -15,6 +15,8 @@ export Output=${4}
 export fastx=/home/ghannig/bin/fastq_quality_trimmer
 export megahitvar=/home/ghannig/bin/megahit
 
+python -V
+
 ###################
 # Set Subroutines #
 ###################
@@ -27,6 +29,8 @@ runFastx () {
 
 PairedAssembleContigs () {
 	echo Output is "${3}"
+	echo First file is "${1}"
+	echo Second file is "${2}"
 	python ${megahitvar} \
 		--min-contig-len 2500 \
 		-t 16 \

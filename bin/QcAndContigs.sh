@@ -20,7 +20,7 @@ export megahitvar=/mnt/EXT/Schloss-data/bin/megahit/megahit
 ###################
 runFastx () {
 	echo Running fastx with "${1}"
-	echo Output is "${2}"
+	echo Fastx output is "${2}"
 	# Holding the data to a high standard
 	${fastx} -t 33 -Q 33 -l 75 -i "${1}" -o "${2}" || exit
 }
@@ -66,10 +66,13 @@ rm ./data/${Output}/fastxoutput2.fq
 PAIREDVAR=$(awk -v sampleid="${SampleID}" ' $3 == sampleid { print $4 } ' ${Metadata})
 PLATFORM=$(awk -v sampleid="${SampleID}" ' $3 == sampleid { print $5 } ' ${Metadata})
 
+echo Paried value is ${PAIREDVAR}
+
 mkdir ./data/${Output}/raw
 
-if [[ PAIREDVAR == "PAIRED" ]]; then
+if [[ PAIREDVAR = "PAIRED" ]]; then
 	echo Running paired sample...
+
 	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=16 sh -c '
 		gunzip {}
 	'
@@ -98,6 +101,7 @@ if [[ PAIREDVAR == "PAIRED" ]]; then
 		./data/${Output}/${SampleID}_megahit
 else
 	echo Running single end sample...
+
 	# Unzip the files first
 	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=16 sh -c '
 		gunzip {}

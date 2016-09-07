@@ -63,7 +63,7 @@ $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv
 		./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv \
 		./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv
 
-./figures/rocCurves.pdf ./figures/rocCurves.png : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv
+createnetwork : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv
 	bash ./bin/CreateProteinNetwork
 
 # Run the R script for the validation ROC curve analysis

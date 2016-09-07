@@ -70,6 +70,10 @@ mkdir ./data/${Output}/raw
 
 if [[ PAIREDVAR == "PAIRED" ]]; then
 	echo Running paired sample...
+	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=16 sh -c '
+		gunzip {}
+	'
+
 	# Set correct permissions
 	chmod 777 ${SampleDirectory}*/${SampleID}*.sra
 
@@ -77,20 +81,16 @@ if [[ PAIREDVAR == "PAIRED" ]]; then
 	rm -r ./data/${Output}/${SampleID}_megahit
 	rm -r ./data/${Output}/${SampleID}
 
-	# Unzip the files first
-	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=16 sh -c '
-		gunzip {}
-	'
 	ls ${SampleDirectory}*/${SampleID}*.sra | xargs -I {} --max-procs=16 sh -c '
 		echo Processing file {}...
 			fastq-dump --split-3 {} --outdir ./data/${Output}/raw
 			gzip {}
 	'
 	runFastx \
-		./data/${Output}/raw/*_1* \
+		./data/${Output}/raw/${SampleID}*1* \
 		./data/${Output}/fastxoutput1.fq
 	runFastx \
-		./data/${Output}/raw/*_2* \
+		./data/${Output}/raw/${SampleID}*2* \
 		./data/${Output}/fastxoutput2.fq
 	PairedAssembleContigs \
 		./data/${Output}/fastxoutput1.fq \
@@ -116,9 +116,9 @@ else
 			gzip {}
 	'
 	runFastx \
-		./data/${Output}/raw/* \
-		./data/${Output}/fastxoutput1.fq
+		./data/${Output}/raw/${SampleID}* \
+		./data/${Output}/fastxoutput.fq
 	SingleAssembleContigs \
-		./data/${Output}/fastxoutput1.fq \
+		./data/${Output}/fastxoutput.fq \
 		./data/${Output}/${SampleID}_megahit
 fi

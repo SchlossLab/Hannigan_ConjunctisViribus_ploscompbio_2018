@@ -116,7 +116,7 @@ else
 	runFastx \
 		./data/${Output}/raw/* \
 		./data/${Output}/fastxoutput1.fq
-	PairedAssembleContigs \
+	SingleAssembleContigs \
 		./data/${Output}/fastxoutput1.fq \
 		./data/${Output}/${SampleID}
 fi

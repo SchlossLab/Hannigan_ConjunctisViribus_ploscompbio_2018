@@ -34,7 +34,7 @@ PairedAssembleContigs () {
 		-t 16 \
 		-1 "${1}" \
 		-2 "${2}" \
-		-o "${3}"
+		-o ${3}
 }
 
 SingleAssembleContigs () {
@@ -45,7 +45,7 @@ SingleAssembleContigs () {
 		--k-step 20 \
 		-t 16 \
 		-r "${1}" \
-		-o "${2}"
+		-o ${2}
 }
 
 export -f runFastx

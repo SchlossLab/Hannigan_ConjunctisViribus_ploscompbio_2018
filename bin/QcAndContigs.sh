@@ -17,6 +17,9 @@ export megahitvar=/home/ghannig/bin/megahit
 
 python -V
 
+# Run a test first
+${megahitvar} -r ~/bin/megahit/example/readsInterleaved3.fa -o ./test
+
 ###################
 # Set Subroutines #
 ###################

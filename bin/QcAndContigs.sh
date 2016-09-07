@@ -70,7 +70,7 @@ echo Paried value is ${PAIREDVAR}
 
 mkdir ./data/${Output}/raw
 
-if [[ PAIREDVAR = "PAIRED" ]]; then
+if [[ ${PAIREDVAR} = "PAIRED" ]]; then
 	echo Running paired sample...
 
 	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=16 sh -c '

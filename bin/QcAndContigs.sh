@@ -88,10 +88,17 @@ if [[ ${PAIREDVAR} = "PAIRED" ]]; then
 	'
 	runFastx \
 		./data/${Output}/raw/${SampleID}*1* \
-		./data/${Output}/fastxoutput1.fq
+		./data/${Output}/fastxoutput1untrimmed.fq
 	runFastx \
 		./data/${Output}/raw/${SampleID}*2* \
-		./data/${Output}/fastxoutput2.fq
+		./data/${Output}/fastxoutput2untrimmed.fq
+
+	python ./bin/get_trimmed_pairs.py \
+		-f ./data/${Output}/fastxoutput1untrimmed.fq \
+		-s ./data/${Output}/fastxoutput2untrimmed.fq \
+		-o ./data/${Output}/fastxoutput1.fq \
+		-t ./data/${Output}/fastxoutput2.fq
+
 	PairedAssembleContigs \
 		./data/${Output}/fastxoutput1.fq \
 		./data/${Output}/fastxoutput2.fq \

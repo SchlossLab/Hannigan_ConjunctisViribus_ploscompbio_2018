@@ -109,6 +109,10 @@ if [[ ${PAIREDVAR} = "PAIRED" ]]; then
 		-o ./data/${Output}/fastxoutput1.fq \
 		-t ./data/${Output}/fastxoutput2.fq
 
+	# Clean up intermediate files
+	rm ./data/${Output}/fastxoutput1untrimmed.fq
+	rm ./data/${Output}/fastxoutput2untrimmed.fq
+
 	PairedAssembleContigs \
 		./data/${Output}/fastxoutput1.fq \
 		./data/${Output}/fastxoutput2.fq \

@@ -13,12 +13,12 @@ export Metadata=${3}
 export Output=${4}
 
 export fastx=/home/ghannig/bin/fastq_quality_trimmer
-export megahitvar=/home/ghannig/bin/megahit
+export megahitvar=/home/ghannig/bin/megahit/megahit
 
 python -V
 
 # Run a test first
-${megahitvar} -r ~/bin/megahit/example/readsInterleaved3.fa -o ./test
+python ${megahitvar} -r ~/bin/megahit/example/readsInterleaved3.fa -o ./test
 
 ###################
 # Set Subroutines #

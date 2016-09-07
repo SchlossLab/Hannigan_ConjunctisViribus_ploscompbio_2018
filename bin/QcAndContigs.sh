@@ -69,6 +69,7 @@ PLATFORM=$(awk -v sampleid="${SampleID}" ' $3 == sampleid { print $5 } ' ${Metad
 mkdir ./data/${Output}/raw
 
 if [[ PAIREDVAR == "PAIRED" ]]; then
+	echo Running paired sample...
 	# Set correct permissions
 	chmod 777 ${SampleDirectory}*/${SampleID}*.sra
 
@@ -86,16 +87,17 @@ if [[ PAIREDVAR == "PAIRED" ]]; then
 			gzip {}
 	'
 	runFastx \
-		./data/${Output}/raw/*R1* \
+		./data/${Output}/raw/*_1* \
 		./data/${Output}/fastxoutput1.fq
 	runFastx \
-		./data/${Output}/raw/*R2* \
+		./data/${Output}/raw/*_2* \
 		./data/${Output}/fastxoutput2.fq
 	PairedAssembleContigs \
 		./data/${Output}/fastxoutput1.fq \
 		./data/${Output}/fastxoutput2.fq \
 		./data/${Output}/${SampleID}_megahit
 else
+	echo Running single end sample...
 	# Unzip the files first
 	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=16 sh -c '
 		gunzip {}
@@ -118,5 +120,5 @@ else
 		./data/${Output}/fastxoutput1.fq
 	SingleAssembleContigs \
 		./data/${Output}/fastxoutput1.fq \
-		./data/${Output}/${SampleID}
+		./data/${Output}/${SampleID}_megahit
 fi

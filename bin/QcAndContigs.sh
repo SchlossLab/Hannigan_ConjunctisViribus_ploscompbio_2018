@@ -20,9 +20,9 @@ export megahitvar=/mnt/EXT/Schloss-data/bin/megahit/megahit
 ###################
 runFastx () {
 	echo Running fastx with "${1}"
+	echo Output is "${2}"
 	# Holding the data to a high standard
 	${fastx} -t 33 -Q 33 -l 75 -i "${1}" -o "${2}" || exit
-	rm "${1}"
 }
 
 PairedAssembleContigs () {

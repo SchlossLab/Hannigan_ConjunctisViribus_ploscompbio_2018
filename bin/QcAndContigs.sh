@@ -26,6 +26,7 @@ runFastx () {
 }
 
 PairedAssembleContigs () {
+	echo Output is "${3}"
 	python ${megahitvar} \
 		--min-contig-len 2500 \
 		--k-min 21 \
@@ -34,10 +35,11 @@ PairedAssembleContigs () {
 		-t 16 \
 		-1 "${1}" \
 		-2 "${2}" \
-		-o ${3}
+		-o "${3}"
 }
 
 SingleAssembleContigs () {
+	echo Output is "${2}"
 	python ${megahitvar} \
 		--min-contig-len 2500 \
 		--k-min 21 \
@@ -45,7 +47,7 @@ SingleAssembleContigs () {
 		--k-step 20 \
 		-t 16 \
 		-r "${1}" \
-		-o ${2}
+		-o "${2}"
 }
 
 export -f runFastx
@@ -70,7 +72,8 @@ if [[ PAIREDVAR == "PAIRED" ]]; then
 	# Set correct permissions
 	chmod 777 ${SampleDirectory}*/${SampleID}*.sra
 
-	# Clean before running
+	# Clean up
+	rm -r ./data/${Output}/${SampleID}_megahit
 	rm -r ./data/${Output}/${SampleID}
 
 	# Unzip the files first
@@ -91,7 +94,7 @@ if [[ PAIREDVAR == "PAIRED" ]]; then
 	PairedAssembleContigs \
 		./data/${Output}/fastxoutput1.fq \
 		./data/${Output}/fastxoutput2.fq \
-		./data/${Output}/${SampleID}
+		./data/${Output}/${SampleID}_megahit
 else
 	# Unzip the files first
 	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=16 sh -c '
@@ -100,6 +103,7 @@ else
 
 	# Clean before running
 	rm -r ./data/${Output}/${SampleID}
+	rm -r ./data/${Output}/${SampleID}_megahit
 
 	# Set correct permissions
 	chmod 777 ${SampleDirectory}*/${SampleID}*.sra

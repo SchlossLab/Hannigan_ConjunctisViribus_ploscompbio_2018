@@ -32,8 +32,6 @@ PairedAssembleContigs () {
 	echo First file is "${1}"
 	echo Second file is "${2}"
 	python ${megahitvar} \
-		--min-contig-len 2500 \
-		-t 16 \
 		-1 "${1}" \
 		-2 "${2}" \
 		-o "${3}"
@@ -42,8 +40,6 @@ PairedAssembleContigs () {
 SingleAssembleContigs () {
 	echo Output is "${2}"
 	python ${megahitvar} \
-		--min-contig-len 2500 \
-		-t 16 \
 		-r "${1}" \
 		-o "${2}"
 }

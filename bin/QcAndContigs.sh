@@ -13,7 +13,7 @@ export Metadata=${3}
 export Output=${4}
 
 export fastx=/home/ghannig/bin/fastq_quality_trimmer
-export megahitvar=/mnt/EXT/Schloss-data/bin/megahit/megahit
+export megahitvar=/home/ghannig/bin/megahit
 
 ###################
 # Set Subroutines #
@@ -29,9 +29,6 @@ PairedAssembleContigs () {
 	echo Output is "${3}"
 	python ${megahitvar} \
 		--min-contig-len 2500 \
-		--k-min 21 \
-		--k-max 101\
-		--k-step 20 \
 		-t 16 \
 		-1 "${1}" \
 		-2 "${2}" \
@@ -42,9 +39,6 @@ SingleAssembleContigs () {
 	echo Output is "${2}"
 	python ${megahitvar} \
 		--min-contig-len 2500 \
-		--k-min 21 \
-		--k-max 101\
-		--k-step 20 \
 		-t 16 \
 		-r "${1}" \
 		-o "${2}"

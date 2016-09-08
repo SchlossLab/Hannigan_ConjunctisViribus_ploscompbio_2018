@@ -19,9 +19,11 @@ DOWNLOAD = ${ACCLIST}
 VALIDATION = \
 	./data/ValidationSet/ValidationPhageNoBlock.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa \
 	./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv \
-	createnetwork \
+	cleanneo4j \
+	../../bin/neo4j-enterprise-2.3.0/data/graph.db \
 	./figures/rocCurves.pdf ./figures/rocCurves.png
 
+validation : ${VALIDATION}
 all : ${VALIDATION} ${SAMPLELIST}
 download : ${DOWNLOAD}
 
@@ -61,9 +63,11 @@ $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv
 		./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv \
 		./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv \
 		./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv \
-		./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv
+		./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv	
 
-createnetwork : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv
+../../bin/neo4j-enterprise-2.3.0/data/graph.db : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv ../../bin/neo4j-enterprise-2.3.0/data/graph.db
+	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
+	mkdir ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	bash ./bin/CreateProteinNetwork
 
 # Run the R script for the validation ROC curve analysis

@@ -21,6 +21,7 @@ perl -pe 's/^>ENA\|(.+)\|.*/>$1/' ./ValidationPhageNoBlockint.fa \
 awk -F "\t" 'FNR==NR { a[">"$2] = $1; next } { if (a[$1]) {print ">"a[$1]} else {print $1} }' \
 	${PhageValidationAcc} \
 	./tmpholder.fa \
+	| perl -pe 's/\h/_/g' \
 	> "${PhageOutput}"
 
 rm ./ValidationPhage.fa
@@ -43,6 +44,7 @@ perl -pe 's/^>ENA\|(.+)\|.*/>$1/' ./ValidationBacteriaNoBlockint.fa \
 awk -F "\t" 'FNR==NR { a[">"$2] = $1; next } { if (a[$1]) {print ">"a[$1]} else {print $1} }' \
 	${BacteriaValidationAcc} \
 	./tmpholder.fa \
+	| perl -pe 's/\h/_/g' \
 	> "${BacteriaOutput}"
 
 rm ./ValidationBacteria.fa

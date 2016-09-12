@@ -115,6 +115,10 @@ FormatNames \
 	./data/${Output}/BenchmarkCrisprs.tsv \
 	${CRISPRout}
 
+# Remove underscores at the end of the names
+sed -i 's/_[0-9][0-9]?[0-9]?\t/\t/g' ${CRISPRout}
+
+
 #####################
 # Run BLAST scripts #
 #####################
@@ -176,6 +180,7 @@ awk '{ print $2"\t"$1"\t"$12 }' \
 	./data/${Output}/MatchesByBlastxFormat.tsv \
 	> ./data/${Output}/tmpMatchesByBlastxFormat.tsv
 
+# Remove underscores at the end of the names
 sed -i 's/_[0-9]*\t/\t/g' ./data/${Output}/tmpMatchesByBlastxFormat.tsv
 
 Rscript ./bin/CollapseGeneScores.R \
@@ -213,6 +218,7 @@ awk '{ print $1"\t"$3"\t"($2 + $4) }' \
 awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/PfamInteractionsFormatScored.tsv  \
 	> ./data/${Output}/tmpPfamInteractionsFormatScored.tsv
 
+# Remove underscores at the end of the names
 sed -i 's/_[0-9]*\t/\t/g' ./data/${Output}/tmpPfamInteractionsFormatScored.tsv
 
 Rscript ./bin/CollapseGeneScores.R \

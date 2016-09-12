@@ -1,5 +1,5 @@
 #! /bin/bash
-# RunPhageBacteriaModel.sh
+# CreateContigRelAbundTable.sh
 # Geoffrey Hannigan
 # Pat Schloss Lab
 # University of Michigan
@@ -16,17 +16,16 @@
 # Set the Environment #
 #######################
 
-export WorkingDirectory=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data
-export Output='RunPhageBacteriaModel'
 export BinPath=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin/
 export GitBin=/mnt/EXT/Schloss-data/ghannig/OpenMetagenomeToolkit/pakbin/
 export ProjectBin=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/bin/
 
-export PhageGenomeRef=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/AssembledContigs/FinalContigs/TotalContigs.fa
-export BacteriaGenomeRef=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/ValidationSet/ValidationBacteriaNoBlockNoSpace.fa
-export FastaSequences=/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus/data/AssembledContigs/fastaForAssembly
+export ContigsFile=$1
+# Directory for fasta sequences to align to contigs
+export FastaSequences=$2
+export MasterOutput=$3
+export Output='data/tmpbowtie'
 
-cd ${WorkingDirectory} || exit
 mkdir ./${Output}
 
 ###################
@@ -39,12 +38,12 @@ GetHits () {
 	mkdir ./${Output}/bowtieReference
 
 	bowtie2-build \
-		-f ${2} \
+		-q ${2} \
 		./${Output}/bowtieReference/bowtieReference
 
 	bowtie2 \
 		-x ./${Output}/bowtieReference/bowtieReference \
-		-f ${1} \
+		-q ${1} \
 		-S ${1}-bowtie.sam \
 		-p 32 \
 		-L 25 \
@@ -68,18 +67,18 @@ echo Getting contig relative abundance table...
 
 rm ./${Output}/ContigRelAbundForNetwork.tsv
 
-for file in $(ls ${FastaSequences}/*_merged.fa | sed "s/.*\///g"); do
-	sampleid=$(echo ${file} | sed 's/_merged.fa//')
+for file in $(ls ${FastaSequences}/*_2.fastq | sed "s/.*\///g"); do
+	sampleid=$(echo ${file} | sed 's/_2.fastq//')
 	echo Sample ID is ${sampleid}
 
-	# GetHits \
-	# 	${FastaSequences}/${file} \
-	# 	${PhageGenomeRef}
+	GetHits \
+		${FastaSequences}/${file} \
+		${ContigsFile}
 
 	# Remove the header
 	sed -e "1d" ${FastaSequences}/${file}-bowtie.tsv > ${FastaSequences}/${file}-noheader
 
-	awk -v name=${sampleid} '{ print $0"\t"name }' ${FastaSequences}/${file}-noheader >> ./${Output}/ContigRelAbundForNetwork.tsv
+	awk -v name=${sampleid} '{ print $0"\t"name }' ${FastaSequences}/${file}-noheader >> ${MasterOutput}
 	rm ${FastaSequences}/${file}-noheader
 done
 

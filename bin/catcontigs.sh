@@ -10,7 +10,7 @@
 export ContigDirectory=$1
 export NewContigDirectory=$2
 
-for contigdir in $(ls "${ContigDirectory}"*_megahit); do
+for contigdir in $(ls "${ContigDirectory}" | grep _megahit); do
 	echo Contig directory is "${contigdir}"
 	samplename=$(echo "${contigdir}" | sed 's/.*\///g' | sed 's/_megahit//')
 	echo Formatting "${contigdir}" as "${samplename}"

@@ -10,9 +10,8 @@
 export ContigDirectory=$1
 export NewContigDirectory=$2
 
-ls ${ContigDirectory}*_megahit | xargs -I {} --max-procs=1 sh -c '
-	contigdir={}
+for contigdir in $(${ContigDirectory}*_megahit); do
 	samplename=$(echo ${contigdir} | sed 's/.*\///g' | sed 's/_megahit//')
 	echo Formatting ${contigdir} as ${samplename}
 	cp ${contigdir}/final.contigs.fa ${NewContigDirectory}/${samplename}
-'
+done

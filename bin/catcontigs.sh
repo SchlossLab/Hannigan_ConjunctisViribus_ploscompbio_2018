@@ -13,7 +13,7 @@ export CatContigOutputFile=$2
 NewContigDirectory=./data/tmpcat
 
 # Make output directory
-mkdir ./data/catContigs/
+mkdir "${NewContigDirectory}"
 
 for contigdir in $(ls "${ContigDirectory}" | grep _megahit); do
 	echo Contig directory is "${ContigDirectory}"/"${contigdir}"

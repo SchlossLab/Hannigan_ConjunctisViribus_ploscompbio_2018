@@ -130,6 +130,9 @@ excludedgraph <- ggplot(Exclusiondf[order(Exclusiondf$ExclusionStatus, decreasin
   xlab("Interaction Status") +
   ylab("Percent of Total Samples")
 
+# Save the model to a file so that it can be used later
+save(outmodel, "./data/rfinteractionmodel.RData")
+
 #############
 # Plot Data #
 #############

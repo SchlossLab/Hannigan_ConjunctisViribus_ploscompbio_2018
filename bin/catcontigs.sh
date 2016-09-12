@@ -22,6 +22,8 @@ for contigdir in $(ls "${ContigDirectory}" | grep _megahit); do
 	cp "${ContigDirectory}"/"${contigdir}"/final.contigs.fa "${NewContigDirectory}"/"${samplename}"_contigs.fa
 done
 
+echo Merging contig files into a master file
+
 cat "${NewContigDirectory}"/*_contigs.fa > ${CatContigOutputFile}
 
 rm -r "${NewContigDirectory}"

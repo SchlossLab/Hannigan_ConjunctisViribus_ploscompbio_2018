@@ -80,7 +80,7 @@ mkdir ./data/${Output}/raw
 if [[ ${PAIREDVAR} = "PAIRED" ]]; then
 	echo Running paired sample...
 
-	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=16 sh -c '
+	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=4 sh -c '
 		gunzip {}
 	'
 
@@ -91,7 +91,7 @@ if [[ ${PAIREDVAR} = "PAIRED" ]]; then
 	rm -r ./data/${Output}/${SampleID}_megahit
 	rm -r ./data/${Output}/${SampleID}
 
-	ls ${SampleDirectory}*/${SampleID}*.sra | xargs -I {} --max-procs=16 sh -c '
+	ls ${SampleDirectory}*/${SampleID}*.sra | xargs -I {} --max-procs=4 sh -c '
 		echo Processing file {}...
 			fastq-dump --split-3 {} --outdir ./data/${Output}/raw
 			gzip {}
@@ -121,7 +121,7 @@ else
 	echo Running single end sample...
 
 	# Unzip the files first
-	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=16 sh -c '
+	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=4 sh -c '
 		gunzip {}
 	'
 
@@ -132,7 +132,7 @@ else
 	# Set correct permissions
 	chmod 777 ${SampleDirectory}*/${SampleID}*.sra
 
-	ls ${SampleDirectory}*/${SampleID}*.sra | xargs -I {} --max-procs=16 sh -c '
+	ls ${SampleDirectory}*/${SampleID}*.sra | xargs -I {} --max-procs=4 sh -c '
 		echo Processing file {}...
 			fastq-dump --split-3 {} --outdir ./data/${Output}/raw
 			gzip {}

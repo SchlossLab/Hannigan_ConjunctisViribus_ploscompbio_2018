@@ -14,5 +14,5 @@ for contigdir in $(ls "${ContigDirectory}" | grep _megahit); do
 	echo Contig directory is "${ContigDirectory}"/"${contigdir}"
 	samplename=$(echo "${contigdir}" | sed 's/.*\///g' | sed 's/_megahit//')
 	echo Formatting "${contigdir}" as "${samplename}"
-	cp "${ContigDirectory}"/"${contigdir}"/final.contigs.fa "${NewContigDirectory}"/"${samplename}"
+	cp "${ContigDirectory}"/"${contigdir}"/final.contigs.fa "${NewContigDirectory}"/"${samplename}"_contigs.fa
 done

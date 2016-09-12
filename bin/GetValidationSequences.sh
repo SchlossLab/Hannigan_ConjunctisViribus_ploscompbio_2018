@@ -41,7 +41,7 @@ perl -pe 's/^>ENA\|(.+)\|.*/>$1/' ./ValidationBacteriaNoBlockint.fa \
 	> ./tmpholder.fa
 
 # Replace the fasta IDs with names from the original id list.
-awk -F "\t" 'FNR==NR { a[">"$2] = $1; next } { if (a[$1]) {print ">"a[$1]} else {print $1} }' \
+awk -F "\t" 'FNR==NR { a[">"$3] = $2; next } { if (a[$1]) {print ">"a[$1]} else {print $1} }' \
 	${BacteriaValidationAcc} \
 	./tmpholder.fa \
 	| perl -pe 's/\h/_/g' \

@@ -33,16 +33,12 @@ mkdir ./${Output}
 ###################
 GetHits () {
 	# 1 = Input Orfs
-	# 2 = Reference Orfs
+	# 2 = Bowtie Reference
 
 	mkdir ./${Output}/bowtieReference
 
-	bowtie2-build \
-		-q ${2} \
-		./${Output}/bowtieReference/bowtieReference
-
 	bowtie2 \
-		-x ./${Output}/bowtieReference/bowtieReference \
+		-x ${2} \
 		-q ${1} \
 		-S ${1}-bowtie.sam \
 		-p 32 \
@@ -67,13 +63,18 @@ echo Getting contig relative abundance table...
 
 rm ./${Output}/ContigRelAbundForNetwork.tsv
 
+# Build bowtie reference
+bowtie2-build \
+	-q ${ContigsFile} \
+	./${Output}/bowtieReference/bowtieReference
+
 for file in $(ls ${FastaSequences}/*_2.fastq | sed "s/.*\///g"); do
 	sampleid=$(echo ${file} | sed 's/_2.fastq//')
 	echo Sample ID is ${sampleid}
 
 	GetHits \
 		${FastaSequences}/${file} \
-		${ContigsFile}
+		./${Output}/bowtieReference/bowtieReference
 
 	# Remove the header
 	sed -e "1d" ${FastaSequences}/${file}-bowtie.tsv > ${FastaSequences}/${file}-noheader

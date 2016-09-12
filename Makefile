@@ -86,4 +86,16 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 		./data/PublishedDatasets/metadatatable.tsv \
 		"QualityOutput"
 
+# Merge the contigs into a single file
+./data/TotalCatContigs.fa : ./data/QualityOutput
+	bash ./bin/catcontigs.sh ./data/QualityOutput ./data/TotalCatContigs.fa
+
+./data/ContigRelAbundForGraph.tsv : ./data/TotalCatContigs.fa ./data/QualityOutput/raw
+	bash ./bin/CreateContigRelAbundTable.sh \
+		./data/TotalCatContigs.fa \
+		./data/QualityOutput/raw \
+		./data/ContigRelAbundForGraph.tsv
+
+
+
 

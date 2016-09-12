@@ -10,6 +10,9 @@
 export ContigDirectory=$1
 export NewContigDirectory=$2
 
+# Make output directory
+mkdir ./data/catContigs/
+
 for contigdir in $(ls "${ContigDirectory}" | grep _megahit); do
 	echo Contig directory is "${ContigDirectory}"/"${contigdir}"
 	samplename=$(echo "${contigdir}" | sed 's/.*\///g' | sed 's/_megahit//')

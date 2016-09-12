@@ -8,7 +8,9 @@
 # Set Variables #
 #################
 export ContigDirectory=$1
-export NewContigDirectory=$2
+export CatContigOutputFile=$2
+
+NewContigDirectory=./data/tmpcat
 
 # Make output directory
 mkdir ./data/catContigs/
@@ -19,3 +21,7 @@ for contigdir in $(ls "${ContigDirectory}" | grep _megahit); do
 	echo Formatting "${contigdir}" as "${samplename}"
 	cp "${ContigDirectory}"/"${contigdir}"/final.contigs.fa "${NewContigDirectory}"/"${samplename}"_contigs.fa
 done
+
+cat "${NewContigDirectory}"/*_contigs.fa > ${CatContigOutputFile}
+
+rm -r "${NewContigDirectory}"

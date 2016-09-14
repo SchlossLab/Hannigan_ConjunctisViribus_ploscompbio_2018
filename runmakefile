@@ -16,8 +16,8 @@
 # Set the proper R module
 module load R/3.2.3
 
-# # Set working directory
-# cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus || exit
+# Set working directory
+cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
-# # Run make
-# make validation
+# Run make
+make validationnetwork

@@ -54,7 +54,7 @@ download : ${DOWNLOAD}
 		./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv \
 		"BenchmarkingSet"
 
-validationnetwork ../../bin/neo4j-enterprise-2.3.0/data/graph.db : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv
+validationnetwork : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv
 	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	mkdir ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	bash ./bin/CreateProteinNetwork \
@@ -66,7 +66,7 @@ validationnetwork ../../bin/neo4j-enterprise-2.3.0/data/graph.db : ./data/Valida
 		"TRUE"
 
 # Run the R script for the validation ROC curve analysis
-./figures/rocCurves.pdf ./figures/rocCurves.png : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv
+./figures/rocCurves.pdf ./figures/rocCurves.png : validationnetwork
 	bash ./bin/RunRocAnalysisWithNeo4j.sh
 
 # ##########################################
@@ -114,7 +114,7 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 		./data/ViromeAgainstReferenceBacteria/PfamInteractionsFormatScoredFlip.tsv \
 		"ViromeAgainstReferenceBacteria"
 
-../../bin/neo4j-enterprise-2.3.0/data/graph.db : ./data/ValidationSet/Interactions.tsv ./data/ViromeAgainstReferenceBacteria/BenchmarkCrisprsFormat.tsv ./data/ViromeAgainstReferenceBacteria/BenchmarkProphagesFormatFlip.tsv ./data/ViromeAgainstReferenceBacteria/PfamInteractionsFormatScoredFlip.tsv ./data/ViromeAgainstReferenceBacteria/MatchesByBlastxFormatOrder.tsv
+ : ./data/ValidationSet/Interactions.tsv ./data/ViromeAgainstReferenceBacteria/BenchmarkCrisprsFormat.tsv ./data/ViromeAgainstReferenceBacteria/BenchmarkProphagesFormatFlip.tsv ./data/ViromeAgainstReferenceBacteria/PfamInteractionsFormatScoredFlip.tsv ./data/ViromeAgainstReferenceBacteria/MatchesByBlastxFormatOrder.tsv
 	# Note that this resets the graph database and erases
 	# the validation information we previously added.
 	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/

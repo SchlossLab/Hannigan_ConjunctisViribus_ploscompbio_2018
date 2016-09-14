@@ -66,7 +66,7 @@ validationnetwork : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet
 		"TRUE"
 
 # Run the R script for the validation ROC curve analysis
-./figures/rocCurves.pdf ./figures/rocCurves.png : validationnetwork
+./figures/rocCurves.pdf ./figures/rocCurves.png : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv
 	bash ./bin/RunRocAnalysisWithNeo4j.sh
 
 # ##########################################

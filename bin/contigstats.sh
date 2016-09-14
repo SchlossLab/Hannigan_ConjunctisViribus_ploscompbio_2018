@@ -13,6 +13,7 @@ ccontigs=/mnt/EXT/Schloss-data/ghannig/ccontigs
 contigfasta=${1}
 contigcounts=${2}
 
+mkdir ./data/PhageContigStats
 
 #################
 # Contig Length #

@@ -19,8 +19,8 @@ DOWNLOAD = ${ACCLIST}
 VALIDATION = \
 	./data/ValidationSet/ValidationPhageNoBlock.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa \
 	./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv \
+	validationnetwork \
 	./figures/rocCurves.pdf ./figures/rocCurves.png \
-	validationnetwork
 
 validation : ${VALIDATION}
 all : ${VALIDATION} ${SAMPLELIST}

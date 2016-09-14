@@ -9,7 +9,7 @@
 #######################
 
 julia=/mnt/EXT/Schloss-data/bin/julia-0.4.6/bin/julia
-ccontigs=/mnt/EXT/Schloss-data/ghannig/ccontigs
+ccontigs=/mnt/EXT/Schloss-data/ghannig/ccontigs/ccontigs.jl
 contigfasta=${1}
 contigcounts=${2}
 

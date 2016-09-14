@@ -116,7 +116,7 @@ FormatNames \
 	${CRISPRout}
 
 # Remove underscores at the end of the names
-sed -i 's/_[0-9][0-9]?[0-9]?\t/\t/g' ${CRISPRout}
+sed -i 's/_[0-9][0-9]\?[0-9]\?\t/\t/g' ${CRISPRout}
 
 
 #####################

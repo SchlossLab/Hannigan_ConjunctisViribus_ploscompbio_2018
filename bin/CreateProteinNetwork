@@ -35,4 +35,3 @@ fi
 
 # Stop local neo4j server
 /mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
-

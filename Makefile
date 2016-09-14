@@ -26,17 +26,6 @@ validation : ${VALIDATION}
 all : ${VALIDATION} ${SAMPLELIST}
 download : ${DOWNLOAD}
 
-# ##########################################
-# # Download Global Virome Dataset Studies #
-# ##########################################
-# Download the sequences for the dataset
-# Use the list because it allows for test of targets
-$(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv
-	echo $@
-	bash ./bin/DownloadPublishedVirome.sh \
-		$< \
-		$@
-
 ####################
 # Model Validation #
 ####################
@@ -62,19 +51,37 @@ $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv
 		./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv \
 		./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv \
 		./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv \
-		./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv	
+		./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv \
+		"BenchmarkingSet"
 
-../../bin/neo4j-enterprise-2.3.0/data/graph.db : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv ../../bin/neo4j-enterprise-2.3.0/data/graph.db
+../../bin/neo4j-enterprise-2.3.0/data/graph.db : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv
 	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	mkdir ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
-	bash ./bin/CreateProteinNetwork
+	bash ./bin/CreateProteinNetwork \
+		./data/ValidationSet/Interactions.tsv \
+		./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv \
+		./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv \
+		./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv \
+		./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv \
+		"TRUE"
 
 # Run the R script for the validation ROC curve analysis
 ./figures/rocCurves.pdf ./figures/rocCurves.png : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv
 	bash ./bin/RunRocAnalysisWithNeo4j.sh
 
+# ##########################################
+# # Download Global Virome Dataset Studies #
+# ##########################################
+# Download the sequences for the dataset
+# Use the list because it allows for test of targets
+$(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv
+	echo $@
+	bash ./bin/DownloadPublishedVirome.sh \
+		$< \
+		$@
+
 ############################
-# Total Dataset Processing #
+# Total Dataset Networking #
 ############################
 # Run quality control and contig assembly
 # Need to decompress the fastq files first from SRA
@@ -95,6 +102,31 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 		./data/TotalCatContigs.fa \
 		./data/QualityOutput/raw \
 		./data/ContigRelAbundForGraph.tsv
+
+# In this case the samples will get run against the bacteria reference genome set
+./data/ViromeAgainstReferenceBacteria/BenchmarkCrisprsFormat.tsv ./data/ViromeAgainstReferenceBacteria/BenchmarkProphagesFormatFlip.tsv ./data/ViromeAgainstReferenceBacteria/MatchesByBlastxFormatOrder.tsv ./data/ViromeAgainstReferenceBacteria/PfamInteractionsFormatScoredFlip.tsv : ./data/TotalCatContigs.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa
+	bash ./bin/BenchmarkingModel.sh \
+		./data/TotalCatContigs.fa \
+		./data/ValidationSet/ValidationBacteriaNoBlock.fa \
+		./data/ViromeAgainstReferenceBacteria/BenchmarkCrisprsFormat.tsv \
+		./data/ViromeAgainstReferenceBacteria/BenchmarkProphagesFormatFlip.tsv \
+		./data/ViromeAgainstReferenceBacteria/MatchesByBlastxFormatOrder.tsv \
+		./data/ViromeAgainstReferenceBacteria/PfamInteractionsFormatScoredFlip.tsv \
+		"ViromeAgainstReferenceBacteria"
+
+../../bin/neo4j-enterprise-2.3.0/data/graph.db : ./data/ValidationSet/Interactions.tsv ./data/ViromeAgainstReferenceBacteria/BenchmarkCrisprsFormat.tsv ./data/ViromeAgainstReferenceBacteria/BenchmarkProphagesFormatFlip.tsv ./data/ViromeAgainstReferenceBacteria/PfamInteractionsFormatScoredFlip.tsv ./data/ViromeAgainstReferenceBacteria/MatchesByBlastxFormatOrder.tsv
+	# Note that this resets the graph database and erases
+	# the validation information we previously added.
+	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
+	mkdir ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
+	bash ./bin/CreateProteinNetwork \
+		./data/ValidationSet/Interactions.tsv \
+		./data/ViromeAgainstReferenceBacteria/BenchmarkCrisprsFormat.tsv \
+		./data/ViromeAgainstReferenceBacteria/BenchmarkProphagesFormatFlip.tsv \
+		./data/ViromeAgainstReferenceBacteria/PfamInteractionsFormatScoredFlip.tsv \
+		./data/ViromeAgainstReferenceBacteria/MatchesByBlastxFormatOrder.tsv \
+		"FALSE"
+
 
 
 

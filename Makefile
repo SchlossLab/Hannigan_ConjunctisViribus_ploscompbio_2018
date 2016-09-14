@@ -127,7 +127,17 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 		./data/ViromeAgainstReferenceBacteria/MatchesByBlastxFormatOrder.tsv \
 		"FALSE"
 
+./data/PhageContigStats/ContigLength.tsv ./data/PhageContigStats/FinalContigCounts.tsv ./data/PhageContigStats/circularcontigsFormat.tsv : ./data/TotalCatContigs.fa ./data/ContigRelAbundForGraph.tsv
+	bash ./bin/contigstats.sh \
+		./data/TotalCatContigs.fa \
+		./data/ContigRelAbundForGraph.tsv \
+		./data/PhageContigStats/ContigLength.tsv \
+		./data/PhageContigStats/FinalContigCounts.tsv \
+		./data/PhageContigStats/circularcontigsFormat.tsv \
+		./data/PhageContigStats
 
-
-
-
+./figures/ContigStats.pdf ./figures/ContigStats.png : ./data/PhageContigStats/ContigLength.tsv ./data/PhageContigStats/FinalContigCounts.tsv ./data/PhageContigStats/circularcontigsFormat.tsv
+	Rscript ./bin/FinalizeContigStats.R \
+		-l ./data/PhageContigStats/ContigLength.tsv \
+		-c ./data/PhageContigStats/FinalContigCounts.tsv \
+		-x ./data/PhageContigStats/circularcontigsFormat.tsv

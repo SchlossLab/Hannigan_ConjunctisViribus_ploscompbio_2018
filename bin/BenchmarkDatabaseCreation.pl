@@ -169,10 +169,9 @@ sub AddGenericFile {
     }
 }
 
-print STDERR "\n\n\nProgress: Adding Experimentally Validated Interactions\n";
-AddGenericFile(\*$IN, "Interaction", "TRUE");
-
 print STDERR "\nRunning Data As Validation Dataset\n" if defined $validation;
+print STDERR "\n\n\nProgress: Adding Experimentally Validated Interactions\n" if defined $validation;
+AddGenericFile(\*$IN, "Interaction", "TRUE") if defined $validation;
 
 print STDERR "\n\n\nProgress: Adding Predicted CRISPR Interactions\n";
 AddGenericFile(\*$CRISPR, "CRISPR", "TRUE");

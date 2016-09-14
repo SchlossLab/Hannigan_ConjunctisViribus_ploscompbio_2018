@@ -26,6 +26,8 @@ awk 'NR % 2 {printf $0"\t"} !(NR % 2) {print length($0)}' \
 	${contigfasta} \
 	> ${outcontiglength}
 
+sed -i 's/>//' ${outcontiglength}
+
 #################################
 # Total Contig Sequencing Depth #
 #################################

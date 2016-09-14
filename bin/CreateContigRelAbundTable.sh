@@ -61,7 +61,8 @@ export -f GetHits
 
 echo Getting contig relative abundance table...
 
-rm ./${Output}/ContigRelAbundForNetwork.tsv
+# Clear the file to prepare for appending to new file below
+rm ${MasterOutput}
 
 # Build bowtie reference
 bowtie2-build \
@@ -79,7 +80,8 @@ for file in $(ls ${FastaSequences}/*_2.fastq | sed "s/.*\///g"); do
 	# Remove the header
 	sed -e "1d" ${FastaSequences}/${file}-bowtie.tsv > ${FastaSequences}/${file}-noheader
 
-	awk -v name=${sampleid} '{ print $0"\t"name }' ${FastaSequences}/${file}-noheader >> ${MasterOutput}
+	awk -v name=${sampleid} '{ print $0"\t"name }' ${FastaSequences}/${file}-noheader \
+	| grep -v '\*' >> ${MasterOutput}
 	rm ${FastaSequences}/${file}-noheader
 done
 

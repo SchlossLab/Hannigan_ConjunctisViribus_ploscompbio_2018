@@ -26,7 +26,7 @@ awk 'NR % 2 {printf $0"\t"} !(NR % 2) {print length($0)}' \
 #################################
 Rscript ./bin/CollapseContigCounts.R \
 	--input ${contigcounts} \
-	--output ./data/PhageContigStats/FinalContigCounts.tsv
+	--out ./data/PhageContigStats/FinalContigCounts.tsv
 
 ####################################
 # Identify Likely Circular Contigs #

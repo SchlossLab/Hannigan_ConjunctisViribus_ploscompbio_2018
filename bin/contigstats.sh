@@ -33,9 +33,9 @@ Rscript ./bin/CollapseContigCounts.R \
 # Identify Likely Circular Contigs #
 ####################################
 # ccontigs script
-${julia} ${ccontigs} ccontigs.jl \
-	--input ${contigfasta} \
-	--output ./data/PhageContigStats/circularcontigs.tsv
+${julia} ${ccontigs} \
+	-i ${contigfasta} \
+	-o ./data/PhageContigStats/circularcontigs.tsv
 
 awk '{ print $1"\tCircular" }' ./data/PhageContigStats/circularcontigs.tsv \
 	> ./data/PhageContigStats/circularcontigsFormat.tsv

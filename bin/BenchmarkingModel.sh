@@ -8,7 +8,7 @@
 # Set the Environment #
 #######################
 
-export Output='BenchmarkingSet'
+export Output=${7}
 
 export PhageGenomeRef=${1}
 export BacteriaGenomeRef=${2}

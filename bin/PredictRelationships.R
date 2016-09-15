@@ -62,7 +62,6 @@ datadef <- getresults(querydata)
 
 comdf <- data.frame(datadef[complete.cases(datadef),])
 
-predoutput <- predict(outmodel, comdf, type = c("prob"))
+predoutput <- predict(outmodel, comdf, type = c("class"))
 
-summary(predoutput)
 predoutput

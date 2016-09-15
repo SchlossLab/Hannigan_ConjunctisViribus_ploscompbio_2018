@@ -83,7 +83,9 @@ $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv
 ############################
 # Total Dataset Networking #
 ############################
-# Run quality control and contig assembly
+### CONTIG ASSEMBLY AND QC
+
+# Run quality control as well here
 # Need to decompress the fastq files first from SRA
 ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatable.tsv
 	echo $@
@@ -97,11 +99,33 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 ./data/TotalCatContigs.fa : ./data/QualityOutput
 	bash ./bin/catcontigs.sh ./data/QualityOutput ./data/TotalCatContigs.fa
 
+# Generate a contig relative abundance table
 ./data/ContigRelAbundForGraph.tsv : ./data/TotalCatContigs.fa ./data/QualityOutput/raw
 	bash ./bin/CreateContigRelAbundTable.sh \
 		./data/TotalCatContigs.fa \
 		./data/QualityOutput/raw \
 		./data/ContigRelAbundForGraph.tsv
+
+### CONTIG STATISTICS
+
+# Prepare to plot contig stats like sequencing depth, length, and circularity
+./data/PhageContigStats/ContigLength.tsv ./data/PhageContigStats/FinalContigCounts.tsv ./data/PhageContigStats/circularcontigsFormat.tsv : ./data/TotalCatContigs.fa ./data/ContigRelAbundForGraph.tsv
+	bash ./bin/contigstats.sh \
+		./data/TotalCatContigs.fa \
+		./data/ContigRelAbundForGraph.tsv \
+		./data/PhageContigStats/ContigLength.tsv \
+		./data/PhageContigStats/FinalContigCounts.tsv \
+		./data/PhageContigStats/circularcontigsFormat.tsv \
+		./data/PhageContigStats
+
+# Finalize the contig stats plots
+./figures/ContigStats.pdf ./figures/ContigStats.png : ./data/PhageContigStats/ContigLength.tsv ./data/PhageContigStats/FinalContigCounts.tsv ./data/PhageContigStats/circularcontigsFormat.tsv
+	Rscript ./bin/FinalizeContigStats.R \
+		-l ./data/PhageContigStats/ContigLength.tsv \
+		-c ./data/PhageContigStats/FinalContigCounts.tsv \
+		-x ./data/PhageContigStats/circularcontigsFormat.tsv
+
+### DRAW PRIMARY NETWORK GRAPH (PHAGE + REFERENCE BACTERA)
 
 # In this case the samples will get run against the bacteria reference genome set
 ./data/ViromeAgainstReferenceBacteria/BenchmarkCrisprsFormat.tsv ./data/ViromeAgainstReferenceBacteria/BenchmarkProphagesFormatFlip.tsv ./data/ViromeAgainstReferenceBacteria/MatchesByBlastxFormatOrder.tsv ./data/ViromeAgainstReferenceBacteria/PfamInteractionsFormatScoredFlip.tsv : ./data/TotalCatContigs.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa
@@ -114,7 +138,8 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 		./data/ViromeAgainstReferenceBacteria/PfamInteractionsFormatScoredFlip.tsv \
 		"ViromeAgainstReferenceBacteria"
 
- : ./data/ValidationSet/Interactions.tsv ./data/ViromeAgainstReferenceBacteria/BenchmarkCrisprsFormat.tsv ./data/ViromeAgainstReferenceBacteria/BenchmarkProphagesFormatFlip.tsv ./data/ViromeAgainstReferenceBacteria/PfamInteractionsFormatScoredFlip.tsv ./data/ViromeAgainstReferenceBacteria/MatchesByBlastxFormatOrder.tsv
+# Make a graph database from the experimental information
+expnetwork : ./data/ValidationSet/Interactions.tsv ./data/ViromeAgainstReferenceBacteria/BenchmarkCrisprsFormat.tsv ./data/ViromeAgainstReferenceBacteria/BenchmarkProphagesFormatFlip.tsv ./data/ViromeAgainstReferenceBacteria/PfamInteractionsFormatScoredFlip.tsv ./data/ViromeAgainstReferenceBacteria/MatchesByBlastxFormatOrder.tsv
 	# Note that this resets the graph database and erases
 	# the validation information we previously added.
 	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
@@ -127,17 +152,14 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 		./data/ViromeAgainstReferenceBacteria/MatchesByBlastxFormatOrder.tsv \
 		"FALSE"
 
-./data/PhageContigStats/ContigLength.tsv ./data/PhageContigStats/FinalContigCounts.tsv ./data/PhageContigStats/circularcontigsFormat.tsv : ./data/TotalCatContigs.fa ./data/ContigRelAbundForGraph.tsv
-	bash ./bin/contigstats.sh \
-		./data/TotalCatContigs.fa \
-		./data/ContigRelAbundForGraph.tsv \
-		./data/PhageContigStats/ContigLength.tsv \
-		./data/PhageContigStats/FinalContigCounts.tsv \
-		./data/PhageContigStats/circularcontigsFormat.tsv \
-		./data/PhageContigStats
+# Predict interactions between nodes
+./data/PredictedRelationshipTable.tsv : ./data/rfinteractionmodel.RData
+	bash ./bin/RunPredictionsWithNeo4j.sh ./data/rfinteractionmodel.RData ./data/PredictedRelationshipTable.tsv
 
-./figures/ContigStats.pdf ./figures/ContigStats.png : ./data/PhageContigStats/ContigLength.tsv ./data/PhageContigStats/FinalContigCounts.tsv ./data/PhageContigStats/circularcontigsFormat.tsv
-	Rscript ./bin/FinalizeContigStats.R \
-		-l ./data/PhageContigStats/ContigLength.tsv \
-		-c ./data/PhageContigStats/FinalContigCounts.tsv \
-		-x ./data/PhageContigStats/circularcontigsFormat.tsv
+# Add relationships
+finalrelationships : ./data/PredictedRelationshipTable.tsv
+	bash ./bin/AddRelationshipWrapper.sh \
+		./data/PredictedRelationshipTable.tsv
+
+
+

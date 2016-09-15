@@ -6,10 +6,10 @@
 ##################################
 # Install Dependencies if Needed #
 ##################################
-list.of.packages <- c("RNeo4j", "ggplot2", "optparse", "caret", "wesanderson", "plotROC")
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+packagelist <- c("RNeo4j", "ggplot2", "optparse", "caret", "wesanderson", "plotROC")
+new.packages <- packagelist[!(packagelist %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
-library(list.of.packages)
+library(packagelist)
 
 option_list <- list(
   make_option(c("-m", "--input"),

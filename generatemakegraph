@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo Generating makefile figure
+
+python ~/git/makefile2dot/makefile2dot.py <./Makefile  |dot -Tpng > ./makefilefigure.png
+
+echo Done generating makefile figure

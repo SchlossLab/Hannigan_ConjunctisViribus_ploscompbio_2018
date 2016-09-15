@@ -65,3 +65,4 @@ comdf <- data.frame(datadef[complete.cases(datadef),])
 predoutput <- predict(outmodel, comdf, type = c("prob"))
 
 summary(predoutput)
+predoutput

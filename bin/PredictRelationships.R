@@ -16,11 +16,6 @@ option_list <- list(
     type = "character",
     default = NULL,
     help = "Contig count table formatted from bowtie2.",
-    metavar = "character"),
-  make_option(c("-o", "--out"),
-    type = "character",
-    default = NULL,
-    help = "Output table name",
     metavar = "character")
 )
 
@@ -68,3 +63,5 @@ datadef <- getresults(querydata)
 comdf <- data.frame(datadef[complete.cases(datadef),])
 
 predoutput <- predict(model, comdf, type = c("class"))
+
+summary(predoutput)

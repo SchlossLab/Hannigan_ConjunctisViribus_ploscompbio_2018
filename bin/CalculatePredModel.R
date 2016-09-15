@@ -26,17 +26,12 @@ library("cowplot")
 ###################
 # Set Subroutines #
 ###################
-getresults <- function(x, direction=TRUE) {
+getresults <- function(x) {
   x[is.na(x)] <- 0
   x[x == "TRUE"] <- 1
   x[,3:7] <- as.data.frame(sapply(x[,3:7], as.numeric))
   x <- x[,-c(1:2)]
   rownames(x) <- NULL
-  # Convert blastn to factor
-  # x$Blast <- factor(ifelse(
-  #   x$Blast > 0,
-  #   "TRUE",
-  #   "FALSE"))
   x$Interaction <- factor(ifelse(
     x$Interaction > 0,
     "Interacts",
@@ -47,11 +42,11 @@ getresults <- function(x, direction=TRUE) {
 caretmodel <- function(x) {
   x <- x[ rowSums(x[4:5])!=0, ] 
   fitControl <- trainControl(method = "repeatedcv",
-                           number = 5,
-                           repeats = 10,
-                           classProbs = TRUE,
-                           summaryFunction = twoClassSummary,
-                           savePredictions = TRUE)
+    number = 5,
+    repeats = 10,
+    classProbs = TRUE,
+    summaryFunction = twoClassSummary,
+    savePredictions = TRUE)
   model <- train(Interaction~., data=x, trControl=fitControl, method="rf", metric="ROC")
   return(model)
 }
@@ -104,7 +99,7 @@ positivequerydata <- cypher(graph, querypositive)
 negativequerydata <- cypher(graph, querynegative)
 
 positivedf <- getresults(positivequerydata)
-negativedf <- getresults(negativequerydata, FALSE)
+negativedf <- getresults(negativequerydata)
 
 dfbind <- rbind(positivedf, negativedf)
 dfbind <- data.frame(dfbind[complete.cases(dfbind),])
@@ -119,7 +114,12 @@ Exclusiondf <- rbind(
 
 Exclusiondf$ExclusionStatus <- factor(Exclusiondf$ExclusionStatus)
 
-excludedgraph <- ggplot(Exclusiondf[order(Exclusiondf$ExclusionStatus, decreasing = TRUE),], aes(x=factor(InteractionStatus), y=Count, fill=factor(ExclusionStatus))) +
+excludedgraph <- ggplot(Exclusiondf[order(Exclusiondf$ExclusionStatus, decreasing = TRUE),],
+    aes(
+      x = factor(InteractionStatus),
+      y = Count,
+      fill = factor(ExclusionStatus)
+    )) +
   theme_classic() +
   theme(
     axis.line.x = element_line(colour = "black"),

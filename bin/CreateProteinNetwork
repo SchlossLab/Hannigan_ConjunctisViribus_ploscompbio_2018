@@ -16,19 +16,19 @@ echo Running neo4j script...
 
 if [[ ${validation} == "FALSE" ]]; then
 	perl ./bin/BenchmarkDatabaseCreation.pl \
-			-i ${1} \
-			-c ${2} \
-			-b ${3} \
-			-p ${4} \
-			-x ${5} \
+			-i "${1}" \
+			-c "${2}" \
+			-b "${3}" \
+			-p "${4}" \
+			-x "${5}" \
 		|| /mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
 else
 	perl ./bin/BenchmarkDatabaseCreation.pl \
-			-i ${1} \
-			-c ${2} \
-			-b ${3} \
-			-p ${4} \
-			-x ${5} \
+			-i "${1}" \
+			-c "${2}" \
+			-b "${3}" \
+			-p "${4}" \
+			-x "${5}" \
 			-v \
 		|| /mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
 fi

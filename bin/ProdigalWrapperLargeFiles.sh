@@ -35,6 +35,7 @@ if [[ "${FileSize}" -gt "${MaxFileSize}" ]]; then
 	echo "Input larger than ${MaxFileSize} MB."
 	# Split the file
 	split \
+		--suffix-length=8 \
 		--lines=${SplitSize} \
 		"${FastaInput}" \
 		./tmp/tmpProdigal-

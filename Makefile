@@ -14,59 +14,72 @@ SAMPLELIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable
 print:
 	echo ${SAMPLELIST}
 
-DOWNLOAD = ${ACCLIST}
-
-VALIDATION = \
-	./data/ValidationSet/ValidationPhageNoBlock.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa \
-	./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv \
-	validationnetwork \
-	./figures/rocCurves.pdf ./figures/rocCurves.png \
-
-validation : ${VALIDATION}
-all : ${VALIDATION} ${SAMPLELIST}
-download : ${DOWNLOAD}
-
 ####################
 # Model Validation #
 ####################
+VALDIR=./data/ValidationSet
+
 # Get the sequences to use in this analysis
-./data/ValidationSet/ValidationPhageNoBlock.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa : ./data/ValidationSet/PhageID.tsv ./data/ValidationSet/BacteriaID.tsv
+${VALDIR}/ValidationPhageNoBlock.fa \
+${VALDIR}/ValidationBacteriaNoBlock.fa : \
+			${VALDIR}/PhageID.tsv \
+			${VALDIR}/BacteriaID.tsv
 	bash ./bin/GetValidationSequences.sh \
-		./data/ValidationSet/PhageID.tsv \
-		./data/ValidationSet/BacteriaID.tsv \
-		./data/ValidationSet/ValidationPhageNoBlock.fa \
-		./data/ValidationSet/ValidationBacteriaNoBlock.fa
+		${VALDIR}/PhageID.tsv \
+		${VALDIR}/BacteriaID.tsv \
+		${VALDIR}/ValidationPhageNoBlock.fa \
+		${VALDIR}/ValidationBacteriaNoBlock.fa
 
 # Get the formatted interaction file
-./data/ValidationSet/Interactions.tsv : ./data/ValidationSet/BacteriaID.tsv ./data/ValidationSet/InteractionsRaw.tsv
+${VALDIR}/Interactions.tsv : \
+			${VALDIR}/BacteriaID.tsv \
+			${VALDIR}/InteractionsRaw.tsv
 	Rscript ./bin/MergeForInteractions.R \
-		-b ./data/ValidationSet/BacteriaID.tsv \
-		-i ./data/ValidationSet/InteractionsRaw.tsv \
-		-o ./data/ValidationSet/Interactions.tsv
+		-b ${VALDIR}/BacteriaID.tsv \
+		-i ${VALDIR}/InteractionsRaw.tsv \
+		-o ${VALDIR}/Interactions.tsv
 
-./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv : ./data/ValidationSet/ValidationPhageNoBlock.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa
+BSET=./data/BenchmarkingSet
+
+${BSET}/BenchmarkCrisprsFormat.tsv \
+${BSET}/BenchmarkProphagesFormatFlip.tsv \
+${BSET}/MatchesByBlastxFormatOrder.tsv \
+${BSET}/PfamInteractionsFormatScoredFlip.tsv : \
+			${VALDIR}/ValidationPhageNoBlock.fa \
+			${VALDIR}/ValidationBacteriaNoBlock.fa
 	bash ./bin/BenchmarkingModel.sh \
-		./data/ValidationSet/ValidationPhageNoBlock.fa \
-		./data/ValidationSet/ValidationBacteriaNoBlock.fa \
-		./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv \
-		./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv \
-		./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv \
-		./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv \
+		${VALDIR}/ValidationPhageNoBlock.fa \
+		${VALDIR}/ValidationBacteriaNoBlock.fa \
+		${BSET}/BenchmarkCrisprsFormat.tsv \
+		${BSET}/BenchmarkProphagesFormatFlip.tsv \
+		${BSET}/MatchesByBlastxFormatOrder.tsv \
+		${BSET}/PfamInteractionsFormatScoredFlip.tsv \
 		"BenchmarkingSet"
 
-validationnetwork : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv
+validationnetwork : \
+			${VALDIR}/Interactions.tsv \
+			${BSET}/BenchmarkCrisprsFormat.tsv \
+			${BSET}/BenchmarkProphagesFormatFlip.tsv \
+			${BSET}/PfamInteractionsFormatScoredFlip.tsv \
+			${BSET}/MatchesByBlastxFormatOrder.tsv
 	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	mkdir ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	bash ./bin/CreateProteinNetwork \
-		./data/ValidationSet/Interactions.tsv \
-		./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv \
-		./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv \
-		./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv \
-		./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv \
+		${VALDIR}/Interactions.tsv \
+		${BSET}/BenchmarkCrisprsFormat.tsv \
+		${BSET}/BenchmarkProphagesFormatFlip.tsv \
+		${BSET}/PfamInteractionsFormatScoredFlip.tsv \
+		${BSET}/MatchesByBlastxFormatOrder.tsv \
 		"TRUE"
 
 # Run the R script for the validation ROC curve analysis
-./figures/rocCurves.pdf ./figures/rocCurves.png : ./data/ValidationSet/Interactions.tsv ./data/BenchmarkingSet/BenchmarkCrisprsFormat.tsv ./data/BenchmarkingSet/BenchmarkProphagesFormatFlip.tsv ./data/BenchmarkingSet/PfamInteractionsFormatScoredFlip.tsv ./data/BenchmarkingSet/MatchesByBlastxFormatOrder.tsv
+./figures/rocCurves.pdf \
+./figures/rocCurves.png : \
+			${VALDIR}/Interactions.tsv \
+			${BSET}/BenchmarkCrisprsFormat.tsv \
+			${BSET}/BenchmarkProphagesFormatFlip.tsv \
+			${BSET}/PfamInteractionsFormatScoredFlip.tsv \
+			${BSET}/MatchesByBlastxFormatOrder.tsv
 	bash ./bin/RunRocAnalysisWithNeo4j.sh
 
 # ##########################################
@@ -97,69 +110,93 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 
 # Merge the contigs into a single file
 ./data/TotalCatContigs.fa : ./data/QualityOutput
-	bash ./bin/catcontigs.sh ./data/QualityOutput ./data/TotalCatContigs.fa
+	bash ./bin/catcontigs.sh \
+		./data/QualityOutput \
+		./data/TotalCatContigs.fa
 
 # Generate a contig relative abundance table
-./data/ContigRelAbundForGraph.tsv : ./data/TotalCatContigs.fa ./data/QualityOutput/raw
+./data/ContigRelAbundForGraph.tsv : \
+			./data/TotalCatContigs.fa \
+			./data/QualityOutput/raw
 	bash ./bin/CreateContigRelAbundTable.sh \
 		./data/TotalCatContigs.fa \
 		./data/QualityOutput/raw \
 		./data/ContigRelAbundForGraph.tsv
 
 ### CONTIG STATISTICS
+PSTAT=./data/PhageContigStats
 
 # Prepare to plot contig stats like sequencing depth, length, and circularity
-./data/PhageContigStats/ContigLength.tsv ./data/PhageContigStats/FinalContigCounts.tsv ./data/PhageContigStats/circularcontigsFormat.tsv : ./data/TotalCatContigs.fa ./data/ContigRelAbundForGraph.tsv
+${PSTAT}/ContigLength.tsv \
+${PSTAT}/FinalContigCounts.tsv \
+${PSTAT}/circularcontigsFormat.tsv : \
+			./data/TotalCatContigs.fa \
+			./data/ContigRelAbundForGraph.tsv
 	bash ./bin/contigstats.sh \
 		./data/TotalCatContigs.fa \
 		./data/ContigRelAbundForGraph.tsv \
-		./data/PhageContigStats/ContigLength.tsv \
-		./data/PhageContigStats/FinalContigCounts.tsv \
-		./data/PhageContigStats/circularcontigsFormat.tsv \
-		./data/PhageContigStats
+		${PSTAT}/ContigLength.tsv \
+		${PSTAT}/FinalContigCounts.tsv \
+		${PSTAT}/circularcontigsFormat.tsv \
+		${PSTAT}
 
 # Finalize the contig stats plots
-./figures/ContigStats.pdf ./figures/ContigStats.png : ./data/PhageContigStats/ContigLength.tsv ./data/PhageContigStats/FinalContigCounts.tsv ./data/PhageContigStats/circularcontigsFormat.tsv
+./figures/ContigStats.pdf \
+./figures/ContigStats.png : \
+			${PSTAT}/ContigLength.tsv \
+			${PSTAT}/FinalContigCounts.tsv \
+			${PSTAT}/circularcontigsFormat.tsv
 	Rscript ./bin/FinalizeContigStats.R \
-		-l ./data/PhageContigStats/ContigLength.tsv \
-		-c ./data/PhageContigStats/FinalContigCounts.tsv \
-		-x ./data/PhageContigStats/circularcontigsFormat.tsv
+		-l ${PSTAT}/ContigLength.tsv \
+		-c ${PSTAT}/FinalContigCounts.tsv \
+		-x ${PSTAT}/circularcontigsFormat.tsv
 
 ### DRAW PRIMARY NETWORK GRAPH (PHAGE + REFERENCE BACTERA)
 
+VREF=./data/ViromeAgainstReferenceBacteria
 # In this case the samples will get run against the bacteria reference genome set
-./data/ViromeAgainstReferenceBacteria/BenchmarkCrisprsFormat.tsv ./data/ViromeAgainstReferenceBacteria/BenchmarkProphagesFormatFlip.tsv ./data/ViromeAgainstReferenceBacteria/MatchesByBlastxFormatOrder.tsv ./data/ViromeAgainstReferenceBacteria/PfamInteractionsFormatScoredFlip.tsv : ./data/TotalCatContigs.fa ./data/ValidationSet/ValidationBacteriaNoBlock.fa
+${VREF}/BenchmarkCrisprsFormat.tsv \
+${VREF}/BenchmarkProphagesFormatFlip.tsv \
+${VREF}/MatchesByBlastxFormatOrder.tsv \
+${VREF}/PfamInteractionsFormatScoredFlip.tsv : \
+			./data/TotalCatContigs.fa \
+			${VALDIR}/ValidationBacteriaNoBlock.fa
 	bash ./bin/BenchmarkingModel.sh \
 		./data/TotalCatContigs.fa \
-		./data/ValidationSet/ValidationBacteriaNoBlock.fa \
-		./data/ViromeAgainstReferenceBacteria/BenchmarkCrisprsFormat.tsv \
-		./data/ViromeAgainstReferenceBacteria/BenchmarkProphagesFormatFlip.tsv \
-		./data/ViromeAgainstReferenceBacteria/MatchesByBlastxFormatOrder.tsv \
-		./data/ViromeAgainstReferenceBacteria/PfamInteractionsFormatScoredFlip.tsv \
+		${VALDIR}/ValidationBacteriaNoBlock.fa \
+		${VREF}/BenchmarkCrisprsFormat.tsv \
+		${VREF}/BenchmarkProphagesFormatFlip.tsv \
+		${VREF}/MatchesByBlastxFormatOrder.tsv \
+		${VREF}/PfamInteractionsFormatScoredFlip.tsv \
 		"ViromeAgainstReferenceBacteria"
 
 # Make a graph database from the experimental information
-expnetwork : ./data/ValidationSet/Interactions.tsv ./data/ViromeAgainstReferenceBacteria/BenchmarkCrisprsFormat.tsv ./data/ViromeAgainstReferenceBacteria/BenchmarkProphagesFormatFlip.tsv ./data/ViromeAgainstReferenceBacteria/PfamInteractionsFormatScoredFlip.tsv ./data/ViromeAgainstReferenceBacteria/MatchesByBlastxFormatOrder.tsv
+expnetwork : \
+			${VALDIR}/Interactions.tsv \
+			${VREF}/BenchmarkCrisprsFormat.tsv \
+			${VREF}/BenchmarkProphagesFormatFlip.tsv \
+			${VREF}/PfamInteractionsFormatScoredFlip.tsv \
+			${VREF}/MatchesByBlastxFormatOrder.tsv
 	# Note that this resets the graph database and erases
 	# the validation information we previously added.
 	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	mkdir ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	bash ./bin/CreateProteinNetwork \
-		./data/ValidationSet/Interactions.tsv \
-		./data/ViromeAgainstReferenceBacteria/BenchmarkCrisprsFormat.tsv \
-		./data/ViromeAgainstReferenceBacteria/BenchmarkProphagesFormatFlip.tsv \
-		./data/ViromeAgainstReferenceBacteria/PfamInteractionsFormatScoredFlip.tsv \
-		./data/ViromeAgainstReferenceBacteria/MatchesByBlastxFormatOrder.tsv \
+		${VALDIR}/Interactions.tsv \
+		${VREF}/BenchmarkCrisprsFormat.tsv \
+		${VREF}/BenchmarkProphagesFormatFlip.tsv \
+		${VREF}/PfamInteractionsFormatScoredFlip.tsv \
+		${VREF}/MatchesByBlastxFormatOrder.tsv \
 		"FALSE"
 
 # Predict interactions between nodes
-./data/PredictedRelationshipTable.tsv : ./data/rfinteractionmodel.RData
-	bash ./bin/RunPredictionsWithNeo4j.sh ./data/rfinteractionmodel.RData ./data/PredictedRelationshipTable.tsv
+./data/PredictedRelationshipTable.tsv : \
+			./data/rfinteractionmodel.RData
+	bash ./bin/RunPredictionsWithNeo4j.sh \
+		./data/rfinteractionmodel.RData \
+		./data/PredictedRelationshipTable.tsv
 
 # Add relationships
 finalrelationships : ./data/PredictedRelationshipTable.tsv
 	bash ./bin/AddRelationshipWrapper.sh \
 		./data/PredictedRelationshipTable.tsv
-
-
-

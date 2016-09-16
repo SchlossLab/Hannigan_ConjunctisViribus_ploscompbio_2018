@@ -74,7 +74,8 @@ validationnetwork : \
 
 # Run the R script for the validation ROC curve analysis
 ./figures/rocCurves.pdf \
-./figures/rocCurves.png : \
+./figures/rocCurves.png \
+./data/rfinteractionmodel.RData : \
 			${VALDIR}/Interactions.tsv \
 			${BSET}/BenchmarkCrisprsFormat.tsv \
 			${BSET}/BenchmarkProphagesFormatFlip.tsv \

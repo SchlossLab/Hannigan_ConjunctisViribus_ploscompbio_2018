@@ -73,11 +73,11 @@ foreach my $line (<$IN>) {
 	}
 
 	if ($flag eq 0) {
-		print "Created Relationship\n"
+		print "Created Relationship\n";
 			# This means I need to create a new relationship
 			$array1->relate_to($array2, 'PredictedInteraction')->set_property({'Prediction' => $interaction});
 		} else {
-			print "Did not create.\n"
+			print "Did not create.\n";
 			next;
 	}
 

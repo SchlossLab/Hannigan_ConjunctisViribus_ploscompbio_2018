@@ -66,7 +66,7 @@ foreach my $line (<$IN>) {
 		my $BacteriaNode = $RelnItr->end_node;
 
 		my $property;
-		$property = $RelnItr->get_property('Infects');
+		$property = $RelnItr->get_property('BLASTX');
 
 		print "$property\n";
 

@@ -65,7 +65,7 @@ foreach my $line (<$IN>) {
 		my $PhageNode = $RelnItr->start_node;
 		my $BacteriaNode = $RelnItr->end_node;
 		my $property = $RelnItr->get_properties;
-		print keys($property)."\n";
+		print $property->{Prediction}."\n";
 		if ($PhageNode eq $array1 && $BacteriaNode eq $array2) {
 			$flag = 1 if ($property->{Prediction});
 			last;

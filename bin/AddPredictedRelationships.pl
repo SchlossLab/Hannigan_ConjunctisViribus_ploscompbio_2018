@@ -63,9 +63,7 @@ foreach my $line (<$IN>) {
 	my $flag = 0;
 	foreach my $RelnItr (@phage_reln) {
 		my $PhageNode = $RelnItr->start_node;
-		print "$PhageNode\n";
 		my $BacteriaNode = $RelnItr->end_node;
-		print "$BacteriaNode\n";
 		if ($PhageNode eq $array1 && $BacteriaNode eq $array2) {
 			$flag = 1;
 			last;
@@ -73,6 +71,8 @@ foreach my $line (<$IN>) {
 			next;
 		}
 	}
+
+	print "Flag is $flag\n";
 
 	if ($flag eq 0) {
 			print "Created Relationship\n";

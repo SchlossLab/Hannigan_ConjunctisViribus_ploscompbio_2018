@@ -65,9 +65,8 @@ foreach my $line (<$IN>) {
 		my $PhageNode = $RelnItr->start_node;
 		my $BacteriaNode = $RelnItr->end_node;
 		my $property = $RelnItr->get_properties;
-		print $property->{Prediction}."\n";
 		if ($PhageNode eq $array1 && $BacteriaNode eq $array2) {
-			$flag = 1 if ($property->{Prediction});
+			$flag = 1 if ($property->{PredictedInteraction});
 			last;
 		} else {
 			next;
@@ -77,7 +76,7 @@ foreach my $line (<$IN>) {
 	print "Flag is $flag\n";
 
 	if ($flag eq 0) {
-			print "Created Relationship\n";
+			print "Created relationship\n";
 			# This means I need to create a new relationship
 			$array1->relate_to($array2, 'PredictedInteraction')->set_property({'Prediction' => $interaction});
 		} else {

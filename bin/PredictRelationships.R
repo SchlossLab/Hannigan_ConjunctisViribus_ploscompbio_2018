@@ -9,6 +9,8 @@ write("Predicting Phage-Bacteria Interactions", stderr())
 # Install Dependencies if Needed #
 ##################################
 packagelist <- c("RNeo4j", "ggplot2", "optparse", "caret", "wesanderson", "plotROC")
+new.packages <- packagelist[!(packagelist %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
 lapply(packagelist, library, character.only = TRUE)
 
 option_list <- list(

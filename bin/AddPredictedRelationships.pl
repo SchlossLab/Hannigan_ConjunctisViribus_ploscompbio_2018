@@ -15,7 +15,7 @@ use Pod::Usage;
 # And because I like timing myself
 my $start_run = time();
 
-print STDERR "Adding predicted relationships to interaction network\n"
+print STDERR "Adding predicted relationships to interaction network\n";
 
 eval {
 	REST::Neo4p->connect('http://localhost:7474/',"neo4j","neo4j");

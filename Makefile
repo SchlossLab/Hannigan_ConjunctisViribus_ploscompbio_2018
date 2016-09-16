@@ -198,6 +198,13 @@ expnetwork : \
 		./data/PredictedRelationshipTable.tsv
 
 # Add relationships
-finalrelationships : ./data/PredictedRelationshipTable.tsv
+finalrelationships \
+./figures/BacteriaPhageNetworkDiagram.pdf \
+./figures/BacteriaPhageNetworkDiagram.png \
+./figures/PhageHostHist.pdf \
+./figures/PhageHostHist.png \
+./figures/BacteriaEdgeCount.pdf \
+./figures/BacteriaEdgeCount.png : \
+		./data/PredictedRelationshipTable.tsv
 	bash ./bin/AddRelationshipsWrapper.sh \
 		./data/PredictedRelationshipTable.tsv

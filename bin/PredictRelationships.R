@@ -10,7 +10,7 @@ write("Predicting Phage-Bacteria Interactions", stderr())
 ##################################
 packagelist <- c("RNeo4j", "ggplot2", "optparse", "caret", "wesanderson", "plotROC")
 new.packages <- packagelist[!(packagelist %in% installed.packages()[,"Package"])]
-if(length(new.packages)) install.packages(new.packages, repos="http://cran.fhcrc.org")
+if(length(new.packages)) install.packages(new.packages, repos="http://cran.mtu.edu/")
 lapply(packagelist, library, character.only = TRUE)
 
 option_list <- list(

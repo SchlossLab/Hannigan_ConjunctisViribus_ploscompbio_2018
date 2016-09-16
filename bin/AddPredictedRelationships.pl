@@ -64,7 +64,7 @@ foreach my $line (<$IN>) {
 	foreach my $RelnItr (@phage_reln) {
 		my $PhageNode = $RelnItr->start_node;
 		my $BacteriaNode = $RelnItr->end_node;
-		my $property = $RelnItr->get_property('Prediction');
+		my $property = $RelnItr->get_property('PredictedInteraction');
 		print "$property\n";
 		if ($PhageNode eq $array1 && $BacteriaNode eq $array2) {
 			$flag = 1;

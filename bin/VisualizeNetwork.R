@@ -6,9 +6,6 @@
 ##################
 # Load Libraries #
 ##################
-
-setwd("~/git/Hannigan-2016-ConjunctisViribus")
-
 library("igraph")
 library("visNetwork")
 library("RNeo4j")

@@ -84,6 +84,9 @@ sub AddRelationships {
 	}
 }
 
+# Run the subroutine
+AddRelationships(\*$IN);
+
 # See how long it took
 my $end_run = time();
 my $run_time = $end_run - $start_run;

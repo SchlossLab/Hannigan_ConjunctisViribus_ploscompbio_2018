@@ -39,13 +39,13 @@ open(my $IN, "<", "$input") || die "Unable to read in $input: $!";
 
 foreach my $line (<$IN>) {
 	chomp $line;
-	print "$line\n";
+	# print "$line\n";
 	my $bacteria = (split /\t/, $line)[0];
-	print "$bacteria\n";
+	# print "$bacteria\n";
 	my $Phage = (split /\t/, $line)[1];
-	print "$Phage\n";
+	# print "$Phage\n";
 	my $interaction = (split /\t/, $line)[2];
-	print "$interaction\n";
+	# print "$interaction\n";
 	# Remove illegal characters
 	(my $bacteriaForm = $bacteria) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
 	(my $PhageForm = $Phage) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
@@ -63,7 +63,9 @@ foreach my $line (<$IN>) {
 	my $flag = 0;
 	foreach my $RelnItr (@phage_reln) {
 		my $PhageNode = $RelnItr->start_node;
+		print "$PhageNode\n";
 		my $BacteriaNode = $RelnItr->end_node;
+		print "$BacteriaNode\n";
 		if ($PhageNode eq $array1 && $BacteriaNode eq $array2) {
 			$flag = 1;
 			last;
@@ -73,7 +75,7 @@ foreach my $line (<$IN>) {
 	}
 
 	if ($flag eq 0) {
-		print "Created Relationship\n";
+			print "Created Relationship\n";
 			# This means I need to create a new relationship
 			$array1->relate_to($array2, 'PredictedInteraction')->set_property({'Prediction' => $interaction});
 		} else {

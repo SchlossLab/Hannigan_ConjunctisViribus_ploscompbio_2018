@@ -37,7 +37,7 @@ pod2usage(-verbose => 1) && exit if defined $opt_help;
 # Open files
 open(my $IN, "<", "$input") || die "Unable to read in $input: $!";
 
-foreach my $line (<$]IN>) {
+foreach my $line (<$IN>) {
 	chomp $line;
 	print "$line\n";
 	my $bacteria = (split /\t/, $line)[0];

@@ -65,9 +65,8 @@ foreach my $line (<$IN>) {
 		my $PhageNode = $RelnItr->start_node;
 		my $BacteriaNode = $RelnItr->end_node;
 		my $property = $RelnItr->get_properties;
-		print $property->{PredictedInteraction}."\n";
 		if ($PhageNode eq $array1 && $BacteriaNode eq $array2) {
-			$flag = 1 if ($property->{PredictedInteraction});
+			$flag = 1;
 			last;
 		} else {
 			next;

@@ -42,8 +42,11 @@ sub AddRelationships {
 	foreach my $line (<$inputfile>) {
 		chomp $line;
 		my $bacteria = (split /\t/, $line)[0];
+		print "$bacteria\n";
 		my $Phage = (split /\t/, $line)[1];
+		print "$Phage\n";
 		my $interaction = (split /\t/, $line)[2];
+		print "$interaction\n";
 		# Remove illegal characters
 		(my $bacteriaForm = $bacteria) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;
 		(my $PhageForm = $Phage) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;

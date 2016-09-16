@@ -199,5 +199,5 @@ expnetwork : \
 
 # Add relationships
 finalrelationships : ./data/PredictedRelationshipTable.tsv
-	bash ./bin/AddRelationshipWrapper.sh \
+	bash ./bin/AddRelationshipsWrapper.sh \
 		./data/PredictedRelationshipTable.tsv

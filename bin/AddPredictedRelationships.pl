@@ -39,6 +39,7 @@ open(my $IN, "<", "$input") || die "Unable to read in $input: $!";
 
 foreach my $line (<$]IN>) {
 	chomp $line;
+	print "$line\n";
 	my $bacteria = (split /\t/, $line)[0];
 	print "$bacteria\n";
 	my $Phage = (split /\t/, $line)[1];

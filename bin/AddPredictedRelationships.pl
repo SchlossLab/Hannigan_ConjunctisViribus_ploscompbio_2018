@@ -67,11 +67,8 @@ foreach my $line (<$IN>) {
 
 		my $property;
 		$property = $RelnItr->get_property('Prediction');
-		next unless ($property);
 
-		print "$property\n";
-
-		if ($PhageNode eq $array1 && $BacteriaNode eq $array2) {
+		if ($property) {
 			$flag = 1;
 			last;
 		} else {

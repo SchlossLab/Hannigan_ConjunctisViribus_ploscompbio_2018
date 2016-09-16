@@ -16,6 +16,7 @@ perl ./bin/AddPredictedRelationships.pl \
 		-i "${1}" \
 	|| /mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
 
+Rscript ./bin/VisualizeNetwork.R
 
 # Stop local neo4j server
 /mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j stop

@@ -129,7 +129,9 @@ graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
 # Use Cypher query to get a table of the table edges
 query <- "
-START n=node(*) MATCH (n)-[r]->(m) RETURN n.Name AS from, m.Name AS to;
+MATCH (n)-[r]->(m) 
+WHERE r.Prediction = 'Interacts'
+RETURN n.Name AS from, m.Name AS to;
 "
 
 graphoutputlist <- importgraphtodataframe(filter=10)
@@ -143,21 +145,6 @@ write(connectionstrength(), stderr())
 write(graphDiameter(), stderr())
 
 # Save as PDF & PNG
-pdf(file="./figures/BacteriaPhageNetworkDiagramClustered.pdf",
-width=8,
-height=8)
-  a <- dev.cur()
-  png(file="./figures/BacteriaPhageNetworkDiagramClustered.png",
-  width=8,
-  height=8,
-  units="in",
-  res=800)
-    dev.control("enable")
-    plotnetwork(clusters=TRUE)
-    dev.copy(which=a)
-  dev.off()
-dev.off()
-
 pdf(file="./figures/BacteriaPhageNetworkDiagram.pdf",
 width=8,
 height=8)

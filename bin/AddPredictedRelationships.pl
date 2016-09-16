@@ -15,8 +15,6 @@ use Pod::Usage;
 # And because I like timing myself
 my $start_run = time();
 
-my %property;
-
 print STDERR "Adding predicted relationships to interaction network\n";
 
 eval {
@@ -66,8 +64,8 @@ foreach my $line (<$IN>) {
 	foreach my $RelnItr (@phage_reln) {
 		my $PhageNode = $RelnItr->start_node;
 		my $BacteriaNode = $RelnItr->end_node;
-		my $property = $RelnItr->get_properties;
-		print "Key: $_ and Value: $property{$_}\n" foreach (keys %property);
+		my $property = $RelnItr->get_property('Prediction');
+		print "$property\n";
 		if ($PhageNode eq $array1 && $BacteriaNode eq $array2) {
 			$flag = 1;
 			last;

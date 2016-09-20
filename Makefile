@@ -14,6 +14,11 @@ SAMPLELIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable
 print:
 	echo ${SAMPLELIST}
 
+#############
+# Set Rules #
+#############
+contigs: ${SAMPLELIST}
+
 ####################
 # Model Validation #
 ####################

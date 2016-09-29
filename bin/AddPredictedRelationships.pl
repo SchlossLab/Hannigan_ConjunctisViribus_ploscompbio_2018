@@ -68,6 +68,7 @@ foreach my $line (<$IN>) {
 		my $property;
 		$property = $RelnItr->get_property('Prediction');
 
+		# Set to skip if property already exists
 		if ($property) {
 			$flag = 1;
 			last;
@@ -75,15 +76,11 @@ foreach my $line (<$IN>) {
 			next;
 		}
 	}
-
-	print "Flag is $flag\n";
-
+	
 	if ($flag eq 0) {
-			print "Created relationship\n";
 			# This means I need to create a new relationship
 			$array1->relate_to($array2, 'PredictedInteraction')->set_property({'Prediction' => $interaction});
 		} else {
-			print "Did not create.\n";
 			next;
 	}
 

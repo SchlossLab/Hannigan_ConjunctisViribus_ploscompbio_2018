@@ -26,8 +26,8 @@ filter=0) {
   if (filter > 0) {
     # Remove the edges to singleton nodes
     singlenodes <- ddply(edges, c("to"), summarize, length=length(to))
-    # Subset because the it is not visible with all small clusters
-    singlenodesremoved <- singlenodes[c(singlenodes$length > filter),]
+    # # Subset because the it is not visible with all small clusters
+    # singlenodesremoved <- singlenodes[c(singlenodes$length > filter),]
     multipleedge <- edges[c(which(edges$to %in% singlenodesremoved$to)),]
   } else {
     multipleedge <- edges
@@ -44,7 +44,7 @@ plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout, clusters=FALSE) {
   ig <- graph_from_data_frame(edgeframe, directed=F)
   # Set plot paramters
   V(ig)$label <- ""
-  V(ig)$color <- ifelse(grepl("contig_", nodeframe$id),
+  V(ig)$color <- ifelse(grepl("phage|virus", nodeframe$id),
     rgb(0,0,1,.75),
     rgb(1,0,0,.75))
   # Color edges by type
@@ -70,7 +70,7 @@ plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout, clusters=FALSE) {
   } else {
     write("Plotting Network", stderr())
     plot(ig,
-      vertex.size=0.30,
+      vertex.size=1.30,
       edge.arrow.size=.1,
       layout=l
     )
@@ -126,10 +126,10 @@ graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 query <- "
 MATCH (n)-[r]->(m) 
 WHERE r.Prediction = 'Interacts'
-RETURN n.Name AS from, m.Name AS to;
+RETURN n.Name AS from, m.Species AS to;
 "
 
-graphoutputlist <- importgraphtodataframe(filter=10)
+graphoutputlist <- importgraphtodataframe()
 nodeout <- as.data.frame(graphoutputlist[1])
 edgeout <- as.data.frame(graphoutputlist[2])
 head(nodeout)

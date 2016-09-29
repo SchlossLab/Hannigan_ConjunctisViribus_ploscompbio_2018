@@ -14,10 +14,14 @@ SAMPLELIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable
 print:
 	echo ${SAMPLELIST}
 
+
+
 #############
 # Set Rules #
 #############
 contigs: ${SAMPLELIST}
+
+
 
 ####################
 # Model Validation #
@@ -88,6 +92,8 @@ validationnetwork : \
 			${BSET}/MatchesByBlastxFormatOrder.tsv
 	bash ./bin/RunRocAnalysisWithNeo4j.sh
 
+
+
 # ##########################################
 # # Download Global Virome Dataset Studies #
 # ##########################################
@@ -99,6 +105,8 @@ $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv
 		$< \
 		$@
 
+
+
 ############################
 # Total Dataset Networking #
 ############################
@@ -107,7 +115,7 @@ $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv
 # Run quality control as well here
 # Need to decompress the fastq files first from SRA
 ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatable.tsv
-	echo $@
+	echo Makefile is calling to process $@
 	bash ./bin/QcAndContigs.sh \
 		$@ \
 		./data/ViromePublications/ \

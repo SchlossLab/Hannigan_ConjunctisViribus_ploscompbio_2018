@@ -80,43 +80,87 @@ foreach my $line (<$SAMPLES>) {
 }
 
 my $disease;
+my $studyid;
+my $seconddisease;
+my $mdatype;
+my $bodylocation;
+my $purificationtype;
+my $location;
+my $hosttype;
+my $platform;
 
 foreach my $line (<$META>) {
 	chomp $line;
-	$sampleid = (split /\t/, $line)[0];
+	my @linearray = split /\t/, $line;
+	$studyid = $linearray[0];
+	$sampleid = $linearray[2];
+	$platform = $linearray[4];
+	$disease = $linearray[5];
+	$mdatype = $linearray[7];
+	$bodylocation = $linearray[8];
+	$purificationtype = $linearray[9];
+	$location = $linearray[10];
+	$hosttype = $linearray[11];
+	# Skip the header
+	next if ($studyid eq "SRA_Study_s");
 	print "$sampleid\n";
-	$disease = (split /\t/, $line)[2];
 
+	# Get existing sample nodes
 	my @n11 = REST::Neo4p->get_nodes_by_label( $sampleid );
+	# Get existing disease nodes
 	my @n12 = REST::Neo4p->get_nodes_by_label( $disease );
-	print scalar(@n12)."\n";
+	# Get existing study nodes
+	my @n13 = REST::Neo4p->get_nodes_by_label( $studyid );
 
 	# Ensure there are no duplicated nodes
     die "You have duplicate sample node IDs: $!" if (scalar(@n11) gt 1);
     die "You have duplicate disease node IDs: $!" if (scalar(@n12) gt 1);
+    die "You have duplicate study node IDs: $!" if (scalar(@n13) gt 1);
     next if (scalar(@n11) eq 0);
 
+    # Build nodes if the do not yet exist
     unless (@n12) {
 		$n1 = REST::Neo4p::Node->new( {Name => $disease} );
 		$n1->set_property( {Organism => 'Disease'} );
 		$n1->set_labels('Disease',$disease);
 	}
+	unless (@n13) {
+		$n1 = REST::Neo4p::Node->new( {Name => $studyid} );
+		$n1->set_property( {Organism => 'StudyID'} );
+		$n1->set_labels('StudyID',$studyid);
+	}
 
 	@n11 = REST::Neo4p->get_nodes_by_label( $sampleid );
 	@n12 = REST::Neo4p->get_nodes_by_label( $disease );
-	print scalar(@n11)."\n";
-	print scalar(@n12)."\n";
+	@n13 = REST::Neo4p->get_nodes_by_label( $studyid );
 
+	# Made array 1 the sample ID
 	my $array1 = pop @n11;
+	# Make array 2 the disease
     my $array2 = pop @n12;
+    # Make array 3 the study
+    my $array3 = pop @n13;
 
 	# Ensure there are no duplicated nodes
     die "You have duplicate sample node IDs: $!" if (scalar(@n11) gt 1);
     die "You have duplicate phage node IDs: $!" if (scalar(@n12) gt 1);
+    die "You have duplicate study node IDs: $!" if (scalar(@n13) gt 1);
 
+    ###########################
+    # Set the data into nodes #
+    ###########################
+    # Relate disease to sample
 	$array2->relate_to($array1, 'Diseased')->set_property({Disease => "TRUE"});
+	# Relate study to sample
+	$array3->relate_to($array1, 'IncludedInStudy')->set_property({Study => "TRUE"});
+	# Relate study to disease as well
+	$array2->relate_to($array3, 'IncludedInStudy')->set_property({StudyDisease => "TRUE"});
+	# Set sample properties
+	# I think these could also be nodes but for now I am going to use them as edges
+	$array1->set_property( {Platform => $platform} );
+	$array1->set_property( {MDAtype => $mdatype} );
+	$array1->set_property( {BodyLocation => $bodylocation} );
+	$array1->set_property( {PurificationType => $purificationtype} );
+	$array1->set_property( {Location => $location} );
+	$array1->set_property( {Host => $hosttype} );
 }
-
-
-
-

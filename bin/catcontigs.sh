@@ -27,7 +27,7 @@ echo Merging contig files into a master file
 cat "${NewContigDirectory}"/*_contigs.fa > ./tmpcontigs.fa
 
 echo Removing special characters from contig names
-perl -pe 's/[^A-Z^a-z^0-9^^>]+/_/g' ./tmpcontigs.fa > ${CatContigOutputFile}
+perl -pe 's/[^A-Z^a-z^0-9^^>^\n]+/_/g' ./tmpcontigs.fa > ${CatContigOutputFile}
 
 rm ./tmpcontigs.fa
 

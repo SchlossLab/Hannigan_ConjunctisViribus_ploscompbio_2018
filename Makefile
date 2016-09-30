@@ -137,6 +137,8 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 		./data/QualityOutput/raw \
 		./data/ContigRelAbundForGraph.tsv
 
+
+
 ### CONTIG STATISTICS
 PSTAT=./data/PhageContigStats
 
@@ -164,11 +166,18 @@ ${PSTAT}/circularcontigsFormat.tsv : \
 		-l ${PSTAT}/ContigLength.tsv \
 		-c ${PSTAT}/FinalContigCounts.tsv \
 		-x ${PSTAT}/circularcontigsFormat.tsv
+###
+
 
 ### DRAW PRIMARY NETWORK GRAPH (PHAGE + REFERENCE BACTERA)
 
 VREF=./data/ViromeAgainstReferenceBacteria
 # In this case the samples will get run against the bacteria reference genome set
+ViromeRefRun : ${VREF}/BenchmarkCrisprsFormat.tsv \
+	${VREF}/BenchmarkProphagesFormatFlip.tsv \
+	${VREF}/MatchesByBlastxFormatOrder.tsv \
+	${VREF}/PfamInteractionsFormatScoredFlip.tsv
+
 ${VREF}/BenchmarkCrisprsFormat.tsv \
 ${VREF}/BenchmarkProphagesFormatFlip.tsv \
 ${VREF}/MatchesByBlastxFormatOrder.tsv \
@@ -221,3 +230,4 @@ finalrelationships \
 		./data/PredictedRelationshipTable.tsv
 	bash ./bin/AddRelationshipsWrapper.sh \
 		./data/PredictedRelationshipTable.tsv
+###

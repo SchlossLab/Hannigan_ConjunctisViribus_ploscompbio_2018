@@ -28,7 +28,8 @@ echo "We are working in ${WorkDir}"
 #############
 # Call ORFs #
 #############
-# Make a tmp directory
+# Make a tmp directory after cleaning any existing tmp directories
+rm -r ./tmp
 mkdir ./tmp
 # Split files if needed
 if [[ "${FileSize}" -gt "${MaxFileSize}" ]]; then

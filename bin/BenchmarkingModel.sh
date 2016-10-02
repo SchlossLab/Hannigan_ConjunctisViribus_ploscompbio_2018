@@ -84,62 +84,62 @@ export -f PredictOrfs
 export -f FormatNames
 export -f GetHits
 
-# ######################
-# # Run CRISPR scripts #
-# ######################
+######################
+# Run CRISPR scripts #
+######################
 
-# # Use a tmp directory
-# mkdir ./data/${Output}/tmp
+# Use a tmp directory
+mkdir ./data/${Output}/tmp
 
-# echo Extracting CRISPRs...
-# bash ./bin/RunPilerCr.sh \
-# 	${BacteriaGenomeRef} \
-# 	./data/${Output}/tmp/BenchmarkCrisprs.txt \
-# 	"/home/ghannig/bin/pilercr1.06/" \
-# 	|| exit
+echo Extracting CRISPRs...
+bash ./bin/RunPilerCr.sh \
+	${BacteriaGenomeRef} \
+	./data/${Output}/tmp/BenchmarkCrisprs.txt \
+	"/home/ghannig/bin/pilercr1.06/" \
+	|| exit
 
-# echo Getting CRISPR pairs...
-# bash ./bin/GetCrisprPhagePairs.sh \
-# 	./data/${Output}/tmp/BenchmarkCrisprs.txt \
-# 	${PhageGenomeRef} \
-# 	./data/${Output}/BenchmarkCrisprs.tsv \
-# 	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
-# 	./bin/ \
-# 	./bin/ \
-# 	|| exit
+echo Getting CRISPR pairs...
+bash ./bin/GetCrisprPhagePairs.sh \
+	./data/${Output}/tmp/BenchmarkCrisprs.txt \
+	${PhageGenomeRef} \
+	./data/${Output}/BenchmarkCrisprs.tsv \
+	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
+	./bin/ \
+	./bin/ \
+	|| exit
 
-# rm ./data/${Output}/tmp/*
+rm ./data/${Output}/tmp/*
 
-# # Format the output
-# FormatNames \
-# 	./data/${Output}/BenchmarkCrisprs.tsv \
-# 	${CRISPRout}
+# Format the output
+FormatNames \
+	./data/${Output}/BenchmarkCrisprs.tsv \
+	${CRISPRout}
 
-# # Remove underscores at the end of the names
-# sed -i 's/_[0-9][0-9]\?[0-9]\?\t/\t/g' ${CRISPRout}
+# Remove underscores at the end of the names
+sed -i 's/_[0-9][0-9]\?[0-9]\?\t/\t/g' ${CRISPRout}
 
 
-# #####################
-# # Run BLAST scripts #
-# #####################
+#####################
+# Run BLAST scripts #
+#####################
 
-# echo Getting prophages by blast...
-# bash ./bin/GetProphagesByBlast.sh \
-# 	${PhageGenomeRef} \
-# 	${BacteriaGenomeRef} \
-# 	./data/${Output}/BenchmarkProphagesBlastn.tsv \
-# 	${WorkingDirectory} \
-# 	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
-# 	|| exit
+echo Getting prophages by blast...
+bash ./bin/GetProphagesByBlast.sh \
+	${PhageGenomeRef} \
+	${BacteriaGenomeRef} \
+	./data/${Output}/BenchmarkProphagesBlastn.tsv \
+	${WorkingDirectory} \
+	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
+	|| exit
 
-# # Format the output
-# FormatNames \
-# 	./data/${Output}/BenchmarkProphagesBlastn.tsv \
-# 	./data/${Output}/BenchmarkProphagesBlastnFormat.tsv
+# Format the output
+FormatNames \
+	./data/${Output}/BenchmarkProphagesBlastn.tsv \
+	./data/${Output}/BenchmarkProphagesBlastnFormat.tsv
 
-# # Flip the output
-# awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/BenchmarkProphagesBlastnFormat.tsv \
-# 	> ${ProphageOutFile}
+# Flip the output
+awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/BenchmarkProphagesBlastnFormat.tsv \
+	> ${ProphageOutFile}
 
 ################
 # Predict ORFs #

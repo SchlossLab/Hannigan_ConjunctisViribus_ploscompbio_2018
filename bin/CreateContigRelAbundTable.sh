@@ -41,7 +41,7 @@ GetHits () {
 		-x ${2} \
 		-q ${1} \
 		-S ${1}-bowtie.sam \
-		-p 32 \
+		-p 8 \
 		-L 25 \
 		-N 1
 
@@ -52,8 +52,25 @@ GetHits () {
 			${1}-bowtie.tsv
 }
 
+BowtieRun () {
+	sampleid=$(echo ${1} | sed 's/_2.fastq//')
+	echo Sample ID is ${sampleid}
+
+	GetHits \
+		${FastaSequences}/${1} \
+		./${Output}/bowtieReference/bowtieReference
+
+	# Remove the header
+	sed -e "1d" ${FastaSequences}/${1}-bowtie.tsv > ${FastaSequences}/${1}-noheader
+
+	awk -v name=${sampleid} '{ print $0"\t"name }' ${FastaSequences}/${1}-noheader \
+	| grep -v '\*' >> ${MasterOutput}
+	rm ${FastaSequences}/${1}-noheader
+}
+
 # Export the subroutines
 export -f GetHits
+export -f BowtieRun
 
 #############################
 # Contig Relative Abundance #
@@ -69,22 +86,4 @@ bowtie2-build \
 	-q ${ContigsFile} \
 	./${Output}/bowtieReference/bowtieReference
 
-for file in $(ls ${FastaSequences}/*_2.fastq | sed "s/.*\///g"); do
-	sampleid=$(echo ${file} | sed 's/_2.fastq//')
-	echo Sample ID is ${sampleid}
-
-	GetHits \
-		${FastaSequences}/${file} \
-		./${Output}/bowtieReference/bowtieReference
-
-	# Remove the header
-	sed -e "1d" ${FastaSequences}/${file}-bowtie.tsv > ${FastaSequences}/${file}-noheader
-
-	awk -v name=${sampleid} '{ print $0"\t"name }' ${FastaSequences}/${file}-noheader \
-	| grep -v '\*' >> ${MasterOutput}
-	rm ${FastaSequences}/${file}-noheader
-done
-
-
-
-
+ls ${FastaSequences}/*_2.fastq | sed "s/.*\///g" | xargs -I {} --max-procs=32 BowtieRun {}

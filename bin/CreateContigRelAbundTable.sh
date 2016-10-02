@@ -86,4 +86,4 @@ bowtie2-build \
 	-q ${ContigsFile} \
 	./${Output}/bowtieReference/bowtieReference
 
-ls ${FastaSequences}/*_2.fastq | sed "s/.*\///g" | xargs -I {} --max-procs=32 BowtieRun {}
+ls ${FastaSequences}/*_2.fastq | sed "s/.*\///g" | xargs -I {} --max-procs=32 bash -c 'BowtieRun "$@"' _ {}

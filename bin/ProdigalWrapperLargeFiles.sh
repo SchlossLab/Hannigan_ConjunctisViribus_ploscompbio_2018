@@ -47,6 +47,7 @@ else
 fi
 
 # Now run pilerCR on the files
+echo "Running Prodigal."
 ls ./tmp/* | xargs -I {} --max-procs=8 ${ProdigalPath}/prodigal -q -c -i {} -o {}.genes -a {}.out -d {}.nucl -p meta
 
 # Collect the results together

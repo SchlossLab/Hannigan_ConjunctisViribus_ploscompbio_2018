@@ -182,10 +182,10 @@ ${VREF}/BenchmarkCrisprsFormat.tsv \
 ${VREF}/BenchmarkProphagesFormatFlip.tsv \
 ${VREF}/MatchesByBlastxFormatOrder.tsv \
 ${VREF}/PfamInteractionsFormatScoredFlip.tsv : \
-			./data/TotalContigsSub.fa \
+			./data/TotalCatContigs.fa \
 			${VALDIR}/ValidationBacteriaNoBlock.fa
 	bash ./bin/BenchmarkingModel.sh \
-		./data/TotalContigsSub.fa \
+		./data/TotalCatContigs.fa \
 		${VALDIR}/ValidationBacteriaNoBlock.fa \
 		${VREF}/BenchmarkCrisprsFormat.tsv \
 		${VREF}/BenchmarkProphagesFormatFlip.tsv \

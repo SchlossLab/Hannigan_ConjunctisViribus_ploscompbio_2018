@@ -33,10 +33,10 @@ rm -r ./tmp
 mkdir ./tmp
 # Split files if needed
 if [[ "${FileSize}" -gt "${MaxFileSize}" ]]; then
-	echo "Input larger than ${MaxFileSize} MB."
+	echo "Input larger than ${MaxFileSize} B."
 	# Split the file
 	split \
-		--suffix-length=8 \
+		--suffix-length=7 \
 		--lines=${SplitSize} \
 		"${FastaInput}" \
 		./tmp/tmpProdigal-
@@ -47,7 +47,7 @@ else
 fi
 
 # Now run pilerCR on the files
-ls ./tmp/* | xargs -I {} --max-procs=512 ${ProdigalPath}/prodigal -q -c -i {} -o {}.genes -a {}.out -d {}.nucl -p meta
+ls ./tmp/* | xargs -I {} --max-procs=8 ${ProdigalPath}/prodigal -q -c -i {} -o {}.genes -a {}.out -d {}.nucl -p meta
 
 # Collect the results together
 cat ./tmp/*.out > ./"${OutputName}"

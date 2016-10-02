@@ -7,7 +7,7 @@
 
 #PBS -N runmakefile
 #PBS -q first
-#PBS -l nodes=1,mem=40gb
+#PBS -l nodes=1:ppn=8,mem=40gb
 #PBS -l walltime=600:00:00
 #PBS -j oe
 #PBS -V
@@ -20,4 +20,4 @@ module load R/3.2.3
 cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
-make ViromeRefRun
+make ./data/ContigRelAbundForGraph.tsv

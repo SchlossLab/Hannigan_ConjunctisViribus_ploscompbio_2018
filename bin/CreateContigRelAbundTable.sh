@@ -81,9 +81,9 @@ echo Getting contig relative abundance table...
 # Clear the file to prepare for appending to new file below
 rm ${MasterOutput}
 
-# Build bowtie reference
-bowtie2-build \
-	-q ${ContigsFile} \
-	./${Output}/bowtieReference/bowtieReference
+# # Build bowtie reference
+# bowtie2-build \
+# 	-q ${ContigsFile} \
+# 	./${Output}/bowtieReference/bowtieReference
 
 ls ${FastaSequences}/*_2.fastq | sed "s/.*\///g" | xargs -I {} --max-procs=32 bash -c 'BowtieRun "$@"' _ {}

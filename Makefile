@@ -137,6 +137,30 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 		./data/QualityOutput/raw \
 		./data/ContigRelAbundForGraph.tsv
 
+# Transform contig abundance table for CONCOCT
+./data/ContigRelAbundForConcoct.tsv : \
+			./data/ContigRelAbundForGraph.tsv
+	Rscript ReshapeAlignedAbundance.R \
+		-i ./data/ContigRelAbundForGraph.tsv \
+		-o ./data/ContigRelAbundForConcoct.tsv
+
+# Run CONCOCT to get contig clusters
+# Read length is an average from the studies
+# Im skipping total coverage
+# Setting max cluster number to 2500k because why not
+./data/ContigClusters: \
+			./data/TotalCatContigs.fa \
+			./data/ContigRelAbundForConcoct.tsv
+	mkdir ./data/ContigClusters
+	concoct \
+		--coverage_file ./data/ContigRelAbundForConcoct.tsv \
+		--composition_file ./data/TotalCatContigs.fa \
+		--clusters 2500 \
+		--kmer_length 4 \
+		--length_threshold 1000 \
+		--read_length 150 \
+		--basename ./data/ContigClusters/ \
+		--no_total_coverage
 
 
 ### CONTIG STATISTICS

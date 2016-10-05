@@ -27,6 +27,7 @@ opt <- parse_args(opt_parser);
 input <- read.delim(opt$input, head = FALSE, sep = "\t")
 
 collapsed <- dcast(input, V1 ~ V3, value.var="V2")
+colnames(collapsed)[1] <- "contig"
 
 collapsed[is.na(collapsed)] <- 0
 
@@ -36,7 +37,7 @@ write.table(
   quote = FALSE,
   sep = "\t",
   row.names = FALSE,
-  col.names = FALSE
+  col.names = TRUE
 )
 
 write("PROGRESS: Completed reshaping contig abundance table.", stderr())

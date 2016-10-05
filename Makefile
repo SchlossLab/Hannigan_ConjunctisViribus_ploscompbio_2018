@@ -148,7 +148,7 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 # Read length is an average from the studies
 # Im skipping total coverage
 # Setting max cluster number to 2500k because why not
-./data/ContigClusters: \
+./data/ContigClusters : \
 			./data/TotalCatContigs.fa \
 			./data/ContigRelAbundForConcoct.tsv
 	mkdir ./data/ContigClusters

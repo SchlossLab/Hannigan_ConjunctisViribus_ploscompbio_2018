@@ -26,7 +26,7 @@ opt <- parse_args(opt_parser);
 
 input <- read.delim(opt$input, head = FALSE, sep = "\t")
 
-collapsed <- cast(input)
+collapsed <- dcast(input)
 
 collapsed[is.na(collapsed)] <- 0
 

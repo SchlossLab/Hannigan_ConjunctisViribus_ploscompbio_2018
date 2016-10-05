@@ -65,7 +65,7 @@ BowtieRun () {
 
 	awk -v name=${sampleid} '{ print $0"\t"name }' ${FastaSequences}/${1}-noheader \
 	| grep -v '\*' >> ${MasterOutput}
-	rm ${FastaSequences}/${1}-noheader
+	# rm ${FastaSequences}/${1}-noheader
 }
 
 # Export the subroutines

@@ -152,7 +152,7 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 			./data/TotalCatContigs.fa \
 			./data/ContigRelAbundForConcoct.tsv
 	mkdir ./data/ContigClusters
-	concoct \
+	../../../../bin/concoct \
 		--coverage_file ./data/ContigRelAbundForConcoct.tsv \
 		--composition_file ./data/TotalCatContigs.fa \
 		--clusters 40 \

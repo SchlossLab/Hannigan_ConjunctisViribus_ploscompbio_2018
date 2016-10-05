@@ -54,8 +54,6 @@ GetHits () {
 
 BowtieRun () {
 	sampleid=$(echo ${1} | sed 's/_2.fastq//')
-	echo Sample ID is ${sampleid}
-
 	# GetHits \
 	# 	${FastaSequences}/${1} \
 	# 	./${Output}/bowtieReference/bowtieReference
@@ -64,7 +62,7 @@ BowtieRun () {
 	sed -e "1d" ${FastaSequences}/${1}-bowtie.tsv > ${FastaSequences}/${1}-noheader
 
 	awk -v name=${sampleid} '{ print $0"\t"name }' ${FastaSequences}/${1}-noheader \
-	| grep -v '\*' >> ${MasterOutput}
+	| grep -v '\*' > ${FastaSequences}/${1}-noheader-forcat
 	# rm ${FastaSequences}/${1}-noheader
 }
 
@@ -87,3 +85,7 @@ rm ${MasterOutput}
 # 	./${Output}/bowtieReference/bowtieReference
 
 ls ${FastaSequences}/*_2.fastq | sed "s/.*\///g" | xargs -I {} --max-procs=32 bash -c 'BowtieRun "$@"' _ {}
+
+echo Catting files...
+
+cat ${FastaSequences}/*-noheader-forcat > ${MasterOutput}

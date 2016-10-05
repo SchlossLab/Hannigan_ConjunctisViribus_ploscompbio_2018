@@ -140,7 +140,7 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 # Transform contig abundance table for CONCOCT
 ./data/ContigRelAbundForConcoct.tsv : \
 			./data/ContigRelAbundForGraph.tsv
-	Rscript ReshapeAlignedAbundance.R \
+	Rscript ./bin/ReshapeAlignedAbundance.R \
 		-i ./data/ContigRelAbundForGraph.tsv \
 		-o ./data/ContigRelAbundForConcoct.tsv
 

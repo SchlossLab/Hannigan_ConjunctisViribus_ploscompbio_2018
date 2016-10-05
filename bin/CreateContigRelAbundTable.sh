@@ -56,9 +56,9 @@ BowtieRun () {
 	sampleid=$(echo ${1} | sed 's/_2.fastq//')
 	echo Sample ID is ${sampleid}
 
-	GetHits \
-		${FastaSequences}/${1} \
-		./${Output}/bowtieReference/bowtieReference
+	# GetHits \
+	# 	${FastaSequences}/${1} \
+	# 	./${Output}/bowtieReference/bowtieReference
 
 	# Remove the header
 	sed -e "1d" ${FastaSequences}/${1}-bowtie.tsv > ${FastaSequences}/${1}-noheader

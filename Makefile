@@ -153,7 +153,7 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 			./data/ContigRelAbundForConcoct.tsv
 	mkdir ./data/ContigClusters
 	concoct \
-		--coverage_file ./data/ContigRelAbundForConcoct.tsv \
+		--coverage_file ./data/tmp-ContigRelAbundForConcoct.tsv \
 		--composition_file ./data/TotalCatContigs.fa \
 		--clusters 40 \
 		--kmer_length 4 \

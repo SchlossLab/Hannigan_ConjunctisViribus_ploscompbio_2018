@@ -142,7 +142,8 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 			./data/ContigRelAbundForGraph.tsv
 	Rscript ./bin/ReshapeAlignedAbundance.R \
 		-i ./data/ContigRelAbundForGraph.tsv \
-		-o ./data/ContigRelAbundForConcoct.tsv
+		-o ./data/ContigRelAbundForConcoct.tsv \
+		-p 0.1
 
 # Run CONCOCT to get contig clusters
 # Read length is an average from the studies
@@ -153,9 +154,9 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 			./data/ContigRelAbundForConcoct.tsv
 	mkdir ./data/ContigClusters
 	concoct \
-		--coverage_file ./data/tmp-ContigRelAbundForConcoct.tsv \
+		--coverage_file ./data/ContigRelAbundForConcoct.tsv \
 		--composition_file ./data/TotalCatContigs.fa \
-		--clusters 2500 \
+		--clusters 500 \
 		--kmer_length 4 \
 		--length_threshold 1000 \
 		--read_length 150 \

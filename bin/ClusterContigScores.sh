@@ -27,7 +27,7 @@ AnnotateCollapseClusters () {
 		${FileToAnnotate} \
 		> ./data/${OutputName}/tmpAnnotations.tsv
 
-	./bin/CollapseGeneScores.R \
+	Rscript ./bin/CollapseGeneScores.R \
 		-i ./data/${OutputName}/tmpAnnotations.tsv \
 		-o ${OutputAnnotate}
 

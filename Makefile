@@ -218,6 +218,26 @@ ${VREF}/PfamInteractionsFormatScoredFlip.tsv : \
 		${VREF}/PfamInteractionsFormatScoredFlip.tsv \
 		"ViromeAgainstReferenceBacteria"
 
+# Annotate contig IDs with cluster IDs and further compress
+clusterrun : ${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
+	${VREF}/MatchesByBlastxFormatOrderClustered.tsv \
+	${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv
+
+${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
+${VREF}/MatchesByBlastxFormatOrderClustered.tsv \
+${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv : \
+			${VREF}/BenchmarkProphagesFormatFlip.tsv \
+			${VREF}/MatchesByBlastxFormatOrder.tsv \
+			${VREF}/PfamInteractionsFormatScoredFlip.tsv
+	bash ./bin/ClusterContigScores.sh \
+		${VREF}/BenchmarkProphagesFormatFlip.tsv \
+		${VREF}/MatchesByBlastxFormatOrder.tsv \
+		${VREF}/PfamInteractionsFormatScoredFlip.tsv \
+		${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
+		${VREF}/MatchesByBlastxFormatOrderClustered.tsv \
+		${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv \
+		"ViromeAgainstReferenceBacteria"
+
 # Make a graph database from the experimental information
 expnetwork : \
 			${VALDIR}/Interactions.tsv \

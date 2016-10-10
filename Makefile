@@ -290,6 +290,10 @@ finalrelationships \
 		"ViromeAgainstReferenceBacteria"
 
 # Add metadata to the graph
-
-
+addmetadata : \
+			./data/ContigRelAbundForGraphClustered.tsv \
+			./data/PublishedDatasets/metadatatable.tsv
+	bash AddMetadata.sh \
+		./data/ContigRelAbundForGraphClustered.tsv \
+		./data/PublishedDatasets/metadatatable.tsv
 ###

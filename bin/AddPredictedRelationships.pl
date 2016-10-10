@@ -81,6 +81,7 @@ foreach my $line (<$IN>) {
 	
 	if ($flag eq 0) {
 			# This means I need to create a new relationship
+			print STDERR "Adding relationship $interaction.\n";
 			$array1->relate_to($array2, 'PredictedInteraction')->set_property({'Prediction' => $interaction});
 		} else {
 			print STDOUT "Skipped creating relationship because it already exists.\n";

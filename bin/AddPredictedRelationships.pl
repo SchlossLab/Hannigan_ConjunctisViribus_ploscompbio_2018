@@ -52,6 +52,7 @@ foreach my $line (<$IN>) {
 	my @n11 = REST::Neo4p->get_nodes_by_label( $PhageForm );
 	my @n12 = REST::Neo4p->get_nodes_by_label( $bacteriaForm );
 	# Ensure there are no duplicated nodes
+	# This only runs if all nodes are always present (no zeros)
 	die "You dont have only one phage node ID: $!" unless (scalar(@n11) eq 1);
 	die "You dont have only one duplicate bacteria node ID: $!" unless (scalar(@n12) eq 1);
 	# Get nodes into scalar variables
@@ -81,9 +82,9 @@ foreach my $line (<$IN>) {
 			# This means I need to create a new relationship
 			$array1->relate_to($array2, 'PredictedInteraction')->set_property({'Prediction' => $interaction});
 		} else {
+			print STDOUT "Skipped creating relationship because it already exists.\n";
 			next;
 	}
-
 }
 
 # See how long it took

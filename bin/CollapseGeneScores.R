@@ -26,6 +26,15 @@ opt <- parse_args(opt_parser);
 
 input <- read.delim(opt$input, head=FALSE, sep="\t")
 
+header <- as.character(input[1,1])
+
+if (header == "V1") {
+  write("Removing Header Added in Upstream Analysis", stderr())
+  input <- input[-1,]
+}
+
+input$V3 <- as.numeric(as.character(input$V3))
+
 agtable <- ddply(input, c("V1", "V2"), summarize, mean=mean(V3))
 
 write.table(

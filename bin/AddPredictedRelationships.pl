@@ -68,6 +68,7 @@ foreach my $line (<$IN>) {
 
 		my $property;
 		$property = $RelnItr->get_property('Prediction');
+		print STDERR "Property is $property\n";
 
 		# Set to skip if property already exists
 		if ($property) {

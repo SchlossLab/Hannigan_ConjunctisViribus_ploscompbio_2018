@@ -41,10 +41,10 @@ filter=0) {
 plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout, clusters=FALSE) {
   write("Preparing Data for Plotting", stderr())
   # Pull out the data for clustering
-  ig <- graph_from_data_frame(edgeframe, directed=F)
+  ig <- graph_from_data_frame(edgeout, directed=F)
   # Set plot paramters
   V(ig)$label <- ""
-  V(ig)$color <- ifelse(grepl("[0-9]+]", nodeframe$id),
+  V(ig)$color <- ifelse(grepl("^[A-Z]", nodeout$id),
     rgb(0,0,1,.75),
     rgb(1,0,0,.75))
   # Color edges by type
@@ -124,7 +124,7 @@ graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
 # Use Cypher query to get a table of the table edges
 query <- "
-MATCH (n)-[r]->(m) 
+MATCH (n)-[r]->(m)
 WHERE r.Prediction = 'Interacts'
 RETURN n.Name AS from, m.Species AS to;
 "

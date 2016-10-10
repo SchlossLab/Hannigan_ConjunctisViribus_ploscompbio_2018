@@ -293,7 +293,7 @@ finalrelationships \
 addmetadata : \
 			./data/ContigRelAbundForGraphClustered.tsv \
 			./data/PublishedDatasets/metadatatable.tsv
-	bash AddMetadata.sh \
+	bash ./bin/AddMetadata.sh \
 		./data/ContigRelAbundForGraphClustered.tsv \
 		./data/PublishedDatasets/metadatatable.tsv
 ###

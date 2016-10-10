@@ -44,7 +44,7 @@ plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout, clusters=FALSE) {
   ig <- graph_from_data_frame(edgeframe, directed=F)
   # Set plot paramters
   V(ig)$label <- ""
-  V(ig)$color <- ifelse(grepl("phage|virus", nodeframe$id),
+  V(ig)$color <- ifelse(grepl("[0-9]+]", nodeframe$id),
     rgb(0,0,1,.75),
     rgb(1,0,0,.75))
   # Color edges by type

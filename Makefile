@@ -156,8 +156,8 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 	concoct \
 		--coverage_file ./data/ContigRelAbundForConcoct.tsv \
 		--composition_file ./data/TotalCatContigs.fa \
-		--clusters 250 \
-		--kmer_length 4 \
+		--clusters 500 \
+		--kmer_length 6 \
 		--length_threshold 1000 \
 		--read_length 150 \
 		--basename ./data/ContigClusters/ \

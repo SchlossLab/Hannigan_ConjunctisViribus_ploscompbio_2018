@@ -67,6 +67,8 @@ foreach my $line (<$IN>) {
 		my $PhageNode = $RelnItr->start_node;
 		my $BacteriaNode = $RelnItr->end_node;
 
+		next unless $BacteriaNode eq $bacteriaForm;
+
 		my $property;
 		$property = $RelnItr->get_property('Prediction');
 		print STDERR "Property is $property\n";

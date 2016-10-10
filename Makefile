@@ -280,8 +280,8 @@ finalrelationships \
 		./data/PredictedRelationshipTable.tsv
 
 # Collapse sequence counts by contig cluster
-./data/ContigRelAbundForGraph.tsv : \
-			./data/ContigRelAbundForGraphClustered.tsv \
+./data/ContigRelAbundForGraphClustered.tsv : \
+			./data/ContigRelAbundForGraph.tsv \
 			./data/ContigClusters/clustering_gt1000.csv
 	bash ./bin/ClusterContigAbundance.sh \
 		./data/ContigRelAbundForGraph.tsv \

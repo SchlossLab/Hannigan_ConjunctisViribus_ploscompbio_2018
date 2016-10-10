@@ -126,7 +126,7 @@ graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 query <- "
 MATCH (n)-[r]->(m)
 WHERE r.Prediction = 'Interacts'
-RETURN n.Name AS from, m.Species AS to;
+RETURN n.Name AS from, Name AS to;
 "
 
 graphoutputlist <- importgraphtodataframe()

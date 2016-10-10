@@ -244,9 +244,9 @@ ${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv : \
 expnetwork : \
 			${VALDIR}/Interactions.tsv \
 			${VREF}/BenchmarkCrisprsFormat.tsv \
-			${VREF}/BenchmarkProphagesFormatFlip.tsv \
-			${VREF}/PfamInteractionsFormatScoredFlip.tsv \
-			${VREF}/MatchesByBlastxFormatOrder.tsv
+			${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
+			${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv \
+			${VREF}/MatchesByBlastxFormatOrderClustered.tsv
 	# Note that this resets the graph database and erases
 	# the validation information we previously added.
 	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
@@ -254,9 +254,9 @@ expnetwork : \
 	bash ./bin/CreateProteinNetwork \
 		${VALDIR}/Interactions.tsv \
 		${VREF}/BenchmarkCrisprsFormat.tsv \
-		${VREF}/BenchmarkProphagesFormatFlip.tsv \
-		${VREF}/PfamInteractionsFormatScoredFlip.tsv \
-		${VREF}/MatchesByBlastxFormatOrder.tsv \
+		${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
+		${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv \
+		${VREF}/MatchesByBlastxFormatOrderClustered.tsv \
 		"FALSE"
 
 # Predict interactions between nodes

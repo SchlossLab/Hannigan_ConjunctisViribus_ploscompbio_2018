@@ -16,7 +16,7 @@ export metadata=$2
 
 echo Running neo4j script...
 
-perl ./Metadata2graph.pl \
+perl ./bin/Metadata2graph.pl \
 	-s ${samples} \
 	-m ${metadata} \
 	|| /mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j stop

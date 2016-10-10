@@ -45,6 +45,7 @@ foreach my $line (<$IN>) {
 	my $Phage = (split /\t/, $line)[1];
 	# print "$Phage\n";
 	my $interaction = (split /\t/, $line)[2];
+	print STDERR "$Phage infects $bacteria\n";
 	# print "$interaction\n";
 	# Remove illegal characters
 	(my $bacteriaForm = $bacteria) =~ s/[^A-Z^a-z^0-9^\t]+/_/g;

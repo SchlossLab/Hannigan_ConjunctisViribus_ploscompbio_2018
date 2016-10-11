@@ -41,12 +41,12 @@ filter=0) {
 plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout, clusters=FALSE) {
   write("Preparing Data for Plotting", stderr())
   # Pull out the data for clustering
-  ig <- graph_from_data_frame(edgeout, directed=F)
+  ig <- graph_from_data_frame(edgeframe, directed=F)
   # Set plot paramters
   V(ig)$label <- ""
-  V(ig)$color <- ifelse(grepl("^[A-Z]", nodeout$id),
-    rgb(0,0,1,.75),
-    rgb(1,0,0,.75))
+  V(ig)$color <- ifelse(grepl("^[A-Z]", nodeframe$id),
+    rgb(1,0,0,.75),
+    rgb(0,0,1,.75))
   # Color edges by type
   E(ig)$color <- rgb(0.25,0.25,0.25,0.5)
   E(ig)$width <- 0.01

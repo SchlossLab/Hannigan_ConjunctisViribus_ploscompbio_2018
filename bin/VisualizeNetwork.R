@@ -10,6 +10,7 @@ packagelist <- c("RNeo4j", "ggplot2", "wesanderson", "igraph", "visNetwork", "sc
 new.packages <- packagelist[!(packagelist %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages, repos='http://cran.us.r-project.org')
 lapply(packagelist, library, character.only = TRUE)
+library("ggraph")
 
 ###################
 # Set Subroutines #
@@ -38,54 +39,22 @@ filter=0) {
   return(list(nodes, multipleedge))
 }
 
-plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout, clusters=FALSE) {
+plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout) {
   write("Preparing Data for Plotting", stderr())
   # Pull out the data for clustering
   ig <- graph_from_data_frame(edgeframe, directed=F)
   # Set plot paramters
-  V(ig)$label <- ""
-  V(ig)$color <- ifelse(grepl("^[A-Z]", nodeframe$id),
-    rgb(1,0,0,.75),
-    rgb(0,0,1,.75))
-  # Color edges by type
-  E(ig)$color <- rgb(0.25,0.25,0.25,0.5)
-  E(ig)$width <- 0.01
-  V(ig)$frame.color <- NA
-  V(ig)$label.color <- rgb(0,0,.2,.5)
-  # Set network plot layout
-  l <- layout.fruchterman.reingold(ig)
+  V(ig)$label <- ifelse(grepl("^[A-Z]", nodeframe$id),
+    "Bacteria",
+    "Phage")
   # Create the plot
-  if (clusters) {
-    write("Clustering...", stderr())
-    clustering <- walktrap.community(ig)
-    modular <- modularity(clustering)
-    write(paste("Modularity score is:",modular, sep=" "), stderr())
-    write("Plotting Network With Clusters", stderr())
-    plot(ig,
-      mark.groups=clustering,
-      vertex.size=0.30,
-      edge.arrow.size=.1,
-      layout=l
-    )
-  } else {
-    write("Plotting Network", stderr())
-    plot(ig,
-      vertex.size=1.30,
-      edge.arrow.size=.1,
-      layout=l
-    )
-  }
-  # Finish by adding the legends
-  legend("bottomleft",
-    legend=c("Phage", "Bacteria"),
-    pt.bg=c(rgb(0,0,1,.75),
-      rgb(1,0,0,.75)),
-    col="black",
-    pch=21,
-    pt.cex=3,
-    cex=1.5,
-    bty = "n"
-  )
+  outputgraph <- ggraph(ig, 'igraph', algorithm = 'kk') + 
+        coord_fixed() + 
+        geom_edge_link0(edge_alpha = 0.05) +
+        geom_node_point(aes(color = label), size = 1.5) +
+        ggforce::theme_no_axes() +
+        scale_color_manual(values = wes_palette("Royal1")[c(1,2)])
+  return(outputgraph)
 }
 
 graphDiameter <- function (nodeframe=nodeout, edgeframe=edgeout) {
@@ -126,7 +95,7 @@ graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 query <- "
 MATCH (n)-[r]->(m)
 WHERE r.Prediction = 'Interacts'
-RETURN n.Name AS from, m.Name AS to;
+RETURN n.Name AS from, m.Species AS to;
 "
 
 graphoutputlist <- importgraphtodataframe()
@@ -150,7 +119,7 @@ height=8)
   units="in",
   res=800)
     dev.control("enable")
-    plotnetwork(clusters=FALSE)
+    plotnetwork()
     dev.copy(which=a)
   dev.off()
 dev.off()

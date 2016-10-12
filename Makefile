@@ -123,10 +123,15 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 		"QualityOutput"
 
 # Merge the contigs into a single file
-./data/TotalCatContigs.fa : ./data/QualityOutput
+./data/TotalCatContigsBacteria.fa \
+./data/TotalCatContigsPhage.fa : \
+			./data/QualityOutput \
+			./data/PublishedDatasets/metadatatable.tsv
 	bash ./bin/catcontigs.sh \
 		./data/QualityOutput \
-		./data/TotalCatContigs.fa
+		./data/TotalCatContigsBacteria.fa \
+		./data/TotalCatContigsPhage.fa \
+		./data/PublishedDatasets/metadatatable.tsv
 
 # Generate a contig relative abundance table
 ./data/ContigRelAbundForGraph.tsv : \

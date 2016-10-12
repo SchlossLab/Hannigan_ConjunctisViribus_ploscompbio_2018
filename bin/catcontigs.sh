@@ -8,7 +8,9 @@
 # Set Variables #
 #################
 export ContigDirectory=$1
-export CatContigOutputFile=$2
+export CatContigOutputFileBacteria=$2
+export CatContigOutputFilePhage=$3
+export metadata=$4
 
 NewContigDirectory=./data/tmpcat
 
@@ -24,11 +26,30 @@ done
 
 echo Merging contig files into a master file
 
-cat "${NewContigDirectory}"/*_contigs.fa > ./tmpcontigs.fa
+# Make a list of the samples associated with phages and bacteria
+## Bacterial list
+cut -f 3,10 ${metadata} \
+	| grep Bacteria \
+	| awk -v path="${NewContigDirectory}" '{ print path$1"_contigs.fa" }' \
+	> "${NewContigDirectory}"/BacteriaSampleList.tsv
+
+# Virus sample list
+cut -f 3,10 ${metadata} \
+	| grep VLP \
+	| awk -v path="${NewContigDirectory}" '{ print path$1"_contigs.fa" }' \
+	> "${NewContigDirectory}"/PhageSampleList.tsv
+
+# Cat together the samples specified in the sample lists
+## Bacteria
+xargs < "${NewContigDirectory}"/BacteriaSampleList.tsv cat > ./tmpBacteriaContigs.fa
+## Phage
+xargs < "${NewContigDirectory}"/PhageSampleList.tsv cat > ./tmpPhageContigs.fa
 
 echo Removing special characters from contig names
-perl -pe 's/[^A-Z^a-z^0-9^^>^\n]+/_/g' ./tmpcontigs.fa > ${CatContigOutputFile}
+perl -pe 's/[^A-Z^a-z^0-9^^>^\n]+/_/g' ./tmpBacteriaContigs.fa > ${CatContigOutputFileBacteria}
+perl -pe 's/[^A-Z^a-z^0-9^^>^\n]+/_/g' ./tmpPhageContigs.fa > ${CatContigOutputFilePhage}
 
-rm ./tmpcontigs.fa
+rm ./tmpBacteriaContigs.fa
+rm ./tmpPhageContigs.fa
 
 rm -r "${NewContigDirectory}"

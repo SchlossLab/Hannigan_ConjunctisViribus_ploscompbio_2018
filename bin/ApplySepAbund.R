@@ -28,6 +28,9 @@ option_list <- list(
     metavar = "character")
 )
 
+opt_parser <- OptionParser(option_list = option_list);
+opt <- parse_args(opt_parser);
+
 input <- read.delim(file=opt$abundance, header=FALSE, sep="\t")
 samplelist <- read.delim(file=opt$samplelist, header=FALSE, sep="\t")
 contiglist <- read.delim(file=opt$contiglist, header=FALSE, sep="\t")

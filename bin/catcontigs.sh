@@ -52,4 +52,4 @@ perl -pe 's/[^A-Z^a-z^0-9^^>^\n]+/_/g' ./tmpPhageContigs.fa > ${CatContigOutputF
 rm ./tmpBacteriaContigs.fa
 rm ./tmpPhageContigs.fa
 
-rm -r "${NewContigDirectory}"
+# rm -r "${NewContigDirectory}"

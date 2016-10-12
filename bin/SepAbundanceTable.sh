@@ -9,6 +9,7 @@ export bacterialcontigs=$2
 export phagecontigs=$3
 export bacterialabundout=$4
 export phageabundout=$5
+export abundancetable=$6
 
 # Set tmp directory
 export tmpdir=./data/tmpcat
@@ -27,7 +28,7 @@ echo Getting VLP sample list...
 cut -f 3,10 ${metadata} \
 	| grep VLP \
 	| awk '{ print $1 }' \
-	> "${tmpdir}"/VLPSampleList.tsv
+	> "${tmpdir}"/PhageSampleList.tsv
 
 # Get list of the contigs associated with each group
 echo Getting list of bacteria contig IDs
@@ -45,15 +46,18 @@ egrep '>' ${phagecontigs} \
 # phage sets.
 
 echo Parsing bactieral abundance table...
-grep --file="${tmpdir}"/BacteriaSampleList.tsv \
-	| grep --file="${tmpdir}"/BacteriaContigList.tsv \
-	> ${bacterialabundout}
+Rscript ./bin/ApplySepAbund.R \
+	--abundance ${abundancetable} \
+	--samplelist "${tmpdir}"/BacteriaSampleList.tsv \
+	--contiglist "${tmpdir}"/BacteriaContigList.tsv \
+	--output ${bacterialabundout}
 
 echo Parsing phage abundance table...
-grep --file="${tmpdir}"/PhageSampleList.tsv \
-	| grep --file="${tmpdir}"/PhageContigList.tsv \
-	> ${phageabundout}
+Rscript ./bin/ApplySepAbund.R \
+	--abundance ${abundancetable} \
+	--samplelist "${tmpdir}"/PhageSampleList.tsv \
+	--contiglist "${tmpdir}"/PhageContigList.tsv \
+	--output ${phageabundout}
 
 echo Removing tmp directory...
 rm -r ${tmpdir}
-

@@ -124,14 +124,19 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 
 # Merge the contigs into a single file
 ./data/TotalCatContigsBacteria.fa \
-./data/TotalCatContigsPhage.fa : \
+./data/TotalCatContigsPhage.fa \
+./data/TotalCatContigs.fa : \
 			./data/QualityOutput \
 			./data/PublishedDatasets/metadatatable.tsv
 	bash ./bin/catcontigs.sh \
 		./data/QualityOutput \
 		./data/TotalCatContigsBacteria.fa \
 		./data/TotalCatContigsPhage.fa \
-		./data/PublishedDatasets/metadatatable.tsv
+		./data/PublishedDatasets/metadatatable.tsv \
+		./data/TotalCatContigs.fa
+
+# At this point I have two contig files that I need to keep straight
+# One for bacteria, one for phage
 
 # Generate a contig relative abundance table
 ./data/ContigRelAbundForGraph.tsv : \
@@ -142,6 +147,19 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 		./data/QualityOutput/raw \
 		./data/ContigRelAbundForGraph.tsv
 
+# Split abundance table by phage and bacteria samples/contigs
+./data/BacteriaContigAbundance.tsv \
+./data/PhageContigAbundance.tsv : \
+			./data/TotalCatContigsBacteria.fa \
+			./data/TotalCatContigsPhage.fa \
+			./data/PublishedDatasets/metadatatable.tsv
+	bash ./bin/SepAbundanceTable.sh \
+		./data/PublishedDatasets/metadatatable.tsv \
+		./data/TotalCatContigsBacteria.fa \
+		./data/TotalCatContigsPhage.fa \
+		./data/BacteriaContigAbundance.tsv \
+		./data/PhageContigAbundance.tsv
+
 # Transform contig abundance table for CONCOCT
 ./data/ContigRelAbundForConcoct.tsv : \
 			./data/ContigRelAbundForGraph.tsv
@@ -151,9 +169,8 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 		-p 0.1
 
 # Run CONCOCT to get contig clusters
-# Read length is an average from the studies
-# Im skipping total coverage
-# Setting max cluster number to 2500k because why not
+# Read length is an approximate average from the studies
+# Im skipping total coverage because I don't think it makes sense for this dataset
 ./data/ContigClusters : \
 			./data/TotalCatContigs.fa \
 			./data/ContigRelAbundForConcoct.tsv

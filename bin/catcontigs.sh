@@ -11,6 +11,7 @@ export ContigDirectory=$1
 export CatContigOutputFileBacteria=$2
 export CatContigOutputFilePhage=$3
 export metadata=$4
+export TotalCatContigFile=$5
 
 NewContigDirectory=./data/tmpcat
 
@@ -44,12 +45,16 @@ cut -f 3,10 ${metadata} \
 xargs < "${NewContigDirectory}"/BacteriaSampleList.tsv cat > ./tmpBacteriaContigs.fa
 ## Phage
 xargs < "${NewContigDirectory}"/PhageSampleList.tsv cat > ./tmpPhageContigs.fa
+# Also create a master contig file
+cat ./tmpBacteriaContigs.fa ./tmpPhageContigs.fa > ./tmpTotalContigs.fa
 
 echo Removing special characters from contig names
 perl -pe 's/[^A-Z^a-z^0-9^^>^\n]+/_/g' ./tmpBacteriaContigs.fa > ${CatContigOutputFileBacteria}
 perl -pe 's/[^A-Z^a-z^0-9^^>^\n]+/_/g' ./tmpPhageContigs.fa > ${CatContigOutputFilePhage}
+perl -pe 's/[^A-Z^a-z^0-9^^>^\n]+/_/g' ./tmpTotalContigs.fa > ${TotalCatContigFile}
 
 rm ./tmpBacteriaContigs.fa
 rm ./tmpPhageContigs.fa
+rm ./tmpTotalContigs.fa
 
-# rm -r "${NewContigDirectory}"
+rm -r "${NewContigDirectory}"

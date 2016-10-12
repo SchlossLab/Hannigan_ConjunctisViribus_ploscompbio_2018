@@ -182,6 +182,7 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 # Read length is an approximate average from the studies
 # Im skipping total coverage because I don't think it makes sense for this dataset
 # Again do it as bacteria and phages
+concoctify : ./data/ContigClustersBacteria ./data/ContigClustersPhage
 ## Bacteroa
 ./data/ContigClustersBacteria : \
 			./data/TotalCatContigsBacteria.fa \

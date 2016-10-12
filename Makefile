@@ -163,28 +163,53 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 		./data/ContigRelAbundForGraph.tsv
 
 # Transform contig abundance table for CONCOCT
-./data/ContigRelAbundForConcoct.tsv : \
-			./data/ContigRelAbundForGraph.tsv
+## Bacteria
+./data/ContigRelAbundForConcoctBacteria.tsv : \
+			./data/BacteriaContigAbundance.tsv
 	Rscript ./bin/ReshapeAlignedAbundance.R \
-		-i ./data/ContigRelAbundForGraph.tsv \
-		-o ./data/ContigRelAbundForConcoct.tsv \
-		-p 0.1
+		-i ./data/BacteriaContigAbundance.tsv \
+		-o ./data/ContigRelAbundForConcoctBacteria.tsv \
+		-p 0.15
+## Phage
+./data/ContigRelAbundForConcoctPhage.tsv : \
+			./data/PhageContigAbundance.tsv
+	Rscript ./bin/ReshapeAlignedAbundance.R \
+		-i ./data/PhageContigAbundance.tsv \
+		-o ./data/ContigRelAbundForConcoctPhage.tsv \
+		-p 0.15
 
 # Run CONCOCT to get contig clusters
 # Read length is an approximate average from the studies
 # Im skipping total coverage because I don't think it makes sense for this dataset
-./data/ContigClusters : \
-			./data/TotalCatContigs.fa \
-			./data/ContigRelAbundForConcoct.tsv
-	mkdir ./data/ContigClusters
+# Again do it as bacteria and phages
+## Bacteroa
+./data/ContigClustersBacteria : \
+			./data/TotalCatContigsBacteria.fa \
+			./data/ContigRelAbundForConcoctBacteria.tsv
+	mkdir ./data/ContigClustersBacteria
 	concoct \
-		--coverage_file ./data/ContigRelAbundForConcoct.tsv \
-		--composition_file ./data/TotalCatContigs.fa \
+		--coverage_file ./data/ContigRelAbundForConcoctBacteria.tsv \
+		--composition_file ./data/TotalCatContigsBacteria.fa \
 		--clusters 500 \
 		--kmer_length 5 \
 		--length_threshold 1000 \
 		--read_length 150 \
-		--basename ./data/ContigClusters/ \
+		--basename ./data/ContigClustersBacteria/ \
+		--no_total_coverage \
+		--iterations 50
+##Phage
+./data/ContigClustersPhage : \
+			./data/TotalCatContigsPhage.fa \
+			./data/ContigRelAbundForConcoctPhage.tsv
+	mkdir ./data/ContigClustersPhage
+	concoct \
+		--coverage_file ./data/ContigRelAbundForConcoctPhage.tsv \
+		--composition_file ./data/TotalCatContigsPhage.fa \
+		--clusters 500 \
+		--kmer_length 5 \
+		--length_threshold 1000 \
+		--read_length 150 \
+		--basename ./data/ContigClustersPhage/ \
 		--no_total_coverage \
 		--iterations 50
 

@@ -115,8 +115,10 @@ foreach my $line (<$META>) {
 	my @n13 = REST::Neo4p->get_nodes_by_label( $studyid );
 
 	my $existingnodes = scalar(@n13);
+	my $samplenodes = scalar(@n11);
 
 	print STDERR "There are $existingnodes study ID nodes with this name.\n";
+	print STDERR "There are $samplenodes sample ID nodes with this name.\n";
 
 	# Ensure there are no duplicated nodes
     die "You have duplicate sample node IDs: $!" if (scalar(@n11) gt 1);

@@ -54,35 +54,9 @@ FormatNames () {
 		> "${2}"
 }
 
-GetHits () {
-	# 1 = Input Orfs
-	# 2 = Reference Orfs
-
-	mkdir ./data/${Output}/bowtieReference
-
-	bowtie2-build \
-		-f ${2} \
-		./data/${Output}/bowtieReference/bowtieReference
-
-	bowtie2 \
-		-x ./data/${Output}/bowtieReference/bowtieReference \
-		-f ${1} \
-		-S ${1}-bowtie.sam \
-		-p 32 \
-		-L 25 \
-		-N 1
-
-	# Quantify alignment hits
-	perl \
-		${ProjectBin}calculate_abundance_from_sam.pl \
-			${1}-bowtie.sam \
-			${1}-bowtie.tsv
-}
-
 # Export the subroutines
 export -f PredictOrfs
 export -f FormatNames
-export -f GetHits
 
 ######################
 # Run CRISPR scripts #
@@ -125,12 +99,11 @@ sed -i 's/_[0-9][0-9]\?[0-9]\?\t/\t/g' ${CRISPRout}
 
 echo Getting prophages by blast...
 bash ./bin/GetProphagesByBlast.sh \
-	${PhageGenomeRef} \
-	${BacteriaGenomeRef} \
+	./data/TotalCatContigsPhage.fa \
+	./data/TotalCatContigsBacteria.fa \
 	./data/${Output}/BenchmarkProphagesBlastn.tsv \
 	${WorkingDirectory} \
-	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
-	|| exit
+	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/"
 
 # Format the output
 FormatNames \

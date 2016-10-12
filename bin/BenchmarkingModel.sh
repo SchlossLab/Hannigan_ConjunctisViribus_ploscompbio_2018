@@ -58,39 +58,39 @@ FormatNames () {
 export -f PredictOrfs
 export -f FormatNames
 
-######################
-# Run CRISPR scripts #
-######################
+# ######################
+# # Run CRISPR scripts #
+# ######################
 
-# Use a tmp directory
-mkdir ./data/${Output}/tmp
+# # Use a tmp directory
+# mkdir ./data/${Output}/tmp
 
-echo Extracting CRISPRs...
-bash ./bin/RunPilerCr.sh \
-	${BacteriaGenomeRef} \
-	./data/${Output}/tmp/BenchmarkCrisprs.txt \
-	"/home/ghannig/bin/pilercr1.06/" \
-	|| exit
+# echo Extracting CRISPRs...
+# bash ./bin/RunPilerCr.sh \
+# 	${BacteriaGenomeRef} \
+# 	./data/${Output}/tmp/BenchmarkCrisprs.txt \
+# 	"/home/ghannig/bin/pilercr1.06/" \
+# 	|| exit
 
-echo Getting CRISPR pairs...
-bash ./bin/GetCrisprPhagePairs.sh \
-	./data/${Output}/tmp/BenchmarkCrisprs.txt \
-	${PhageGenomeRef} \
-	./data/${Output}/BenchmarkCrisprs.tsv \
-	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
-	./bin/ \
-	./bin/ \
-	|| exit
+# echo Getting CRISPR pairs...
+# bash ./bin/GetCrisprPhagePairs.sh \
+# 	./data/${Output}/tmp/BenchmarkCrisprs.txt \
+# 	${PhageGenomeRef} \
+# 	./data/${Output}/BenchmarkCrisprs.tsv \
+# 	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
+# 	./bin/ \
+# 	./bin/ \
+# 	|| exit
 
-rm ./data/${Output}/tmp/*
+# rm ./data/${Output}/tmp/*
 
-# Format the output
-FormatNames \
-	./data/${Output}/BenchmarkCrisprs.tsv \
-	${CRISPRout}
+# # Format the output
+# FormatNames \
+# 	./data/${Output}/BenchmarkCrisprs.tsv \
+# 	${CRISPRout}
 
-# Remove underscores at the end of the names
-sed -i 's/_[0-9][0-9]\?[0-9]\?\t/\t/g' ${CRISPRout}
+# # Remove underscores at the end of the names
+# sed -i 's/_[0-9][0-9]\?[0-9]\?\t/\t/g' ${CRISPRout}
 
 
 #####################
@@ -99,11 +99,12 @@ sed -i 's/_[0-9][0-9]\?[0-9]\?\t/\t/g' ${CRISPRout}
 
 echo Getting prophages by blast...
 bash ./bin/GetProphagesByBlast.sh \
-	./data/TotalCatContigsPhage.fa \
-	./data/TotalCatContigsBacteria.fa \
+	${PhageGenomeRef} \
+	${BacteriaGenomeRef} \
 	./data/${Output}/BenchmarkProphagesBlastn.tsv \
-	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus \
-	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/"
+	${WorkingDirectory} \
+	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
+	|| exit
 
 # Format the output
 FormatNames \

@@ -102,7 +102,7 @@ bash ./bin/GetProphagesByBlast.sh \
 	./data/TotalCatContigsPhage.fa \
 	./data/TotalCatContigsBacteria.fa \
 	./data/${Output}/BenchmarkProphagesBlastn.tsv \
-	${WorkingDirectory} \
+	/mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus \
 	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/"
 
 # Format the output

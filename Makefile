@@ -152,13 +152,15 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 ./data/PhageContigAbundance.tsv : \
 			./data/TotalCatContigsBacteria.fa \
 			./data/TotalCatContigsPhage.fa \
-			./data/PublishedDatasets/metadatatable.tsv
+			./data/PublishedDatasets/metadatatable.tsv \
+			./data/ContigRelAbundForGraph.tsv
 	bash ./bin/SepAbundanceTable.sh \
 		./data/PublishedDatasets/metadatatable.tsv \
 		./data/TotalCatContigsBacteria.fa \
 		./data/TotalCatContigsPhage.fa \
 		./data/BacteriaContigAbundance.tsv \
-		./data/PhageContigAbundance.tsv
+		./data/PhageContigAbundance.tsv \
+		./data/ContigRelAbundForGraph.tsv
 
 # Transform contig abundance table for CONCOCT
 ./data/ContigRelAbundForConcoct.tsv : \

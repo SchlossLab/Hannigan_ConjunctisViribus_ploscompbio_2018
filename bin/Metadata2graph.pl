@@ -93,10 +93,11 @@ foreach my $line (<$META>) {
 	chomp $line;
 	my @linearray = split /\t/, $line;
 	$studyid = $linearray[0];
-	print STDERR "$studyid\n";
+	print STDERR "Study ID is $studyid\n";
 	$sampleid = $linearray[2];
 	$platform = $linearray[4];
 	$disease = $linearray[5];
+	print STDERR "Disease name is $disease\n";
 	$mdatype = $linearray[7];
 	$bodylocation = $linearray[8];
 	$purificationtype = $linearray[9];
@@ -104,7 +105,7 @@ foreach my $line (<$META>) {
 	$hosttype = $linearray[11];
 	# Skip the header
 	next if ($studyid eq "SRA_Study_s");
-	print "$sampleid\n";
+	print "Sample ID is $sampleid\n";
 
 	# Get existing sample nodes
 	my @n11 = REST::Neo4p->get_nodes_by_label( $sampleid );
@@ -112,6 +113,10 @@ foreach my $line (<$META>) {
 	my @n12 = REST::Neo4p->get_nodes_by_label( $disease );
 	# Get existing study nodes
 	my @n13 = REST::Neo4p->get_nodes_by_label( $studyid );
+
+	my $existingnodes = scalar(@n13);
+
+	print STDERR "There are $existingnodes study ID nodes with this name.\n"
 
 	# Ensure there are no duplicated nodes
     die "You have duplicate sample node IDs: $!" if (scalar(@n11) gt 1);
@@ -126,6 +131,7 @@ foreach my $line (<$META>) {
 		$n1->set_labels('Disease',$disease);
 	}
 	unless (@n13) {
+		print STDERR "Creating this StudyID node.\n";
 		$n1 = REST::Neo4p::Node->new( {Name => $studyid} );
 		$n1->set_property( {Organism => 'StudyID'} );
 		$n1->set_labels('StudyID',$studyid);

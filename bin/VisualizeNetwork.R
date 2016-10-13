@@ -44,7 +44,7 @@ plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout) {
   # Pull out the data for clustering
   ig <- graph_from_data_frame(edgeframe, directed=F)
   # Set plot paramters
-  V(ig)$label <- ifelse(grepl("^[A-Z]", nodeframe$id),
+  V(ig)$label <- ifelse(grepl("^Bacteria", nodeframe$id),
     "Bacteria",
     "Phage")
   # Create the plot

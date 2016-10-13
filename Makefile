@@ -280,7 +280,8 @@ ${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv : \
 			${VREF}/BenchmarkProphagesFormatFlip.tsv \
 			${VREF}/MatchesByBlastxFormatOrder.tsv \
 			${VREF}/PfamInteractionsFormatScoredFlip.tsv \
-			./data/ContigClusters/clustering_gt1000.csv
+			./data/ContigClustersBacteria/clustering_gt1000.csv \
+			./data/ContigClustersPhage/clustering_gt1000.csv
 	bash ./bin/ClusterContigScores.sh \
 		${VREF}/BenchmarkProphagesFormatFlip.tsv \
 		${VREF}/MatchesByBlastxFormatOrder.tsv \
@@ -288,7 +289,8 @@ ${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv : \
 		${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
 		${VREF}/MatchesByBlastxFormatOrderClustered.tsv \
 		${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv \
-		./data/ContigClusters/clustering_gt1000.csv \
+		./data/ContigClustersBacteria/clustering_gt1000.csv \
+		./data/ContigClustersPhage/clustering_gt1000.csv \
 		"ViromeAgainstReferenceBacteria"
 
 # Make a graph database from the experimental information

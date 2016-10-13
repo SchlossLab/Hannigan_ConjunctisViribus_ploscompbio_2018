@@ -53,7 +53,7 @@ sed 's/,/\t/' $8 | sed 's/\t/\tBacteria_/' > ./data/${OutputName}/BacteriaContCl
 cat \
 	./data/${OutputName}/PhageContClust.tsv \
 	./data/${OutputName}/BacteriaContClust.tsv \
-	./data/${OutputName}/ContClust.tsv
+	> ./data/${OutputName}/ContClust.tsv
 
 # Run the subroutines
 # I know I know I should loop this

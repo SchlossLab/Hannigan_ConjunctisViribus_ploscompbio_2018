@@ -8,15 +8,15 @@
 # Set the Environment #
 #######################
 WorkingDirectory=$(pwd)
-export Output='tmp'
+Output='tmp'
 
-export BinPath=${6}
-export OpenMet=${5}
-export BlastPath=${4}
+BinPath=${6}
+OpenMet=${5}
+BlastPath=${4}
 
-export PilerData=${1}
-export PhageGenomes=${2}
-export OutputFile=${3}
+PilerData=${1}
+PhageGenomes=${2}
+OutputFile=${3}
 
 # Set working dir
 echo CRISPR pair script is working in "${WorkingDirectory}"...

@@ -8,15 +8,15 @@
 # Set the Environment #
 #######################
 WorkingDirectory=$(pwd)
-Output='tmp'
+export Output='tmp'
 
-BinPath=${6}
-OpenMet=${5}
-BlastPath=${4}
+export BinPath=${6}
+export OpenMet=${5}
+export BlastPath=${4}
 
-PilerData=${1}
-PhageGenomes=${2}
-OutputFile=${3}
+export PilerData=${1}
+export PhageGenomes=${2}
+export OutputFile=${3}
 
 # Set working dir
 echo CRISPR pair script is working in "${WorkingDirectory}"...
@@ -37,15 +37,22 @@ perl ${OpenMet}LengthFilterSeqs.pl -i ./${Output}/Spacers.fa -o ./${Output}/Spac
 
 # Get rid of spaces in the files
 sed 's/ /_/g' "${PhageGenomes}" > ./${Output}/PhageReferenceNoSpace.fa || exit
-sed 's/ /_/g' ./${Output}/Spacers.good.fa > ./${Output}/SpacersNoSpaceGood.fa || exit
+sed 's/ /_/g' ./${Output}/Spacers.good.fa \
+	| egrep -B 1 '^\.' \
+	| tac \
+	| sed '/^\./ { N; d; }' \
+	| tac \
+	> ./${Output}/SpacersNoSpaceGood.fa || exit
 
 # Blastn the spacers against the phage genomes
+echo Creating CRISPR blast database...
 ${BlastPath}makeblastdb \
 		-dbtype nucl \
 		-in ./${Output}/PhageReferenceNoSpace.fa \
 		-out ./${Output}/PhageGenomeDatabase \
 		|| exit
 
+echo Running CRISPR blast...
 ${BlastPath}blastn \
     	-query ./${Output}/SpacersNoSpaceGood.fa \
     	-out ./${Output}/SpacerMatches.blast \

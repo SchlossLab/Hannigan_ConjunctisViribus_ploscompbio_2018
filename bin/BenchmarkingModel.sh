@@ -72,15 +72,15 @@ bash ./bin/RunPilerCr.sh \
 	"/home/ghannig/bin/pilercr1.06/" \
 	|| exit
 
-# echo Getting CRISPR pairs...
-# bash ./bin/GetCrisprPhagePairs.sh \
-# 	./data/${Output}/tmp/BenchmarkCrisprs.txt \
-# 	${PhageGenomeRef} \
-# 	./data/${Output}/BenchmarkCrisprs.tsv \
-# 	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
-# 	./bin/ \
-# 	./bin/ \
-# 	|| exit
+echo Getting CRISPR pairs...
+bash ./bin/GetCrisprPhagePairs.sh \
+	./data/${Output}/tmp/BenchmarkCrisprs.txt \
+	${PhageGenomeRef} \
+	./data/${Output}/BenchmarkCrisprs.tsv \
+	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
+	./bin/ \
+	./bin/ \
+	|| exit
 
 # rm ./data/${Output}/tmp/*
 

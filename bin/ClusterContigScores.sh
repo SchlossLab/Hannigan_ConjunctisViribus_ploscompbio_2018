@@ -19,7 +19,7 @@ export OutputName=$9
 # Set Subroutines #
 ###################
 
-AnnotateCollapseClustersPhage () {
+AnnotateCollapseClusters () {
 	FileToAnnotate=$1
 	OutputAnnotate=$2
 

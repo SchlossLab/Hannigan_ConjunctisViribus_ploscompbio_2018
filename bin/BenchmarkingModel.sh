@@ -58,19 +58,19 @@ FormatNames () {
 export -f PredictOrfs
 export -f FormatNames
 
-# ######################
-# # Run CRISPR scripts #
-# ######################
+######################
+# Run CRISPR scripts #
+######################
 
-# # Use a tmp directory
-# mkdir ./data/${Output}/tmp
+# Use a tmp directory
+mkdir ./data/${Output}/tmp
 
-# echo Extracting CRISPRs...
-# bash ./bin/RunPilerCr.sh \
-# 	${BacteriaGenomeRef} \
-# 	./data/${Output}/tmp/BenchmarkCrisprs.txt \
-# 	"/home/ghannig/bin/pilercr1.06/" \
-# 	|| exit
+echo Extracting CRISPRs...
+bash ./bin/RunPilerCr.sh \
+	${BacteriaGenomeRef} \
+	./data/${Output}/tmp/BenchmarkCrisprs.txt \
+	"/home/ghannig/bin/pilercr1.06/" \
+	|| exit
 
 # echo Getting CRISPR pairs...
 # bash ./bin/GetCrisprPhagePairs.sh \

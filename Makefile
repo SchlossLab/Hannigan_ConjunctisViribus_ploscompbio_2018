@@ -295,7 +295,6 @@ ${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv : \
 
 # Make a graph database from the experimental information
 expnetwork : \
-			${VREF}/BenchmarkCrisprsFormat.tsv \
 			${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
 			${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv \
 			${VREF}/MatchesByBlastxFormatOrderClustered.tsv

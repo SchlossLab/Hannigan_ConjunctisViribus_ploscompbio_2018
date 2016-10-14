@@ -1,13 +1,12 @@
 #! /bin/bash
 
-# Load perl module
-module load perl/5.22.1
-module load perl-modules/5.22.1
-module load R/3.2.3
-
 export samplesPhage=$1
 export sampleBacteria=$2
 export metadata=$3
+
+echo Phage sample file is ${samplesPhage}
+echo Bacteria sample file is ${samplesBacteria}
+echo Metadata file is ${metadata}
 
 # Put together the two abundance files
 cat ${samplesPhage} ${sampleBacteria} > ./tmpAbundance.tsv
@@ -30,4 +29,4 @@ perl ./bin/Metadata2graph.pl \
 
 echo Cleaning up files...
 
-rm ./tmpAbundance.tsv
+# rm ./tmpAbundance.tsv

@@ -1,5 +1,5 @@
 ---
-title: Impact of Disease on Bacteriophage - Bacteria Community Structure Within the Human Microbiome
+title: Impact of Disease on the Viruses of the Human Microbiome
 author: Geoffrey D Hannigan, Melissa B Duhaime, Patrick D Schloss
 geometry: margin=1.0in
 ---
@@ -55,9 +55,7 @@ We used four predictive score categories of the controlled dataset with a tuned 
 
 ![Random forest model for bacteria - phage interactions. A) ROC curve of the ten iterations used to create the prediction model. B) Density plot of the distribution of sample interaction probability. Groups indicate whether the sample represented an interaction. C) Importance scores associated with the criteria used to create the random forest model. D) Proportions of samples excluded from model learning due to a lack of scoring. The true interaction status of the sample is noted on the x-axis and bars are colored by the proportion of sample excluded (red) and included (grey) in model training. \label{RocCurve}](../figures/rocCurves.pdf)
 
-## Infectious Landscape of the Human Virome
-
-### Basic Network Properties
+## Basic Network Properties
 The complete network contained X nodes and Y edges (i.e predicted infectious interactions). The number of nodes and edges per sample and total per study.
 
 <!--
@@ -66,29 +64,27 @@ The complete network contained X nodes and Y edges (i.e predicted infectious int
 - Degree of connectedness among all samples
 -->
 
-### Tropism Patterns Between Bacteria & Phages
+## Disease and Co-Evolution (Tropism)
 Tropic patterns of bacteriophages provide us with an understanding of bacteria/phage co-evolution, as well as a general understanding of the system behavior. In the past, phage tropic patterns have been represented as pairwise adjacency matrices of phages and their predicted hosts.
 
 ![Network diagram of the phage - bacteria relationships.\label{OverallNetwork}](../figures/BacteriaPhageNetworkDiagram.pdf){ width=60% }
 
 There are four possible patterns associated with tropism matrices [@Flores:2011bh]. Each phage may only infect a single or very limited range of bacterial host strains, which results in a nearly diagonal matrix. Groups of many phages may exclusively infect groups of bacteria, resulting in a modular, block matrix. These patterns indicate coevolution that resulted in phage specialization. Coevolutionary pressures that allow for diversification of phage tropism result in a nested matrix structure, in which some specialized viruses remain specialized whereas others exhibit an evolution toward infecting multiple other bacterial strains. The final model is completely random tropism without any distinguishable matrix pattern. These different models are not mutually exclusive and real systems, especially of large size, are likely to exhibit multiple traits. For example, a community may have a modular-nested structure in which modules of interacting bacteria and phages exhibit a nested pattern.
 
-### Phage & Bacteria Clustering
-The infectious network of phages and bacteria presents an opportunity to categorize phages and bacteria based on their shared hosts and predatorys, respectively. This provides allows us to functionally condense members of the communities by their shared interaction properties instead of relying on genome alignments.
-
-## Applications to Diseased Community States
-
-### Impact of Disease on Community Fragility
+## Impact of Disease on Community Fragility
 The distribution of members of the human microbiome netwrok determines in part the resliance of that community to significant disruption and eventual disintigration. A network that fits an **exponential model** is distributed such that nodes are equally connected. A network that fits a **power-law model** is conversely distributed to be dominated by few, highly connected nodes that act as hubs between large node clusters. Sequentially removing the most connected nodes of a network that fits a power-law distribution results in a sharp rise in network diamter until it disintigrates into small isolated clusters that are no longer connected. Although vulnerable to the removal of the most connected nodes, power-law distributed models are highly resilient to random node removal, as the probability of randomly removing an important node is often low.
 
 Although the healthy states differed by anatomical location, they all exhibited a power-law model for distribution. As was expected from previous studies, disease resulted in an increase phage diversity and a decreased bacterial diversity. In addition to these previous observed community signatues, the disease states reuslted in a sharply increased network diameter, meaning important hub nodes were removed from the community. A lack of change in diamater would suggest a resilience to randomly removed nodes. Specifically, the nodes lost in disease included X and Y, which had an average connectedness and edge count of Z. These differed by disease. From this we conclude that healthy phage-bacteria communities are susceptible to the loss of their hub members but highly resistant to random loss.
 
-### Altered Phage Predation & Disease Recovery
+## Altered Phage Predation & Disease Recovery
 Mention Periodic-Selection vs Constant-Diversity Models here. Also link phage diversity increase in disease (Rowher Nature and Weitz) to predation patterns and what it means for recovery from disease; reference [@RodriguezValera:2009cr].
 
 "Under which circumstances should we therefore expect PS or CD to predominate? The influence of phage predation on bacterial diversity requires that bacterial populations interact with each other; therefore, host- associated niches can act as physical barriers that prevent direct cell competition and phage dispersal."
 
 Would it be possible to run community recovery simulations using this information? Also should be very doable to run simulations of removing nodes (bacteria/phages) from the network.
+
+## Phage & Bacteria Clustering
+The infectious network of phages and bacteria presents an opportunity to categorize phages and bacteria based on their shared hosts and predatorys, respectively. This provides allows us to functionally condense members of the communities by their shared interaction properties instead of relying on genome alignments.
 
 # Discussion
 I think there are a couple of important points that I would like to discuss about this work. *First* is that while this marks an improvement in our interaction modeling capabilities, there is certainly a lot of room for improvement. The model will improve as we add more data, and as we validate more metrics. But for now this model is sufficient for beginning to undestand the system. *Second* is that there is a lot that can be done with this approach. It is powerful and can offer a lot of insight into different aspects of the communities. While we focused on answering a couple of questions, we look forward to using this model to really dive into the data in a powerful, unique way. *Third* is that this is not a methods paper, so while it is presented so that it can be reproduced, it is not a teaching tool or tutorial. This does however present us with an opportunity to build such resources that will be distributed as other works.

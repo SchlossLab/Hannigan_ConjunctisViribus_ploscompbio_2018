@@ -349,9 +349,11 @@ finalrelationships \
 
 # Add metadata to the graph
 addmetadata : \
-			./data/ContigRelAbundForGraphClustered.tsv \
+			./data/ContigRelAbundForGraphClusteredPhage.tsv \
+			./data/ContigRelAbundForGraphClusteredBacteria.tsv \
 			./data/PublishedDatasets/metadatatable.tsv
 	bash ./bin/AddMetadata.sh \
-		./data/ContigRelAbundForGraphClustered.tsv \
+		./data/ContigRelAbundForGraphClusteredPhage.tsv \
+		./data/ContigRelAbundForGraphClusteredBacteria.tsv \
 		./data/PublishedDatasets/metadatatable.tsv
 ###

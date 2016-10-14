@@ -289,8 +289,8 @@ ${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv : \
 		${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
 		${VREF}/MatchesByBlastxFormatOrderClustered.tsv \
 		${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv \
-		./data/ContigClustersBacteria/clustering_gt1000.csv \
 		./data/ContigClustersPhage/clustering_gt1000.csv \
+		./data/ContigClustersBacteria/clustering_gt1000.csv \
 		"ViromeAgainstReferenceBacteria"
 
 # Make a graph database from the experimental information
@@ -357,3 +357,12 @@ addmetadata : \
 		./data/ContigRelAbundForGraphClusteredBacteria.tsv \
 		./data/PublishedDatasets/metadatatable.tsv
 ###
+
+
+################
+# Run Analysis #
+################
+# Get the general properties of the graph per study
+
+
+

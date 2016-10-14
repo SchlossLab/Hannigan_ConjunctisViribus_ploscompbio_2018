@@ -176,8 +176,8 @@ AddGenericFile(\*$IN, "Interaction", "TRUE") if defined $validation;
 print STDERR "\n\n\nProgress: Adding Predicted CRISPR Interactions\n";
 AddGenericFile(\*$CRISPR, "CRISPR", "TRUE");
 
-# print STDERR "\n\n\nProgress: Adding Predicted BLAST Interactions\n";
-# AddGenericFile(\*$BLAST, "BLAST", "TRUE");
+print STDERR "\n\n\nProgress: Adding Predicted BLAST Interactions\n";
+AddGenericFile(\*$BLAST, "BLAST", "TRUE");
 
 print STDERR "\n\n\nProgress: Adding Predicted Pfam Interactions\n";
 AddGenericFile(\*$PFAM, "PFAM", "TRUE");

@@ -31,10 +31,13 @@ AnnotateCollapseClusters () {
 
 	Rscript ./bin/CollapseGeneScores.R \
 		-i ./data/${OutputName}/tmpAnnotations.tsv \
-		-o ${OutputAnnotate}
+		-o ./data/${OutputName}/tmpAnnotations2.tsv
+
+	grep -v 'NA' ./data/${OutputName}/tmpAnnotations2.tsv > ${OutputAnnotate}
 
 	# Remove the tmp file
 	rm ./data/${OutputName}/tmpAnnotations.tsv
+	rm ./data/${OutputName}/tmpAnnotations2.tsv
 }
 
 export -f AnnotateCollapseClusters

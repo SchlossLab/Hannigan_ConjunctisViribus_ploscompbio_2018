@@ -30,4 +30,4 @@ perl ./bin/Metadata2graph.pl \
 
 echo Cleaning up files...
 
-./tmpAbundance.tsv
+rm ./tmpAbundance.tsv

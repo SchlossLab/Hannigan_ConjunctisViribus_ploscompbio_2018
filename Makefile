@@ -332,14 +332,20 @@ finalrelationships \
 		./data/PredictedRelationshipTable.tsv
 
 # Collapse sequence counts by contig cluster
-./data/ContigRelAbundForGraphClustered.tsv : \
-			./data/ContigRelAbundForGraph.tsv \
-			./data/ContigClusters/clustering_gt1000.csv
+./data/ContigRelAbundForGraphClusteredPhage.tsv \
+./data/ContigRelAbundForGraphClusteredBacteria.tsv : \
+			./data/ContigClustersPhage/clustering_gt1000.csv \
+			./data/ContigClustersBacteria/clustering_gt1000.csv \
+			./data/PhageContigAbundance.tsv \
+			./data/BacteriaContigAbundance.tsv
 	bash ./bin/ClusterContigAbundance.sh \
-		./data/ContigRelAbundForGraph.tsv \
-		./data/ContigRelAbundForGraphClustered.tsv \
-		./data/ContigClusters/clustering_gt1000.csv \
-		"ViromeAgainstReferenceBacteria"
+		./data/ContigClustersPhage/clustering_gt1000.csv \
+		./data/ContigClustersBacteria/clustering_gt1000.csv \
+		./data/PhageContigAbundance.tsv \
+		./data/BacteriaContigAbundance.tsv \
+		./data/ContigRelAbundForGraphClusteredPhage.tsv \
+		./data/ContigRelAbundForGraphClusteredBacteria.tsv
+
 
 # Add metadata to the graph
 addmetadata : \

@@ -4,46 +4,49 @@
 # Pat Schloss Lab
 # University of Michigan
 
-export input=$1
-export output=$2
-export ContigClusters=$3
-export OutputName=$4
-
-
-###################
-# Set Subroutines #
-###################
-
-AnnotateCollapseClusters () {
-	FileToAnnotate=$1
-	OutputAnnotate=$2
-
-	awk -F "\t" 'FNR==NR { a[$1] = $2; next } {print a[$1]"\t"$2"\t"$3}' \
-		./data/${OutputName}/ContClust.tsv \
-		${FileToAnnotate} \
-		> ./data/${OutputName}/tmpAnnotations.tsv
-
-	Rscript ./bin/CollapseRelativeAbundance.R \
-		-i ./data/${OutputName}/tmpAnnotations.tsv \
-		-o ${OutputAnnotate}
-
-	# Remove the tmp file
-	rm ./data/${OutputName}/tmpAnnotations.tsv
-}
-
-export -f AnnotateCollapseClusters
+export ClusterPhage=$1
+export ClusterBacteria=$2
+export AbundPhage=$3
+export AbundBacteria=$4
+export PhageCollapseOutput=$5
+export BacteriaCollapseOutput=$6
 
 ################
 # Run Analysis #
 ################
+# Yeah I know I can loop this
 # Make output directory
 mkdir ./data/${OutputName}
 
-# Format the contig clustering table
-sed 's/,/\t/' ${ContigClusters} > ./data/${OutputName}/ContClust.tsv
+# Format cluster files
+sed 's/\,/\t/' ${ClusterPhage} \
+	| sed 's/\t/\tPhage_/' \
+	> ./tmpPhageClusters.tsv
 
-# Run the subroutines
-# I know I know I should loop this
-AnnotateCollapseClusters \
-	${input} \
-	${output}
+sed 's/\,/\t/' ${ClusterBacteria} \
+	| sed 's/\t/\tBacteria_/' \
+	> ./tmpBacteriaClusters.tsv
+
+awk -F "\t" 'FNR==NR { a[$1] = $2; next } {print a[$1]"\t"$2"\t"$3}' \
+	./tmpPhageClusters.tsv \
+	${AbundPhage} \
+	> ./tmpPhageAbund.tsv
+
+awk -F "\t" 'FNR==NR { a[$1] = $2; next } {print a[$1]"\t"$2"\t"$3}' \
+	./tmpBacteriaClusters.tsv \
+	${AbundBacteria} \
+	> ./tmpBacteriaAbund.tsv
+
+Rscript ./bin/CollapseRelativeAbundance.R \
+	-i ./tmpPhageAbund.tsv \
+	-o ${PhageCollapseOutput}
+
+Rscript ./bin/CollapseRelativeAbundance.R \
+	-i ./tmpBacteriaAbund.tsv \
+	-o ${BacteriaCollapseOutput}
+
+# Clean up the place
+rm ./tmpPhageClusters.tsv
+rm ./tmpBacteriaClusters.tsv
+rm ./tmpPhageAbund.tsv
+rm ./tmpBacteriaAbund.tsv

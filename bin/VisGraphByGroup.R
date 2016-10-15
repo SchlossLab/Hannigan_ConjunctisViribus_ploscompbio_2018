@@ -43,15 +43,12 @@ graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
 # Use Cypher query to get a table of the table edges
 query <- "
-MATCH (x:StudyID)-->(s:SampleID)-[d:Sampled]->(a:Phage)-[z:Infects]->(b:Bacterial_Host)<-[e:Sampled]-(q:SampleID)<--(y:StudyID)
-WHERE x.Name = y.Name
-AND d.Abundance > '1'
-AND e.Abundance > '1'
+MATCH (x:StudyID)-->(s:SampleID)-[d:Sampled]->(a:Phage)-[z:Infects]->(b:Bacterial_Host)<-[e:Sampled]-(q:SampleID)<--(x:StudyID)
+WHERE toInt(d.Abundance) > 1
+AND toInt(e.Abundance) > 1
 RETURN DISTINCT
 	a.Name AS to,
 	b.Name AS from,
-	d.Abundance AS phageabund,
-	e.Abundance AS bacabund,
 	x.Name AS studyid;
 "
 

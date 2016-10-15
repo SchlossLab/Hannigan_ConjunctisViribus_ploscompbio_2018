@@ -361,6 +361,8 @@ addmetadata : \
 # Run Analysis #
 ################
 # Get the general properties of the graph per study
-
-
+./figures/BacteriaPhageNetworkDiagramByStudy.pdf :
+	../../bin/neo4j-enterprise-2.3.0/bin/neo4j start
+	Rscript ./bin/VisGraphByGroup.R
+	../../bin/neo4j-enterprise-2.3.0/bin/neo4j stop
 

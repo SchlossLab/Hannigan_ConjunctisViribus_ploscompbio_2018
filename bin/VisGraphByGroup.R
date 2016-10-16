@@ -58,6 +58,8 @@ edgeout <- as.data.frame(graphoutputlist[2])
 head(nodeout)
 head(edgeout)
 
+save(graphoutputlist, file="./data/StudyGraph.RData")
+
 # Create subsetted graph
 ig <- graph_from_data_frame(edgeout, directed=F)
 
@@ -69,7 +71,7 @@ outputgraph <- ggraph(ig, 'igraph', algorithm = 'kk') +
     coord_fixed() + 
     geom_edge_link0(edge_alpha = 0.05) +
     geom_node_point(aes(color = label), size = 1.5) + 
-  	facet_wrap(~study) +
+  	facet_wrap(~studyid) +
     ggforce::theme_no_axes() +
     scale_color_manual(values = wes_palette("Royal1")[c(1,2)])
 

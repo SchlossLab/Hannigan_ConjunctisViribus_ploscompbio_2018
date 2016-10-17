@@ -88,11 +88,11 @@ outgraphlist <- lapply(sampleidlist, function(x) {
 
 Filter(Negate(is.null), outgraphlist)
 
-plot_grid(outgraphlist[1], outgraphlist[2], labels = c('A', 'B'))
+plotforprint <- plot_grid(outgraphlist[1], outgraphlist[2], labels = c('A', 'B'))
 
 # Save as PDF & PNG
 pdf(file="./figures/BacteriaPhageNetworkDiagramByStudy.pdf",
 width=8,
 height=8)
-  outputgraph
+  plotforprint
 dev.off()

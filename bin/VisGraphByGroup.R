@@ -1,7 +1,7 @@
 ##################
 # Load Libraries #
 ##################
-packagelist <- c("RNeo4j", "ggplot2", "wesanderson", "igraph", "visNetwork", "scales", "plyr")
+packagelist <- c("RNeo4j", "ggplot2", "wesanderson", "igraph", "visNetwork", "scales", "plyr", "cowplot")
 new.packages <- packagelist[!(packagelist %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages, repos='http://cran.us.r-project.org')
 lapply(packagelist, library, character.only = TRUE)
@@ -41,39 +41,54 @@ filter=0) {
 # If you are getting a lack of permission, disable local permission on Neo4J
 graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
-# Use Cypher query to get a table of the table edges
-query <- "
-MATCH (x:StudyID)-->(s:SampleID)-[d:Sampled]->(a:Phage)-[z:Infects]->(b:Bacterial_Host)<-[e:Sampled]-(q:SampleID)<--(x:StudyID)
-WHERE toInt(d.Abundance) > 1
-AND toInt(e.Abundance) > 1
-RETURN DISTINCT
-	a.Name AS to,
-	b.Name AS from,
-	x.Name AS studyid;
+# Get list of the sample IDs
+sampleidquery <- "
+MATCH (x:StudyID) RETURN x.Name;
 "
 
-graphoutputlist <- importgraphtodataframe()
-nodeout <- as.data.frame(graphoutputlist[1])
-edgeout <- as.data.frame(graphoutputlist[2])
-head(nodeout)
-head(edgeout)
+sampleidlist <- unlist(cypher(graph, sampleidquery))
 
-save(graphoutputlist, file="./data/StudyGraph.RData")
+outgraphlist <- lapply(sampleidlist, function(x) {
+	graphquery <- paste("MATCH (x:",
+		x,
+		")-->(s:SampleID)-[d:Sampled]->(a:Phage)-[z:Infects]->(b:Bacterial_Host)<-[e:Sampled]-(q:SampleID)<--(x:",
+		x,
+		") WHERE toInt(d.Abundance) > 0
+		AND toInt(e.Abundance) > 0
+		RETURN DISTINCT
+			a.Name AS to,
+			b.Name AS from,
+			x.Name AS studyid;",
+	sep="")
+	graphquery
+	graphoutputlist <- importgraphtodataframe(cypherquery=graphquery)
+	nodeout <- as.data.frame(graphoutputlist[1])
+	edgeout <- as.data.frame(graphoutputlist[2])
+	graphsize <- ncol(edgeout)
+	if(graphsize == 0){
+		return(NULL)
+	} else {
+		# Set igraph object
+		ig <- graph_from_data_frame(edgeout, directed=F)
+		# Set node colours
+		V(ig)$label <- ifelse(grepl("^Bacteria", nodeout$id),
+    	"Bacteria",
+    	"Phage")
+    	# Do the plotting
+		outputgraph <- ggraph(ig, 'igraph', algorithm = 'kk') + 
+		    coord_fixed() + 
+		    geom_edge_link0(edge_alpha = 0.05) +
+		    geom_node_point(aes(color = label), size = 1.5) + 
+		    ggforce::theme_no_axes() +
+		    scale_color_manual(values = wes_palette("Royal1")[c(1,2)])
+		# Retrun the graph to loop output
+		return(outputgraph)
+	}
+})
 
-# Create subsetted graph
-ig <- graph_from_data_frame(edgeout, directed=F)
+Filter(Negate(is.null), outgraphlist)
 
-V(ig)$label <- ifelse(grepl("^Bacteria", nodeout$id),
-    "Bacteria",
-    "Phage")
-
-outputgraph <- ggraph(ig, 'igraph', algorithm = 'kk') + 
-    coord_fixed() + 
-    geom_edge_link0(edge_alpha = 0.05) +
-    geom_node_point(aes(color = label), size = 1.5) + 
-  	facet_wrap(~studyid) +
-    ggforce::theme_no_axes() +
-    scale_color_manual(values = wes_palette("Royal1")[c(1,2)])
+plot_grid(outgraphlist[1], outgraphlist[2], labels = c('A', 'B'))
 
 # Save as PDF & PNG
 pdf(file="./figures/BacteriaPhageNetworkDiagramByStudy.pdf",

@@ -80,15 +80,15 @@ outgraphlist <- lapply(sampleidlist, function(x) {
 		    geom_edge_link0(edge_alpha = 0.05) +
 		    geom_node_point(aes(color = label), size = 1.5) + 
 		    ggforce::theme_no_axes() +
-		    scale_color_manual(values = wes_palette("Royal1")[c(1,2)])
+		    scale_color_manual(values = wes_palette("Darjeeling")[c(1,2)])
 		# Retrun the graph to loop output
 		return(outputgraph)
 	}
 })
 
-Filter(Negate(is.null), outgraphlist)
+outgraphlist <- Filter(Negate(is.null), outgraphlist)
 
-plotforprint <- plot_grid(outgraphlist[1], outgraphlist[2], labels = c('A', 'B'))
+plotforprint <- plot_grid(outgraphlist[[1]], outgraphlist[[2]], labels = c('A','B'))
 
 # Save as PDF & PNG
 pdf(file="./figures/BacteriaPhageNetworkDiagramByStudy.pdf",

@@ -36,6 +36,8 @@ globvector <- Sys.glob(opt$input)
 # Import the file
 inputfiles <- lapply(globvector, read.delim)
 
+head(inputfiles)
+
 # Parse the files
 listdf <- lapply(inputfiles, function(x) {
   parsed <- x[, c(
@@ -47,6 +49,8 @@ listdf <- lapply(inputfiles, function(x) {
   )]
   return(parsed)
 })
+
+head(listdf)
 
 mergeddf <- do.call(rbind, listdf)
 

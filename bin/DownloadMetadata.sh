@@ -7,6 +7,9 @@
 export Output='PublishedDatasets'
 
 export SequenceHoldingFile=$1
+# And this because the download for this is messed up and
+# I have to do it by hand.
+export ByHandFile=./data/PublishedDatasets/raw_metadata/Sra-ERP008725.txt
 
 mkdir ./data/${Output}
 
@@ -37,3 +40,12 @@ while read line; do
 		echo Error in parsing accession numbers!
 	fi
 done < ${SequenceHoldingFile}
+
+# Replace it
+rm ./data/${Output}/Sra-ERP008725.txt
+sed 's/SRA_Study_s/SRAStudy/' ${ByHandFile} \
+	| sed 's/Run_s/Run/' \
+	| sed 's/LibraryLayout_s/LibraryLayout/' \
+	| sed 's/Platform_s/Platform/' \
+	| sed 's/Sample_Name_s/SampleName/' \
+	> ./data/${Output}/Sra-ERP008725.txt

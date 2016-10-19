@@ -145,19 +145,6 @@ validationnetwork : \
 
 
 
-# ##########################################
-# # Download Global Virome Dataset Studies #
-# ##########################################
-# Download the sequences for the dataset
-# Use the list because it allows for test of targets
-$(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv
-	echo $@
-	bash ./bin/DownloadPublishedVirome.sh \
-		$< \
-		$@
-
-
-
 ##############################
 # Download & Format Metadata #
 ##############################
@@ -172,6 +159,21 @@ DownloadMetadata : ./bin/DownloadMetadata.sh ./data/PublishedDatasets/raw_metada
 		-i "./data/PublishedDatasets/Sra-*" \
 		-m ./data/PublishedDatasets/SubjectSampleInformation.tsv \
 		-o ./data/PublishedDatasets/metadatatable.tsv
+
+
+
+# ##########################################
+# # Download Global Virome Dataset Studies #
+# ##########################################
+# Download the sequences for the dataset
+# Use the list because it allows for test of targets
+$(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv
+	echo $@
+	bash ./bin/DownloadPublishedVirome.sh \
+		$< \
+		$@
+
+
 
 ############################
 # Total Dataset Networking #

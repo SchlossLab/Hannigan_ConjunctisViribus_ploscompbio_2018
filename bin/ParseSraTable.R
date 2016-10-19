@@ -50,10 +50,15 @@ listdf <- lapply(inputfiles, function(x) {
 
 mergeddf <- do.call(rbind, listdf)
 
+head(mergeddf)
+
 ############################
 # Merge with metadata file #
 ############################
 meta <- read.delim(opt$metadata, header = TRUE, sep = "\t")
+
+head(meta)
+
 mergedwithmeta <- merge(
   mergeddf, meta,
   by.x = c("SRA_Study_s", "Sample_Name_s"),

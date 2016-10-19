@@ -4,7 +4,7 @@
 # Pat Schloss Lab
 # University of Michigan
 
-export Output='PublishedDatasets'
+export Output='test'
 
 export SequenceHoldingFile=$1
 

@@ -13,11 +13,6 @@ option_list <- list(
     default = NULL,
     help = "Input table with word count information.",
     metavar = "character"),
-  make_option(c("-m", "--mgrast"),
-    type = "character",
-    default = NULL,
-    help = "MG-RAST input table",
-    metavar = "character"),
   make_option(c("-x", "--metadata"),
     type = "character",
     default = NULL,
@@ -55,40 +50,12 @@ listdf <- lapply(inputfiles, function(x) {
 
 mergeddf <- do.call(rbind, listdf)
 
-##########
-# MGRAST #
-##########
-globvector <- Sys.glob(opt$mgrast)
-inputfiles <- lapply(globvector, read.delim)
-
-listdf <- lapply(inputfiles, function(x) {
-  parsed <- x[, c(
-    "ProjectID",
-    "MG.RAST.ID",
-    "Material",
-    "Sequence.Method",
-    "Metagenome.Name"
-  )]
-  colnames(parsed) <- c(
-    "SRA_Study_s",
-    "Run_s",
-    "LibraryLayout_s",
-    "Platform_s",
-    "Sample_Name_s"
-  )
-  return(parsed)
-})
-
-mgrastdf <- do.call(rbind, listdf)
-
-totaldf <- rbind(mergeddf, mgrastdf)
-
 ############################
 # Merge with metadata file #
 ############################
 meta <- read.delim(opt$metadata, header = TRUE, sep = "\t")
 mergedwithmeta <- merge(
-  totaldf, meta,
+  mergeddf, meta,
   by.x = c("SRA_Study_s", "Sample_Name_s"),
   by.y = c("StudyID", "SampleName")
 )

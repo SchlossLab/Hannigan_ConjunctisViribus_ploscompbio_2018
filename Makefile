@@ -116,7 +116,7 @@ DownloadMetadata : ./bin/DownloadMetadata.sh
 
 ./data/PublishedDatasets/metadatatable.tsv : ./data/PublishedDatasets/SubjectSampleInformation.tsv
 	Rscript ./bin/ParseSraTable.R \
-		-i ./data/PublishedDatasets/Sra-* \
+		-i "./data/PublishedDatasets/Sra-*" \
 		-m ./data/PublishedDatasets/SubjectSampleInformation.tsv \
 		-o ./data/PublishedDatasets/metadatatable.tsv
 

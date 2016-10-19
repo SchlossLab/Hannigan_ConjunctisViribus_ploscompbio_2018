@@ -62,11 +62,13 @@ samplesforcleaning=$(ACCLIST) \
 			./figures/BacteriaEdgeCount.png \
 			./data/ContigRelAbundForGraphClusteredPhage.tsv \
 			./data/ContigRelAbundForGraphClusteredBacteria.tsv \
-			./figures/BacteriaPhageNetworkDiagramByStudy.pdf
+			./figures/BacteriaPhageNetworkDiagramByStudy.pdf \
+			./data/ViromePublications \
+			./data/QualityOutput
 
-.PHONY : clean
+.PHONY : cleanall
 
-clean :
+cleanall :
 	rm -rf $(samplesforcleaning)
 
 

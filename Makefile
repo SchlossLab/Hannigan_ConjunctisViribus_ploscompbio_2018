@@ -107,6 +107,19 @@ $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv
 
 
 
+##############################
+# Download & Format Metadata #
+##############################
+DownloadMetadata : ./bin/DownloadMetadata.sh
+	bash ./bin/DownloadMetadata.sh \
+		./data/PublishedDatasets/SutdyInformation.tsv
+
+./data/PublishedDatasets/metadatatable.tsv : ./data/PublishedDatasets/SubjectSampleInformation.tsv
+	Rscript ./bin/ParseSraTable.R \
+		-i ./data/PublishedDatasets/Sra-* \
+		-m ./data/PublishedDatasets/SubjectSampleInformation.tsv \
+		-o ./data/PublishedDatasets/metadatatable.tsv
+
 ############################
 # Total Dataset Networking #
 ############################

@@ -27,4 +27,5 @@ module load concoct/0.4.0
 cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
-make ./figures/BacteriaPhageNetworkDiagramByStudy.pdf
+make DownloadMetadata
+make ./data/PublishedDatasets/metadatatable.tsv

@@ -13,7 +13,7 @@ option_list <- list(
     default = NULL,
     help = "Input table with word count information.",
     metavar = "character"),
-  make_option(c("-x", "--metadata"),
+  make_option(c("-m", "--metadata"),
     type = "character",
     default = NULL,
     help = "Metadata input table",

@@ -110,7 +110,9 @@ $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv
 ##############################
 # Download & Format Metadata #
 ##############################
-DownloadMetadata : ./bin/DownloadMetadata.sh
+# That specific metadata file needs to be obtained from this address"
+# https://trace.ncbi.nlm.nih.gov/Traces/study/?acc=ERP008725&go=go
+DownloadMetadata : ./bin/DownloadMetadata.sh ./data/PublishedDatasets/raw_metadata/Sra-ERP008725.txt
 	bash ./bin/DownloadMetadata.sh \
 		./data/PublishedDatasets/SutdyInformation.tsv
 

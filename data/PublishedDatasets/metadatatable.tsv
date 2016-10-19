@@ -1,13 +1,13 @@
 SRA_Study_s	Sample_Name_s	Run_s	LibraryLayout_s	Platform_s	Disease1	Disease2	MDA	SampleType	Purification	Location	Host
-ERP008725	1	ERR843912	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	10	ERR843921	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
+ERP008725	1	ERR843912	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	10	ERR843921	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
 ERP008725	100	ERR844011	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Chicago	Human
 ERP008725	101	ERR844012	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Chicago	Human
 ERP008725	104	ERR844015	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Chicago	Human
 ERP008725	106	ERR844017	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Chicago	Human
 ERP008725	108	ERR844019	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Chicago	Human
 ERP008725	109	ERR844020	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Chicago	Human
-ERP008725	11	ERR843922	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
+ERP008725	11	ERR843922	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
 ERP008725	110	ERR844021	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Chicago	Human
 ERP008725	111	ERR844022	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Chicago	Human
 ERP008725	112	ERR844023	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Chicago	Human
@@ -18,7 +18,7 @@ ERP008725	116	ERR844027	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Chicago	Human
 ERP008725	117	ERR844028	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Chicago	Human
 ERP008725	118	ERR844029	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Chicago	Human
 ERP008725	119	ERR844030	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Chicago	Human
-ERP008725	12	ERR843923	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
+ERP008725	12	ERR843923	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
 ERP008725	120	ERR844031	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Chicago	Human
 ERP008725	121	ERR844032	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Chicago	Human
 ERP008725	122	ERR844033	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Chicago	Human
@@ -39,7 +39,7 @@ ERP008725	136	ERR844047	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Bosto
 ERP008725	137	ERR844048	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Boston	Human
 ERP008725	138	ERR844049	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Boston	Human
 ERP008725	139	ERR844050	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Boston	Human
-ERP008725	14	ERR843925	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	Bacteria	Cambridge	Human
+ERP008725	14	ERR843925	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
 ERP008725	140	ERR844051	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Boston	Human
 ERP008725	141	ERR844052	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Boston	Human
 ERP008725	142	ERR844053	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Boston	Human
@@ -50,7 +50,7 @@ ERP008725	146	ERR844057	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Bosto
 ERP008725	147	ERR844058	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Boston	Human
 ERP008725	148	ERR844059	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Boston	Human
 ERP008725	149	ERR844060	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Boston	Human
-ERP008725	15	ERR843926	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
+ERP008725	15	ERR843926	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
 ERP008725	150	ERR844061	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Boston	Human
 ERP008725	151	ERR844062	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Boston	Human
 ERP008725	152	ERR844063	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Boston	Human
@@ -61,7 +61,7 @@ ERP008725	156	ERR844067	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Boston	Hu
 ERP008725	157	ERR844068	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Boston	Human
 ERP008725	158	ERR844069	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Boston	Human
 ERP008725	159	ERR844070	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Boston	Human
-ERP008725	16	ERR843927	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	Bacteria	Cambridge	Human
+ERP008725	16	ERR843927	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
 ERP008725	160	ERR844071	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Boston	Human
 ERP008725	161	ERR844072	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Boston	Human
 ERP008725	162	ERR844073	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Boston	Human
@@ -72,55 +72,55 @@ ERP008725	166	ERR844077	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Bost
 ERP008725	167	ERR844078	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Boston	Human
 ERP008725	168	ERR844079	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Boston	Human
 ERP008725	169	ERR844080	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Boston	Human
-ERP008725	17	ERR843928	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	Bacteria	Cambridge	Human
+ERP008725	17	ERR843928	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
 ERP008725	170	ERR844081	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Boston	Human
 ERP008725	171	ERR844082	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Boston	Human
-ERP008725	18	ERR843929	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	19	ERR843930	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	2	ERR843913	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	20	ERR843931	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	21	ERR843932	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	22	ERR843933	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	23	ERR843934	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	24	ERR843935	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	25	ERR843936	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	26	ERR843937	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	27	ERR843938	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	28	ERR843939	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	29	ERR843940	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	3	ERR843914	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	30	ERR843941	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	31	ERR843942	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	32	ERR843943	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	33	ERR843944	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	34	ERR843945	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	35	ERR843946	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	36	ERR843947	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	37	ERR843948	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	38	ERR843949	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	39	ERR843950	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	4	ERR843915	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	40	ERR843951	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	41	ERR843952	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	42	ERR843953	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	43	ERR843954	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	44	ERR843955	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	45	ERR843956	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	46	ERR843957	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Cambridge	Human
-ERP008725	48	ERR843959	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	49	ERR843960	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	5	ERR843916	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	50	ERR843961	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	51	ERR843962	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	52	ERR843963	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	53	ERR843964	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	54	ERR843965	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	55	ERR843966	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	56	ERR843967	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge	Human
-ERP008725	57	ERR843968	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Cambridge	Human
+ERP008725	18	ERR843929	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	19	ERR843930	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	2	ERR843913	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	20	ERR843931	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	21	ERR843932	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	22	ERR843933	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	23	ERR843934	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	24	ERR843935	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	25	ERR843936	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	26	ERR843937	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	27	ERR843938	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	28	ERR843939	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	29	ERR843940	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	3	ERR843914	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	30	ERR843941	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	31	ERR843942	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	32	ERR843943	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	33	ERR843944	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	34	ERR843945	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	35	ERR843946	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	36	ERR843947	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	37	ERR843948	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	38	ERR843949	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	39	ERR843950	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	4	ERR843915	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	40	ERR843951	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	41	ERR843952	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	42	ERR843953	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	43	ERR843954	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	44	ERR843955	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	45	ERR843956	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	46	ERR843957	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Cambridge,UK	Human
+ERP008725	48	ERR843959	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	49	ERR843960	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	5	ERR843916	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	50	ERR843961	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	51	ERR843962	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	52	ERR843963	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	53	ERR843964	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	54	ERR843965	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	55	ERR843966	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	56	ERR843967	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Cambridge,UK	Human
+ERP008725	57	ERR843968	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Cambridge,UK	Human
 ERP008725	58	ERR843969	PAIRED	ILLUMINA	UlcerativeColitis	NormalPouch	Yes	Stool	Bacteria	Los Angeles	Human
 ERP008725	59	ERR843970	PAIRED	ILLUMINA	UlcerativeColitis	NormalPouch	Yes	Stool	Bacteria	Los Angeles	Human
-ERP008725	6	ERR843917	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
+ERP008725	6	ERR843917	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
 ERP008725	60	ERR843971	PAIRED	ILLUMINA	UlcerativeColitis	NormalPouch	Yes	Stool	Bacteria	Los Angeles	Human
 ERP008725	61	ERR843972	PAIRED	ILLUMINA	UlcerativeColitis	Pouchitis	Yes	Stool	Bacteria	Los Angeles	Human
 ERP008725	62	ERR843973	PAIRED	ILLUMINA	UlcerativeColitis	Pouchitis	Yes	Stool	VLP	Los Angeles	Human
@@ -131,7 +131,7 @@ ERP008725	66	ERR843977	PAIRED	ILLUMINA	UlcerativeColitis	NormalPouch	Yes	Stool	V
 ERP008725	67	ERR843978	PAIRED	ILLUMINA	UlcerativeColitis	NormalPouch	Yes	Stool	VLP	Los Angeles	Human
 ERP008725	68	ERR843979	PAIRED	ILLUMINA	UlcerativeColitis	NormalPouch	Yes	Stool	VLP	Los Angeles	Human
 ERP008725	69	ERR843980	PAIRED	ILLUMINA	UlcerativeColitis	Pouchitis	Yes	Stool	Bacteria	Los Angeles	Human
-ERP008725	7	ERR843918	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
+ERP008725	7	ERR843918	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
 ERP008725	70	ERR843981	PAIRED	ILLUMINA	UlcerativeColitis	Pouchitis	Yes	Stool	VLP	Los Angeles	Human
 ERP008725	71	ERR843982	PAIRED	ILLUMINA	UlcerativeColitis	Pouchitis	Yes	Stool	VLP	Los Angeles	Human
 ERP008725	72	ERR843983	PAIRED	ILLUMINA	UlcerativeColitis	NormalPouch	Yes	Stool	Bacteria	Los Angeles	Human
@@ -142,7 +142,7 @@ ERP008725	76	ERR843987	PAIRED	ILLUMINA	UlcerativeColitis	Pouchitis	Yes	Stool	Bac
 ERP008725	77	ERR843988	PAIRED	ILLUMINA	UlcerativeColitis	Pouchitis	Yes	Stool	Bacteria	Los Angeles	Human
 ERP008725	78	ERR843989	PAIRED	ILLUMINA	UlcerativeColitis	NormalPouch	Yes	Stool	Bacteria	Los Angeles	Human
 ERP008725	79	ERR843990	PAIRED	ILLUMINA	UlcerativeColitis	NormalPouch	Yes	Stool	Bacteria	Los Angeles	Human
-ERP008725	8	ERR843919	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
+ERP008725	8	ERR843919	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
 ERP008725	80	ERR843991	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	Bacteria	Los Angeles	Human
 ERP008725	81	ERR843992	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Chicago	Human
 ERP008725	82	ERR843993	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Chicago	Human
@@ -153,7 +153,7 @@ ERP008725	86	ERR843997	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Chicago	Hu
 ERP008725	87	ERR843998	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Chicago	Human
 ERP008725	88	ERR843999	PAIRED	ILLUMINA	CrohnsDisease	NA	Yes	Stool	VLP	Chicago	Human
 ERP008725	89	ERR844000	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Chicago	Human
-ERP008725	9	ERR843920	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge	Human
+ERP008725	9	ERR843920	PAIRED	ILLUMINA	Healthy	NA	Yes	Stool	VLP	Cambridge,UK	Human
 ERP008725	90	ERR844001	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Chicago	Human
 ERP008725	91	ERR844002	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	Bacteria	Chicago	Human
 ERP008725	92	ERR844003	PAIRED	ILLUMINA	UlcerativeColitis	NA	Yes	Stool	VLP	Chicago	Human

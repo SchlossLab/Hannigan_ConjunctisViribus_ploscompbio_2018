@@ -67,7 +67,7 @@ samplesforcleaning=$(ACCLIST) \
 .PHONY : clean
 
 clean :
-    rm -rf $(samplesforcleaning)
+    rm -rf ${samplesforcleaning}
 
 
 ####################

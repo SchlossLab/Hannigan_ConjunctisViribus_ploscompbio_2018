@@ -36,25 +36,19 @@ globvector <- Sys.glob(opt$input)
 # Import the file
 inputfiles <- lapply(globvector, read.delim)
 
-head(inputfiles)
-
 # Parse the files
 listdf <- lapply(inputfiles, function(x) {
   parsed <- x[, c(
-    "SRA_Study_s",
-    "Run_s",
-    "LibraryLayout_s",
-    "Platform_s",
-    "Sample_Name_s"
+    "SRAStudy",
+    "Run",
+    "LibraryLayout",
+    "Platform",
+    "SampleName"
   )]
   return(parsed)
 })
 
-head(listdf)
-
 mergeddf <- do.call(rbind, listdf)
-
-head(mergeddf)
 
 ############################
 # Merge with metadata file #
@@ -65,7 +59,7 @@ head(meta)
 
 mergedwithmeta <- merge(
   mergeddf, meta,
-  by.x = c("SRA_Study_s", "Sample_Name_s"),
+  by.x = c("SRAStudy", "SampleName"),
   by.y = c("StudyID", "SampleName")
 )
 

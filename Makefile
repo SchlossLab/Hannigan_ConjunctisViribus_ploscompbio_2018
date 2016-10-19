@@ -4,6 +4,23 @@
 # Pat Schloss Lab
 # University of Michigan
 
+
+##############################
+# Download & Format Metadata #
+##############################
+# That specific metadata file needs to be obtained from this address"
+# https://trace.ncbi.nlm.nih.gov/Traces/study/?acc=ERP008725&go=go
+DownloadMetadata : ./bin/DownloadMetadata.sh ./data/PublishedDatasets/raw_metadata/Sra-ERP008725.txt
+	bash ./bin/DownloadMetadata.sh \
+		./data/PublishedDatasets/SutdyInformation.tsv
+
+./data/PublishedDatasets/metadatatable.tsv : ./data/PublishedDatasets/SubjectSampleInformation.tsv
+	Rscript ./bin/ParseSraTable.R \
+		-i "./data/PublishedDatasets/Sra-*" \
+		-m ./data/PublishedDatasets/SubjectSampleInformation.tsv \
+		-o ./data/PublishedDatasets/metadatatable.tsv
+
+
 #########################
 # Set General Variables #
 #########################
@@ -140,24 +157,6 @@ validationnetwork : \
 			${BSET}/PfamInteractionsFormatScoredFlip.tsv \
 			${BSET}/MatchesByBlastxFormatOrder.tsv
 	bash ./bin/RunRocAnalysisWithNeo4j.sh
-
-
-
-##############################
-# Download & Format Metadata #
-##############################
-# That specific metadata file needs to be obtained from this address"
-# https://trace.ncbi.nlm.nih.gov/Traces/study/?acc=ERP008725&go=go
-DownloadMetadata : ./bin/DownloadMetadata.sh ./data/PublishedDatasets/raw_metadata/Sra-ERP008725.txt
-	bash ./bin/DownloadMetadata.sh \
-		./data/PublishedDatasets/SutdyInformation.tsv
-
-./data/PublishedDatasets/metadatatable.tsv : ./data/PublishedDatasets/SubjectSampleInformation.tsv
-	Rscript ./bin/ParseSraTable.R \
-		-i "./data/PublishedDatasets/Sra-*" \
-		-m ./data/PublishedDatasets/SubjectSampleInformation.tsv \
-		-o ./data/PublishedDatasets/metadatatable.tsv
-
 
 
 # ##########################################

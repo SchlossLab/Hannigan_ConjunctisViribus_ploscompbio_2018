@@ -25,7 +25,7 @@ contigs: ${SAMPLELIST}
 #################
 # Clean Samples #
 #################
-samplesforcleaning = $(ACCLIST) \
+samplesforcleaning=$(ACCLIST) \
 			${SAMPLELIST} \
 			./data/PublishedDatasets/metadatatable.tsv \
 			./data/TotalCatContigsBacteria.fa \
@@ -64,9 +64,9 @@ samplesforcleaning = $(ACCLIST) \
 			./data/ContigRelAbundForGraphClusteredBacteria.tsv \
 			./figures/BacteriaPhageNetworkDiagramByStudy.pdf
 
-.PHONY: clean
+.PHONY : clean
 
-clean:
+clean :
     rm -rf $(samplesforcleaning)
 
 

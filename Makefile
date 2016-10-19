@@ -70,7 +70,7 @@ samplesforcleaning=$(ACCLIST) \
 cleanall :
 	rm -rf $(samplesforcleaning)
 
-runsamples : $(samplesforcleaning)
+runsamples : DownloadMetadata $(samplesforcleaning)
 
 ####################
 # Model Validation #

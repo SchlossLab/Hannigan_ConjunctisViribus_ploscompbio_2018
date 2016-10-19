@@ -21,6 +21,8 @@ print:
 #############
 contigs: ${SAMPLELIST}
 
+runsamples : $(samplesforcleaning)
+
 
 #################
 # Clean Samples #

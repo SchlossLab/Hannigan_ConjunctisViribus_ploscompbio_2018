@@ -21,9 +21,6 @@ print:
 #############
 contigs: ${SAMPLELIST}
 
-runsamples : $(samplesforcleaning)
-
-
 #################
 # Clean Samples #
 #################
@@ -73,6 +70,7 @@ samplesforcleaning=$(ACCLIST) \
 cleanall :
 	rm -rf $(samplesforcleaning)
 
+runsamples : $(samplesforcleaning)
 
 ####################
 # Model Validation #

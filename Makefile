@@ -22,6 +22,53 @@ print:
 contigs: ${SAMPLELIST}
 
 
+#################
+# Clean Samples #
+#################
+samplesforcleaning = $(ACCLIST) \
+			${SAMPLELIST} \
+			./data/PublishedDatasets/metadatatable.tsv \
+			./data/TotalCatContigsBacteria.fa \
+			./data/TotalCatContigsPhage.fa \
+			./data/TotalCatContigs.fa \
+			./data/ContigRelAbundForGraph.tsv \
+			./data/BacteriaContigAbundance.tsv \
+			./data/PhageContigAbundance.tsv \
+			./data/ContigRelAbundForConcoctBacteria.tsv \
+			./data/ContigRelAbundForConcoctPhage.tsv \
+			./data/ContigClustersBacteria \
+			./data/ContigClustersPhage \
+			${PSTAT}/ContigLength.tsv \
+			${PSTAT}/FinalContigCounts.tsv \
+			${PSTAT}/circularcontigsFormat.tsv \
+			./figures/ContigStats.pdf \
+			./figures/ContigStats.png \
+			${VREF}/BenchmarkCrisprsFormat.tsv \
+			${VREF}/BenchmarkProphagesFormatFlip.tsv \
+			${VREF}/MatchesByBlastxFormatOrder.tsv \
+			${VREF}/PfamInteractionsFormatScoredFlip.tsv \
+			${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
+			${VREF}/MatchesByBlastxFormatOrderClustered.tsv \
+			${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv \
+			${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
+			${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv \
+			${VREF}/MatchesByBlastxFormatOrderClustered.tsv \
+			./data/PredictedRelationshipTable.tsv \
+			./figures/BacteriaPhageNetworkDiagram.pdf \
+			./figures/BacteriaPhageNetworkDiagram.png \
+			./figures/PhageHostHist.pdf \
+			./figures/PhageHostHist.png \
+			./figures/BacteriaEdgeCount.pdf \
+			./figures/BacteriaEdgeCount.png \
+			./data/ContigRelAbundForGraphClusteredPhage.tsv \
+			./data/ContigRelAbundForGraphClusteredBacteria.tsv \
+			./figures/BacteriaPhageNetworkDiagramByStudy.pdf
+
+.PHONY: clean
+
+clean:
+    rm -rf $(samplesforcleaning)
+
 
 ####################
 # Model Validation #

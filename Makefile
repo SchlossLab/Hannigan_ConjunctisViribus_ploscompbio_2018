@@ -161,6 +161,7 @@ validationnetwork : \
 ./figures/rocCurves.pdf \
 ./figures/rocCurves.png \
 ./data/rfinteractionmodel.RData : \
+			validationnetwork \
 			${VALDIR}/Interactions.tsv \
 			${BSET}/BenchmarkCrisprsFormat.tsv \
 			${BSET}/BenchmarkProphagesFormatFlip.tsv \
@@ -413,6 +414,7 @@ expnetwork : \
 
 # Predict interactions between nodes
 ./data/PredictedRelationshipTable.tsv : \
+			expnetwork \
 			./data/rfinteractionmodel.RData \
 			./bin/RunPredictionsWithNeo4j.sh
 	echo $(shell date)"\t"Predicting interactions between study bacteria and phages"\n" >> ${DATENAME}.makelog
@@ -470,9 +472,8 @@ addmetadata : \
 # Run Analysis #
 ################
 # Get the general properties of the graph per study
-./figures/BacteriaPhageNetworkDiagramByStudy.pdf : ./bin/VisGraphByGroup.R
+./figures/BacteriaPhageNetworkDiagramByStudy.pdf : addmetadata ./bin/VisGraphByGroup.R
 	../../bin/neo4j-enterprise-2.3.0/bin/neo4j start
 	echo $(shell date)"\t"Plotting subgraphs by study group ID"\n" >> ${DATENAME}.makelog
 	Rscript ./bin/VisGraphByGroup.R
 	../../bin/neo4j-enterprise-2.3.0/bin/neo4j stop
-

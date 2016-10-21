@@ -30,7 +30,7 @@ DATENAME := $(shell date | sed 's/ /_/g' | sed 's/\:/\./g')
 
 # For debugging right now
 print:
-	echo $(shell date)  |  Printing sample list >> ${DATENAME}.makelog
+	echo $(shell date)  :  Printing sample list >> ${DATENAME}.makelog
 	echo ${SAMPLELIST}
 
 
@@ -53,7 +53,7 @@ ${VALDIR}/ValidationBacteriaNoBlock.fa : \
 			${VALDIR}/PhageID.tsv \
 			${VALDIR}/BacteriaID.tsv \
 			./bin/GetValidationSequences.sh
-	echo $(shell date)  |  Downloading validation sequences >> ${DATENAME}.makelog
+	echo $(shell date)  :  Downloading validation sequences >> ${DATENAME}.makelog
 	bash ./bin/GetValidationSequences.sh \
 		${VALDIR}/PhageID.tsv \
 		${VALDIR}/BacteriaID.tsv \
@@ -65,7 +65,7 @@ ${VALDIR}/Interactions.tsv : \
 			${VALDIR}/BacteriaID.tsv \
 			${VALDIR}/InteractionsRaw.tsv \
 			./bin/MergeForInteractions.R
-	echo $(shell date)  |  Formatting interaction file >> ${DATENAME}.makelog
+	echo $(shell date)  :  Formatting interaction file >> ${DATENAME}.makelog
 	Rscript ./bin/MergeForInteractions.R \
 		-b ${VALDIR}/BacteriaID.tsv \
 		-i ${VALDIR}/InteractionsRaw.tsv \
@@ -80,7 +80,7 @@ ${BSET}/PfamInteractionsFormatScoredFlip.tsv : \
 			${VALDIR}/ValidationPhageNoBlock.fa \
 			${VALDIR}/ValidationBacteriaNoBlock.fa \
 			./bin/BenchmarkingModel.sh
-	echo $(shell date)  |  Calculating values for interaction predictive model >> ${DATENAME}.makelog
+	echo $(shell date)  :  Calculating values for interaction predictive model >> ${DATENAME}.makelog
 	bash ./bin/BenchmarkingModel.sh \
 		${VALDIR}/ValidationPhageNoBlock.fa \
 		${VALDIR}/ValidationBacteriaNoBlock.fa \
@@ -97,7 +97,7 @@ validationnetwork : \
 			${BSET}/PfamInteractionsFormatScoredFlip.tsv \
 			${BSET}/MatchesByBlastxFormatOrder.tsv \
 			./bin/CreateProteinNetwork
-	echo $(shell date)  |  Building graph using validation dataset values for prediction >> ${DATENAME}.makelog
+	echo $(shell date)  :  Building graph using validation dataset values for prediction >> ${DATENAME}.makelog
 	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	mkdir ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	bash ./bin/CreateProteinNetwork \
@@ -119,7 +119,7 @@ validationnetwork : \
 			${BSET}/PfamInteractionsFormatScoredFlip.tsv \
 			${BSET}/MatchesByBlastxFormatOrder.tsv \
 			./bin/RunRocAnalysisWithNeo4j.sh
-	echo $(shell date)  |  Predicting interactions between phages and bacteria in graph >> ${DATENAME}.makelog
+	echo $(shell date)  :  Predicting interactions between phages and bacteria in graph >> ${DATENAME}.makelog
 	bash ./bin/RunRocAnalysisWithNeo4j.sh
 
 
@@ -130,7 +130,7 @@ validationnetwork : \
 # Use the list because it allows for test of targets
 $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv ./bin/DownloadPublishedVirome.sh
 	echo $@
-	echo $(shell date)  |  Downloading study sample sequences from $@ >> ${DATENAME}.makelog
+	echo $(shell date)  :  Downloading study sample sequences from $@ >> ${DATENAME}.makelog
 	bash ./bin/DownloadPublishedVirome.sh \
 		$< \
 		$@
@@ -146,7 +146,7 @@ $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv ./bin/DownloadPubli
 # Need to decompress the fastq files first from SRA
 ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatable.tsv ./bin/QcAndContigs.sh
 	echo Makefile is calling to process $@
-	echo $(shell date)  |  Performing QC and contig alignment on sample $@ >> ${DATENAME}.makelog
+	echo $(shell date)  :  Performing QC and contig alignment on sample $@ >> ${DATENAME}.makelog
 	bash ./bin/QcAndContigs.sh \
 		$@ \
 		./data/ViromePublications/ \
@@ -160,7 +160,7 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 			${SAMPLELIST} \
 			./data/PublishedDatasets/metadatatable.tsv \
 			./bin/catcontigs.sh
-	echo $(shell date)  |  Merging contigs into single file >> ${DATENAME}.makelog
+	echo $(shell date)  :  Merging contigs into single file >> ${DATENAME}.makelog
 	bash ./bin/catcontigs.sh \
 		./data/QualityOutput \
 		./data/TotalCatContigsBacteria.fa \
@@ -176,7 +176,7 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 			./data/TotalCatContigs.fa \
 			${SAMPLELIST} \
 			./bin/CreateContigRelAbundTable.sh
-	echo $(shell date)  |  Generating contig sequence abundance table >> ${DATENAME}.makelog
+	echo $(shell date)  :  Generating contig sequence abundance table >> ${DATENAME}.makelog
 	bash ./bin/CreateContigRelAbundTable.sh \
 		./data/TotalCatContigs.fa \
 		./data/QualityOutput/raw \
@@ -190,7 +190,7 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 			./data/PublishedDatasets/metadatatable.tsv \
 			./data/ContigRelAbundForGraph.tsv \
 			./bin/SepAbundanceTable.sh
-	echo $(shell date)  |  Split contig abundance table between phage and bacteria >> ${DATENAME}.makelog
+	echo $(shell date)  :  Split contig abundance table between phage and bacteria >> ${DATENAME}.makelog
 	bash ./bin/SepAbundanceTable.sh \
 		./data/PublishedDatasets/metadatatable.tsv \
 		./data/TotalCatContigsBacteria.fa \
@@ -204,7 +204,7 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 ./data/ContigRelAbundForConcoctBacteria.tsv : \
 			./data/BacteriaContigAbundance.tsv \
 			./bin/ReshapeAlignedAbundance.R
-	echo $(shell date)  |  Transforming bacteria abundance table for CONCOCT >> ${DATENAME}.makelog
+	echo $(shell date)  :  Transforming bacteria abundance table for CONCOCT >> ${DATENAME}.makelog
 	Rscript ./bin/ReshapeAlignedAbundance.R \
 		-i ./data/BacteriaContigAbundance.tsv \
 		-o ./data/ContigRelAbundForConcoctBacteria.tsv \
@@ -213,7 +213,7 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 ./data/ContigRelAbundForConcoctPhage.tsv : \
 			./data/PhageContigAbundance.tsv \
 			./bin/ReshapeAlignedAbundance.R
-	echo $(shell date)  |  Transforming phage abundance table for CONCOCT >> ${DATENAME}.makelog
+	echo $(shell date)  :  Transforming phage abundance table for CONCOCT >> ${DATENAME}.makelog
 	Rscript ./bin/ReshapeAlignedAbundance.R \
 		-i ./data/PhageContigAbundance.tsv \
 		-o ./data/ContigRelAbundForConcoctPhage.tsv \
@@ -229,7 +229,7 @@ concoctify : ./data/ContigClustersBacteria ./data/ContigClustersPhage
 ./data/ContigClustersBacteria/clustering_gt1000.csv: \
 			./data/TotalCatContigsBacteria.fa \
 			./data/ContigRelAbundForConcoctBacteria.tsv
-	echo $(shell date)  |  Clustering bacterial contigs using CONCOCT >> ${DATENAME}.makelog
+	echo $(shell date)  :  Clustering bacterial contigs using CONCOCT >> ${DATENAME}.makelog
 	mkdir ./data/ContigClustersBacteria
 	concoct \
 		--coverage_file ./data/ContigRelAbundForConcoctBacteria.tsv \
@@ -246,7 +246,7 @@ concoctify : ./data/ContigClustersBacteria ./data/ContigClustersPhage
 ./data/ContigClustersPhage/clustering_gt1000.csv : \
 			./data/TotalCatContigsPhage.fa \
 			./data/ContigRelAbundForConcoctPhage.tsv
-	echo $(shell date)  |  Clustering phage contigs using CONCOCT >> ${DATENAME}.makelog
+	echo $(shell date)  :  Clustering phage contigs using CONCOCT >> ${DATENAME}.makelog
 	mkdir ./data/ContigClustersPhage
 	concoct \
 		--coverage_file ./data/ContigRelAbundForConcoctPhage.tsv \
@@ -270,7 +270,7 @@ ${PSTAT}/circularcontigsFormat.tsv : \
 			./data/TotalCatContigs.fa \
 			./data/ContigRelAbundForGraph.tsv \
 			./bin/contigstats.sh
-	echo $(shell date)  |  Calculating contig statistics >> ${DATENAME}.makelog
+	echo $(shell date)  :  Calculating contig statistics >> ${DATENAME}.makelog
 	bash ./bin/contigstats.sh \
 		./data/TotalCatContigs.fa \
 		./data/ContigRelAbundForGraph.tsv \
@@ -286,7 +286,7 @@ ${PSTAT}/circularcontigsFormat.tsv : \
 			${PSTAT}/FinalContigCounts.tsv \
 			${PSTAT}/circularcontigsFormat.tsv \
 			./bin/FinalizeContigStats.R
-	echo $(shell date)  |  Plotting contig statistics >> ${DATENAME}.makelog
+	echo $(shell date)  :  Plotting contig statistics >> ${DATENAME}.makelog
 	Rscript ./bin/FinalizeContigStats.R \
 		-l ${PSTAT}/ContigLength.tsv \
 		-c ${PSTAT}/FinalContigCounts.tsv \
@@ -310,7 +310,7 @@ ${VREF}/PfamInteractionsFormatScoredFlip.tsv : \
 			./data/TotalCatContigsPhage.fa \
 			./data/TotalCatContigsBacteria.fa \
 			./bin/BenchmarkingModel.sh
-	echo $(shell date)  |  Calculating predictive values for experimental datasets >> ${DATENAME}.makelog
+	echo $(shell date)  :  Calculating predictive values for experimental datasets >> ${DATENAME}.makelog
 	bash ./bin/BenchmarkingModel.sh \
 		./data/TotalCatContigsPhage.fa \
 		./data/TotalCatContigsBacteria.fa \
@@ -334,7 +334,7 @@ ${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv : \
 			./data/ContigClustersBacteria/clustering_gt1000.csv \
 			./data/ContigClustersPhage/clustering_gt1000.csv \
 			./bin/ClusterContigScores.sh
-	echo $(shell date)  |  Collapsing predictive scores by contig clusters >> ${DATENAME}.makelog
+	echo $(shell date)  :  Collapsing predictive scores by contig clusters >> ${DATENAME}.makelog
 	bash ./bin/ClusterContigScores.sh \
 		${VREF}/BenchmarkProphagesFormatFlip.tsv \
 		${VREF}/MatchesByBlastxFormatOrder.tsv \
@@ -354,7 +354,7 @@ expnetwork : \
 			./bin/CreateProteinNetwork
 	# Note that this resets the graph database and erases
 	# the validation information we previously added.
-	echo $(shell date)  |  Building network using experimental dataset predictive values >> ${DATENAME}.makelog
+	echo $(shell date)  :  Building network using experimental dataset predictive values >> ${DATENAME}.makelog
 	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	mkdir ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	bash ./bin/CreateProteinNetwork \
@@ -370,7 +370,7 @@ expnetwork : \
 			expnetwork \
 			./data/rfinteractionmodel.RData \
 			./bin/RunPredictionsWithNeo4j.sh
-	echo $(shell date)  |  Predicting interactions between study bacteria and phages >> ${DATENAME}.makelog
+	echo $(shell date)  :  Predicting interactions between study bacteria and phages >> ${DATENAME}.makelog
 	bash ./bin/RunPredictionsWithNeo4j.sh \
 		./data/rfinteractionmodel.RData \
 		./data/PredictedRelationshipTable.tsv
@@ -385,7 +385,7 @@ finalrelationships \
 ./figures/BacteriaEdgeCount.png : \
 		./data/PredictedRelationshipTable.tsv \
 		./bin/AddRelationshipsWrapper.sh
-	echo $(shell date)  |  Adding relationships to network and plotting total graph >> ${DATENAME}.makelog
+	echo $(shell date)  :  Adding relationships to network and plotting total graph >> ${DATENAME}.makelog
 	bash ./bin/AddRelationshipsWrapper.sh \
 		./data/PredictedRelationshipTable.tsv
 
@@ -397,7 +397,7 @@ finalrelationships \
 			./data/PhageContigAbundance.tsv \
 			./data/BacteriaContigAbundance.tsv \
 			./bin/ClusterContigAbundance.sh
-	echo $(shell date)  |  Collapsing contig counts by sequence cluster >> ${DATENAME}.makelog
+	echo $(shell date)  :  Collapsing contig counts by sequence cluster >> ${DATENAME}.makelog
 	bash ./bin/ClusterContigAbundance.sh \
 		./data/ContigClustersPhage/clustering_gt1000.csv \
 		./data/ContigClustersBacteria/clustering_gt1000.csv \
@@ -413,7 +413,7 @@ addmetadata : \
 			./data/ContigRelAbundForGraphClusteredBacteria.tsv \
 			./data/PublishedDatasets/metadatatable.tsv \
 			./bin/AddMetadata.sh
-	echo $(shell date)  |  Adding metadata to interaction network >> ${DATENAME}.makelog
+	echo $(shell date)  :  Adding metadata to interaction network >> ${DATENAME}.makelog
 	bash ./bin/AddMetadata.sh \
 		./data/ContigRelAbundForGraphClusteredPhage.tsv \
 		./data/ContigRelAbundForGraphClusteredBacteria.tsv \
@@ -427,6 +427,6 @@ addmetadata : \
 # Get the general properties of the graph per study
 ./figures/BacteriaPhageNetworkDiagramByStudy.pdf : addmetadata ./bin/VisGraphByGroup.R
 	../../bin/neo4j-enterprise-2.3.0/bin/neo4j start
-	echo $(shell date)  |  Plotting subgraphs by study group ID >> ${DATENAME}.makelog
+	echo $(shell date)  :  Plotting subgraphs by study group ID >> ${DATENAME}.makelog
 	Rscript ./bin/VisGraphByGroup.R
 	../../bin/neo4j-enterprise-2.3.0/bin/neo4j stop

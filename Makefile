@@ -20,14 +20,17 @@ DownloadMetadata : ./bin/DownloadMetadata.sh ./data/PublishedDatasets/raw_metada
 		-o ./data/PublishedDatasets/metadatatable.tsv
 
 
+
 #########################
 # Set General Variables #
 #########################
 ACCLIST := $(shell awk '{ print "data/ViromePublications/"$$7 }' ./data/PublishedDatasets/SutdyInformation.tsv)
 SAMPLELIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable.tsv | sort | uniq)
+DATENAME := $(shell date | sed 's/ /_/g' | sed 's/\:/\./g')
 
 # For debugging right now
 print:
+	echo $(shell date)"\t"Printing sample list"\n" >> ${DATENAME}.makelog
 	echo ${SAMPLELIST}
 
 
@@ -98,6 +101,7 @@ ${VALDIR}/ValidationPhageNoBlock.fa \
 ${VALDIR}/ValidationBacteriaNoBlock.fa : \
 			${VALDIR}/PhageID.tsv \
 			${VALDIR}/BacteriaID.tsv
+	echo $(shell date)"\t"Downloading validation sequences"\n" >> ${DATENAME}.makelog
 	bash ./bin/GetValidationSequences.sh \
 		${VALDIR}/PhageID.tsv \
 		${VALDIR}/BacteriaID.tsv \
@@ -108,6 +112,7 @@ ${VALDIR}/ValidationBacteriaNoBlock.fa : \
 ${VALDIR}/Interactions.tsv : \
 			${VALDIR}/BacteriaID.tsv \
 			${VALDIR}/InteractionsRaw.tsv
+	echo $(shell date)"\t"Formatting interaction file"\n" >> ${DATENAME}.makelog
 	Rscript ./bin/MergeForInteractions.R \
 		-b ${VALDIR}/BacteriaID.tsv \
 		-i ${VALDIR}/InteractionsRaw.tsv \
@@ -121,6 +126,7 @@ ${BSET}/MatchesByBlastxFormatOrder.tsv \
 ${BSET}/PfamInteractionsFormatScoredFlip.tsv : \
 			${VALDIR}/ValidationPhageNoBlock.fa \
 			${VALDIR}/ValidationBacteriaNoBlock.fa
+	echo $(shell date)"\t"Calculating values for interaction predictive model"\n" >> ${DATENAME}.makelog
 	bash ./bin/BenchmarkingModel.sh \
 		${VALDIR}/ValidationPhageNoBlock.fa \
 		${VALDIR}/ValidationBacteriaNoBlock.fa \
@@ -136,6 +142,7 @@ validationnetwork : \
 			${BSET}/BenchmarkProphagesFormatFlip.tsv \
 			${BSET}/PfamInteractionsFormatScoredFlip.tsv \
 			${BSET}/MatchesByBlastxFormatOrder.tsv
+	echo $(shell date)"\t"Building graph using validation dataset values for prediction"\n" >> ${DATENAME}.makelog
 	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	mkdir ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	bash ./bin/CreateProteinNetwork \
@@ -155,6 +162,7 @@ validationnetwork : \
 			${BSET}/BenchmarkProphagesFormatFlip.tsv \
 			${BSET}/PfamInteractionsFormatScoredFlip.tsv \
 			${BSET}/MatchesByBlastxFormatOrder.tsv
+	echo $(shell date)"\t"Predicting interactions between phages and bacteria in graph"\n" >> ${DATENAME}.makelog
 	bash ./bin/RunRocAnalysisWithNeo4j.sh
 
 
@@ -165,6 +173,7 @@ validationnetwork : \
 # Use the list because it allows for test of targets
 $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv
 	echo $@
+	echo $(shell date)"\t"Downloading study sample sequences from $@"\n" >> ${DATENAME}.makelog
 	bash ./bin/DownloadPublishedVirome.sh \
 		$< \
 		$@
@@ -180,6 +189,7 @@ $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv
 # Need to decompress the fastq files first from SRA
 ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatable.tsv
 	echo Makefile is calling to process $@
+	echo $(shell date)"\t"Performing QC and contig alignment on sample $@"\n" >> ${DATENAME}.makelog
 	bash ./bin/QcAndContigs.sh \
 		$@ \
 		./data/ViromePublications/ \
@@ -192,6 +202,7 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 ./data/TotalCatContigs.fa : \
 			./data/QualityOutput \
 			./data/PublishedDatasets/metadatatable.tsv
+	echo $(shell date)"\t"Merging contigs into single file"\n" >> ${DATENAME}.makelog
 	bash ./bin/catcontigs.sh \
 		./data/QualityOutput \
 		./data/TotalCatContigsBacteria.fa \
@@ -206,6 +217,7 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 ./data/ContigRelAbundForGraph.tsv : \
 			./data/TotalCatContigs.fa \
 			./data/QualityOutput/raw
+	echo $(shell date)"\t"Generating contig sequence abundance table"\n" >> ${DATENAME}.makelog
 	bash ./bin/CreateContigRelAbundTable.sh \
 		./data/TotalCatContigs.fa \
 		./data/QualityOutput/raw \
@@ -218,6 +230,7 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 			./data/TotalCatContigsPhage.fa \
 			./data/PublishedDatasets/metadatatable.tsv \
 			./data/ContigRelAbundForGraph.tsv
+	echo $(shell date)"\t"Split contig abundance table between phage and bacteria"\n" >> ${DATENAME}.makelog
 	bash ./bin/SepAbundanceTable.sh \
 		./data/PublishedDatasets/metadatatable.tsv \
 		./data/TotalCatContigsBacteria.fa \
@@ -230,6 +243,7 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 ## Bacteria
 ./data/ContigRelAbundForConcoctBacteria.tsv : \
 			./data/BacteriaContigAbundance.tsv
+	echo $(shell date)"\t"Transforming bacteria abundance table for CONCOCT"\n" >> ${DATENAME}.makelog
 	Rscript ./bin/ReshapeAlignedAbundance.R \
 		-i ./data/BacteriaContigAbundance.tsv \
 		-o ./data/ContigRelAbundForConcoctBacteria.tsv \
@@ -237,6 +251,7 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 ## Phage
 ./data/ContigRelAbundForConcoctPhage.tsv : \
 			./data/PhageContigAbundance.tsv
+	echo $(shell date)"\t"Transforming phage abundance table for CONCOCT"\n" >> ${DATENAME}.makelog
 	Rscript ./bin/ReshapeAlignedAbundance.R \
 		-i ./data/PhageContigAbundance.tsv \
 		-o ./data/ContigRelAbundForConcoctPhage.tsv \
@@ -251,6 +266,7 @@ concoctify : ./data/ContigClustersBacteria ./data/ContigClustersPhage
 ./data/ContigClustersBacteria : \
 			./data/TotalCatContigsBacteria.fa \
 			./data/ContigRelAbundForConcoctBacteria.tsv
+	echo $(shell date)"\t"Clustering bacterial contigs using CONCOCT"\n" >> ${DATENAME}.makelog
 	mkdir ./data/ContigClustersBacteria
 	concoct \
 		--coverage_file ./data/ContigRelAbundForConcoctBacteria.tsv \
@@ -266,6 +282,7 @@ concoctify : ./data/ContigClustersBacteria ./data/ContigClustersPhage
 ./data/ContigClustersPhage : \
 			./data/TotalCatContigsPhage.fa \
 			./data/ContigRelAbundForConcoctPhage.tsv
+	echo $(shell date)"\t"Clustering phage contigs using CONCOCT"\n" >> ${DATENAME}.makelog
 	mkdir ./data/ContigClustersPhage
 	concoct \
 		--coverage_file ./data/ContigRelAbundForConcoctPhage.tsv \
@@ -288,6 +305,7 @@ ${PSTAT}/FinalContigCounts.tsv \
 ${PSTAT}/circularcontigsFormat.tsv : \
 			./data/TotalCatContigs.fa \
 			./data/ContigRelAbundForGraph.tsv
+	echo $(shell date)"\t"Calculating contig statistics"\n" >> ${DATENAME}.makelog
 	bash ./bin/contigstats.sh \
 		./data/TotalCatContigs.fa \
 		./data/ContigRelAbundForGraph.tsv \
@@ -302,6 +320,7 @@ ${PSTAT}/circularcontigsFormat.tsv : \
 			${PSTAT}/ContigLength.tsv \
 			${PSTAT}/FinalContigCounts.tsv \
 			${PSTAT}/circularcontigsFormat.tsv
+	echo $(shell date)"\t"Plotting contig statistics"\n" >> ${DATENAME}.makelog
 	Rscript ./bin/FinalizeContigStats.R \
 		-l ${PSTAT}/ContigLength.tsv \
 		-c ${PSTAT}/FinalContigCounts.tsv \
@@ -324,6 +343,7 @@ ${VREF}/MatchesByBlastxFormatOrder.tsv \
 ${VREF}/PfamInteractionsFormatScoredFlip.tsv : \
 			./data/TotalCatContigsPhage.fa \
 			./data/TotalCatContigsBacteria.fa
+	echo $(shell date)"\t"Calculating predictive values for experimental datasets"\n" >> ${DATENAME}.makelog
 	bash ./bin/BenchmarkingModel.sh \
 		./data/TotalCatContigsPhage.fa \
 		./data/TotalCatContigsBacteria.fa \
@@ -346,6 +366,7 @@ ${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv : \
 			${VREF}/PfamInteractionsFormatScoredFlip.tsv \
 			./data/ContigClustersBacteria/clustering_gt1000.csv \
 			./data/ContigClustersPhage/clustering_gt1000.csv
+	echo $(shell date)"\t"Collapsing predictive scores by contig clusters"\n" >> ${DATENAME}.makelog
 	bash ./bin/ClusterContigScores.sh \
 		${VREF}/BenchmarkProphagesFormatFlip.tsv \
 		${VREF}/MatchesByBlastxFormatOrder.tsv \
@@ -364,6 +385,7 @@ expnetwork : \
 			${VREF}/MatchesByBlastxFormatOrderClustered.tsv
 	# Note that this resets the graph database and erases
 	# the validation information we previously added.
+	echo $(shell date)"\t"Building network using experimental dataset predictive values"\n" >> ${DATENAME}.makelog
 	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	mkdir ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	bash ./bin/CreateProteinNetwork \
@@ -377,6 +399,7 @@ expnetwork : \
 # Predict interactions between nodes
 ./data/PredictedRelationshipTable.tsv : \
 			./data/rfinteractionmodel.RData
+	echo $(shell date)"\t"Predicting interactions between study bacteria and phages"\n" >> ${DATENAME}.makelog
 	bash ./bin/RunPredictionsWithNeo4j.sh \
 		./data/rfinteractionmodel.RData \
 		./data/PredictedRelationshipTable.tsv
@@ -390,6 +413,7 @@ finalrelationships \
 ./figures/BacteriaEdgeCount.pdf \
 ./figures/BacteriaEdgeCount.png : \
 		./data/PredictedRelationshipTable.tsv
+	echo $(shell date)"\t"Adding relationships to network and plotting total graph"\n" >> ${DATENAME}.makelog
 	bash ./bin/AddRelationshipsWrapper.sh \
 		./data/PredictedRelationshipTable.tsv
 
@@ -400,6 +424,7 @@ finalrelationships \
 			./data/ContigClustersBacteria/clustering_gt1000.csv \
 			./data/PhageContigAbundance.tsv \
 			./data/BacteriaContigAbundance.tsv
+	echo $(shell date)"\t"Collapsing contig counts by sequence cluster"\n" >> ${DATENAME}.makelog
 	bash ./bin/ClusterContigAbundance.sh \
 		./data/ContigClustersPhage/clustering_gt1000.csv \
 		./data/ContigClustersBacteria/clustering_gt1000.csv \
@@ -414,6 +439,7 @@ addmetadata : \
 			./data/ContigRelAbundForGraphClusteredPhage.tsv \
 			./data/ContigRelAbundForGraphClusteredBacteria.tsv \
 			./data/PublishedDatasets/metadatatable.tsv
+	echo $(shell date)"\t"Adding metadata to interaction network"\n" >> ${DATENAME}.makelog
 	bash ./bin/AddMetadata.sh \
 		./data/ContigRelAbundForGraphClusteredPhage.tsv \
 		./data/ContigRelAbundForGraphClusteredBacteria.tsv \
@@ -426,7 +452,8 @@ addmetadata : \
 ################
 # Get the general properties of the graph per study
 ./figures/BacteriaPhageNetworkDiagramByStudy.pdf :
-	../../bin/neo4j-enterprise-2.3.0/bin/neo4j start
+			../../bin/neo4j-enterprise-2.3.0/bin/neo4j start
+	echo $(shell date)"\t"Plotting subgraphs by study group ID"\n" >> ${DATENAME}.makelog
 	Rscript ./bin/VisGraphByGroup.R
 	../../bin/neo4j-enterprise-2.3.0/bin/neo4j stop
 

@@ -144,12 +144,7 @@ $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv ./bin/DownloadPubli
 
 # Run quality control as well here
 # Need to decompress the fastq files first from SRA
-${SAMPLELIST}: % \
-./data/QualityOutput \
-./data/QualityOutput/raw : \
-			./data/ViromePublications \
-			./data/PublishedDatasets/metadatatable.tsv \
-			./bin/QcAndContigs.sh
+${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatable.tsv ./bin/QcAndContigs.sh
 	echo Makefile is calling to process $@
 	echo $(shell date)"\t"Performing QC and contig alignment on sample $@"\n" >> ${DATENAME}.makelog
 	bash ./bin/QcAndContigs.sh \
@@ -162,7 +157,7 @@ ${SAMPLELIST}: % \
 ./data/TotalCatContigsBacteria.fa \
 ./data/TotalCatContigsPhage.fa \
 ./data/TotalCatContigs.fa : \
-			./data/QualityOutput \
+			${SAMPLELIST} \
 			./data/PublishedDatasets/metadatatable.tsv \
 			./bin/catcontigs.sh
 	echo $(shell date)"\t"Merging contigs into single file"\n" >> ${DATENAME}.makelog
@@ -179,7 +174,7 @@ ${SAMPLELIST}: % \
 # Generate a contig relative abundance table
 ./data/ContigRelAbundForGraph.tsv : \
 			./data/TotalCatContigs.fa \
-			./data/QualityOutput/raw \
+			${SAMPLELIST} \
 			./bin/CreateContigRelAbundTable.sh
 	echo $(shell date)"\t"Generating contig sequence abundance table"\n" >> ${DATENAME}.makelog
 	bash ./bin/CreateContigRelAbundTable.sh \

@@ -4,7 +4,6 @@
 # Pat Schloss Lab
 # University of Michigan
 
-
 ##############################
 # Download & Format Metadata #
 ##############################
@@ -41,9 +40,9 @@ contigs: ${SAMPLELIST}
 #################
 # Clean Samples #
 #################
-samplesforcleaning=$(ACCLIST) \
+samplesforcleaning=./data/PublishedDatasets/metadatatable.tsv \
+			$(ACCLIST) \
 			${SAMPLELIST} \
-			./data/PublishedDatasets/metadatatable.tsv \
 			./data/TotalCatContigsBacteria.fa \
 			./data/TotalCatContigsPhage.fa \
 			./data/TotalCatContigs.fa \

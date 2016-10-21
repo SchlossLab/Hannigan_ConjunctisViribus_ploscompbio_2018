@@ -144,7 +144,12 @@ $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv ./bin/DownloadPubli
 
 # Run quality control as well here
 # Need to decompress the fastq files first from SRA
-${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatable.tsv ./bin/QcAndContigs.sh
+${SAMPLELIST}: % \
+./data/QualityOutput \
+./data/QualityOutput/raw : \
+			./data/ViromePublications \
+			./data/PublishedDatasets/metadatatable.tsv \
+			./bin/QcAndContigs.sh
 	echo Makefile is calling to process $@
 	echo $(shell date)"\t"Performing QC and contig alignment on sample $@"\n" >> ${DATENAME}.makelog
 	bash ./bin/QcAndContigs.sh \

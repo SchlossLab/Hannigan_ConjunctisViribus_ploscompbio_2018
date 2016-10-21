@@ -225,7 +225,8 @@ ${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatab
 # Again do it as bacteria and phages
 concoctify : ./data/ContigClustersBacteria ./data/ContigClustersPhage
 ## Bacteroa
-./data/ContigClustersBacteria : \
+./data/ContigClustersBacteria \
+./data/ContigClustersBacteria/clustering_gt1000.csv: \
 			./data/TotalCatContigsBacteria.fa \
 			./data/ContigRelAbundForConcoctBacteria.tsv
 	echo $(shell date)"\t"Clustering bacterial contigs using CONCOCT"\n" >> ${DATENAME}.makelog
@@ -241,7 +242,8 @@ concoctify : ./data/ContigClustersBacteria ./data/ContigClustersPhage
 		--no_total_coverage \
 		--iterations 50
 ##Phage
-./data/ContigClustersPhage : \
+./data/ContigClustersPhage \
+./data/ContigClustersPhage/clustering_gt1000.csv : \
 			./data/TotalCatContigsPhage.fa \
 			./data/ContigRelAbundForConcoctPhage.tsv
 	echo $(shell date)"\t"Clustering phage contigs using CONCOCT"\n" >> ${DATENAME}.makelog

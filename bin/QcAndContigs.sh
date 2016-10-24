@@ -86,11 +86,6 @@ if [[ ${PAIREDVAR} = "PAIRED" ]]; then
 	rm -f -r ./data/${Output}/${SampleID}_megahit
 	rm -f -r ./data/${Output}/${SampleID}
 
-	ls ${SampleDirectory}*/${SampleID}*.sra | xargs -I {} --max-procs=4 sh -c '
-		echo Processing file {}...
-			fastq-dump --split-3 {} --outdir ./data/${Output}/raw
-			gzip {}
-	'
 	runFastx \
 		./data/${Output}/raw/${SampleID}*1* \
 		./data/${Output}/${SampleID}fastxoutput1untrimmed.fq
@@ -126,12 +121,7 @@ else
 
 	# Set correct permissions
 	chmod 777 ${SampleDirectory}*/${SampleID}*.sra
-
-	ls ${SampleDirectory}*/${SampleID}*.sra | xargs -I {} --max-procs=4 sh -c '
-		echo Processing file {}...
-			fastq-dump --split-3 {} --outdir ./data/${Output}/raw
-			gzip {}
-	'
+	
 	runFastx \
 		./data/${Output}/raw/${SampleID}* \
 		./data/${Output}/${SampleID}fastxoutput.fq

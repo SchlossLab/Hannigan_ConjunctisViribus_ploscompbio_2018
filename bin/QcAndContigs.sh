@@ -15,11 +15,6 @@ export Output=${4}
 export fastx=/home/ghannig/bin/fastq_quality_trimmer
 export megahitvar=/home/ghannig/bin/megahit/megahit
 
-python -V
-
-# Run a test first
-python ${megahitvar} -r ~/bin/megahit/example/readsInterleaved3.fa -o ./test
-
 ###################
 # Set Subroutines #
 ###################
@@ -64,9 +59,9 @@ export -f SingleAssembleContigs
 ################
 # Run Analysis #
 ################
-mkdir ./data/${Output}
-rm ./data/${Output}/fastxoutput1.fq
-rm ./data/${Output}/fastxoutput2.fq
+mkdir -p ./data/${Output}
+rm -f ./data/${Output}/fastxoutput1.fq
+rm -f ./data/${Output}/fastxoutput2.fq
 
 # Tread carefully, these column locations are hard coded.
 # Diverge not from the format, lest there be wailing and grinding of teeth.
@@ -75,7 +70,7 @@ PLATFORM=$(awk -v sampleid="${SampleID}" ' $3 == sampleid { print $5 } ' ${Metad
 
 echo Paried value is ${PAIREDVAR}
 
-mkdir ./data/${Output}/raw
+mkdir -p ./data/${Output}/raw
 
 if [[ ${PAIREDVAR} = "PAIRED" ]]; then
 	echo Running paired sample...
@@ -88,8 +83,8 @@ if [[ ${PAIREDVAR} = "PAIRED" ]]; then
 	chmod 777 ${SampleDirectory}*/${SampleID}*.sra
 
 	# Clean up
-	rm -r ./data/${Output}/${SampleID}_megahit
-	rm -r ./data/${Output}/${SampleID}
+	rm -f -r ./data/${Output}/${SampleID}_megahit
+	rm -f -r ./data/${Output}/${SampleID}
 
 	ls ${SampleDirectory}*/${SampleID}*.sra | xargs -I {} --max-procs=4 sh -c '
 		echo Processing file {}...
@@ -110,8 +105,8 @@ if [[ ${PAIREDVAR} = "PAIRED" ]]; then
 		-t ./data/${Output}/${SampleID}fastxoutput2.fq
 
 	# Clean up intermediate files
-	rm ./data/${Output}/${SampleID}${SampleID}fastxoutput1untrimmed.fq
-	rm ./data/${Output}/${SampleID}${SampleID}fastxoutput2untrimmed.fq
+	rm -f ./data/${Output}/${SampleID}${SampleID}fastxoutput1untrimmed.fq
+	rm -f ./data/${Output}/${SampleID}${SampleID}fastxoutput2untrimmed.fq
 
 	PairedAssembleContigs \
 		./data/${Output}/${SampleID}fastxoutput1.fq \
@@ -126,8 +121,8 @@ else
 	'
 
 	# Clean before running
-	rm -r ./data/${Output}/${SampleID}
-	rm -r ./data/${Output}/${SampleID}_megahit
+	rm -f -r ./data/${Output}/${SampleID}
+	rm -f -r ./data/${Output}/${SampleID}_megahit
 
 	# Set correct permissions
 	chmod 777 ${SampleDirectory}*/${SampleID}*.sra

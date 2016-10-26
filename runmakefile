@@ -5,7 +5,7 @@
 # University of Michigan
 # Use this to submit the makefile to the server
 
-#PBS -N runmakefile
+#PBS -N runmakefile-conjviribus
 #PBS -q first
 #PBS -l nodes=4:ppn=2,mem=44gb
 #PBS -l walltime=600:00:00

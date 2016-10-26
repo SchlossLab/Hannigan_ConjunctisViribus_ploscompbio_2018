@@ -32,11 +32,11 @@ PairedAssembleContigs () {
 	python ${megahitvar} \
 		-1 "${1}" \
 		-2 "${2}" \
-		--min-contig-len 2500 \
+		--min-contig-len 1000 \
 		--k-min 21 \
 		--k-max 101\
 		--k-step 20 \
-		-t 8 \
+		-t 4 \
 		-o "${3}"
 }
 
@@ -44,11 +44,11 @@ SingleAssembleContigs () {
 	echo Output is "${2}"
 	python ${megahitvar} \
 		-r "${1}" \
-		--min-contig-len 2500 \
+		--min-contig-len 1000 \
 		--k-min 21 \
 		--k-max 101\
 		--k-step 20 \
-		-t 8 \
+		-t 4 \
 		-o "${2}"
 }
 

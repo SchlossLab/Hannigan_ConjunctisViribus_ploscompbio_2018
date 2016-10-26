@@ -7,7 +7,7 @@
 
 #PBS -N runmakefile
 #PBS -q first
-#PBS -l nodes=1:ppn=2,mem=40gb
+#PBS -l nodes=4:ppn=2,mem=44gb
 #PBS -l walltime=600:00:00
 #PBS -j oe
 #PBS -V
@@ -27,4 +27,4 @@ module load concoct/0.4.0
 cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
-make ./figures/BacteriaPhageNetworkDiagramByStudy.pdf
+make -j 4 contigs

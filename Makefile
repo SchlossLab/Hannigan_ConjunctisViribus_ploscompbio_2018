@@ -25,7 +25,16 @@ DownloadMetadata : ./bin/DownloadMetadata.sh ./data/PublishedDatasets/raw_metada
 # Set General Variables #
 #########################
 ACCLIST := $(shell awk '{ print "data/ViromePublications/"$$7 }' ./data/PublishedDatasets/SutdyInformation.tsv)
-SAMPLELIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable.tsv | sort | uniq)
+SRALIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable.tsv \
+	| sort \
+	| uniq \
+	| sed 's/$$/.sra/' \
+	| sed 's/^/data\/ViromePublications\//')
+SAMPLELIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable.tsv \
+	| sort \
+	| uniq \
+	| sed 's/$$/_megahit/' \
+	| sed 's/^/data\/QualityOutput\//')
 DATENAME := $(shell date | sed 's/ /_/g' | sed 's/\:/\./g')
 
 # For debugging right now
@@ -39,6 +48,8 @@ print:
 # Set Rules #
 #############
 contigs: ${SAMPLELIST}
+
+movefiles: ${SRALIST}
 
 runsamples : DownloadMetadata $(samplesforcleaning)
 
@@ -141,17 +152,20 @@ $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv ./bin/DownloadPubli
 # Total Dataset Networking #
 ############################
 ### CONTIG ASSEMBLY AND QC
+# Move the sra files
+${SRALIST}: %:
+	mv $@ data/ViromePublications/
 
 # Run quality control as well here
 # Need to decompress the fastq files first from SRA
-${SAMPLELIST}: %: ./data/ViromePublications ./data/PublishedDatasets/metadatatable.tsv ./bin/QcAndContigs.sh
+${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
 	echo Makefile is calling to process $@
 	echo $(shell date)  :  Performing QC and contig alignment on sample $@ >> ${DATENAME}.makelog
 	bash ./bin/QcAndContigs.sh \
 		$@ \
 		./data/ViromePublications/ \
 		./data/PublishedDatasets/metadatatable.tsv \
-		"QualityOutput"
+		$<
 
 # Merge the contigs into a single file
 ./data/TotalCatContigsBacteria.fa \

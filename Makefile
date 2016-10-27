@@ -165,7 +165,7 @@ ${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
 		$@ \
 		./data/ViromePublications/ \
 		./data/PublishedDatasets/metadatatable.tsv \
-		$<
+		"QualityOutput"
 
 # Merge the contigs into a single file
 ./data/TotalCatContigsBacteria.fa \

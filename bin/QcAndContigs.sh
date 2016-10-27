@@ -7,10 +7,14 @@
 #################
 # Set Variables #
 #################
-export SampleID=${1}
+export InputFile=${1}
+export SampleID=$(echo ${InputFile} | sed 's/.*\///g' | sed 's/\..*//')
+echo Sample ID is ${SampleID}
 export SampleDirectory=${2}
 export Metadata=${3}
-export Output=${4}
+export OutputFile=${4}
+export Output=$(echo ${OutputFile} | sed 's/.*\///g' | sed 's/\..*//')
+echo Output ID is ${Output}
 
 export fastx=/home/ghannig/bin/fastq_quality_trimmer
 export megahitvar=/home/ghannig/bin/megahit/megahit
@@ -75,18 +79,18 @@ mkdir -p ./data/${Output}/raw
 if [[ ${PAIREDVAR} = "PAIRED" ]]; then
 	echo Running paired sample...
 
-	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=4 sh -c '
+	ls ${SampleDirectory}${SampleID}*.gz | xargs -I {} --max-procs=4 sh -c '
 		gunzip {}
 	'
 
 	# Set correct permissions
-	chmod 777 ${SampleDirectory}*/${SampleID}*.sra
+	chmod 777 ${SampleDirectory}${SampleID}*.sra
 
 	# Clean up
 	rm -f -r ./data/${Output}/${SampleID}_megahit
 	rm -f -r ./data/${Output}/${SampleID}
 
-	ls ${SampleDirectory}*/${SampleID}*.sra | xargs -I {} --max-procs=4 sh -c '
+	ls ${SampleDirectory}${SampleID}*.sra | xargs -I {} --max-procs=4 sh -c '
 		echo Processing file {}...
 			fastq-dump --split-3 {} --outdir ./data/${Output}/raw
 	'
@@ -115,7 +119,7 @@ else
 	echo Running single end sample...
 
 	# Unzip the files first
-	ls ${SampleDirectory}*/${SampleID}*.gz | xargs -I {} --max-procs=4 sh -c '
+	ls ${SampleDirectory}${SampleID}*.gz | xargs -I {} --max-procs=4 sh -c '
 		gunzip {}
 	'
 
@@ -124,9 +128,9 @@ else
 	rm -f -r ./data/${Output}/${SampleID}_megahit
 
 	# Set correct permissions
-	chmod 777 ${SampleDirectory}*/${SampleID}*.sra
+	chmod 777 ${SampleDirectory}${SampleID}*.sra
 
-	ls ${SampleDirectory}*/${SampleID}*.sra | xargs -I {} --max-procs=4 sh -c '
+	ls ${SampleDirectory}${SampleID}*.sra | xargs -I {} --max-procs=4 sh -c '
 		echo Processing file {}...
 			fastq-dump --split-3 {} --outdir ./data/${Output}/raw
 	'

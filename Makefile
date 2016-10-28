@@ -33,6 +33,7 @@ SRALIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable.ts
 SAMPLELIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
 	| uniq \
+	| grep -v "Run" \
 	| sed 's/$$/_megahit/' \
 	| sed 's/^/data\/QualityOutput\//')
 DATENAME := $(shell date | sed 's/ /_/g' | sed 's/\:/\./g')

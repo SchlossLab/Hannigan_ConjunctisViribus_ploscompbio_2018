@@ -78,10 +78,6 @@ mkdir -p ./data/${Output}/raw
 if [[ ${PAIREDVAR} = "PAIRED" ]]; then
 	echo Running paired sample...
 
-	ls ${SampleDirectory}${SampleID}*.gz | xargs -I {} --max-procs=4 sh -c '
-		gunzip {}
-	'
-
 	# Set correct permissions
 	chmod 777 ${SampleDirectory}${SampleID}.sra
 

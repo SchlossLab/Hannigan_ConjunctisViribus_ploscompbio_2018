@@ -27,6 +27,7 @@ export MasterOutput=$3
 export Output='data/tmpbowtie'
 
 mkdir ./${Output}
+mkdir ./${Output}/bowtieReference
 
 ###################
 # Set Subroutines #
@@ -34,8 +35,6 @@ mkdir ./${Output}
 GetHits () {
 	# 1 = Input Orfs
 	# 2 = Bowtie Reference
-
-	mkdir ./${Output}/bowtieReference
 
 	bowtie2 \
 		-x ${2} \
@@ -54,9 +53,9 @@ GetHits () {
 
 BowtieRun () {
 	sampleid=$(echo ${1} | sed 's/_2.fastq//')
-	# GetHits \
-	# 	${FastaSequences}/${1} \
-	# 	./${Output}/bowtieReference/bowtieReference
+	GetHits \
+		${FastaSequences}/${1} \
+		./${Output}/bowtieReference/bowtieReference
 
 	# Remove the header
 	sed -e "1d" ${FastaSequences}/${1}-bowtie.tsv > ${FastaSequences}/${1}-noheader

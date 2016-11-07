@@ -223,7 +223,7 @@ ${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
 	Rscript ./bin/ReshapeAlignedAbundance.R \
 		-i ./data/BacteriaContigAbundance.tsv \
 		-o ./data/ContigRelAbundForConcoctBacteria.tsv \
-		-p 0.15
+		-p 0.10
 ## Phage
 ./data/ContigRelAbundForConcoctPhage.tsv : \
 			./data/PhageContigAbundance.tsv \
@@ -232,7 +232,7 @@ ${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
 	Rscript ./bin/ReshapeAlignedAbundance.R \
 		-i ./data/PhageContigAbundance.tsv \
 		-o ./data/ContigRelAbundForConcoctPhage.tsv \
-		-p 0.15
+		-p 0.10
 
 # Run CONCOCT to get contig clusters
 # Read length is an approximate average from the studies

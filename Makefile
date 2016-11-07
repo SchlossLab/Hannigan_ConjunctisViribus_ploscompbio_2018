@@ -223,7 +223,7 @@ ${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
 	Rscript ./bin/ReshapeAlignedAbundance.R \
 		-i ./data/BacteriaContigAbundance.tsv \
 		-o ./data/ContigRelAbundForConcoctBacteria.tsv \
-		-p 0.10
+		-p 0.15
 ## Phage
 ./data/ContigRelAbundForConcoctPhage.tsv : \
 			./data/PhageContigAbundance.tsv \
@@ -232,13 +232,13 @@ ${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
 	Rscript ./bin/ReshapeAlignedAbundance.R \
 		-i ./data/PhageContigAbundance.tsv \
 		-o ./data/ContigRelAbundForConcoctPhage.tsv \
-		-p 0.10
+		-p 0.15
 
 # Run CONCOCT to get contig clusters
 # Read length is an approximate average from the studies
 # Im skipping total coverage because I don't think it makes sense for this dataset
 # Again do it as bacteria and phages
-concoctify : ./data/ContigClustersBacteria ./data/ContigClustersPhage
+concoctify : ./data/ContigClustersBacteria/clustering_gt1000.csv ./data/ContigClustersPhage/clustering_gt1000.csv
 ## Bacteroa
 ./data/ContigClustersBacteria \
 ./data/ContigClustersBacteria/clustering_gt1000.csv: \
@@ -250,7 +250,7 @@ concoctify : ./data/ContigClustersBacteria ./data/ContigClustersPhage
 		--coverage_file ./data/ContigRelAbundForConcoctBacteria.tsv \
 		--composition_file ./data/TotalCatContigsBacteria.fa \
 		--clusters 500 \
-		--kmer_length 5 \
+		--kmer_length 4 \
 		--length_threshold 1000 \
 		--read_length 150 \
 		--basename ./data/ContigClustersBacteria/ \
@@ -267,7 +267,7 @@ concoctify : ./data/ContigClustersBacteria ./data/ContigClustersPhage
 		--coverage_file ./data/ContigRelAbundForConcoctPhage.tsv \
 		--composition_file ./data/TotalCatContigsPhage.fa \
 		--clusters 500 \
-		--kmer_length 5 \
+		--kmer_length 4 \
 		--length_threshold 1000 \
 		--read_length 150 \
 		--basename ./data/ContigClustersPhage/ \

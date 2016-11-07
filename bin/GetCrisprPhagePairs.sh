@@ -44,27 +44,34 @@ sed 's/ /_/g' ./${Output}/Spacers.good.fa \
 	| tac \
 	> ./${Output}/SpacersNoSpaceGood.fa || exit
 
-# Blastn the spacers against the phage genomes
-echo Creating CRISPR blast database...
-${BlastPath}makeblastdb \
-		-dbtype nucl \
-		-in ./${Output}/PhageReferenceNoSpace.fa \
-		-out ./${Output}/PhageGenomeDatabase \
+# Finish the script if the file is basically emptry
+if grep -Fxq "^\-\-$" ./${Output}/SpacersNoSpaceGood.fa
+then
+	echo Spacer file is empty so moving on with empty output "${OutputFile}"...
+	touch "${OutputFile}"
+else
+	# Blastn the spacers against the phage genomes
+	echo Creating CRISPR blast database...
+	${BlastPath}makeblastdb \
+			-dbtype nucl \
+			-in ./${Output}/PhageReferenceNoSpace.fa \
+			-out ./${Output}/PhageGenomeDatabase \
+			|| exit
+	
+	echo Running CRISPR blast...
+	${BlastPath}blastn \
+	    	-query ./${Output}/SpacersNoSpaceGood.fa \
+	    	-out ./${Output}/SpacerMatches.blast \
+	    	-db ./${Output}/PhageGenomeDatabase \
+	    	-outfmt 6 \
+	    	|| exit
+	
+	# Get the Spacer ID, Phage ID, and Percent Identity
+	cut -f 1,2,3 ./${Output}/SpacerMatches.blast \
+		| sed 's/_\d\+\t/\t/' \
+		> "${OutputFile}" \
 		|| exit
-
-echo Running CRISPR blast...
-${BlastPath}blastn \
-    	-query ./${Output}/SpacersNoSpaceGood.fa \
-    	-out ./${Output}/SpacerMatches.blast \
-    	-db ./${Output}/PhageGenomeDatabase \
-    	-outfmt 6 \
-    	|| exit
-
-# Get the Spacer ID, Phage ID, and Percent Identity
-cut -f 1,2,3 ./${Output}/SpacerMatches.blast \
-	| sed 's/_\d\+\t/\t/' \
-	> "${OutputFile}" \
-	|| exit
+fi
 
 rm -r ./${Output}
 

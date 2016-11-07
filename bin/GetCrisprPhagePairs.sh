@@ -45,7 +45,7 @@ sed 's/ /_/g' ./${Output}/Spacers.good.fa \
 	> ./${Output}/SpacersNoSpaceGood.fa || exit
 
 # Finish the script if the file is basically emptry
-if grep -Fx "\-\-" ./${Output}/SpacersNoSpaceGood.fa
+if grep -qx "\-\-" ./${Output}/SpacersNoSpaceGood.fa
 then
 	echo Spacer file is empty so moving on with empty output "${OutputFile}"...
 	touch "${OutputFile}"

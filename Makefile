@@ -121,16 +121,7 @@ validationnetwork : \
 		"TRUE"
 
 # Run the R script for the validation ROC curve analysis
-./figures/rocCurves.pdf \
-./figures/rocCurves.png \
-./data/rfinteractionmodel.RData : \
-			validationnetwork \
-			${VALDIR}/Interactions.tsv \
-			${BSET}/BenchmarkCrisprsFormat.tsv \
-			${BSET}/BenchmarkProphagesFormatFlip.tsv \
-			${BSET}/PfamInteractionsFormatScoredFlip.tsv \
-			${BSET}/MatchesByBlastxFormatOrder.tsv \
-			./bin/RunRocAnalysisWithNeo4j.sh
+./data/rfinteractionmodel.RData :
 	echo $(shell date)  :  Predicting interactions between phages and bacteria in graph >> ${DATENAME}.makelog
 	bash ./bin/RunRocAnalysisWithNeo4j.sh
 

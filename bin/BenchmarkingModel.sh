@@ -82,121 +82,121 @@ bash ./bin/GetCrisprPhagePairs.sh \
 	./bin/ \
 	|| exit
 
-# rm ./data/${Output}/tmp/*
+rm ./data/${Output}/tmp/*
+
+# Format the output
+FormatNames \
+	./data/${Output}/BenchmarkCrisprs.tsv \
+	${CRISPRout}
+
+# Remove underscores at the end of the names
+sed -i 's/_[0-9][0-9]\?[0-9]\?\t/\t/g' ${CRISPRout}
+
+
+# #####################
+# # Run BLAST scripts #
+# #####################
+
+# echo Getting prophages by blast...
+# bash ./bin/GetProphagesByBlast.sh \
+# 	${PhageGenomeRef} \
+# 	${BacteriaGenomeRef} \
+# 	./data/${Output}/BenchmarkProphagesBlastn.tsv \
+# 	${WorkingDirectory} \
+# 	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
+# 	|| exit
 
 # # Format the output
 # FormatNames \
-# 	./data/${Output}/BenchmarkCrisprs.tsv \
-# 	${CRISPRout}
+# 	./data/${Output}/BenchmarkProphagesBlastn.tsv \
+# 	./data/${Output}/BenchmarkProphagesBlastnFormat.tsv
+
+# # Flip the output
+# awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/BenchmarkProphagesBlastnFormat.tsv \
+# 	> ${ProphageOutFile}
+
+# ################
+# # Predict ORFs #
+# ################
+
+# echo Predicting ORFs...
+
+# PredictOrfs \
+# 	${PhageGenomeRef} \
+# 	./data/${Output}/PhageReferenceOrfs.fa \
+# 	|| exit
+
+# PredictOrfs \
+# 	${BacteriaGenomeRef} \
+# 	./data/${Output}/BacteriaReferenceOrfs.fa \
+# 	|| exit
+
+# ######################
+# # Run BLASTx scripts #
+# ######################
+# echo Getting gene matches by blastx...
+
+# bash ./bin/GetPairsByBlastx.sh \
+# 	./data/${Output}/PhageReferenceOrfs.fa \
+# 	./data/${Output}/BacteriaReferenceOrfs.fa \
+# 	./data/${Output}/MatchesByBlastx.tsv \
+# 	${WorkingDirectory} \
+# 	"/mnt/EXT/Schloss-data/bin/" \
+# 	|| exit
+
+# # Format the output
+# FormatNames \
+# 	./data/${Output}/MatchesByBlastx.tsv \
+# 	./data/${Output}/MatchesByBlastxFormat.tsv
+
+# # Format to get the right columns in the right order
+# awk '{ print $2"\t"$1"\t"$12 }' \
+# 	./data/${Output}/MatchesByBlastxFormat.tsv \
+# 	> ./data/${Output}/tmpMatchesByBlastxFormat.tsv
 
 # # Remove underscores at the end of the names
-# sed -i 's/_[0-9][0-9]\?[0-9]\?\t/\t/g' ${CRISPRout}
+# sed -i 's/_[0-9]*\t/\t/g' ./data/${Output}/tmpMatchesByBlastxFormat.tsv
 
+# Rscript ./bin/CollapseGeneScores.R \
+# 	-i ./data/${Output}/tmpMatchesByBlastxFormat.tsv \
+# 	-o ${BlastxOut}
 
-#####################
-# Run BLAST scripts #
-#####################
+# rm ./data/${Output}/tmpMatchesByBlastxFormat.tsv
 
-echo Getting prophages by blast...
-bash ./bin/GetProphagesByBlast.sh \
-	${PhageGenomeRef} \
-	${BacteriaGenomeRef} \
-	./data/${Output}/BenchmarkProphagesBlastn.tsv \
-	${WorkingDirectory} \
-	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
-	|| exit
+# ####################
+# # Run Pfam scripts #
+# ####################
 
-# Format the output
-FormatNames \
-	./data/${Output}/BenchmarkProphagesBlastn.tsv \
-	./data/${Output}/BenchmarkProphagesBlastnFormat.tsv
+# echo Getting PFAM interactions...
 
-# Flip the output
-awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/BenchmarkProphagesBlastnFormat.tsv \
-	> ${ProphageOutFile}
+# bash ./bin/PfamDomainInteractPrediction.sh \
+# 	./data/${Output}/PhageReferenceOrfs.fa \
+# 	./data/${Output}/BacteriaReferenceOrfs.fa \
+# 	./data/${Output}/PfamInteractions.tsv \
+# 	${WorkingDirectory} \
+# 	"/mnt/EXT/Schloss-data/bin/" \
+# 	"/home/ghannig/Pfam/" \
+# 	|| exit
 
-################
-# Predict ORFs #
-################
+# # Format the output
+# FormatNames \
+# 	./data/${Output}/PfamInteractions.tsv \
+# 	./data/${Output}/PfamInteractionsFormat.tsv
 
-echo Predicting ORFs...
+# # Format the output order and score sum
+# awk '{ print $1"\t"$3"\t"($2 + $4) }' \
+# 	./data/${Output}/PfamInteractionsFormat.tsv \
+# 	> ./data/${Output}/PfamInteractionsFormatScored.tsv 
 
-PredictOrfs \
-	${PhageGenomeRef} \
-	./data/${Output}/PhageReferenceOrfs.fa \
-	|| exit
+# # Flip output
+# awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/PfamInteractionsFormatScored.tsv  \
+# 	> ./data/${Output}/tmpPfamInteractionsFormatScored.tsv
 
-PredictOrfs \
-	${BacteriaGenomeRef} \
-	./data/${Output}/BacteriaReferenceOrfs.fa \
-	|| exit
+# # Remove underscores at the end of the names
+# sed -i 's/_[0-9]*\t/\t/g' ./data/${Output}/tmpPfamInteractionsFormatScored.tsv
 
-######################
-# Run BLASTx scripts #
-######################
-echo Getting gene matches by blastx...
+# Rscript ./bin/CollapseGeneScores.R \
+# 	-i ./data/${Output}/tmpPfamInteractionsFormatScored.tsv \
+# 	-o ${PfamOut}
 
-bash ./bin/GetPairsByBlastx.sh \
-	./data/${Output}/PhageReferenceOrfs.fa \
-	./data/${Output}/BacteriaReferenceOrfs.fa \
-	./data/${Output}/MatchesByBlastx.tsv \
-	${WorkingDirectory} \
-	"/mnt/EXT/Schloss-data/bin/" \
-	|| exit
-
-# Format the output
-FormatNames \
-	./data/${Output}/MatchesByBlastx.tsv \
-	./data/${Output}/MatchesByBlastxFormat.tsv
-
-# Format to get the right columns in the right order
-awk '{ print $2"\t"$1"\t"$12 }' \
-	./data/${Output}/MatchesByBlastxFormat.tsv \
-	> ./data/${Output}/tmpMatchesByBlastxFormat.tsv
-
-# Remove underscores at the end of the names
-sed -i 's/_[0-9]*\t/\t/g' ./data/${Output}/tmpMatchesByBlastxFormat.tsv
-
-Rscript ./bin/CollapseGeneScores.R \
-	-i ./data/${Output}/tmpMatchesByBlastxFormat.tsv \
-	-o ${BlastxOut}
-
-rm ./data/${Output}/tmpMatchesByBlastxFormat.tsv
-
-####################
-# Run Pfam scripts #
-####################
-
-echo Getting PFAM interactions...
-
-bash ./bin/PfamDomainInteractPrediction.sh \
-	./data/${Output}/PhageReferenceOrfs.fa \
-	./data/${Output}/BacteriaReferenceOrfs.fa \
-	./data/${Output}/PfamInteractions.tsv \
-	${WorkingDirectory} \
-	"/mnt/EXT/Schloss-data/bin/" \
-	"/home/ghannig/Pfam/" \
-	|| exit
-
-# Format the output
-FormatNames \
-	./data/${Output}/PfamInteractions.tsv \
-	./data/${Output}/PfamInteractionsFormat.tsv
-
-# Format the output order and score sum
-awk '{ print $1"\t"$3"\t"($2 + $4) }' \
-	./data/${Output}/PfamInteractionsFormat.tsv \
-	> ./data/${Output}/PfamInteractionsFormatScored.tsv 
-
-# Flip output
-awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/PfamInteractionsFormatScored.tsv  \
-	> ./data/${Output}/tmpPfamInteractionsFormatScored.tsv
-
-# Remove underscores at the end of the names
-sed -i 's/_[0-9]*\t/\t/g' ./data/${Output}/tmpPfamInteractionsFormatScored.tsv
-
-Rscript ./bin/CollapseGeneScores.R \
-	-i ./data/${Output}/tmpPfamInteractionsFormatScored.tsv \
-	-o ${PfamOut}
-
-rm ./data/${Output}/tmpPfamInteractionsFormatScored.tsv
+# rm ./data/${Output}/tmpPfamInteractionsFormatScored.tsv

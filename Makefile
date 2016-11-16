@@ -333,13 +333,7 @@ clusterrun : ${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
 
 ${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
 ${VREF}/MatchesByBlastxFormatOrderClustered.tsv \
-${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv : \
-			${VREF}/BenchmarkProphagesFormatFlip.tsv \
-			${VREF}/MatchesByBlastxFormatOrder.tsv \
-			${VREF}/PfamInteractionsFormatScoredFlip.tsv \
-			./data/ContigClustersBacteria/clustering_gt1000.csv \
-			./data/ContigClustersPhage/clustering_gt1000.csv \
-			./bin/ClusterContigScores.sh
+${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv :
 	echo $(shell date)  :  Collapsing predictive scores by contig clusters >> ${DATENAME}.makelog
 	bash ./bin/ClusterContigScores.sh \
 		${VREF}/BenchmarkProphagesFormatFlip.tsv \

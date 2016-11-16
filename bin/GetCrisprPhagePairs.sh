@@ -38,7 +38,7 @@ perl ${OpenMet}LengthFilterSeqs.pl -i ./${Output}/Spacers.fa -o ./${Output}/Spac
 # Get rid of spaces in the files
 sed 's/ /_/g' "${PhageGenomes}" > ./${Output}/PhageReferenceNoSpace.fa || exit
 sed 's/ /_/g' ./${Output}/Spacers.good.fa \
-	| tac Spacers.good.fa \
+	| tac \
 	| sed '/^\./,+1d' \
 	| tac \
 	> ./${Output}/SpacersNoSpaceGood.fa || exit

@@ -353,11 +353,7 @@ ${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv : \
 		"ViromeAgainstReferenceBacteria"
 
 # Make a graph database from the experimental information
-expnetwork : \
-			${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
-			${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv \
-			${VREF}/MatchesByBlastxFormatOrderClustered.tsv \
-			./bin/CreateProteinNetwork
+expnetwork :
 	# Note that this resets the graph database and erases
 	# the validation information we previously added.
 	echo $(shell date)  :  Building network using experimental dataset predictive values >> ${DATENAME}.makelog

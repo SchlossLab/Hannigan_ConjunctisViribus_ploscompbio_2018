@@ -357,7 +357,7 @@ expnetwork :
 	mkdir ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	bash ./bin/CreateProteinNetwork \
 		${VALDIR}/Interactions.tsv \
-		${VREF}/BenchmarkCrisprsFormat.tsv \
+		${VREF}/BenchmarkCrisprsFormatClustered.tsv \
 		${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
 		${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv \
 		${VREF}/MatchesByBlastxFormatOrderClustered.tsv \

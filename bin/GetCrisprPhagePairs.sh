@@ -37,12 +37,7 @@ perl ${OpenMet}LengthFilterSeqs.pl -i ./${Output}/Spacers.fa -o ./${Output}/Spac
 
 # Get rid of spaces in the files
 sed 's/ /_/g' "${PhageGenomes}" > ./${Output}/PhageReferenceNoSpace.fa || exit
-sed 's/ /_/g' ./${Output}/Spacers.good.fa \
-	| egrep -B 1 '^\.' \
-	| tac \
-	| sed '/^\./ { N; d; }' \
-	| tac \
-	> ./${Output}/SpacersNoSpaceGood.fa || exit
+sed 's/ /_/g' ./${Output}/Spacers.good.fa > ./${Output}/SpacersNoSpaceGood.fa || exit
 
 # Finish the script if the file is basically emptry
 if grep -qx "\-\-" ./${Output}/SpacersNoSpaceGood.fa

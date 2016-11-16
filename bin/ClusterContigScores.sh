@@ -37,9 +37,9 @@ AnnotateCollapseClusters () {
 
 	grep -v 'NA' ./data/${OutputName}/tmpAnnotations2.tsv > ${OutputAnnotate}
 
-	# Remove the tmp file
-	rm ./data/${OutputName}/tmpAnnotations.tsv
-	rm ./data/${OutputName}/tmpAnnotations2.tsv
+	# # Remove the tmp file
+	# rm ./data/${OutputName}/tmpAnnotations.tsv
+	# rm ./data/${OutputName}/tmpAnnotations2.tsv
 }
 
 export -f AnnotateCollapseClusters

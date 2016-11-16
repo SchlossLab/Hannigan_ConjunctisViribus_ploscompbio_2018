@@ -82,7 +82,7 @@ bash ./bin/GetCrisprPhagePairs.sh \
 	./bin/ \
 	|| exit
 
-rm ./data/${Output}/tmp/*
+# rm ./data/${Output}/tmp/*
 
 # Format the output
 FormatNames \

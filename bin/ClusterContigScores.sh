@@ -13,6 +13,8 @@ export PfamOut=$6
 export PhageContigClusters=$7
 export BacteriaContigClusters=$8
 export OutputName=$9
+export CrisprIn=${10}
+export CrisprOut=${11}
 
 
 ###################
@@ -59,7 +61,10 @@ cat \
 	> ./data/${OutputName}/ContClust.tsv
 
 # Run the subroutines
-# I know I know I should loop this
+AnnotateCollapseClusters \
+	${CrisprIn} \
+	${CrisprOut}
+
 AnnotateCollapseClusters \
 	${ProphageBlast} \
 	${ProphageOut}

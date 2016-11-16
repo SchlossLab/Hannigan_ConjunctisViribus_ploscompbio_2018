@@ -350,7 +350,9 @@ ${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv : \
 		${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv \
 		./data/ContigClustersPhage/clustering_gt1000.csv \
 		./data/ContigClustersBacteria/clustering_gt1000.csv \
-		"ViromeAgainstReferenceBacteria"
+		"ViromeAgainstReferenceBacteria" \
+		${VREF}/BenchmarkCrisprsFormat.tsv \
+		${VREF}/BenchmarkCrisprsFormatClustered.tsv
 
 # Make a graph database from the experimental information
 expnetwork :

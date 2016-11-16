@@ -364,10 +364,7 @@ expnetwork :
 		"FALSE"
 
 # Predict interactions between nodes
-./data/PredictedRelationshipTable.tsv : \
-			expnetwork \
-			./data/rfinteractionmodel.RData \
-			./bin/RunPredictionsWithNeo4j.sh
+./data/PredictedRelationshipTable.tsv :
 	echo $(shell date)  :  Predicting interactions between study bacteria and phages >> ${DATENAME}.makelog
 	bash ./bin/RunPredictionsWithNeo4j.sh \
 		./data/rfinteractionmodel.RData \

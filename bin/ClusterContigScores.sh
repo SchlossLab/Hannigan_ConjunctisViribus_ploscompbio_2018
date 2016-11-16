@@ -29,6 +29,9 @@ AnnotateCollapseClusters () {
 	awk -F "\t" 'FNR==NR { a[$1] = $2; next } {print a[$1]"\t"a[$2]"\t"$3}' \
 		./data/${OutputName}/ContClust.tsv \
 		${FileToAnnotate} \
+		| tail -n +2 \
+		| sed 's/\t\t/\tNoClusterPhage\t/' \
+		| sed 's/^\t/NoClusterBacteria\t/' \
 		> ./data/${OutputName}/tmpAnnotations.tsv
 
 	Rscript ./bin/CollapseGeneScores.R \

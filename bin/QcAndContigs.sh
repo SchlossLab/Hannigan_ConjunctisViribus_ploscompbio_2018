@@ -78,38 +78,38 @@ mkdir -p ./data/${Output}/raw
 if [[ ${PAIREDVAR} = "PAIRED" ]]; then
 	echo Running paired sample...
 
-	# # Set correct permissions
-	# chmod 777 ${SampleDirectory}${SampleID}.sra
+	# Set correct permissions
+	chmod 777 ${SampleDirectory}${SampleID}.sra
 
-	# # Clean up
-	# rm -f -r ./data/${Output}/${SampleID}_megahit
-	# rm -f -r ./data/${Output}/${SampleID}
+	# Clean up
+	rm -f -r ./data/${Output}/${SampleID}_megahit
+	rm -f -r ./data/${Output}/${SampleID}
 
-	# ls ${SampleDirectory}${SampleID}.sra | xargs -I {} --max-procs=4 sh -c '
-	# 	echo Processing file {}...
-	# 		fastq-dump --split-3 {} --outdir ./data/${Output}/raw
-	# '
-	# runFastx \
-	# 	./data/${Output}/raw/${SampleID}*1* \
-	# 	./data/${Output}/${SampleID}fastxoutput1untrimmed.fq
-	# runFastx \
-	# 	./data/${Output}/raw/${SampleID}*2* \
-	# 	./data/${Output}/${SampleID}fastxoutput2untrimmed.fq
+	ls ${SampleDirectory}${SampleID}.sra | xargs -I {} --max-procs=4 sh -c '
+		echo Processing file {}...
+			fastq-dump --split-3 {} --outdir ./data/${Output}/raw
+	'
+	runFastx \
+		./data/${Output}/raw/${SampleID}*1* \
+		./data/${Output}/${SampleID}fastxoutput1untrimmed.fq
+	runFastx \
+		./data/${Output}/raw/${SampleID}*2* \
+		./data/${Output}/${SampleID}fastxoutput2untrimmed.fq
 
-	# python ./bin/get_trimmed_pairs.py \
-	# 	-f ./data/${Output}/${SampleID}fastxoutput1untrimmed.fq \
-	# 	-s ./data/${Output}/${SampleID}fastxoutput2untrimmed.fq \
-	# 	-o ./data/${Output}/${SampleID}fastxoutput1.fq \
-	# 	-t ./data/${Output}/${SampleID}fastxoutput2.fq
+	python ./bin/get_trimmed_pairs.py \
+		-f ./data/${Output}/${SampleID}fastxoutput1untrimmed.fq \
+		-s ./data/${Output}/${SampleID}fastxoutput2untrimmed.fq \
+		-o ./data/${Output}/${SampleID}fastxoutput1.fq \
+		-t ./data/${Output}/${SampleID}fastxoutput2.fq
 
-	# # Clean up intermediate files
-	# rm -f ./data/${Output}/${SampleID}${SampleID}fastxoutput1untrimmed.fq
-	# rm -f ./data/${Output}/${SampleID}${SampleID}fastxoutput2untrimmed.fq
+	# Clean up intermediate files
+	rm -f ./data/${Output}/${SampleID}${SampleID}fastxoutput1untrimmed.fq
+	rm -f ./data/${Output}/${SampleID}${SampleID}fastxoutput2untrimmed.fq
 
-	# PairedAssembleContigs \
-	# 	./data/${Output}/${SampleID}fastxoutput1.fq \
-	# 	./data/${Output}/${SampleID}fastxoutput2.fq \
-	# 	./data/${Output}/${SampleID}_megahit
+	PairedAssembleContigs \
+		./data/${Output}/${SampleID}fastxoutput1.fq \
+		./data/${Output}/${SampleID}fastxoutput2.fq \
+		./data/${Output}/${SampleID}_megahit
 else
 	echo Running single end sample...
 

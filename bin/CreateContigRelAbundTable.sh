@@ -52,7 +52,7 @@ GetHits () {
 }
 
 BowtieRun () {
-	sampleid=$(echo ${1} | sed 's/_2.fastq//')
+	sampleid=$(echo ${1} | sed 's/\(_2\)\?.fastq//')
 	GetHits \
 		${FastaSequences}/${1} \
 		./${Output}/bowtieReference/bowtieReference
@@ -83,7 +83,7 @@ bowtie2-build \
 	-q ${ContigsFile} \
 	./${Output}/bowtieReference/bowtieReference
 
-ls ${FastaSequences}/*_2.fastq | sed "s/.*\///g" | xargs -I {} --max-procs=32 bash -c 'BowtieRun "$@"' _ {}
+ls ${FastaSequences}/*[^1].fastq | sed "s/.*\///g" | xargs -I {} --max-procs=32 bash -c 'BowtieRun "$@"' _ {}
 
 echo Catting files...
 

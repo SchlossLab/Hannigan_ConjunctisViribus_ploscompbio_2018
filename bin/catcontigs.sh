@@ -57,4 +57,4 @@ rm ./tmpBacteriaContigs.fa
 rm ./tmpPhageContigs.fa
 rm ./tmpTotalContigs.fa
 
-rm -r "${NewContigDirectory}"
+# rm -r "${NewContigDirectory}"

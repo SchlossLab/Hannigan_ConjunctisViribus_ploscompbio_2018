@@ -1,16 +1,8 @@
 #! /bin/bash
-# QcAndContigs.pbs
+# QcAndContigs.sh
 # Geoffrey Hannigan
 # Pat Schloss Lab
 # University of Michigan
-
-#PBS -N runmakefile-conjviribus
-#PBS -q first
-#PBS -l nodes=2:ppn=2,pmem=40gb
-#PBS -l walltime=600:00:00
-#PBS -j oe
-#PBS -V
-#PBS -A schloss_lab
 
 #################
 # Set Variables #

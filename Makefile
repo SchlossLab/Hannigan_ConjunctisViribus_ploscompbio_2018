@@ -153,11 +153,7 @@ ${SRALIST}: %:
 ${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
 	echo Makefile is calling to process $@
 	echo $(shell date)  :  Performing QC and contig alignment on sample $@ >> ${DATENAME}.makelog
-		qsub ./bin/QcAndContigs.pbs \
-		$@ \
-		./data/ViromePublications/ \
-		./data/PublishedDatasets/metadatatable.tsv \
-		"QualityOutput"
+		qsub ./bin/QcAndContigs.pbs -F '$@ ./data/ViromePublications/ ./data/PublishedDatasets/metadatatable.tsv "QualityOutput"'
 
 # Merge the contigs into a single file
 ./data/TotalCatContigsBacteria.fa \

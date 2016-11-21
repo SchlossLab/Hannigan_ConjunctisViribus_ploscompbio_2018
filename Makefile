@@ -153,14 +153,7 @@ ${SRALIST}: %:
 ${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
 	echo Makefile is calling to process $@
 	echo $(shell date)  :  Performing QC and contig alignment on sample $@ >> ${DATENAME}.makelog
-	qsub -N runmakefile-conjviribus \
-		-q first \
-		-l nodes=2:ppn=2,pmem=40gb \
-		-l walltime=600:00:00 \
-		-j oe \
-		-V \
-		-A schloss_lab \
-		bash ./bin/QcAndContigs.sh \
+		qsub ./bin/QcAndContigs.pbs \
 		$@ \
 		./data/ViromePublications/ \
 		./data/PublishedDatasets/metadatatable.tsv \

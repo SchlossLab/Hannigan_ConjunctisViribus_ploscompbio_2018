@@ -12,6 +12,11 @@
 #PBS -V
 #PBS -A schloss_lab
 
+# Set working directory
+cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus || exit
+
+echo Working directory is $(pwd)
+
 #################
 # Set Variables #
 #################

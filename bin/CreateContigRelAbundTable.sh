@@ -83,7 +83,7 @@ bowtie2-build \
 	-q ${ContigsFile} \
 	./${Output}/bowtieReference/bowtieReference
 
-ls ${FastaSequences}/*[^1].fastq | sed "s/.*\///g" | xargs -I {} --max-procs=32 bash -c 'BowtieRun "$@"' _ {}
+ls ${FastaSequences}/*[^1].fastq | sed "s/.*\///g" | xargs -I {} --max-procs=16 bash -c 'BowtieRun "$@"' _ {}
 
 echo Catting files...
 

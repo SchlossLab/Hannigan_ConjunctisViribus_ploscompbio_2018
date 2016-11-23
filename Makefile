@@ -179,14 +179,14 @@ ABUNDLIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable.
 	| uniq \
 	| grep -v "Run" \
 	| sed 's/$$/.fastq-noheader-forcat/' \
-	| sed 's/^/data\/QualityOutput\/raw\//')
+	| sed 's/^/data\/QualityOutput\//')
 
 PAIREDABUNDLIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
 	| uniq \
 	| grep -v "Run" \
 	| sed 's/$$/_2.fastq-noheader-forcat/' \
-	| sed 's/^/data\/QualityOutput\/raw\//')
+	| sed 's/^/data\/QualityOutput\//')
 
 aligntocontigs: $(ABUNDLIST) $(PAIREDABUNDLIST)
 

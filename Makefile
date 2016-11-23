@@ -185,7 +185,7 @@ PAIREDABUNDLIST := $(shell awk ' $4 $=$= "PAIRED" { print $$3 } ' ./data/Publish
 	| sort \
 	| uniq \
 	| grep -v "Run" \
-	| sed 's/$$/_R2.fastq-noheader-forcat/' \
+	| sed 's/$$/_2.fastq-noheader-forcat/' \
 	| sed 's/^/data\/QualityOutput\//')
 
 aligntocontigs: $(ABUNDLIST) $(PAIREDABUNDLIST)
@@ -199,7 +199,7 @@ aligntocontigs: $(ABUNDLIST) $(PAIREDABUNDLIST)
 $(ABUNDLIST): data/QualityOutput/%.fastq-noheader-forcat : data/QualityOutput/raw/%.fastq ./data/virusbowtieReference/bowtieReference.1.bt2
 	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/virusbowtieReference/bowtieReference $<'
 
-$(PAIREDABUNDLIST): data/QualityOutput/%_R2.fastq-noheader-forcat : data/QualityOutput/raw/%_R2.fastq ./data/virusbowtieReference/bowtieReference.1.bt2
+$(PAIREDABUNDLIST): data/QualityOutput/%_2.fastq-noheader-forcat : data/QualityOutput/raw/%_2.fastq ./data/virusbowtieReference/bowtieReference.1.bt2
 	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/virusbowtieReference/bowtieReference $<'
 
 # Split abundance table by phage and bacteria samples/contigs

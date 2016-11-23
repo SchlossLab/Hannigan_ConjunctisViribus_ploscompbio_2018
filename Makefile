@@ -174,15 +174,33 @@ ${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
 # One for bacteria, one for phage
 
 # Generate a contig relative abundance table
-./data/ContigRelAbundForGraph.tsv : \
-			./data/TotalCatContigs.fa \
-			${SAMPLELIST} \
-			./bin/CreateContigRelAbundTable.sh
-	echo $(shell date)  :  Generating contig sequence abundance table >> ${DATENAME}.makelog
-	bash ./bin/CreateContigRelAbundTable.sh \
-		./data/TotalCatContigs.fa \
-		./data/QualityOutput/raw \
-		./data/ContigRelAbundForGraph.tsv
+ABUNDLIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable.tsv \
+	| sort \
+	| uniq \
+	| grep -v "Run" \
+	| sed 's/$$/.fastq-noheader-forcat/' \
+	| sed 's/^/data\/QualityOutput\/raw\//')
+
+PAIREDABUNDLIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable.tsv \
+	| sort \
+	| uniq \
+	| grep -v "Run" \
+	| sed 's/$$/_2.fastq-noheader-forcat/' \
+	| sed 's/^/data\/QualityOutput\/raw\//')
+
+aligntocontigs: $(ABUNDLIST) $(PAIREDABUNDLIST)
+
+./data/virusbowtieReference/bowtieReference.1.bt2 : ./data/TotalCatContigs.fa
+	mkdir -p ./data/virusbowtieReference
+	bowtie2-build \
+		-q ./data/TotalCatContigs.fa \
+		./data/virusbowtieReference/bowtieReference
+
+$(ABUNDLIST): data/QualityOutput/%.fastq-noheader-forcat : data/QualityOutput/raw/%.fastq ./data/virusbowtieReference/bowtieReference.1.bt2
+	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/virusbowtieReference/bowtieReference $<'
+
+$(PAIREDABUNDLIST): data/QualityOutput/%_R2.fastq-noheader-forcat : data/QualityOutput/raw/%_R2.fastq ./data/virusbowtieReference/bowtieReference.1.bt2
+	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/virusbowtieReference/bowtieReference $<'
 
 # Split abundance table by phage and bacteria samples/contigs
 ./data/BacteriaContigAbundance.tsv \

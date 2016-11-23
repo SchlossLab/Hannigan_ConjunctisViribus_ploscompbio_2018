@@ -174,18 +174,18 @@ ${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
 # One for bacteria, one for phage
 
 # Generate a contig relative abundance table
-ABUNDLIST := $(shell awk ' $4 == "SINGLE" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
+ABUNDLIST := $(shell awk ' $4 $=$= "SINGLE" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
 	| uniq \
 	| grep -v "Run" \
 	| sed 's/$$/.fastq-noheader-forcat/' \
 	| sed 's/^/data\/QualityOutput\//')
 
-PAIREDABUNDLIST := $(shell awk ' $4 == "PAIRED" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
+PAIREDABUNDLIST := $(shell awk ' $4 $=$= "PAIRED" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
 	| uniq \
 	| grep -v "Run" \
-	| sed 's/$$/_2.fastq-noheader-forcat/' \
+	| sed 's/$$/_R2.fastq-noheader-forcat/' \
 	| sed 's/^/data\/QualityOutput\//')
 
 aligntocontigs: $(ABUNDLIST) $(PAIREDABUNDLIST)

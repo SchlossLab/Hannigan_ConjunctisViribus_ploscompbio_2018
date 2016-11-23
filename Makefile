@@ -38,12 +38,6 @@ SAMPLELIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable
 	| sed 's/^/data\/QualityOutput\//')
 DATENAME := $(shell date | sed 's/ /_/g' | sed 's/\:/\./g')
 
-# For debugging right now
-print:
-	echo $(shell date)  :  Printing sample list >> ${DATENAME}.makelog
-	echo ${SAMPLELIST}
-
-
 
 #############
 # Set Rules #
@@ -174,19 +168,22 @@ ${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
 # One for bacteria, one for phage
 
 # Generate a contig relative abundance table
-ABUNDLIST := $(shell awk ' $4 $=$= "SINGLE" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
+ABUNDLIST := $(shell awk ' $$4 == "SINGLE" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
 	| uniq \
 	| grep -v "Run" \
 	| sed 's/$$/.fastq-noheader-forcat/' \
 	| sed 's/^/data\/QualityOutput\//')
 
-PAIREDABUNDLIST := $(shell awk ' $4 $=$= "PAIRED" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
+PAIREDABUNDLIST := $(shell awk ' $$4 == "PAIRED" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
 	| uniq \
 	| grep -v "Run" \
 	| sed 's/$$/_2.fastq-noheader-forcat/' \
 	| sed 's/^/data\/QualityOutput\//')
+
+print:
+	echo ${ABUNDLIST}
 
 aligntocontigs: $(ABUNDLIST) $(PAIREDABUNDLIST)
 

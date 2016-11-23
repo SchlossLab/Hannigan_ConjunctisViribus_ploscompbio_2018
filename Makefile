@@ -187,17 +187,17 @@ print:
 
 aligntocontigs: $(ABUNDLIST) $(PAIREDABUNDLIST)
 
-./data/virusbowtieReference/bowtieReference.1.bt2 : ./data/TotalCatContigs.fa
-	mkdir -p ./data/virusbowtieReference
+./data/bowtieReference/bowtieReference.1.bt2 : ./data/TotalCatContigs.fa
+	mkdir -p ./data/bowtieReference
 	bowtie2-build \
 		-q ./data/TotalCatContigs.fa \
-		./data/virusbowtieReference/bowtieReference
+		./data/bowtieReference/bowtieReference
 
-$(ABUNDLIST): data/QualityOutput/%.fastq-noheader-forcat : data/QualityOutput/raw/%.fastq ./data/virusbowtieReference/bowtieReference.1.bt2
-	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/virusbowtieReference/bowtieReference $<'
+$(ABUNDLIST): data/QualityOutput/%.fastq-noheader-forcat : data/QualityOutput/raw/%.fastq ./data/bowtieReference/bowtieReference.1.bt2
+	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/bowtieReference/bowtieReference $<'
 
-$(PAIREDABUNDLIST): data/QualityOutput/%_2.fastq-noheader-forcat : data/QualityOutput/raw/%_2.fastq ./data/virusbowtieReference/bowtieReference.1.bt2
-	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/virusbowtieReference/bowtieReference $<'
+$(PAIREDABUNDLIST): data/QualityOutput/%_2.fastq-noheader-forcat : data/QualityOutput/raw/%_2.fastq ./data/bowtieReference/bowtieReference.1.bt2
+	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/bowtieReference/bowtieReference $<'
 
 # Split abundance table by phage and bacteria samples/contigs
 ./data/BacteriaContigAbundance.tsv \

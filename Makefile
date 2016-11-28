@@ -199,6 +199,10 @@ $(ABUNDLIST): data/QualityOutput/%.fastq-noheader-forcat : data/QualityOutput/ra
 $(PAIREDABUNDLIST): data/QualityOutput/%_2.fastq-noheader-forcat : data/QualityOutput/raw/%_2.fastq ./data/bowtieReference/bowtieReference.1.bt2
 	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/bowtieReference/bowtieReference $<'
 
+# Make a final abundance table
+./data/ContigRelAbundForGraph.tsv : data/QualityOutput/raw
+	cat data/QualityOutput/raw/*-noheader-forcat > ./data/ContigRelAbundForGraph.tsv
+
 # Split abundance table by phage and bacteria samples/contigs
 ./data/BacteriaContigAbundance.tsv \
 ./data/PhageContigAbundance.tsv : \

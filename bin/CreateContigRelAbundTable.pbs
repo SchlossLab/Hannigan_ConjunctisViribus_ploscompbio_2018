@@ -12,7 +12,7 @@
 #PBS -V
 #PBS -A schloss_lab
 
-cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ColonCancerVirome || exit
+cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 #######################
 # Set the Environment #

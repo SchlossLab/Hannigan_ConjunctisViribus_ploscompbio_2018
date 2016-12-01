@@ -57,6 +57,9 @@ BowtieRun () {
 
 	awk -v name=${sampleid} '{ print $0"\t"name }' ${1}-noheader \
 	| grep -v '\*' > ${1}-noheader-forcat
+
+	sed -i 's/data\/QualityOutput\/raw\///' ${1}-noheader-forcat
+	sed -i 's/\.fastq//' ${1}-noheader-forcat
 	# rm ${1}/${1}-noheader
 }
 

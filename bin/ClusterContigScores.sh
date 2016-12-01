@@ -30,8 +30,8 @@ AnnotateCollapseClusters () {
 		./data/${OutputName}/ContClust.tsv \
 		${FileToAnnotate} \
 		| tail -n +2 \
-		| sed 's/\t\t/\tNoClusterPhage\t/' \
-		| sed 's/^\t/NoClusterBacteria\t/' \
+		# | sed 's/\t\t/\tNoClusterPhage\t/' \
+		# | sed 's/^\t/NoClusterBacteria\t/' \
 		> ./data/${OutputName}/tmpAnnotations.tsv
 
 	Rscript ./bin/CollapseGeneScores.R \

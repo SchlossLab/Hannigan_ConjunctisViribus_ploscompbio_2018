@@ -36,7 +36,7 @@ AnnotateCollapseClusters () {
 
 	Rscript ./bin/CollapseGeneScores.R \
 		-i ./data/${OutputName}/tmpAnnotations.tsv \
-		-o ./data/${OutputName}/${OutputAnnotate}
+		-o ${OutputAnnotate}
 
 	# # Remove the tmp file
 	# rm ./data/${OutputName}/tmpAnnotations.tsv

@@ -22,27 +22,24 @@ export CrisprOut=${11}
 ###################
 
 AnnotateCollapseClusters () {
-	FileToAnnotate=$1
-	OutputAnnotate=$2
+	export FileToAnnotate=$1
+	export OutputAnnotate=$2
 
 	# Replace occurences
 	awk -F "\t" 'FNR==NR { a[$1] = $2; next } {print a[$1]"\t"a[$2]"\t"$3}' \
 		./data/${OutputName}/ContClust.tsv \
 		${FileToAnnotate} \
 		| tail -n +2 \
-		# | sed 's/\t\t/\tNoClusterPhage\t/' \
-		# | sed 's/^\t/NoClusterBacteria\t/' \
+		| sed 's/\t\t/\tNoClusterPhage\t/' \
+		| sed 's/^\t/NoClusterBacteria\t/' \
 		> ./data/${OutputName}/tmpAnnotations.tsv
 
 	Rscript ./bin/CollapseGeneScores.R \
 		-i ./data/${OutputName}/tmpAnnotations.tsv \
-		-o ./data/${OutputName}/tmpAnnotations2.tsv
-
-	grep -v 'NA' ./data/${OutputName}/tmpAnnotations2.tsv > ${OutputAnnotate}
+		-o ./data/${OutputName}/${OutputAnnotate}
 
 	# # Remove the tmp file
 	# rm ./data/${OutputName}/tmpAnnotations.tsv
-	# rm ./data/${OutputName}/tmpAnnotations2.tsv
 }
 
 export -f AnnotateCollapseClusters
@@ -68,14 +65,14 @@ AnnotateCollapseClusters \
 	${CrisprIn} \
 	${CrisprOut}
 
-AnnotateCollapseClusters \
-	${ProphageBlast} \
-	${ProphageOut}
+# AnnotateCollapseClusters \
+# 	${ProphageBlast} \
+# 	${ProphageOut}
 
 AnnotateCollapseClusters \
 	${BlastxResults} \
 	${BlastxOut}
 
-AnnotateCollapseClusters \
-	${PfamResults} \
-	${PfamOut}
+# AnnotateCollapseClusters \
+# 	${PfamResults} \
+# 	${PfamOut}

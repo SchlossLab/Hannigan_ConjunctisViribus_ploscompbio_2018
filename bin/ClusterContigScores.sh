@@ -65,14 +65,14 @@ AnnotateCollapseClusters \
 	${CrisprIn} \
 	${CrisprOut}
 
-# AnnotateCollapseClusters \
-# 	${ProphageBlast} \
-# 	${ProphageOut}
+AnnotateCollapseClusters \
+	${ProphageBlast} \
+	${ProphageOut}
 
 AnnotateCollapseClusters \
 	${BlastxResults} \
 	${BlastxOut}
 
-# AnnotateCollapseClusters \
-# 	${PfamResults} \
-# 	${PfamOut}
+AnnotateCollapseClusters \
+	${PfamResults} \
+	${PfamOut}

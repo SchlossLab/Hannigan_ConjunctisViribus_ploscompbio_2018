@@ -5,7 +5,7 @@ export sampleBacteria=$2
 export metadata=$3
 
 echo Phage sample file is ${samplesPhage}
-echo Bacteria sample file is ${samplesBacteria}
+echo Bacteria sample file is ${sampleBacteria}
 echo Metadata file is ${metadata}
 
 # Put together the two abundance files

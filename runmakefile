@@ -27,4 +27,7 @@ module load concoct/0.4.0
 cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
-make addmetadata
+make --recon expnetwork
+make --recon ./data/PredictedRelationshipTable.tsv
+make --recon finalrelationships
+make --recon addmetadata

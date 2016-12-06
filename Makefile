@@ -191,7 +191,7 @@ PAIREDABUNDLISTBACTERIA := $(shell awk ' $$4 == "PAIRED" && $$10 == "Bacteria" {
 	| sed 's/$$/_2.fastq-noheader-forcat/' \
 	| sed 's/^/data\/QualityOutput\//')
 
-PAIREDABUNDLISTVLP := $(shell awk ' $$4 == "PAIRED" && $$10 == "Bacteria" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
+PAIREDABUNDLISTVLP := $(shell awk ' $$4 == "PAIRED" && $$10 == "VLP" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
 	| uniq \
 	| grep -v "Run" \

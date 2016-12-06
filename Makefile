@@ -4,6 +4,8 @@
 # Pat Schloss Lab
 # University of Michigan
 
+############################################# METADATA ############################################
+
 ##############################
 # Download & Format Metadata #
 ##############################
@@ -19,41 +21,48 @@ DownloadMetadata : ./bin/DownloadMetadata.sh ./data/PublishedDatasets/raw_metada
 		-m ./data/PublishedDatasets/SubjectSampleInformation.tsv \
 		-o ./data/PublishedDatasets/metadatatable.tsv
 
+########################################## SET VARIABLES ##########################################
 
-
-#########################
-# Set General Variables #
-#########################
+###########################
+# Study Accession Numbers #
+###########################
 ACCLIST := $(shell awk '{ print "data/ViromePublications/"$$7 }' ./data/PublishedDatasets/SutdyInformation.tsv)
+
+##################
+# Sample SRA IDs # 
+##################
 SRALIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
 	| uniq \
 	| sed 's/$$/.sra/' \
 	| sed 's/^/data\/ViromePublications\//')
+
+movefiles: ${SRALIST}
+
+###########################
+# Sample List for Quality #
+###########################
 SAMPLELIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
 	| uniq \
 	| grep -v "Run" \
 	| sed 's/$$/_megahit/' \
 	| sed 's/^/data\/QualityOutput\//')
-DATENAME := $(shell date | sed 's/ /_/g' | sed 's/\:/\./g')
 
-
-#############
-# Set Rules #
-#############
 contigs: ${SAMPLELIST}
 
-movefiles: ${SRALIST}
+###############
+# Date Record #
+###############
+DATENAME := $(shell date | sed 's/ /_/g' | sed 's/\:/\./g')
 
-runsamples : DownloadMetadata $(samplesforcleaning)
+##################################### CREATE & VALIDATE MODEL #####################################
 
-####################
-# Model Validation #
-####################
+##############################
+# Get Study Sequence ID List #
+##############################
 VALDIR=./data/ValidationSet
 
-# Get the sequences to use in this analysis
 ${VALDIR}/ValidationPhageNoBlock.fa \
 ${VALDIR}/ValidationBacteriaNoBlock.fa : \
 			${VALDIR}/PhageID.tsv \
@@ -66,7 +75,9 @@ ${VALDIR}/ValidationBacteriaNoBlock.fa : \
 		${VALDIR}/ValidationPhageNoBlock.fa \
 		${VALDIR}/ValidationBacteriaNoBlock.fa
 
-# Get the formatted interaction file
+###########################
+# Format Interaction File #
+###########################
 ${VALDIR}/Interactions.tsv : \
 			${VALDIR}/BacteriaID.tsv \
 			${VALDIR}/InteractionsRaw.tsv \
@@ -77,6 +88,9 @@ ${VALDIR}/Interactions.tsv : \
 		-i ${VALDIR}/InteractionsRaw.tsv \
 		-o ${VALDIR}/Interactions.tsv
 
+##############################
+# Score For Prediction Model #
+##############################
 BSET=./data/BenchmarkingSet
 
 ${BSET}/BenchmarkCrisprsFormat.tsv \
@@ -96,6 +110,9 @@ ${BSET}/PfamInteractionsFormatScoredFlip.tsv : \
 		${BSET}/PfamInteractionsFormatScoredFlip.tsv \
 		"BenchmarkingSet"
 
+###################################
+# Build Prediction Graph Database #
+###################################
 validationnetwork : \
 			${VALDIR}/Interactions.tsv \
 			${BSET}/BenchmarkCrisprsFormat.tsv \
@@ -114,17 +131,18 @@ validationnetwork : \
 		${BSET}/MatchesByBlastxFormatOrder.tsv \
 		"TRUE"
 
-# Run the R script for the validation ROC curve analysis
+##################################
+# Save And Plot Prediction Model #
+##################################
 ./data/rfinteractionmodel.RData :
 	echo $(shell date)  :  Predicting interactions between phages and bacteria in graph >> ${DATENAME}.makelog
 	bash ./bin/RunRocAnalysisWithNeo4j.sh
 
+######################################## DOWNLOAD RAW DATA ########################################
 
 # ##########################################
 # # Download Global Virome Dataset Studies #
 # ##########################################
-# Download the sequences for the dataset
-# Use the list because it allows for test of targets
 $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv ./bin/DownloadPublishedVirome.sh
 	echo $@
 	echo $(shell date)  :  Downloading study sample sequences from $@ >> ${DATENAME}.makelog
@@ -132,25 +150,25 @@ $(ACCLIST): %: ./data/PublishedDatasets/SutdyInformation.tsv ./bin/DownloadPubli
 		$< \
 		$@
 
+######################################### CONTIG ASSEMBLY #########################################
 
-
-############################
-# Total Dataset Networking #
-############################
-### CONTIG ASSEMBLY AND QC
-# Move the sra files
+###################################
+# Move SRA Files To New Directory #
+###################################
 ${SRALIST}: %:
 	mv $@ data/ViromePublications/
 
-# Run quality control as well here
-# Need to decompress the fastq files first from SRA
+#######################################
+# Quality Filtering & Contig Assembly #
+#######################################
 ${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
-	echo Makefile is calling to process $@
 	echo $(shell date)  :  Performing QC and contig alignment on sample $@ >> ${DATENAME}.makelog
 		qsub ./bin/QcAndContigs.pbs -F '$@ ./data/ViromePublications/ ./data/PublishedDatasets/metadatatable.tsv "QualityOutput"'
 
-# Merge the contigs into a single file
-#WARNING: This step uses random numbers. Rerunning this will yield different results
+#################
+# Merge Contigs #
+#################
+# **WARNING**: This step uses random numbers. Rerunning this will yield different results
 # and will likely impact downstream processes. Use with caution.
 ./data/TotalCatContigsBacteria.fa \
 ./data/TotalCatContigsPhage.fa \
@@ -166,9 +184,11 @@ ${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
 		./data/PublishedDatasets/metadatatable.tsv \
 		./data/TotalCatContigs.fa
 
-# At this point I have two contig files that I need to keep straight
-# One for bacteria, one for phage
+######################################### CONTIG ABUNDANCE ########################################
 
+###############################
+# Prepare File Path Variables #
+###############################
 # Generate a contig relative abundance table
 ABUNDLISTBACTERIA := $(shell awk ' $$4 == "SINGLE" && $$10 == "Bacteria" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
@@ -198,12 +218,10 @@ PAIREDABUNDLISTVLP := $(shell awk ' $$4 == "PAIRED" && $$10 == "VLP" { print $$3
 	| sed 's/$$/_2.fastq-noheader-forcat/' \
 	| sed 's/^/data\/QualityOutput\//')
 
-print:
-	echo ${ABUNDLIST}
-
+#############################
+# Build Reference Databases #
+#############################
 makereference: ./data/bowtieReference/bowtieReferencephage.1.bt2 ./data/bowtieReference/bowtieReferencebacteria.1.bt2
-
-aligntocontigs: $(ABUNDLISTBACTERIA) $(ABUNDLISTVLP) $(PAIREDABUNDLISTBACTERIA) $(PAIREDABUNDLISTVLP)
 
 ./data/bowtieReference/bowtieReferencephage.1.bt2 : ./data/TotalCatContigsPhage.fa
 	mkdir -p ./data/bowtieReference
@@ -217,6 +235,11 @@ aligntocontigs: $(ABUNDLISTBACTERIA) $(ABUNDLISTVLP) $(PAIREDABUNDLISTBACTERIA) 
 		-q ./data/TotalCatContigsBacteria.fa \
 		./data/bowtieReference/bowtieReferencebacteria
 
+##########################
+# Align Reads to Contigs #
+##########################
+aligntocontigs: $(ABUNDLISTBACTERIA) $(ABUNDLISTVLP) $(PAIREDABUNDLISTBACTERIA) $(PAIREDABUNDLISTVLP)
+
 $(ABUNDLISTBACTERIA): data/QualityOutput/%.fastq-noheader-forcat : data/QualityOutput/raw/%.fastq ./data/bowtieReference/bowtieReferencebacteria.1.bt2
 	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/bowtieReference/bowtieReferencebacteria $<'
 
@@ -229,11 +252,15 @@ $(PAIREDABUNDLISTBACTERIA): data/QualityOutput/%_2.fastq-noheader-forcat : data/
 $(PAIREDABUNDLISTVLP): data/QualityOutput/%_2.fastq-noheader-forcat : data/QualityOutput/raw/%_2.fastq ./data/bowtieReference/bowtieReferencephage.1.bt2
 	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/bowtieReference/bowtieReferencephage $<'
 
-# Make a final abundance table
+#########################
+# Final Abundance Table #
+#########################
 ./data/ContigRelAbundForGraph.tsv : data/QualityOutput/raw
 	cat data/QualityOutput/raw/*-noheader-forcat > ./data/ContigRelAbundForGraph.tsv
 
-# Split abundance table by phage and bacteria samples/contigs
+###############################
+# Final Split Abundance Table #
+###############################
 ./data/BacteriaContigAbundance.tsv \
 ./data/PhageContigAbundance.tsv : \
 			./data/TotalCatContigsBacteria.fa \
@@ -250,8 +277,12 @@ $(PAIREDABUNDLISTVLP): data/QualityOutput/%_2.fastq-noheader-forcat : data/Quali
 		./data/PhageContigAbundance.tsv \
 		./data/ContigRelAbundForGraph.tsv
 
-# Transform contig abundance table for CONCOCT
-## Bacteria
+######################################### CLUSTER CONTIGS #########################################
+
+#################################
+# Prepare Abundance For CONCOCT #
+#################################
+# Bacteria
 ./data/ContigRelAbundForConcoctBacteria.tsv : \
 			./data/BacteriaContigAbundance.tsv \
 			./bin/ReshapeAlignedAbundance.R
@@ -260,7 +291,7 @@ $(PAIREDABUNDLISTVLP): data/QualityOutput/%_2.fastq-noheader-forcat : data/Quali
 		-i ./data/BacteriaContigAbundance.tsv \
 		-o ./data/ContigRelAbundForConcoctBacteria.tsv \
 		-p 0.15
-## Phage
+# Phage
 ./data/ContigRelAbundForConcoctPhage.tsv : \
 			./data/PhageContigAbundance.tsv \
 			./bin/ReshapeAlignedAbundance.R
@@ -270,10 +301,11 @@ $(PAIREDABUNDLISTVLP): data/QualityOutput/%_2.fastq-noheader-forcat : data/Quali
 		-o ./data/ContigRelAbundForConcoctPhage.tsv \
 		-p 0.15
 
-# Run CONCOCT to get contig clusters
+###############
+# Run CONCOCT #
+###############
 # Read length is an approximate average from the studies
 # Im skipping total coverage because I don't think it makes sense for this dataset
-# Again do it as bacteria and phages
 concoctify : ./data/ContigClustersBacteria/clustering_gt1000.csv ./data/ContigClustersPhage/clustering_gt1000.csv
 ## Bacteria
 ./data/ContigClustersBacteria \
@@ -291,7 +323,7 @@ concoctify : ./data/ContigClustersBacteria/clustering_gt1000.csv ./data/ContigCl
 		--read_length 150 \
 		--basename ./data/ContigClustersBacteria/ \
 		--no_total_coverage \
-		--iterations 50
+		--iterations 20
 ##Phage
 ./data/ContigClustersPhage \
 ./data/ContigClustersPhage/clustering_gt1000.csv : \
@@ -308,10 +340,13 @@ concoctify : ./data/ContigClustersBacteria/clustering_gt1000.csv ./data/ContigCl
 		--read_length 150 \
 		--basename ./data/ContigClustersPhage/ \
 		--no_total_coverage \
-		--iterations 50
+		--iterations 20
 
+####################################### CONTIG SUMMARY STATS ######################################
 
-### CONTIG STATISTICS
+################################
+# Format Data For Contig Stats #
+################################
 PSTAT=./data/PhageContigStats
 
 # Prepare to plot contig stats like sequencing depth, length, and circularity
@@ -330,7 +365,9 @@ ${PSTAT}/circularcontigsFormat.tsv : \
 		${PSTAT}/circularcontigsFormat.tsv \
 		${PSTAT}
 
-# Finalize the contig stats plots
+####################
+# Run Contig Stats #
+####################
 ./figures/ContigStats.pdf \
 ./figures/ContigStats.png : \
 			${PSTAT}/ContigLength.tsv \
@@ -342,18 +379,15 @@ ${PSTAT}/circularcontigsFormat.tsv : \
 		-l ${PSTAT}/ContigLength.tsv \
 		-c ${PSTAT}/FinalContigCounts.tsv \
 		-x ${PSTAT}/circularcontigsFormat.tsv
-###
 
+######################################### INTERACTION SCORES ########################################
 
-### DRAW PRIMARY NETWORK GRAPH (PHAGE + REFERENCE BACTERA)
-
+######################
+# Score Interactions #
+######################
 VREF=./data/ViromeAgainstReferenceBacteria
-# In this case the samples will get run against the bacteria reference genome set
-ViromeRefRun : ${VREF}/BenchmarkCrisprsFormat.tsv \
-	${VREF}/BenchmarkProphagesFormatFlip.tsv \
-	${VREF}/MatchesByBlastxFormatOrder.tsv \
-	${VREF}/PfamInteractionsFormatScoredFlip.tsv
 
+# In this case the samples will get run against the bacteria reference genome set
 ${VREF}/BenchmarkCrisprsFormat.tsv \
 ${VREF}/BenchmarkProphagesFormatFlip.tsv \
 ${VREF}/MatchesByBlastxFormatOrder.tsv \
@@ -371,7 +405,9 @@ ${VREF}/PfamInteractionsFormatScoredFlip.tsv : \
 		${VREF}/PfamInteractionsFormatScoredFlip.tsv \
 		"ViromeAgainstReferenceBacteria"
 
-# Annotate contig IDs with cluster IDs and further compress
+#####################################
+# Compress Scores by Contig Cluster #
+#####################################
 clusterrun : ${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
 	${VREF}/MatchesByBlastxFormatOrderClustered.tsv \
 	${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv
@@ -393,43 +429,9 @@ ${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv :
 		${VREF}/BenchmarkCrisprsFormat.tsv \
 		${VREF}/BenchmarkCrisprsFormatClustered.tsv
 
-# Make a graph database from the experimental information
-expnetwork :
-	# Note that this resets the graph database and erases
-	# the validation information we previously added.
-	echo $(shell date)  :  Building network using experimental dataset predictive values >> ${DATENAME}.makelog
-	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
-	mkdir ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
-	bash ./bin/CreateProteinNetwork \
-		${VALDIR}/Interactions.tsv \
-		${VREF}/BenchmarkCrisprsFormatClustered.tsv \
-		${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
-		${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv \
-		${VREF}/MatchesByBlastxFormatOrderClustered.tsv \
-		"FALSE"
-
-# Predict interactions between nodes
-./data/PredictedRelationshipTable.tsv :
-	echo $(shell date)  :  Predicting interactions between study bacteria and phages >> ${DATENAME}.makelog
-	bash ./bin/RunPredictionsWithNeo4j.sh \
-		./data/rfinteractionmodel.RData \
-		./data/PredictedRelationshipTable.tsv
-
-# Add relationships
-finalrelationships \
-./figures/BacteriaPhageNetworkDiagram.pdf \
-./figures/BacteriaPhageNetworkDiagram.png \
-./figures/PhageHostHist.pdf \
-./figures/PhageHostHist.png \
-./figures/BacteriaEdgeCount.pdf \
-./figures/BacteriaEdgeCount.png : \
-		./data/PredictedRelationshipTable.tsv \
-		./bin/AddRelationshipsWrapper.sh
-	echo $(shell date)  :  Adding relationships to network and plotting total graph >> ${DATENAME}.makelog
-	bash ./bin/AddRelationshipsWrapper.sh \
-		./data/PredictedRelationshipTable.tsv
-
-# Collapse sequence counts by contig cluster
+############################
+# Collapse Sequence Counts #
+############################
 ./data/ContigRelAbundForGraphClusteredPhage.tsv \
 ./data/ContigRelAbundForGraphClusteredBacteria.tsv : \
 			./data/ContigClustersPhage/clustering_gt1000.csv \
@@ -446,8 +448,53 @@ finalrelationships \
 		./data/ContigRelAbundForGraphClusteredPhage.tsv \
 		./data/ContigRelAbundForGraphClusteredBacteria.tsv
 
+####################################### MAKE VIROME NETWORK #######################################
 
-# Add metadata to the graph
+#######################
+# Build Initial Graph #
+#######################
+expnetwork :
+	# Note that this resets the graph database and erases
+	# the validation information we previously added.
+	echo $(shell date)  :  Building network using experimental dataset predictive values >> ${DATENAME}.makelog
+	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
+	mkdir ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
+	bash ./bin/CreateProteinNetwork \
+		${VALDIR}/Interactions.tsv \
+		${VREF}/BenchmarkCrisprsFormatClustered.tsv \
+		${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
+		${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv \
+		${VREF}/MatchesByBlastxFormatOrderClustered.tsv \
+		"FALSE"
+
+########################
+# Predict Interactions #
+########################
+./data/PredictedRelationshipTable.tsv :
+	echo $(shell date)  :  Predicting interactions between study bacteria and phages >> ${DATENAME}.makelog
+	bash ./bin/RunPredictionsWithNeo4j.sh \
+		./data/rfinteractionmodel.RData \
+		./data/PredictedRelationshipTable.tsv
+
+####################
+# Add Interactions #
+####################
+finalrelationships \
+./figures/BacteriaPhageNetworkDiagram.pdf \
+./figures/BacteriaPhageNetworkDiagram.png \
+./figures/PhageHostHist.pdf \
+./figures/PhageHostHist.png \
+./figures/BacteriaEdgeCount.pdf \
+./figures/BacteriaEdgeCount.png : \
+		./data/PredictedRelationshipTable.tsv \
+		./bin/AddRelationshipsWrapper.sh
+	echo $(shell date)  :  Adding relationships to network and plotting total graph >> ${DATENAME}.makelog
+	bash ./bin/AddRelationshipsWrapper.sh \
+		./data/PredictedRelationshipTable.tsv
+
+################
+# Add Metadata #
+################
 addmetadata : \
 			./data/ContigRelAbundForGraphClusteredPhage.tsv \
 			./data/ContigRelAbundForGraphClusteredBacteria.tsv \
@@ -458,8 +505,8 @@ addmetadata : \
 		./data/ContigRelAbundForGraphClusteredPhage.tsv \
 		./data/ContigRelAbundForGraphClusteredBacteria.tsv \
 		./data/PublishedDatasets/metadatatable.tsv
-###
 
+############################################# ANALYSIS ############################################
 
 ################
 # Run Analysis #

@@ -30,4 +30,4 @@ cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus || exit
 # make expnetwork
 # make ./data/PredictedRelationshipTable.tsv
 # make finalrelationships
-make addmetadata
+make -j aligntocontigs

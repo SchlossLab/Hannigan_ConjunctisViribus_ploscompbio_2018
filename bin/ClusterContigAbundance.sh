@@ -41,9 +41,13 @@ Rscript ./bin/CollapseRelativeAbundance.R \
 	-i ./tmpPhageAbund.tsv \
 	-o ${PhageCollapseOutput}
 
+sed -i 's/^\t/Phage_NoCluster\t/' ${PhageCollapseOutput}
+
 Rscript ./bin/CollapseRelativeAbundance.R \
 	-i ./tmpBacteriaAbund.tsv \
 	-o ${BacteriaCollapseOutput}
+
+sed -i 's/^\t/Phage_NoCluster\t/' ${BacteriaCollapseOutput}
 
 # Clean up the place
 rm ./tmpPhageClusters.tsv

@@ -215,16 +215,16 @@ aligntocontigs: $(ABUNDLISTBACTERIA) $(ABUNDLISTVLP) $(PAIREDABUNDLISTBACTERIA) 
 		-q ./data/TotalCatContigsBacteria.fa \
 		./data/bowtieReference/bowtieReferencebacteria
 
-$(ABUNDLISTBACTERIA): data/QualityOutput/%.fastq-noheader-forcat : data/QualityOutput/raw/%.fastq ./data/bowtieReference/bowtieReference.1.bt2
+$(ABUNDLISTBACTERIA): data/QualityOutput/%.fastq-noheader-forcat : data/QualityOutput/raw/%.fastq ./data/bowtieReference/bowtieReferencebacteria.1.bt2
 	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/bowtieReference/bowtieReferencebacteria $<'
 
-$(ABUNDLISTVLP): data/QualityOutput/%.fastq-noheader-forcat : data/QualityOutput/raw/%.fastq ./data/bowtieReference/bowtieReference.1.bt2
+$(ABUNDLISTVLP): data/QualityOutput/%.fastq-noheader-forcat : data/QualityOutput/raw/%.fastq ./data/bowtieReference/bowtieReferencephage.1.bt2
 	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/bowtieReference/bowtieReferencephage $<'
 
-$(PAIREDABUNDLISTBACTERIA): data/QualityOutput/%_2.fastq-noheader-forcat : data/QualityOutput/raw/%_2.fastq ./data/bowtieReference/bowtieReference.1.bt2
+$(PAIREDABUNDLISTBACTERIA): data/QualityOutput/%_2.fastq-noheader-forcat : data/QualityOutput/raw/%_2.fastq ./data/bowtieReference/bowtieReferencebacteria.1.bt2
 	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/bowtieReference/bowtieReferencebacteria $<'
 
-$(PAIREDABUNDLISTVLP): data/QualityOutput/%_2.fastq-noheader-forcat : data/QualityOutput/raw/%_2.fastq ./data/bowtieReference/bowtieReference.1.bt2
+$(PAIREDABUNDLISTVLP): data/QualityOutput/%_2.fastq-noheader-forcat : data/QualityOutput/raw/%_2.fastq ./data/bowtieReference/bowtieReferencephage.1.bt2
 	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/bowtieReference/bowtieReferencephage $<'
 
 # Make a final abundance table

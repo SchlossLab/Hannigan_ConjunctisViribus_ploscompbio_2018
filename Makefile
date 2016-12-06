@@ -201,6 +201,8 @@ PAIREDABUNDLISTVLP := $(shell awk ' $$4 == "PAIRED" && $$10 == "Bacteria" { prin
 print:
 	echo ${ABUNDLIST}
 
+makereference: ./data/bowtieReference/bowtieReferencephage.1.bt2 ./data/bowtieReference/bowtieReferencebacteria.1.bt2
+
 aligntocontigs: $(ABUNDLISTBACTERIA) $(ABUNDLISTVLP) $(PAIREDABUNDLISTBACTERIA) $(PAIREDABUNDLISTVLP)
 
 ./data/bowtieReference/bowtieReferencephage.1.bt2 : ./data/TotalCatContigsPhage.fa

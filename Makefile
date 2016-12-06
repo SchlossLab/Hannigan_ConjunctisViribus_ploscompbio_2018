@@ -150,6 +150,8 @@ ${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
 		qsub ./bin/QcAndContigs.pbs -F '$@ ./data/ViromePublications/ ./data/PublishedDatasets/metadatatable.tsv "QualityOutput"'
 
 # Merge the contigs into a single file
+#WARNING: This step uses random numbers. Rerunning this will yield different results
+# and will likely impact downstream processes. Use with caution.
 ./data/TotalCatContigsBacteria.fa \
 ./data/TotalCatContigsPhage.fa \
 ./data/TotalCatContigs.fa : \
@@ -168,14 +170,28 @@ ${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
 # One for bacteria, one for phage
 
 # Generate a contig relative abundance table
-ABUNDLIST := $(shell awk ' $$4 == "SINGLE" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
+ABUNDLISTBACTERIA := $(shell awk ' $$4 == "SINGLE" && $$10 == "Bacteria" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
 	| uniq \
 	| grep -v "Run" \
 	| sed 's/$$/.fastq-noheader-forcat/' \
 	| sed 's/^/data\/QualityOutput\//')
 
-PAIREDABUNDLIST := $(shell awk ' $$4 == "PAIRED" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
+ABUNDLISTVLP := $(shell awk ' $$4 == "SINGLE" && $$10 == "VLP" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
+	| sort \
+	| uniq \
+	| grep -v "Run" \
+	| sed 's/$$/.fastq-noheader-forcat/' \
+	| sed 's/^/data\/QualityOutput\//')
+
+PAIREDABUNDLISTBACTERIA := $(shell awk ' $$4 == "PAIRED" && $$10 == "Bacteria" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
+	| sort \
+	| uniq \
+	| grep -v "Run" \
+	| sed 's/$$/_2.fastq-noheader-forcat/' \
+	| sed 's/^/data\/QualityOutput\//')
+
+PAIREDABUNDLISTVLP := $(shell awk ' $$4 == "PAIRED" && $$10 == "Bacteria" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
 	| uniq \
 	| grep -v "Run" \
@@ -185,19 +201,31 @@ PAIREDABUNDLIST := $(shell awk ' $$4 == "PAIRED" { print $$3 } ' ./data/Publishe
 print:
 	echo ${ABUNDLIST}
 
-aligntocontigs: $(ABUNDLIST) $(PAIREDABUNDLIST)
+aligntocontigs: $(ABUNDLISTBACTERIA) $(ABUNDLISTVLP) $(PAIREDABUNDLISTBACTERIA) $(PAIREDABUNDLISTVLP)
 
-./data/bowtieReference/bowtieReference.1.bt2 : ./data/TotalCatContigs.fa
+./data/bowtieReference/bowtieReferencephage.1.bt2 : ./data/TotalCatContigsPhage.fa
 	mkdir -p ./data/bowtieReference
 	bowtie2-build \
-		-q ./data/TotalCatContigs.fa \
-		./data/bowtieReference/bowtieReference
+		-q ./data/TotalCatContigsPhage.fa \
+		./data/bowtieReference/bowtieReferencephage
 
-$(ABUNDLIST): data/QualityOutput/%.fastq-noheader-forcat : data/QualityOutput/raw/%.fastq ./data/bowtieReference/bowtieReference.1.bt2
-	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/bowtieReference/bowtieReference $<'
+./data/bowtieReference/bowtieReferencebacteria.1.bt2 : ./data/TotalCatContigsBacteria.fa
+	mkdir -p ./data/bowtieReference
+	bowtie2-build \
+		-q ./data/TotalCatContigsBacteria.fa \
+		./data/bowtieReference/bowtieReferencebacteria
 
-$(PAIREDABUNDLIST): data/QualityOutput/%_2.fastq-noheader-forcat : data/QualityOutput/raw/%_2.fastq ./data/bowtieReference/bowtieReference.1.bt2
-	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/bowtieReference/bowtieReference $<'
+$(ABUNDLISTBACTERIA): data/QualityOutput/%.fastq-noheader-forcat : data/QualityOutput/raw/%.fastq ./data/bowtieReference/bowtieReference.1.bt2
+	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/bowtieReference/bowtieReferencebacteria $<'
+
+$(ABUNDLISTVLP): data/QualityOutput/%.fastq-noheader-forcat : data/QualityOutput/raw/%.fastq ./data/bowtieReference/bowtieReference.1.bt2
+	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/bowtieReference/bowtieReferencephage $<'
+
+$(PAIREDABUNDLISTBACTERIA): data/QualityOutput/%_2.fastq-noheader-forcat : data/QualityOutput/raw/%_2.fastq ./data/bowtieReference/bowtieReference.1.bt2
+	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/bowtieReference/bowtieReferencebacteria $<'
+
+$(PAIREDABUNDLISTVLP): data/QualityOutput/%_2.fastq-noheader-forcat : data/QualityOutput/raw/%_2.fastq ./data/bowtieReference/bowtieReference.1.bt2
+	qsub ./bin/CreateContigRelAbundTable.pbs -F './data/bowtieReference/bowtieReferencephage $<'
 
 # Make a final abundance table
 ./data/ContigRelAbundForGraph.tsv : data/QualityOutput/raw
@@ -245,7 +273,7 @@ $(PAIREDABUNDLIST): data/QualityOutput/%_2.fastq-noheader-forcat : data/QualityO
 # Im skipping total coverage because I don't think it makes sense for this dataset
 # Again do it as bacteria and phages
 concoctify : ./data/ContigClustersBacteria/clustering_gt1000.csv ./data/ContigClustersPhage/clustering_gt1000.csv
-## Bacteroa
+## Bacteria
 ./data/ContigClustersBacteria \
 ./data/ContigClustersBacteria/clustering_gt1000.csv: \
 			./data/TotalCatContigsBacteria.fa \

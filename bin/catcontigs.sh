@@ -43,10 +43,12 @@ cut -f 3,10 ${metadata} \
 # Cat together the samples specified in the sample lists
 ## Bacteria
 xargs < "${NewContigDirectory}"/BacteriaSampleList.tsv cat > ./tmpBacteriaContigs.fa
-sed -i "s/^>/>Bacteria_${RANDOM}_/" ./tmpBacteriaContigs.fa
+sed -i "s/^>/>Bacteria_/" ./tmpBacteriaContigs.fa
+perl -i -p -e 'my $randomnum = int(rand(999999)); s/Bacteria/Bacteria_$randomnum/;' ./tmpBacteriaContigs.fa
 ## Phage
 xargs < "${NewContigDirectory}"/PhageSampleList.tsv cat > ./tmpPhageContigs.fa
-sed -i "s/^>/>Phage_${RANDOM}_/" ./tmpPhageContigs.fa
+sed -i "s/^>/>Phage_/" ./tmpPhageContigs.fa
+perl -i -p -e 'my $randomnum = int(rand(999999)); s/Phage/Phage_$randomnum/;' ./tmpPhageContigs.fa
 # Also create a master contig file
 cat ./tmpBacteriaContigs.fa ./tmpPhageContigs.fa > ./tmpTotalContigs.fa
 

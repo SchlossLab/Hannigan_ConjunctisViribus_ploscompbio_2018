@@ -43,10 +43,10 @@ cut -f 3,10 ${metadata} \
 # Cat together the samples specified in the sample lists
 ## Bacteria
 xargs < "${NewContigDirectory}"/BacteriaSampleList.tsv cat > ./tmpBacteriaContigs.fa
-sed -i 's/^>/^>Bacteria_/' ./tmpBacteriaContigs.fa
+sed -i 's/^>/>Bacteria_/' ./tmpBacteriaContigs.fa
 ## Phage
 xargs < "${NewContigDirectory}"/PhageSampleList.tsv cat > ./tmpPhageContigs.fa
-sed -i 's/^>/^>Phage_/' ./tmpPhageContigs.fa
+sed -i 's/^>/>Phage_/' ./tmpPhageContigs.fa
 # Also create a master contig file
 cat ./tmpBacteriaContigs.fa ./tmpPhageContigs.fa > ./tmpTotalContigs.fa
 

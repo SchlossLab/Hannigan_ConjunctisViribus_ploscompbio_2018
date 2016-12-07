@@ -290,7 +290,7 @@ $(PAIREDABUNDLISTVLP): data/QualityOutput/%_2.fastq-noheader-forcat : data/Quali
 	Rscript ./bin/ReshapeAlignedAbundance.R \
 		-i ./data/BacteriaContigAbundance.tsv \
 		-o ./data/ContigRelAbundForConcoctBacteria.tsv \
-		-p 0.15
+		-p 0.25
 # Phage
 ./data/ContigRelAbundForConcoctPhage.tsv : \
 			./data/PhageContigAbundance.tsv \
@@ -323,7 +323,7 @@ concoctify : ./data/ContigClustersBacteria/clustering_gt1000.csv ./data/ContigCl
 		--read_length 150 \
 		--basename ./data/ContigClustersBacteria/ \
 		--no_total_coverage \
-		--iterations 20
+		--iterations 25
 ##Phage
 ./data/ContigClustersPhage \
 ./data/ContigClustersPhage/clustering_gt1000.csv : \
@@ -340,7 +340,7 @@ concoctify : ./data/ContigClustersBacteria/clustering_gt1000.csv ./data/ContigCl
 		--read_length 150 \
 		--basename ./data/ContigClustersPhage/ \
 		--no_total_coverage \
-		--iterations 20
+		--iterations 25
 
 ####################################### CONTIG SUMMARY STATS ######################################
 

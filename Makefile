@@ -299,7 +299,7 @@ $(PAIREDABUNDLISTVLP): data/QualityOutput/%_2.fastq-noheader-forcat : data/Quali
 	Rscript ./bin/ReshapeAlignedAbundance.R \
 		-i ./data/PhageContigAbundance.tsv \
 		-o ./data/ContigRelAbundForConcoctPhage.tsv \
-		-p 0.15
+		-p 0.25
 
 ###############
 # Run CONCOCT #

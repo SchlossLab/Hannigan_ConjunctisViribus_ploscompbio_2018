@@ -89,11 +89,13 @@ my $purificationtype;
 my $location;
 my $hosttype;
 my $platform;
+my $subjectid;
+my $timepoint;
 
 foreach my $line (<$META>) {
 	chomp $line;
 	my @linearray = split /\t/, $line;
-	$studyid = $linearray[0];
+	$studyid = $linearray[12];
 	print STDERR "Study ID is $studyid\n";
 	$sampleid = $linearray[2];
 	$platform = $linearray[4];
@@ -104,6 +106,9 @@ foreach my $line (<$META>) {
 	$purificationtype = $linearray[9];
 	$location = $linearray[10];
 	$hosttype = $linearray[11];
+	$subjectid = $linearray[13];
+	$timepoint = $linearray[14];
+
 	# Skip the header
 	next if ($studyid eq "SRA_Study_s");
 	print "Sample ID is $sampleid\n";
@@ -114,17 +119,17 @@ foreach my $line (<$META>) {
 	my @n12 = REST::Neo4p->get_nodes_by_label( $disease );
 	# Get existing study nodes
 	my @n13 = REST::Neo4p->get_nodes_by_label( $studyid );
-
-	my $existingnodes = scalar(@n13);
-	my $samplenodes = scalar(@n11);
-
-	print STDERR "There are $existingnodes study ID nodes with this name.\n";
-	print STDERR "There are $samplenodes sample ID nodes with this name.\n";
+	# Get existing subject nodes
+	my @n14 = REST::Neo4p->get_nodes_by_label( $studyid );
+	# Get existing time point nodes
+	my @n15 = REST::Neo4p->get_nodes_by_label( $timepoint );
 
 	# Ensure there are no duplicated nodes
     die "You have duplicate sample node IDs: $!" if (scalar(@n11) gt 1);
     die "You have duplicate disease node IDs: $!" if (scalar(@n12) gt 1);
     die "You have duplicate study node IDs: $!" if (scalar(@n13) gt 1);
+    die "You have duplicate subject node IDs: $!" if (scalar(@n14) gt 1);
+    die "You have duplicate time point node IDs: $!" if (scalar(@n15) gt 1);
     next if (scalar(@n11) eq 0);
 
     # Build nodes if the do not yet exist
@@ -139,10 +144,24 @@ foreach my $line (<$META>) {
 		$n1->set_property( {Organism => 'StudyID'} );
 		$n1->set_labels('StudyID',$studyid);
 	}
+	unless (@n14) {
+		print STDERR "Creating this Subject node.\n";
+		$n1 = REST::Neo4p::Node->new( {Name => $subjectid} );
+		$n1->set_property( {Organism => 'subjectid'} );
+		$n1->set_labels('SubjectID',$subjectid);
+	}
+	unless (@n14) {
+		print STDERR "Creating this time point node.\n";
+		$n1 = REST::Neo4p::Node->new( {Name => $timepoint} );
+		$n1->set_property( {Organism => 'timepoint'} );
+		$n1->set_labels('TimePoint',$timepoint);
+	}
 
 	@n11 = REST::Neo4p->get_nodes_by_label( $sampleid );
 	@n12 = REST::Neo4p->get_nodes_by_label( $disease );
 	@n13 = REST::Neo4p->get_nodes_by_label( $studyid );
+	@n14 = REST::Neo4p->get_nodes_by_label( $subjectid );
+	@n15 = REST::Neo4p->get_nodes_by_label( $timepoint );
 
 	# Made array 1 the sample ID
 	my $array1 = pop @n11;
@@ -150,11 +169,17 @@ foreach my $line (<$META>) {
     my $array2 = pop @n12;
     # Make array 3 the study
     my $array3 = pop @n13;
+    # Make array 4 the subject
+    my $array4 = pop @n14;
+    # Make array 4 the subject
+    my $array5 = pop @n15;
 
 	# Ensure there are no duplicated nodes
     die "You have duplicate sample node IDs: $!" if (scalar(@n11) gt 1);
     die "You have duplicate phage node IDs: $!" if (scalar(@n12) gt 1);
     die "You have duplicate study node IDs: $!" if (scalar(@n13) gt 1);
+    die "You have duplicate subject node IDs: $!" if (scalar(@n14) gt 1);
+    die "You have duplicate time point node IDs: $!" if (scalar(@n15) gt 1);
 
     ###########################
     # Set the data into nodes #
@@ -165,6 +190,15 @@ foreach my $line (<$META>) {
 	$array3->relate_to($array1, 'IncludedInStudy')->set_property({Study => "TRUE"});
 	# Relate study to disease as well
 	$array2->relate_to($array3, 'IncludedInStudy')->set_property({StudyDisease => "TRUE"});
+	# Relate subject to study
+	$array3->relate_to($array4, 'IncludedInStudy')->set_property({SubjectStudy => "TRUE"});
+	# Relate disease to subject
+	$array2->relate_to($array4, 'Diseased')->set_property({SubjectDisaese => "TRUE"});
+	# Relate subject to sample
+	$array4->relate_to($array1, 'IncludedInSubject')->set_property({SubjectContains => "TRUE"});
+	# Relate time point to sample
+	$array5->relate_to($array1, 'TimePoint')->set_property({TimePoint => "TRUE"});
+
 	# Set sample properties
 	# I think these could also be nodes but for now I am going to use them as edges
 	$array1->set_property( {Platform => $platform} );

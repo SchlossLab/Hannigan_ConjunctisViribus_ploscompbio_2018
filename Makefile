@@ -495,11 +495,7 @@ finalrelationships \
 ################
 # Add Metadata #
 ################
-addmetadata : \
-			./data/ContigRelAbundForGraphClusteredPhage.tsv \
-			./data/ContigRelAbundForGraphClusteredBacteria.tsv \
-			./data/PublishedDatasets/metadatatable.tsv \
-			./bin/AddMetadata.sh
+addmetadata :
 	echo $(shell date)  :  Adding metadata to interaction network >> ${DATENAME}.makelog
 	bash ./bin/AddMetadata.sh \
 		./data/ContigRelAbundForGraphClusteredPhage.tsv \

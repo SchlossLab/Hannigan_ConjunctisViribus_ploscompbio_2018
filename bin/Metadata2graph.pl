@@ -108,7 +108,7 @@ foreach my $line (<$META>) {
 	$timepoint = $linearray[14];
 
 	# Skip the header
-	next if ($studyid eq "SRA_Study_s");
+	next if ($sampleid eq "SubjectID");
 	print "Sample ID is $sampleid\n";
 
 	# Get existing sample nodes
@@ -134,7 +134,7 @@ foreach my $line (<$META>) {
 		$n1->set_labels('Disease',$disease);
 	}
 	unless (@n13) {
-		print STDERR "Creating this StudyID node.\n";
+		print STDERR "Creating StudyID node with $studyid.\n";
 		$n1 = REST::Neo4p::Node->new( {Name => $studyid} );
 		$n1->set_property( {Organism => 'StudyID'} );
 		$n1->set_labels('StudyID',$studyid);

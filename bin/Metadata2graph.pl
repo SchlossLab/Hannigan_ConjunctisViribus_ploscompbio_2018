@@ -110,7 +110,7 @@ foreach my $line (<$META>) {
 	$patientid = $linearray[13];
 
 	# Skip the header
-	next if ($sampleid eq "SubjectID");
+	next if ($patientid eq "SubjectID");
 	print "Sample ID is $sampleid\n";
 
 	# Get existing sample nodes

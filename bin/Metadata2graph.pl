@@ -90,13 +90,14 @@ my $location;
 my $hosttype;
 my $platform;
 my $timepoint;
+my $patientid;
 
 foreach my $line (<$META>) {
 	chomp $line;
 	my @linearray = split /\t/, $line;
 	$studyid = $linearray[12];
 	print STDERR "Study ID is $studyid\n";
-	$sampleid = $linearray[13];
+	$sampleid = $linearray[2];
 	$platform = $linearray[4];
 	$disease = $linearray[5];
 	print STDERR "Disease name is $disease\n";
@@ -106,6 +107,7 @@ foreach my $line (<$META>) {
 	$location = $linearray[10];
 	$hosttype = $linearray[11];
 	$timepoint = $linearray[14];
+	$patientid = $linearray[13];
 
 	# Skip the header
 	next if ($sampleid eq "SubjectID");
@@ -117,6 +119,8 @@ foreach my $line (<$META>) {
 	my @n12 = REST::Neo4p->get_nodes_by_label( $disease );
 	# Get existing study nodes
 	my @n13 = REST::Neo4p->get_nodes_by_label( $studyid );
+	# Get existing study nodes
+	my @n14 = REST::Neo4p->get_nodes_by_label( $patientid );
 	# Get existing time point nodes
 	my @n15 = REST::Neo4p->get_nodes_by_label( $timepoint );
 
@@ -124,8 +128,10 @@ foreach my $line (<$META>) {
     die "You have duplicate sample node IDs: $!" if (scalar(@n11) gt 1);
     die "You have duplicate disease node IDs: $!" if (scalar(@n12) gt 1);
     die "You have duplicate study node IDs: $!" if (scalar(@n13) gt 1);
+    die "You have duplicate patient node IDs: $!" if (scalar(@n14) gt 1);
     die "You have duplicate time point node IDs: $!" if (scalar(@n15) gt 1);
     next if (scalar(@n11) eq 0);
+    print "Corresponding sample ID was present.\n";
 
     # Build nodes if the do not yet exist
     unless (@n12) {
@@ -139,6 +145,12 @@ foreach my $line (<$META>) {
 		$n1->set_property( {Organism => 'StudyID'} );
 		$n1->set_labels('StudyID',$studyid);
 	}
+	unless (@n14) {
+		print STDERR "Creating patient node with $patientid.\n";
+		$n1 = REST::Neo4p::Node->new( {Name => $patientid} );
+		$n1->set_property( {Organism => 'PatientID'} );
+		$n1->set_labels('PatientID',$patientid);
+	}
 	unless (@n15) {
 		print STDERR "Creating this time point node.\n";
 		$n1 = REST::Neo4p::Node->new( {Name => $timepoint} );
@@ -149,6 +161,7 @@ foreach my $line (<$META>) {
 	@n11 = REST::Neo4p->get_nodes_by_label( $sampleid );
 	@n12 = REST::Neo4p->get_nodes_by_label( $disease );
 	@n13 = REST::Neo4p->get_nodes_by_label( $studyid );
+	@n14 = REST::Neo4p->get_nodes_by_label( $patientid );
 	@n15 = REST::Neo4p->get_nodes_by_label( $timepoint );
 
 	# Made array 1 the sample ID
@@ -157,6 +170,8 @@ foreach my $line (<$META>) {
     my $array2 = pop @n12;
     # Make array 3 the study
     my $array3 = pop @n13;
+    # Make array 3 the study
+    my $array4 = pop @n14;
     # Make array 4 the subject
     my $array5 = pop @n15;
 
@@ -164,6 +179,7 @@ foreach my $line (<$META>) {
     die "You have duplicate sample node IDs: $!" if (scalar(@n11) gt 1);
     die "You have duplicate phage node IDs: $!" if (scalar(@n12) gt 1);
     die "You have duplicate study node IDs: $!" if (scalar(@n13) gt 1);
+    die "You have duplicate patient node IDs: $!" if (scalar(@n14) gt 1);
     die "You have duplicate time point node IDs: $!" if (scalar(@n15) gt 1);
 
     ###########################
@@ -177,6 +193,9 @@ foreach my $line (<$META>) {
 	$array2->relate_to($array3, 'IncludedInStudy')->set_property({StudyDisease => "TRUE"});
 	# Relate time point to sample
 	$array5->relate_to($array1, 'TimePoint')->set_property({TimePoint => "TRUE"});
+	# Relate patient to sample
+	$array4->relate_to($array1, 'IncludedForPatient')->set_property({Patient => "TRUE"});
+	
 
 	# Set sample properties
 	# I think these could also be nodes but for now I am going to use them as edges

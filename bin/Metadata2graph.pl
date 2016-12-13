@@ -142,7 +142,7 @@ foreach my $line (<$META>) {
 	unless (@n15) {
 		print STDERR "Creating this time point node.\n";
 		$n1 = REST::Neo4p::Node->new( {Name => $timepoint} );
-		$n1->set_property( {Organism => 'timepoint'} );
+		$n1->set_property( {Organism => 'TimePoint'} );
 		$n1->set_labels('TimePoint',$timepoint);
 	}
 

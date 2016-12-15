@@ -21,6 +21,9 @@ DownloadMetadata : ./bin/DownloadMetadata.sh ./data/PublishedDatasets/raw_metada
 		-m ./data/PublishedDatasets/SubjectSampleInformation.tsv \
 		-o ./data/PublishedDatasets/metadatatable.tsv
 
+# Some of the study metadata is confusing and I'm just not going to waste time parsing all of this.
+# It needs to be touched up manually which I loathe, but I will include the file for download.
+
 ########################################## SET VARIABLES ##########################################
 
 ###########################
@@ -42,7 +45,7 @@ movefiles: ${SRALIST}
 ###########################
 # Sample List for Quality #
 ###########################
-SAMPLELIST := $(shell awk '{ print $$3 }' ./data/PublishedDatasets/metadatatable.tsv \
+SAMPLELIST := $(shell awk '{ print $$16 }' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
 	| uniq \
 	| grep -v "Run" \
@@ -163,7 +166,7 @@ ${SRALIST}: %:
 #######################################
 ${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
 	echo $(shell date)  :  Performing QC and contig alignment on sample $@ >> ${DATENAME}.makelog
-		qsub ./bin/QcAndContigs.pbs -F '$@ ./data/ViromePublications/ ./data/PublishedDatasets/metadatatable.tsv "QualityOutput"'
+	qsub ./bin/QcAndContigs.pbs -F '$(subst _%,,$@) ./data/ViromePublications/ ./data/PublishedDatasets/metadatatable.tsv "QualityOutput" $@'
 
 #################
 # Merge Contigs #

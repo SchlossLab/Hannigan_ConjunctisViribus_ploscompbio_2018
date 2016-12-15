@@ -25,7 +25,8 @@ export SampleID=$(echo ${InputFile} | sed 's/.*\///g' | sed 's/\_.*//g')
 echo Sample ID is ${SampleID}
 export NewSample=$(echo ${InputFile} | sed 's/.*\///g' | sed 's/_megahit//')
 echo New Sample ID is ${NewSample}
-echo Raw New Sample ID is ${RawNewSample}
+export RawNewSample=$(echo ${NewSample} | sed 's/\./_/2')
+echo Raw Sample ID is ${RawNewSample}
 export SampleDirectory=${2}
 export Metadata=${3}
 export Output=${4}
@@ -149,7 +150,7 @@ else
 			fastq-dump --spot-group --split-3 {} --outdir ./data/${Output}/raw/${NewSample}
 	'
 
-	mv ./data/${Output}/raw/${NewSample}/${NewSample}* ./data/${Output}/raw/${NewSample}.fastq
+	mv ./data/${Output}/raw/${NewSample}/${RawNewSample}* ./data/${Output}/raw/${NewSample}.fastq
 
 	runFastx \
 		./data/${Output}/raw/${NewSample}.fastq \

@@ -139,8 +139,8 @@ else
 	echo Running single end sample...
 
 	# Clean before running
-	rm -f -r ./data/${Output}/${SampleID}
-	rm -f -r ./data/${Output}/${SampleID}_megahit
+	rm -f -r ./data/${Output}/${NewSample}
+	rm -f -r ./data/${Output}/${NewSample}_megahit
 
 	# Set correct permissions
 	chmod 777 ${SampleDirectory}${SampleID}.sra

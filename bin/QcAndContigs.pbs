@@ -23,9 +23,9 @@ echo Working directory is $(pwd)
 export InputFile=${1}
 export SampleID=$(echo ${InputFile} | sed 's/.*\///g' | sed 's/\_.*//g')
 echo Sample ID is ${SampleID}
-export NewSample=$(echo ${InputFile} | sed 's/.*\///g' | sed 's/_megahit//')
+export NewSample=$(echo ${InputFile} | sed 's/.*\///g' | sed 's/_1_megahit//')
 echo New Sample ID is ${NewSample}
-export RawNewSample=$(echo ${NewSample} | sed 's/\./_/2')
+export RawNewSample=$(echo ${NewSample} | sed 's/_/\./2')
 echo Raw Sample ID is ${RawNewSample}
 export SampleDirectory=${2}
 export Metadata=${3}

@@ -166,7 +166,7 @@ ${SRALIST}: %:
 #######################################
 ${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
 	echo $(shell date)  :  Performing QC and contig alignment on sample $@ >> ${DATENAME}.makelog
-	qsub ./bin/QcAndContigs.pbs -F '$(subst _%,,$@) ./data/ViromePublications/ ./data/PublishedDatasets/metadatatable.tsv "QualityOutput" $@'
+	qsub ./bin/QcAndContigs.pbs -F '$(patsubst _%,,$@) ./data/ViromePublications/ ./data/PublishedDatasets/metadatatable.tsv "QualityOutput" $@'
 
 #################
 # Merge Contigs #

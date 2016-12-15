@@ -21,11 +21,11 @@ echo Working directory is $(pwd)
 # Set Variables #
 #################
 export InputFile=${1}
-export SampleID=$(echo ${InputFile} | sed 's/.*\///g' | sed 's/\_.*//')
+export SampleID=$(echo ${InputFile} | sed 's/.*\///g' | sed 's/\_.*//g')
 echo Sample ID is ${SampleID}
-export NewSample=${5}
+export NewSample=$(echo ${5} | sed 's/.*\///g' | sed 's/\_.*//')
 echo New Sample ID is ${NewSample}
-RawNewSample=$(echo ${NewSample} | sed 's/_/\./2')
+RawNewSample=$(echo ${NewSample} | sed 's/_megahit//')
 echo Raw New Sample ID is ${RawNewSample}
 export SampleDirectory=${2}
 export Metadata=${3}

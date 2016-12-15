@@ -164,9 +164,9 @@ ${SRALIST}: %:
 #######################################
 # Quality Filtering & Contig Assembly #
 #######################################
-${SAMPLELIST}: data/QualityOutput/%_megahit: data/ViromePublications/%.sra
+${SAMPLELIST}: data/QualityOutput/%_megahit:
 	echo $(shell date)  :  Performing QC and contig alignment on sample $@ >> ${DATENAME}.makelog
-	qsub ./bin/QcAndContigs.pbs -F '$(patsubst _%,,$@) ./data/ViromePublications/ ./data/PublishedDatasets/metadatatable.tsv "QualityOutput" $@'
+	qsub ./bin/QcAndContigs.pbs -F '$@ ./data/ViromePublications/ ./data/PublishedDatasets/metadatatable.tsv "QualityOutput"'
 
 #################
 # Merge Contigs #

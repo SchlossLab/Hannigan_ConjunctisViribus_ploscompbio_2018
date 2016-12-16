@@ -106,13 +106,12 @@ if [[ ${PAIREDVAR} = "PAIRED" ]]; then
 
 	ls ${SampleDirectory}${SampleID}.sra | xargs -I {} --max-procs=4 sh -c '
 		echo Processing file {}...
-			fastq-dump --spot-group --split-3 {} --outdir ./data/${Output}/raw
+			fastq-dump --split-3 {} --outdir ./data/${Output}/raw
 	'
 
 	# Remove trailing 1 from the ID and remove extra file
-	rm ./data/${Output}/raw/${SampleID}_1.fastq
-	mv ./data/${Output}/raw/${SampleID}_1_1.fastq ./data/${Output}/raw/${NewSample}_1.fastq
-	mv ./data/${Output}/raw/${SampleID}_1_2.fastq ./data/${Output}/raw/${NewSample}_2.fastq
+	mv ./data/${Output}/raw/${SampleID}*1* ./data/${Output}/raw/${NewSample}_1.fastq
+	mv ./data/${Output}/raw/${SampleID}*2* ./data/${Output}/raw/${NewSample}_2.fastq
 
 	runFastx \
 		./data/${Output}/raw/${NewSample}*1* \

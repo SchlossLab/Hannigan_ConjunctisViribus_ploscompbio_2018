@@ -29,13 +29,13 @@ echo Merging contig files into a master file
 
 # Make a list of the samples associated with phages and bacteria
 ## Bacterial list
-cut -f 16,10 ${metadata} \
+awk '{ print $16"\t"$10 }' ${metadata} \
 	| grep Bacteria \
 	| awk -v path="${NewContigDirectory}/" '{ print path$1"_contigs.fa" }' \
 	> "${NewContigDirectory}"/BacteriaSampleList.tsv
 
 # Virus sample list
-cut -f 16,10 ${metadata} \
+awk '{ print $16"\t"$10 }' ${metadata} \
 	| grep VLP \
 	| awk -v path="${NewContigDirectory}/" '{ print path$1"_contigs.fa" }' \
 	> "${NewContigDirectory}"/PhageSampleList.tsv

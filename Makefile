@@ -193,28 +193,28 @@ ${SAMPLELIST}: data/QualityOutput/%_megahit:
 # Prepare File Path Variables #
 ###############################
 # Generate a contig relative abundance table
-ABUNDLISTBACTERIA := $(shell awk ' $$4 == "SINGLE" && $$10 == "Bacteria" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
+ABUNDLISTBACTERIA := $(shell awk ' $$4 == "SINGLE" && $$10 == "Bacteria" { print $$16 } ' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
 	| uniq \
 	| grep -v "Run" \
 	| sed 's/$$/.fastq-noheader-forcat/' \
 	| sed 's/^/data\/QualityOutput\//')
 
-ABUNDLISTVLP := $(shell awk ' $$4 == "SINGLE" && $$10 == "VLP" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
+ABUNDLISTVLP := $(shell awk ' $$4 == "SINGLE" && $$10 == "VLP" { print $$16 } ' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
 	| uniq \
 	| grep -v "Run" \
 	| sed 's/$$/.fastq-noheader-forcat/' \
 	| sed 's/^/data\/QualityOutput\//')
 
-PAIREDABUNDLISTBACTERIA := $(shell awk ' $$4 == "PAIRED" && $$10 == "Bacteria" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
+PAIREDABUNDLISTBACTERIA := $(shell awk ' $$4 == "PAIRED" && $$10 == "Bacteria" { print $$16 } ' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
 	| uniq \
 	| grep -v "Run" \
 	| sed 's/$$/_2.fastq-noheader-forcat/' \
 	| sed 's/^/data\/QualityOutput\//')
 
-PAIREDABUNDLISTVLP := $(shell awk ' $$4 == "PAIRED" && $$10 == "VLP" { print $$3 } ' ./data/PublishedDatasets/metadatatable.tsv \
+PAIREDABUNDLISTVLP := $(shell awk ' $$4 == "PAIRED" && $$10 == "VLP" { print $$16 } ' ./data/PublishedDatasets/metadatatable.tsv \
 	| sort \
 	| uniq \
 	| grep -v "Run" \
@@ -226,13 +226,13 @@ PAIREDABUNDLISTVLP := $(shell awk ' $$4 == "PAIRED" && $$10 == "VLP" { print $$3
 #############################
 makereference: ./data/bowtieReference/bowtieReferencephage.1.bt2 ./data/bowtieReference/bowtieReferencebacteria.1.bt2
 
-./data/bowtieReference/bowtieReferencephage.1.bt2 : ./data/TotalCatContigsPhage.fa
+./data/bowtieReference/bowtieReferencephage.1.bt2 :
 	mkdir -p ./data/bowtieReference
 	bowtie2-build \
 		-q ./data/TotalCatContigsPhage.fa \
 		./data/bowtieReference/bowtieReferencephage
 
-./data/bowtieReference/bowtieReferencebacteria.1.bt2 : ./data/TotalCatContigsBacteria.fa
+./data/bowtieReference/bowtieReferencebacteria.1.bt2 :
 	mkdir -p ./data/bowtieReference
 	bowtie2-build \
 		-q ./data/TotalCatContigsBacteria.fa \

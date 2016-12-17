@@ -1,11 +1,14 @@
 ##################
 # Load Libraries #
 ##################
-packagelist <- c("RNeo4j", "ggplot2", "wesanderson", "igraph", "visNetwork", "scales", "plyr", "cowplot", "vegan", "reshape2", "netdist")
+packagelist <- c("RNeo4j", "ggplot2", "wesanderson", "igraph", "visNetwork", "scales", "plyr", "cowplot", "vegan", "reshape2")
 new.packages <- packagelist[!(packagelist %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages, repos='http://cran.us.r-project.org')
 lapply(packagelist, library, character.only = TRUE)
 library("ggraph")
+
+# Some nettools dependencies required bioconductor installations
+# Follow the on-screen instructions
 
 ##############################
 # Run Analysis & Save Output #
@@ -155,6 +158,8 @@ routham <- lapply(c(1:length(routdiv)), function(i) {
 routham <- as.data.frame(do.call(rbind, routham))
 routhamnosame <- routham[!c(routham$hdistval == 0),]
 
+
+
 routhamnosame$class <- ifelse(routhamnosame$patient1 == routhamnosame$patient2, "Intrapersonal", "Interpersonal")
 
 intrabetadiv <- ggplot(routhamnosame, aes(x = class, y = hdistval)) +
@@ -209,3 +214,12 @@ finalplot <- plot_grid(plotnmds, boxplots, ncol = 2, labels = c("A"))
 pdf("./figures/dietnetworks.pdf", width = 10, height = 5)
 	finalplot
 dev.off()
+
+
+
+as_adjacency_matrix(routdiv[[4]][[2]], attr="weight")
+
+sqrt(sum((M1 - M2) ^ 2 ))
+
+
+

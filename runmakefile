@@ -29,5 +29,5 @@ cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
 ../../bin/neo4j-enterprise-2.3.0/bin/neo4j start
-Rscript ./bin/CompareSkin.R
+Rscript ./bin/CompareSkin.R || ../../bin/neo4j-enterprise-2.3.0/bin/neo4j stop
 ../../bin/neo4j-enterprise-2.3.0/bin/neo4j stop

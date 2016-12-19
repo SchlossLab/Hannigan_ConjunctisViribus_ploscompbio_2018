@@ -27,4 +27,4 @@ module load concoct/0.4.0
 cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
-make ./data/ContigClustersBacteria/clustering_gt1000.csv
+make ./data/ContigClustersPhage/clustering_gt1000.csv

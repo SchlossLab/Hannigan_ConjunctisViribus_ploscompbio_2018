@@ -40,4 +40,6 @@ sampletable <- as.data.frame(cypher(graph, sampleidquery))
 
 head(sampletable)
 
-
+# Takes some time to run through this, so save it for quick
+# access after the first run.
+save(sampletable, file="./data/skingraphtable.RData")

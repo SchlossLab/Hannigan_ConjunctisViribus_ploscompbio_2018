@@ -264,13 +264,7 @@ $(PAIREDABUNDLISTVLP): data/QualityOutput/%_2.fastq-noheader-forcat : data/Quali
 ###############################
 # Final Split Abundance Table #
 ###############################
-./data/BacteriaContigAbundance.tsv \
-./data/PhageContigAbundance.tsv : \
-			./data/TotalCatContigsBacteria.fa \
-			./data/TotalCatContigsPhage.fa \
-			./data/PublishedDatasets/metadatatable.tsv \
-			./data/ContigRelAbundForGraph.tsv \
-			./bin/SepAbundanceTable.sh
+./data/BacteriaContigAbundance.tsv ./data/PhageContigAbundance.tsv :
 	echo $(shell date)  :  Split contig abundance table between phage and bacteria >> ${DATENAME}.makelog
 	bash ./bin/SepAbundanceTable.sh \
 		./data/PublishedDatasets/metadatatable.tsv \

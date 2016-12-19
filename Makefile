@@ -386,10 +386,7 @@ VREF=./data/ViromeAgainstReferenceBacteria
 ${VREF}/BenchmarkCrisprsFormat.tsv \
 ${VREF}/BenchmarkProphagesFormatFlip.tsv \
 ${VREF}/MatchesByBlastxFormatOrder.tsv \
-${VREF}/PfamInteractionsFormatScoredFlip.tsv : \
-			./data/TotalCatContigsPhage.fa \
-			./data/TotalCatContigsBacteria.fa \
-			./bin/BenchmarkingModel.sh
+${VREF}/PfamInteractionsFormatScoredFlip.tsv :
 	echo $(shell date)  :  Calculating predictive values for experimental datasets >> ${DATENAME}.makelog
 	bash ./bin/BenchmarkingModel.sh \
 		./data/TotalCatContigsPhage.fa \

@@ -307,7 +307,6 @@ concoctify : ./data/ContigClustersBacteria/clustering_gt1000.csv ./data/ContigCl
 ## Bacteria
 ./data/ContigClustersBacteria \
 ./data/ContigClustersBacteria/clustering_gt1000.csv: \
-			./data/TotalCatContigsBacteria.fa \
 			./data/ContigRelAbundForConcoctBacteria.tsv
 	echo $(shell date)  :  Clustering bacterial contigs using CONCOCT >> ${DATENAME}.makelog
 	mkdir ./data/ContigClustersBacteria
@@ -324,7 +323,6 @@ concoctify : ./data/ContigClustersBacteria/clustering_gt1000.csv ./data/ContigCl
 ##Phage
 ./data/ContigClustersPhage \
 ./data/ContigClustersPhage/clustering_gt1000.csv : \
-			./data/TotalCatContigsPhage.fa \
 			./data/ContigRelAbundForConcoctPhage.tsv
 	echo $(shell date)  :  Clustering phage contigs using CONCOCT >> ${DATENAME}.makelog
 	mkdir ./data/ContigClustersPhage

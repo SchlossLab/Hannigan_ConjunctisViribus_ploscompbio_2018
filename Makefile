@@ -400,9 +400,7 @@ ${VREF}/PfamInteractionsFormatScoredFlip.tsv :
 #####################################
 # Compress Scores by Contig Cluster #
 #####################################
-clusterrun : ${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
-	${VREF}/MatchesByBlastxFormatOrderClustered.tsv \
-	${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv
+clusterrun : ${VREF}/BenchmarkProphagesFormatFlipClustered.tsv
 
 ${VREF}/BenchmarkProphagesFormatFlipClustered.tsv \
 ${VREF}/MatchesByBlastxFormatOrderClustered.tsv \

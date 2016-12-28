@@ -18,16 +18,16 @@ mkdir ${tmpdir}
 # Get list of sample IDs for each group
 ## Bacteria
 echo Getting bacteria sample list...
-cut -f 3,10 ${metadata} \
+cut -f 16,10 ${metadata} \
 	| grep Bacteria \
-	| awk '{ print $1 }' \
+	| awk '{ print $2 }' \
 	> "${tmpdir}"/BacteriaSampleList.tsv
 
 ## VLP
 echo Getting VLP sample list...
-cut -f 3,10 ${metadata} \
+cut -f 16,10 ${metadata} \
 	| grep VLP \
-	| awk '{ print $1 }' \
+	| awk '{ print $2 }' \
 	> "${tmpdir}"/PhageSampleList.tsv
 
 # Get list of the contigs associated with each group

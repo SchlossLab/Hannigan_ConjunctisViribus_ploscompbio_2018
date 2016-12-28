@@ -5,7 +5,6 @@ packagelist <- c("RNeo4j", "ggplot2", "wesanderson", "igraph", "visNetwork", "sc
 new.packages <- packagelist[!(packagelist %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages, repos='http://cran.us.r-project.org')
 lapply(packagelist, library, character.only = TRUE)
-library("ggraph")
 
 # Some nettools dependencies required bioconductor installations
 # Follow the on-screen instructions
@@ -115,6 +114,8 @@ centrality_boxplot <- ggplot(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentral
 	theme_classic() +
 	geom_boxplot(notch = TRUE, fill="gray") +
 	ylab("Alpha Centrality")
+
+wilcox.test(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),]$acentrality ~ rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),]$patientdiet)
 
 diversity_boxplot <- ggplot(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),], aes(x = patientdiet, y = entropy)) +
 	theme_classic() +

@@ -423,12 +423,7 @@ ${VREF}/PfamInteractionsFormatScoredFlipClustered.tsv :
 # Collapse Sequence Counts #
 ############################
 ./data/ContigRelAbundForGraphClusteredPhage.tsv \
-./data/ContigRelAbundForGraphClusteredBacteria.tsv : \
-			./data/ContigClustersPhage/clustering_gt1000.csv \
-			./data/ContigClustersBacteria/clustering_gt1000.csv \
-			./data/PhageContigAbundance.tsv \
-			./data/BacteriaContigAbundance.tsv \
-			./bin/ClusterContigAbundance.sh
+./data/ContigRelAbundForGraphClusteredBacteria.tsv :
 	echo $(shell date)  :  Collapsing contig counts by sequence cluster >> ${DATENAME}.makelog
 	bash ./bin/ClusterContigAbundance.sh \
 		./data/ContigClustersPhage/clustering_gt1000.csv \

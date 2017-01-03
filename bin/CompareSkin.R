@@ -17,29 +17,35 @@ lapply(packagelist, library, character.only = TRUE)
 # If you are getting a lack of permission, disable local permission on Neo4J
 graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
-# Get list of the sample IDs
-sampleidquery <- "
-MATCH
-	(x:SRP049645)-->(y)-[d]->(z:Phage)-->(a:Bacterial_Host)<-[e]-(b),
-	(b)<--(i:PatientID)-->(y),
-	(b)<--(t:TimePoint)-->(y),
-	(k:Disease)-->(y)
-WHERE toInt(d.Abundance) > 0
-OR toInt(e.Abundance) > 0
-RETURN DISTINCT
-	z.Name AS from,
-	a.Name AS to,
-	i.Name AS PatientID,
-	t.Name AS TimePoint,
-	k.Name AS Diet,
-	toInt(d.Abundance) AS PhageAbundance,
-	toInt(e.Abundance) AS BacteriaAbundance;
-"
+# Get list of the skin sites that can be used
+# I got these from the samples I used for my mbio skin virome paper
+skinsites <- c("Ax", "Ac", "Pa", "Tw", "Um", "Fh", "Ra", "Oc")
 
-sampletable <- as.data.frame(cypher(graph, sampleidquery))
-
-head(sampletable)
+# Get samples by location ID
+skingraphlist <- lapply(skinsites, function(i) {
+	write(i, stderr())
+	sampleidquery <- paste("
+	MATCH
+		(x:SRP049645)-->(y)-[d]->(z:Phage)-->(a:Bacterial_Host)<-[e]-(b),
+		(b)<--(i:PatientID)-->(y),
+		(b)<--(t:TP2)-->(y),
+		(k:", i, ")-->(y)
+	WHERE toInt(d.Abundance) > 0
+	OR toInt(e.Abundance) > 0
+	RETURN DISTINCT
+		z.Name AS from,
+		a.Name AS to,
+		i.Name AS PatientID,
+		t.Name AS TimePoint,
+		k.Name AS Diet,
+		toInt(d.Abundance) AS PhageAbundance,
+		toInt(e.Abundance) AS BacteriaAbundance;
+	", sep = "")
+	sampletable <- as.data.frame(cypher(graph, sampleidquery))
+	return(sampletable)
+})
+names(skingraphlist) <- skinsites
 
 # Takes some time to run through this, so save it for quick
 # access after the first run.
-save(sampletable, file="./data/skingraphtable.RData")
+save(skingraphlist, file="./data/skingraphtable.RData")

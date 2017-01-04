@@ -48,7 +48,7 @@ graphdf <- data.frame()
 
 for (i in skinsites) {
 	print(i)
-	filename <- paste("../data/skingraph-", i, ".Rdata", sep = "")
+	filename <- paste("./data/skingraph-", i, ".Rdata", sep = "")
 	load(file = filename)
 	graphdf <- rbind(graphdf, sampletable)
 }
@@ -72,7 +72,7 @@ rout <- lapply(unique(graphdf$PatientID), function(i) {
 	return(forresult)
 })
 
-save(rout, file = "../data/rout.Rdata")
+save(rout, file = "./data/rout.Rdata")
 
 # Finish making subsampled data frame
 rdf <- as.data.frame(do.call(rbind, rout))

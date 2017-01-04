@@ -40,7 +40,7 @@ opt <- parse_args(opt_parser);
 # If you are getting a lack of permission, disable local permission on Neo4J
 graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
 
-write(paste("Pulling graph for", opt$location, opt$timepoint, sep = "\t"))
+write(paste("Pulling graph for", opt$location, opt$timepoint, sep = "\t"), stderr())
 
 sampleidquery <- paste("
 MATCH

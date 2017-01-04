@@ -82,7 +82,21 @@ routdiv <- lapply(unique(rdf$PatientID), function(i) {
 	return(outputin)
 })
 
+# Also make a list of subgraphs for hi and
+# low fat diets, including all samples.
+routdisease <- lapply(unique(rdf$Diet), function(i) {
+	subsetdfout <- as.data.frame(rdf[c(rdf$Diet %in% i),])
+	lapgraph <- graph_from_data_frame(subsetdfout[,c("to", "from")], directed = TRUE)
+	E(lapgraph)$weight <- subsetdfout[,c("edge")]
+	diettype <- unique(subsetdfout$Diet)
+	V(lapgraph)$diet <- diettype
+	V(lapgraph)$patientid <- i
+	return(lapgraph)
+})
+
 ##### ALPHA DIVERSITY AND CENTRALITY #####
+
+### Alpha centrality & Shannon entropy per sample
 
 routcentral <- lapply(c(1:length(routdiv)), function(i) {
 	listelement <- routdiv[[ i ]]
@@ -93,11 +107,15 @@ routcentral <- lapply(c(1:length(routdiv)), function(i) {
 		diettype <- unique(V(listgraph)$diet)
 		centraldf <- as.data.frame(alpha_centrality(listgraph, weights = E(listgraph)$weight))
 		colnames(centraldf) <- "acentrality"
+		pagerank <- as.data.frame(page_rank(listgraph, weights = E(listgraph)$weight, directed = FALSE)$vector)
+		colnames(pagerank) <- "page_rank"
+		pagerank$label <- rownames(pagerank)
 		diversitydf <- as.data.frame(igraph::diversity(graph = listgraph, weights = E(listgraph)$weight))
 		centraldf$label <- rownames(centraldf)
 		colnames(diversitydf) <- "entropy"
 		diversitydf$label <- rownames(diversitydf)
 		centraldf <- merge(centraldf, diversitydf, by = "label")
+		centraldf <- merge(centraldf, pagerank, by = "label")
 		centraldf$subject <- patient
 		centraldf$time <- tp
 		centraldf$patientdiet <- diettype
@@ -116,6 +134,13 @@ centrality_boxplot <- ggplot(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentral
 	ylab("Alpha Centrality")
 
 wilcox.test(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),]$acentrality ~ rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),]$patientdiet)
+
+pagerank_boxplot <- ggplot(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),], aes(x = patientdiet, y = page_rank)) +
+	theme_classic() +
+	geom_boxplot(notch = TRUE, fill="gray") +
+	ylab("Page Rank")
+
+wilcox.test(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),]$page_rank ~ rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),]$patientdiet)
 
 diversity_boxplot <- ggplot(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),], aes(x = patientdiet, y = entropy)) +
 	theme_classic() +
@@ -215,12 +240,4 @@ finalplot <- plot_grid(plotnmds, boxplots, ncol = 2, labels = c("A"))
 pdf("./figures/dietnetworks.pdf", width = 10, height = 5)
 	finalplot
 dev.off()
-
-
-
-as_adjacency_matrix(routdiv[[4]][[2]], attr="weight")
-
-sqrt(sum((M1 - M2) ^ 2 ))
-
-
 

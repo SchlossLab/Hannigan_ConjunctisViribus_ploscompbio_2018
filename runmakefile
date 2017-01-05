@@ -28,4 +28,4 @@ module load concoct/0.4.0
 cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
-Rscript ./bin/CompareSkin.R
+bash makeSkinDatasets.sh

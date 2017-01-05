@@ -45,9 +45,9 @@ write(paste("Pulling graph for", opt$location, opt$timepoint, sep = "\t"), stder
 sampleidquery <- paste("
 MATCH
 	(x:SRP049645)-->(y)-[d]->(z:Phage)-[:Infects]->(a:Bacterial_Host)<-[e]-(b),
-	(b)<-[*1]-(i:PatientID)-[*1]->(y),
-	(b)<-[*1]-(t:", opt$timepoint, ")-[*1]->(y),
-	(b)<-[*1]-(k:", opt$location, ")-[*1]->(y)
+	(b)<--(i:PatientID)-->(y),
+	(b)<--(t:", opt$timepoint, ")-->(y),
+	(b)<--(k:", opt$location, ")-->(y)
 WHERE toInt(d.Abundance) > 0
 OR toInt(e.Abundance) > 0
 RETURN DISTINCT

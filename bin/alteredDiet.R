@@ -1,7 +1,8 @@
 ##################
 # Load Libraries #
 ##################
-packagelist <- c("RNeo4j", "ggplot2", "wesanderson", "igraph", "visNetwork", "scales", "plyr", "cowplot", "vegan", "reshape2")
+gcinfo(TRUE)
+packagelist <- c("RNeo4j", "ggplot2", "wesanderson", "igraph", "visNetwork", "scales", "plyr", "cowplot", "vegan", "reshape2", "NetSwan")
 new.packages <- packagelist[!(packagelist %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages, repos='http://cran.us.r-project.org')
 lapply(packagelist, library, character.only = TRUE)
@@ -15,7 +16,7 @@ lapply(packagelist, library, character.only = TRUE)
 
 # Start the connection to the graph
 # If you are getting a lack of permission, disable local permission on Neo4J
-graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
+graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "root")
 
 # Get list of the sample IDs
 sampleidquery <- "
@@ -107,9 +108,15 @@ routcentral <- lapply(c(1:length(routdiv)), function(i) {
 		diettype <- unique(V(listgraph)$diet)
 		centraldf <- as.data.frame(alpha_centrality(listgraph, weights = E(listgraph)$weight))
 		colnames(centraldf) <- "acentrality"
+		
 		pagerank <- as.data.frame(page_rank(listgraph, weights = E(listgraph)$weight, directed = FALSE)$vector)
 		colnames(pagerank) <- "page_rank"
 		pagerank$label <- rownames(pagerank)
+		
+		swaneff <- as.data.frame(swan_efficiency(listgraph))
+		colnames(swaneff) <- "swan_efficiency"
+		pagerank <- cbind(pagerank, swaneff)
+
 		diversitydf <- as.data.frame(igraph::diversity(graph = listgraph, weights = E(listgraph)$weight))
 		centraldf$label <- rownames(centraldf)
 		colnames(diversitydf) <- "entropy"
@@ -128,7 +135,7 @@ rcentraldf <- as.data.frame(do.call(rbind, routcentral))
 # Focus on the phages for this
 rcentraldf <- rcentraldf[- grep("Bacteria", rcentraldf$label),]
 
-centrality_boxplot <- ggplot(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),], aes(x = patientdiet, y = acentrality)) +
+alpha_centrality_boxplot <- ggplot(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),], aes(x = patientdiet, y = acentrality)) +
 	theme_classic() +
 	geom_boxplot(notch = TRUE, fill="gray") +
 	ylab("Alpha Centrality")
@@ -146,6 +153,43 @@ diversity_boxplot <- ggplot(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentrald
 	theme_classic() +
 	geom_boxplot(notch = TRUE, fill="gray") +
 	ylab("Shannon Entropy")
+
+wilcox.test(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),]$entropy ~ rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),]$patientdiet)
+
+swan_efficiency_boxplot <- ggplot(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),], aes(x = patientdiet, y = swan_efficiency)) +
+	theme_classic() +
+	geom_boxplot(notch = TRUE, fill="gray") +
+	ylab("Swan Efficiency") +
+	scale_y_log10()
+
+wilcox.test(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),]$swan_efficiency ~ rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),]$patientdiet)
+
+
+##### Diameter #####
+# This is a weighted diamter
+diameterreading <- lapply(c(1:length(routdiv)), function(i) {
+	listelement <- routdiv[[ i ]]
+	outputin <- lapply(c(1:length(listelement)), function(j) {
+		listgraph <- listelement[[ j ]]
+		patient <- unique(V(listgraph)$patientid)
+		tp <- unique(V(listgraph)$timepoint)
+		diettype <- unique(V(listgraph)$diet)
+		centraldf <- as.data.frame(diameter(listgraph, weights = E(listgraph)$weight))
+		colnames(centraldf) <- "samplediamter"
+		centraldf$subject <- patient
+		centraldf$time <- tp
+		centraldf$patientdiet <- diettype
+		return(centraldf)
+	})
+	forresult <- as.data.frame(do.call(rbind, outputin))
+	return(forresult)
+})
+diadf <- as.data.frame(do.call(rbind, diameterreading))
+
+diameter_boxplot <- ggplot(diadf[c(diadf$time %in% "TP10" | diadf$time %in% "TP8"),], aes(x = patientdiet, y = samplediamter)) +
+	theme_classic() +
+	geom_jitter() +
+	ylab("Weighted Diamter")
 
 ##### Beta Diversity #####
 hamming_distance <- function(g1, g2) {
@@ -212,13 +256,17 @@ routmetadata <- unique(routham[,c("patient1tp", "diettype")])
 # Merge metadata
 routmerge <- merge(ORD_FIT, routmetadata, by.x = "SampleID", by.y = "patient1tp")
 
-plotnmds <- ggplot(routmerge, aes(x=MDS1, y=MDS2, colour=diettype)) +
+routmerge$subject <- gsub("TP\\d+", "", routmerge$SampleID)
+routmerge$timepoint <- gsub("^\\d+", "", routmerge$SampleID)
+
+plotnmds <- ggplot(routsubset, aes(x=MDS1, y=MDS2, colour=subject)) +
     theme_classic() +
-    geom_point() +
-    scale_color_manual(values = wes_palette("Royal1"))
+    geom_point()
+
+anosim(routmatrixsub, routmerge$subject)
 
 # Calculate statistical significance
-mod <- betadisper(routmatrixsub, routmerge[,length(routmerge)])
+mod <- betadisper(routmatrixsub, routmerge[,"subject"])
 anova(mod)
 permutest(mod, pairwise = TRUE)
 mod.HSD <- TukeyHSD(mod)
@@ -234,7 +282,53 @@ plotdiffs <- ggplot(moddf, aes(y=diff, x=comparison)) +
     ylab("Differences in Mean Levels of Group") +
     xlab("")
 
-boxplots <- plot_grid(centrality_boxplot, diversity_boxplot, intrabetadiv, dietbetadiv, labels = c("B", "C", "D", "E"), ncol = 2)
+
+
+
+routham$timepoint1 <- gsub("^\\d+", "", routham$patient1tp)
+routham$timepoint2 <- gsub("^\\d+", "", routham$patient2tp)
+routsubset <- routham[c(routham$timepoint1 %in% "TP8" | routham$timepoint1 %in% "TP10"),]
+routsubset <- routsubset[c(routsubset$timepoint2 %in% "TP8" | routsubset$timepoint2 %in% "TP10"),]
+
+routmatrixsub <- as.dist(dcast(routsubset[,c("patient1tp", "patient2tp", "hdistval")], formula = patient1tp ~ patient2tp, value.var = "hdistval")[,-1])
+ORD_NMDS <- metaMDS(routmatrixsub,k=2)
+ORD_FIT = data.frame(MDS1 = ORD_NMDS$points[,1], MDS2 = ORD_NMDS$points[,2])
+ORD_FIT$SampleID <- rownames(ORD_FIT)
+# Get metadata
+routmetadata <- unique(routsubset[,c("patient1tp", "diettype")])
+# Merge metadata
+routmerge <- merge(ORD_FIT, routmetadata, by.x = "SampleID", by.y = "patient1tp")
+
+routmerge$subject <- gsub("TP\\d+", "", routmerge$SampleID)
+routmerge$timepoint <- gsub("^\\d+", "", routmerge$SampleID)
+
+plotnmds <- ggplot(routmerge, aes(x=MDS1, y=MDS2, colour=diettype)) +
+    theme_classic() +
+    geom_point()
+
+anosim(routmatrixsub, routmerge$subject)
+
+# Calculate statistical significance
+mod <- betadisper(routmatrixsub, routmerge[,"diettype"])
+anova(mod)
+permutest(mod, pairwise = TRUE)
+mod.HSD <- TukeyHSD(mod)
+
+moddf <- as.data.frame(mod.HSD$group)
+moddf$comparison <- row.names(moddf)
+limits <- aes(ymax = upr, ymin=lwr)
+plotdiffs <- ggplot(moddf, aes(y=diff, x=comparison)) +
+    theme_classic() +
+    geom_pointrange(limits) +
+    geom_hline(yintercept=0, linetype = "dashed") +
+    coord_flip() +
+    ylab("Differences in Mean Levels of Group") +
+    xlab("")
+
+# Connectivity
+plot(graph_from_data_frame(rdf))
+
+boxplots <- plot_grid(alpha_centrality_boxplot, pagerank_boxplot, diversity_boxplot, dietbetadiv, labels = c("B", "C", "D", "E"), ncol = 2)
 finalplot <- plot_grid(plotnmds, boxplots, ncol = 2, labels = c("A"))
 
 pdf("./figures/dietnetworks.pdf", width = 10, height = 5)

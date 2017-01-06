@@ -12,7 +12,7 @@ lapply(packagelist, library, character.only = TRUE)
 
 # Start the connection to the graph
 # If you are getting a lack of permission, disable local permission on Neo4J
-graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
+graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "root")
 
 # Get list of the sample IDs
 sampleidquery <- "
@@ -90,11 +90,15 @@ routcentral <- lapply(c(1:length(routdiv)), function(i) {
 		diettype <- unique(V(listgraph)$diet)
 		centraldf <- as.data.frame(alpha_centrality(listgraph, weights = E(listgraph)$weight))
 		colnames(centraldf) <- "acentrality"
+		pagerank <- as.data.frame(page_rank(listgraph, weights = E(listgraph)$weight, directed = FALSE)$vector)
+		colnames(pagerank) <- "page_rank"
+		pagerank$label <- rownames(pagerank)
 		diversitydf <- as.data.frame(igraph::diversity(graph = listgraph, weights = E(listgraph)$weight))
 		centraldf$label <- rownames(centraldf)
 		colnames(diversitydf) <- "entropy"
 		diversitydf$label <- rownames(diversitydf)
 		centraldf <- merge(centraldf, diversitydf, by = "label")
+		centraldf <- merge(centraldf, pagerank, by = "label")
 		centraldf$subject <- patient
 		centraldf$time <- tp
 		centraldf$patientdiet <- diettype
@@ -107,12 +111,69 @@ rcentraldf <- as.data.frame(do.call(rbind, routcentral))
 # Focus on the phages for this
 rcentraldf <- rcentraldf[- grep("Bacteria", rcentraldf$label),]
 
-centrality_boxplot <- ggplot(rcentraldf, aes(x = patientdiet, y = acentrality)) +
+# Add information for family and twins
+rcentraldf$family <- gsub("[MT].*", "", rcentraldf$subject, perl = TRUE)
+# Get whether they are a twin or mother
+rcentraldf$person <- gsub("F\\d", "", rcentraldf$subject, perl = TRUE)
+
+rcentraldfmothers <- rcentraldf[c(rcentraldf$person %in% "M"),]
+
+alpha_centrality_boxplot <- ggplot(rcentraldf, aes(x = patientdiet, y = acentrality)) +
 	theme_classic() +
 	geom_boxplot(notch = TRUE, fill="gray") +
 	ylab("Alpha Centrality")
 
 wilcox.test(rcentraldf$acentrality ~ rcentraldf$patientdiet)
+
+centrality_boxplot <- ggplot(rcentraldf, aes(x = patientdiet, y = page_rank)) +
+	theme_classic() +
+	geom_boxplot(notch = TRUE, fill="gray") +
+	ylab("Alpha Centrality")
+
+wilcox.test(rcentraldf$page_rank ~ rcentraldf$patientdiet)
+
+centrality_boxplot <- ggplot(rcentraldf, aes(x = family, y = acentrality)) +
+	theme_classic() +
+	geom_boxplot(notch = TRUE, fill="gray") +
+	ylab("Alpha Centrality")
+
+pairwise.wilcox.test(rcentraldf$acentrality, rcentraldf$family)
+
+# The obese mother has less connectivity than the
+# other two mothers, which is pretty interesting.
+
+pagerank_obesity <- ggplot(rcentraldfmothers, aes(x = patientdiet, y = page_rank)) +
+	theme_classic() +
+	geom_boxplot(notch = TRUE, fill="gray") +
+	ylab("Alpha Centrality")
+
+wilcox.test(rcentraldfmothers$page_rank ~ rcentraldfmothers$patientdiet)
+
+##### Diameter #####
+# This is a weighted diamter
+diameterreading <- lapply(c(1:length(routdiv)), function(i) {
+	listelement <- routdiv[[ i ]]
+	outputin <- lapply(c(1:length(listelement)), function(j) {
+		listgraph <- listelement[[ j ]]
+		patient <- unique(V(listgraph)$patientid)
+		tp <- unique(V(listgraph)$timepoint)
+		diettype <- unique(V(listgraph)$diet)
+		centraldf <- as.data.frame(diameter(listgraph, weights = E(listgraph)$weight))
+		colnames(centraldf) <- "samplediamter"
+		centraldf$subject <- patient
+		centraldf$time <- tp
+		centraldf$patientdiet <- diettype
+		return(centraldf)
+	})
+	forresult <- as.data.frame(do.call(rbind, outputin))
+	return(forresult)
+})
+diadf <- as.data.frame(do.call(rbind, diameterreading))
+
+diameter_boxplot <- ggplot(diadf, aes(x = "AllSamples", y = samplediamter)) +
+	theme_classic() +
+	geom_jitter() +
+	ylab("Weighted Diamter")
 
 ##### Beta Diversity #####
 hamming_distance <- function(g1, g2) {
@@ -129,6 +190,7 @@ routham <- lapply(c(1:length(routdiv)), function(i) {
 		outdf1 <- lapply(c(1:length(routdiv)), function(k) {
 			listelement2 <- routdiv[[ k ]]
 				outdf2 <- lapply(c(1:length(listelement2)), function(l) {
+					print(c(i,j,k,l))
 					listgraph2 <- listelement2[[ l ]]
 					patient1 <- unique(V(listgraph1)$patientid)
 					patient2 <- unique(V(listgraph2)$patientid)
@@ -151,9 +213,17 @@ routham <- lapply(c(1:length(routdiv)), function(i) {
 routham <- as.data.frame(do.call(rbind, routham))
 routhamnosame <- routham[!c(routham$hdistval == 0),]
 
+routhamnosame$family1 <- gsub("[TM].*", "", routhamnosame$patient1, perl = TRUE)
+routhamnosame$family2 <- gsub("[TM].*", "", routhamnosame$patient2, perl = TRUE)
+routhamnosame$person1 <- gsub("F\\d", "", routhamnosame$patient1, perl = TRUE)
+routhamnosame$person1 <- gsub("\\d", "", routhamnosame$person1, perl = TRUE)
+routhamnosame$person2 <- gsub("F\\d", "", routhamnosame$patient2, perl = TRUE)
+routhamnosame$person2 <- gsub("\\d", "", routhamnosame$person2, perl = TRUE)
 
+# Look only at the twins
+routhamnosame <- routhamnosame[c(routhamnosame$person1 %in% "T" & routhamnosame$person2 %in% "T"),]
 
-routhamnosame$class <- ifelse(routhamnosame$patient1 == routhamnosame$patient2, "Intrapersonal", "Interpersonal")
+routhamnosame$class <- ifelse(routhamnosame$family1 == routhamnosame$family2, "Intrafamily", "Interfamily")
 
 intrabetadiv <- ggplot(routhamnosame, aes(x = class, y = hdistval)) +
 	theme_classic() +
@@ -162,27 +232,27 @@ intrabetadiv <- ggplot(routhamnosame, aes(x = class, y = hdistval)) +
 
 wilcox.test(routhamnosame$hdistval ~ routhamnosame$class)
 
-dietbetadiv <- ggplot(routhamnosame, aes(x = diettype, y = hdistval)) +
-	theme_classic() +
-	geom_boxplot(notch = TRUE, fill="gray") +
-	ylab("Hamming Distance")
-
-wilcox.test(routhamnosame$hdistval ~ routhamnosame$diettype)
-
 # Plot NMDS
 routmatrixsub <- as.dist(dcast(routham[,c("patient1tp", "patient2tp", "hdistval")], formula = patient1tp ~ patient2tp, value.var = "hdistval")[,-1])
 ORD_NMDS <- metaMDS(routmatrixsub,k=2)
 ORD_FIT = data.frame(MDS1 = ORD_NMDS$points[,1], MDS2 = ORD_NMDS$points[,2])
 ORD_FIT$SampleID <- rownames(ORD_FIT)
+
 # Get metadata
 routmetadata <- unique(routham[,c("patient1tp", "diettype")])
+routmetadata$cutcol <- gsub("TP1", "", routmetadata$patient1tp, perl = TRUE)
+routmetadata$family <- gsub("[TM].*", "", routmetadata$cutcol, perl = TRUE)
+routmetadata$person <- gsub("F.", "", routmetadata$cutcol, perl = TRUE)
+routmetadata$person <- gsub("\\d", "", routmetadata$person, perl = TRUE)
 # Merge metadata
 routmerge <- merge(ORD_FIT, routmetadata, by.x = "SampleID", by.y = "patient1tp")
 
-plotnmds <- ggplot(routmerge, aes(x=MDS1, y=MDS2, colour=diettype)) +
+routmerge <- routmerge[c(routmerge$person %in% "T"),]
+
+plotnmds <- ggplot(routmerge, aes(x=MDS1, y=MDS2, colour=family)) +
     theme_classic() +
     geom_point() +
-    scale_color_manual(values = wes_palette("Royal1"))
+    scale_color_manual(values = wes_palette("Royal1")[c(1,2,4)])
 
 # Calculate statistical significance
 mod <- betadisper(routmatrixsub, routmerge[,length(routmerge)])
@@ -200,5 +270,11 @@ plotdiffs <- ggplot(moddf, aes(y=diff, x=comparison)) +
     coord_flip() +
     ylab("Differences in Mean Levels of Group") +
     xlab("")
+
+pdf("./figures/obesity_network_difference.pdf", width = 5, height = 5)
+	pagerank_obesity
+dev.off()
+
+
 
 

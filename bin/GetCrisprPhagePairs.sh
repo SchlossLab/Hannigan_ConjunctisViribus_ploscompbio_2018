@@ -43,9 +43,6 @@ sed 's/ /_/g' ./${Output}/Spacers.good.fa \
 	| tac \
 	> ./${Output}/SpacersNoSpaceGood.fa || exit
 
-# Get rid of bogus sequences with dots
-
-
 # Finish the script if the file is basically emptry
 if grep -qx "\-\-" ./${Output}/SpacersNoSpaceGood.fa
 then

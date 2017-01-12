@@ -306,7 +306,7 @@ plotnmds <- ggplot(routmerge, aes(x=MDS1, y=MDS2, colour=diettype)) +
     theme_classic() +
     geom_point()
 
-anosim(routmatrixsub, routmerge$subject)
+anosim(routmatrixsub, routmerge$diettype)
 
 # Calculate statistical significance
 mod <- betadisper(routmatrixsub, routmerge[,"diettype"])
@@ -324,9 +324,6 @@ plotdiffs <- ggplot(moddf, aes(y=diff, x=comparison)) +
     coord_flip() +
     ylab("Differences in Mean Levels of Group") +
     xlab("")
-
-# Connectivity
-plot(graph_from_data_frame(rdf))
 
 boxplots <- plot_grid(alpha_centrality_boxplot, pagerank_boxplot, diversity_boxplot, dietbetadiv, labels = c("B", "C", "D", "E"), ncol = 2)
 finalplot <- plot_grid(plotnmds, boxplots, ncol = 2, labels = c("A"))

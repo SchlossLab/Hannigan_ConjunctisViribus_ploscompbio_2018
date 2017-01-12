@@ -439,38 +439,46 @@ plotdiffs_all <- ggplot(moddf, aes(y=diff, x=comparison)) +
     xlab("")
 
 # Plot the results
-location <- plot_grid(
-	diameter_boxplot,
+acentral_master <- plot_grid(
 	alpha_centrality_boxplot_all,
-	pagerank_boxplot_all,
-	diversity_boxplot_all,
-	plotdiffs_all,
-	plotnmds_location,
-	labels = c("A", "B", "C", "D", "E", "F"), nrow = 1)
-
-moisture <- plot_grid(
-	diameter_boxplot_moist,
 	alpha_centrality_boxplot_moist,
-	pagerank_boxplot_moist,
-	diversity_boxplot_moist,
-	plotdiffs_moist,
-	plotnmds_moist,
-	labels = c("G", "H", "I", "J", "K", "L"), nrow = 1)
-
-occluded <- plot_grid(
-	diameter_boxplot_occ,
 	alpha_centrality_boxplot_occ,
-	pagerank_boxplot_occ,
-	diversity_boxplot_occ,
-	plotdiffs_occ,
-	plotnmds_occ,
-	labels = c("M", "N", "O", "P", "Q", "R"), nrow = 1)
+	labels = c("A", "F", "K"),
+	ncol = 1)
 
-threeplots <- plot_grid(location, moisture, occluded, ncol = 1)
+pagerank_master <- plot_grid(
+	pagerank_boxplot_all,
+	pagerank_boxplot_moist,
+	pagerank_boxplot_occ,
+	labels = c("B", "G", "L"),
+	ncol = 1)
+
+diversity_master <- plot_grid(
+	diversity_boxplot_all,
+	diversity_boxplot_moist,
+	diversity_boxplot_occ,
+	labels = c("C", "H", "M"),
+	ncol = 1)
+
+significance_master <- plot_grid(
+	plotdiffs_all,
+	plotdiffs_moist,
+	plotdiffs_occ,
+	labels = c("D", "I", "N"),
+	ncol = 1)
+
+nmdb_master <- plot_grid(
+	plotnmds_location,
+	plotnmds_moist,
+	plotnmds_occ,
+	labels = c("E", "J", "O"),
+	ncol = 1)
+
+threeplots <- plot_grid(acentral_master, pagerank_master, diversity_master, significance_master, nmdb_master, nrow = 1)
 
 interpersonalplot <- plot_grid(intrabetadiv_personal, intrabetadiv_location, nrow = 1, labels = c("A", "B"))
 
-pdf("./figures/skinplotresults.pdf", width = 20, height = 8)
+pdf("./figures/skinplotresults.pdf", width = 16, height = 8)
 	threeplots
 dev.off()
 

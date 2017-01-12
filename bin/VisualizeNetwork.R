@@ -6,7 +6,7 @@
 ##################
 # Load Libraries #
 ##################
-packagelist <- c("RNeo4j", "ggplot2", "wesanderson", "igraph", "visNetwork", "scales", "plyr")
+packagelist <- c("RNeo4j", "ggplot2", "wesanderson", "igraph", "visNetwork", "scales", "plyr", "cowplot")
 new.packages <- packagelist[!(packagelist %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages, repos='http://cran.us.r-project.org')
 lapply(packagelist, library, character.only = TRUE)
@@ -89,7 +89,7 @@ connectionstrength <- function (nodeframe=nodeout, edgeframe=edgeout) {
 
 # Start the connection to the graph
 # If you are getting a lack of permission, disable local permission on Neo4J
-graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
+graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "root")
 
 # Use Cypher query to get a table of the table edges
 query <- "
@@ -104,25 +104,16 @@ edgeout <- as.data.frame(graphoutputlist[2])
 head(nodeout)
 head(edgeout)
 
+totalnetwork <- plotnetwork()
+
 # Test connection strength of the network
 write(connectionstrength(), stderr())
 write(graphDiameter(), stderr())
 
-# Save as PDF & PNG
-pdf(file="./figures/BacteriaPhageNetworkDiagram.pdf",
-width=8,
-height=8)
-  a <- dev.cur()
-  png(file="./figures/BacteriaPhageNetworkDiagram.png",
-  width=8,
-  height=8,
-  units="in",
-  res=800)
-    dev.control("enable")
-    plotnetwork()
-    dev.copy(which=a)
-  dev.off()
-dev.off()
+length(grep("Phage", nodeout[,1]))
+length(grep("Bacteria", nodeout[,1]))
+
+length(edgeout[,1])
 
 # Get number of hosts for each phage as histogram
 edgecount <- count(edgeout$from)
@@ -188,4 +179,96 @@ height=8)
     edgeplotgg
     dev.copy(which=a)
   dev.off()
+dev.off()
+
+# Diet subgraph
+query <- "
+MATCH
+  (x:SRP002424)-->(y)-[d]->(z:Phage)-->(a:Bacterial_Host)<-[e]-(b),
+  (b)<--(i:PatientID)-->(y),
+  (b)<--(t:TimePoint)-->(y),
+  (k:Disease)-->(y)
+WHERE toInt(d.Abundance) > 0
+OR toInt(e.Abundance) > 0
+RETURN DISTINCT
+  z.Name AS from,
+  a.Name AS to,
+  i.Name AS PatientID,
+  t.Name AS TimePoint,
+  k.Name AS Diet,
+  toInt(d.Abundance) AS PhageAbundance,
+  toInt(e.Abundance) AS BacteriaAbundance;
+"
+
+graphoutputlist <- importgraphtodataframe()
+nodeout <- as.data.frame(graphoutputlist[1])
+edgeout <- as.data.frame(graphoutputlist[2])
+head(nodeout)
+head(edgeout)
+
+dietnetwork <- plotnetwork()
+
+# Twin subgraph
+query <- "
+MATCH
+  (x:SRP002523)-->(y)-[d]->(z:Phage)-->(a:Bacterial_Host)<-[e]-(b),
+  (b)<--(i:PatientID)-->(y),
+  (b)<--(t:TimePoint)-->(y),
+  (k:Disease)-->(y)
+WHERE toInt(d.Abundance) > 0
+OR toInt(e.Abundance) > 0
+RETURN DISTINCT
+  z.Name AS from,
+  a.Name AS to,
+  i.Name AS PatientID,
+  t.Name AS TimePoint,
+  k.Name AS Diet,
+  toInt(d.Abundance) AS PhageAbundance,
+  toInt(e.Abundance) AS BacteriaAbundance;
+"
+
+graphoutputlist <- importgraphtodataframe()
+nodeout <- as.data.frame(graphoutputlist[1])
+edgeout <- as.data.frame(graphoutputlist[2])
+head(nodeout)
+head(edgeout)
+
+twinnetwork <- plotnetwork()
+
+# Skin subgraph
+# Import graphs into a list
+skinsites <- c("Ax", "Ac", "Pa", "Tw", "Um", "Fh", "Ra")
+# Start list
+graphdf <- data.frame()
+
+for (i in skinsites) {
+  print(i)
+  filename <- paste("./data/skingraph-", i, ".Rdata", sep = "")
+  load(file = filename)
+  graphdf <- rbind(graphdf, sampletable)
+  rm(sampletable)
+}
+
+rm(i)
+
+edgeout <- unique(graphdf[c(1:2)])
+
+nodeout <- data.frame(id=unique(c(edgeout$from, edgeout$to)))
+nodeout$label <- nodeout$id
+
+skinnetwork <- plotnetwork()
+
+threeplot <- plot_grid(
+  dietnetwork,
+  twinnetwork,
+  skinnetwork,
+  ncol = 1,
+  labels = c("B", "C", "D"))
+
+finalplot <- plot_grid(totalnetwork, threeplot, ncol = 2, rel_widths = c(2,1), labels = c("A"))
+
+pdf(file="./figures/BacteriaPhageNetworkDiagram.pdf",
+width=12,
+height=6)
+  finalplot
 dev.off()

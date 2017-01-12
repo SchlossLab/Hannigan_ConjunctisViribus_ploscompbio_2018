@@ -14,7 +14,7 @@ do
 	../../bin/neo4j-enterprise-2.3.0/bin/neo4j start
 	Rscript ./bin/GetSkinGraphs.R \
 		--location ${i} \
-		--timepoint TP2 \
+		--timepoint TP3 \
 		--output ./data/skingraph-${i}.Rdata
 	../../bin/neo4j-enterprise-2.3.0/bin/neo4j stop
 done

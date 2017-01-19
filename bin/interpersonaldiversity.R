@@ -130,12 +130,46 @@ routhamnosame <- routham[!c(routham$hdistval == 0),]
 
 routhamnosame$class <- ifelse(routhamnosame$patient1 == routhamnosame$patient2, "Intrapersonal", "Interpersonal")
 
-intrabetadiv <- ggplot(routhamnosame, aes(x = class, y = hdistval)) +
-	theme_classic() +
-	geom_boxplot(notch = TRUE, fill="gray") +
-	ylab("Hamming Distance")
+ravg <- ddply(routhamnosame, c("patient1", "class"), summarize, avg = mean(hdistval))
+ravg <- ravg[!c(ravg$patient1 == 2012),]
+ravgslope <- lapply(unique(ravg$patient1), function(i) {
+	y <- ravg[c(ravg$class %in% "Intrapersonal" & ravg$patient1 %in% i), "avg"] - ravg[c(ravg$class %in% "Interpersonal" & ravg$patient1 %in% i), "avg"]
+	return(data.frame(i, y))
+})
+ravgslope <- do.call(rbind, ravgslope)
+sum(c(ravgslope$y <= 0) + 0) / length(ravgslope$y)
 
-wilcox.test(routhamnosame$hdistval ~ routhamnosame$class)
+# Statistical significance
+chg <- ravgslope$y
+pdf <- density(chg)
+fx <- approxfun(pdf$x, pdf$y, yleft=0, yright=0)
+cdfdiet <- integrate(fx, -Inf, 0)
+cdfdiet
+
+linediet <- ggplot(ravg, aes(x = class, y = avg, group = patient1)) +
+	theme_classic() +
+	theme(
+	  axis.line.x = element_line(colour = "black"),
+	  axis.line.y = element_line(colour = "black")
+	) +
+	geom_line(colour = wes_palette("Royal1")[2]) +
+	geom_point(colour = "black") +
+	ylab("Hamming Distance") +
+	xlab("")
+
+densitydiet <- ggplot(ravgslope, aes(y)) +
+	theme_classic() +
+	theme(
+	  axis.line.x = element_line(colour = "black"),
+	  axis.line.y = element_line(colour = "black")
+	) +
+	geom_density() +
+	geom_vline(xintercept = 0, linetype = "dashed") +
+	ylab("Probability") +
+	xlab("Intrapersonal Change") +
+	xlim(range(pdf$x))
+
+intrabetadiv <- plot_grid(linediet, densitydiet, rel_heights = c(4, 1), ncol = 1)
 
 routmatrixsub <- as.dist(dcast(routham[,c("patient1tp", "patient2tp", "hdistval")], formula = patient1tp ~ patient2tp, value.var = "hdistval")[,-1])
 ORD_NMDS <- metaMDS(routmatrixsub,k=2)
@@ -150,8 +184,14 @@ routmerge$subject <- gsub("TP\\d+", "", routmerge$SampleID)
 routmerge$timepoint <- gsub("^\\d+", "", routmerge$SampleID)
 
 plotnmds_dietstudy <- ggplot(routmerge, aes(x=MDS1, y=MDS2, colour=subject)) +
-    theme_classic() +
-    geom_point()
+    theme_classic()  +
+	theme(
+	  axis.line.x = element_line(colour = "black"),
+	  axis.line.y = element_line(colour = "black"),
+	  legend.position = "bottom"
+	) +
+    geom_point() +
+    scale_colour_manual(values = wes_palette("Royal2"), name = "Subject")
 
 anosim(routmatrixsub, routmerge$subject)
 
@@ -165,48 +205,62 @@ moisture <- c("Moist", "IntMoist", "IntMoist", "Moist", "Moist", "Sebaceous", "S
 occlusion <- c("Occluded", "IntOccluded", "Exposed", "Occluded", "Occluded", "Exposed", "Occluded")
 locationmetadata <- data.frame(skinsites, moisture, occlusion)
 
-routham <- as.data.frame(do.call(rbind, routham))
 routhamnosame <- routham[!c(routham$hdistval == 0),]
-routhamnosame$location1 <- gsub("\\d+", "", routhamnosame$patient1tp, perl = TRUE)
-routhamnosame$location2 <- gsub("\\d+", "", routhamnosame$patient2tp, perl = TRUE)
+routhamnosame$location1 <- gsub("^\\d+_", "", routhamnosame$patient1tp, perl = TRUE)
+routhamnosame$location1 <- gsub("_\\d+$", "", routhamnosame$location1, perl = TRUE)
+routhamnosame$location2 <- gsub("^\\d+_", "", routhamnosame$patient2tp, perl = TRUE)
+routhamnosame$location2 <- gsub("_\\d+$", "", routhamnosame$location2, perl = TRUE)
 
+routhamnosame$timepoint1 <- gsub("^.+_", "", routhamnosame$patient1tp, perl = TRUE)
+routhamnosame$timepoint2 <- gsub("^.+_", "", routhamnosame$patient2tp, perl = TRUE)
 
 # Interpersonal Differences
+routhamnosame[c(routhamnosame$patient1 == routhamnosame$patient2 & routhamnosame$location1 == routhamnosame$location2), "class"] <- "Intrapersonal"
+routhamnosame[c(routhamnosame$patient1 != routhamnosame$patient2 & routhamnosame$timepoint1 == routhamnosame$timepoint2 & routhamnosame$location1 == routhamnosame$location2), "class"] <- "Interpersonal"
+routhamnosame <- routhamnosame[complete.cases(routhamnosame),]
 
-routhamnosame$class <- ifelse(routhamnosame$patient1 == routhamnosame$patient2, "Intrapersonal", "Interpersonal")
+ravg <- ddply(routhamnosame, c("patient1", "class", "location1"), summarize, avg = mean(hdistval))
+counta <- ddply(ravg, c("patient1", "location1"), summarize, count = length(unique(class)))
+counta <- counta[c(counta$count == 2),]
+ravg <- merge(ravg, counta, by = c("patient1", "location1"))
+ravg$merged <- paste(ravg$patient1, ravg$location1, sep = "")
+ravgslope <- lapply(unique(ravg$merged), function(i) {
+	y <- ravg[c(ravg$class %in% "Intrapersonal" & ravg$merged %in% i), "avg"] - ravg[c(ravg$class %in% "Interpersonal" & ravg$merged %in% i), "avg"]
+	return(data.frame(i, y))
+})
+ravgslope <- do.call(rbind, ravgslope)
+sum(c(ravgslope$y <= 0) + 0) / length(ravgslope$y)
 
-# Showing that people are more similar to themselves than other people
-# across skin sites
+chg <- ravgslope$y
+pdf <- density(chg)
+fx <- approxfun(pdf$x, pdf$y, yleft=0, yright=0)
+cdfskin <- integrate(fx, -Inf, 0)
+cdfskin
 
-# I could also try running this over time in addition to at a single
-# time point.
-
-intrabetadiv_personal <- ggplot(routhamnosame, aes(x = class, y = hdistval)) +
+skinline <- ggplot(ravg, aes(x = class, y = avg, group = merged)) +
 	theme_classic() +
-	geom_boxplot(notch = TRUE, fill="gray") +
-	ylab("Hamming Distance")
+	theme(
+	  axis.line.x = element_line(colour = "black"),
+	  axis.line.y = element_line(colour = "black")
+	) +
+	geom_line(colour = wes_palette("Royal1")[2]) +
+	geom_point(colour = "black") +
+	ylab("Hamming Distance") +
+	xlab("")
 
-wilcox.test(routhamnosame$hdistval ~ routhamnosame$class)
+skinden <- ggplot(ravgslope, aes(y)) +
+	theme_classic() +
+	theme(
+	  axis.line.x = element_line(colour = "black"),
+	  axis.line.y = element_line(colour = "black")
+	) +
+	geom_density() +
+	geom_vline(xintercept = 0, linetype = "dashed") +
+	ylab("Probability") +
+	xlab("Intrapersonal Change") +
+	xlim(range(pdf$x))
 
-routmatrixsub <- as.dist(dcast(routhamnosame[,c("patient1tp", "patient2tp", "hdistval")], formula = patient1tp ~ patient2tp, value.var = "hdistval")[,-1])
-ORD_NMDS <- metaMDS(routmatrixsub, k = 2)
-ORD_FIT = data.frame(MDS1 = ORD_NMDS$points[,1], MDS2 = ORD_NMDS$points[,2])
-ORD_FIT$SampleID <- rownames(ORD_FIT)
-
-routmetadata <- unique(routhamnosame[,c("patient1tp", "location1")])
-routmetadata$tmprows <- as.numeric(rownames(routmetadata))
-
-routmerge <- merge(ORD_FIT, routmetadata, by.x = "SampleID", by.y = "patient1tp")
-
-routmerge <- merge(routmerge, locationmetadata, by.x = "location1", by.y = "skinsites")
-
-routmerge <- routmerge[order(routmerge$tmprows),-5]
-
-routmerge$subject <- gsub("[^\\d]+$", "", routmerge$SampleID, perl = TRUE)
-
-plotnmds_subject <- ggplot(routmerge, aes(x=MDS1, y=MDS2, colour=subject)) +
-    theme_classic() +
-    geom_point()
+intrabetadiv_personal <- plot_grid(skinline, skinden, rel_heights = c(4, 1), ncol = 1)
 
 ##############
 # Twin Graph #
@@ -321,33 +375,56 @@ routhamnosame$person2 <- gsub("\\d", "", routhamnosame$person2, perl = TRUE)
 
 routhamnosame$class <- ifelse(routhamnosame$family1 == routhamnosame$family2, "Intrafamily", "Interfamily")
 
-intrabetadivwithmothers <- ggplot(routhamnosame, aes(x = class, y = hdistval)) +
+ravg <- ddply(routhamnosame, c("patient1", "class"), summarize, avg = mean(hdistval))
+ravgslope <- lapply(unique(ravg$patient1), function(i) {
+	y <- ravg[c(ravg$class %in% "Intrafamily" & ravg$patient1 %in% i), "avg"] - ravg[c(ravg$class %in% "Interfamily" & ravg$patient1 %in% i), "avg"]
+	return(data.frame(i, y))
+})
+ravgslope <- do.call(rbind, ravgslope)
+sum(c(ravgslope$y <= 0) + 0) / length(ravgslope$y)
+
+chg <- ravgslope$y
+pdf <- density(chg)
+fx <- approxfun(pdf$x, pdf$y, yleft=0, yright=0)
+cdftwins <- integrate(fx, -Inf, 0)
+cdftwins
+
+twinline <- ggplot(ravg, aes(x = class, y = avg, group = patient1)) +
 	theme_classic() +
-	geom_boxplot(notch = TRUE, fill="gray") +
-	ylab("Hamming Distance")
+	theme(
+	  axis.line.x = element_line(colour = "black"),
+	  axis.line.y = element_line(colour = "black")
+	) +
+	geom_line(colour = wes_palette("Royal1")[2]) +
+	geom_point(colour = "black") +
+	ylab("Hamming Distance") +
+	xlab("")
 
-wilcox.test(routhamnosame$hdistval ~ routhamnosame$class)
-
-routhamnosame <- routhamnosame[c(routhamnosame$person1 %in% "T" & routhamnosame$person2 %in% "T"),]
-
-routhamnosame$class <- ifelse(routhamnosame$family1 == routhamnosame$family2, "Intrafamily", "Interfamily")
-
-intrabetadiv_justtwins <- ggplot(routhamnosame, aes(x = class, y = hdistval)) +
+twinden <- ggplot(ravgslope, aes(y)) +
 	theme_classic() +
-	geom_boxplot(notch = TRUE, fill="gray") +
-	ylab("Hamming Distance")
+	theme(
+	  axis.line.x = element_line(colour = "black"),
+	  axis.line.y = element_line(colour = "black")
+	) +
+	geom_density() +
+	geom_vline(xintercept = 0, linetype = "dashed") +
+	ylab("Probability") +
+	xlab("Intrapersonal Change") +
+	xlim(range(pdf$x))
 
-wilcox.test(routhamnosame$hdistval ~ routhamnosame$class)
+intrabetadivwithmothers <- plot_grid(twinline, twinden, rel_heights = c(4, 1), ncol = 1)
 
+###############
+# Final Plots #
+###############
 boxplots <- plot_grid(
 	intrabetadiv,
 	intrabetadiv_personal,
 	intrabetadivwithmothers,
-	intrabetadiv_justtwins,
-	labels = c("B", "C", "D", "E"), ncol = 2)
+	labels = c("B", "C", "D"), ncol = 3)
 
-finalplot <- plot_grid(plotnmds_dietstudy, boxplots, labels = c("A"), rel_widths = c(1, 1))
+finalplot <- plot_grid(plotnmds_dietstudy, boxplots, labels = c("A"), rel_widths = c(1, 2))
 
-pdf("./figures/intrapersonal_diversity.pdf", width = 10, height = 5)
+pdf("./figures/intrapersonal_diversity.pdf", width = 12, height = 5)
 	finalplot
 dev.off()

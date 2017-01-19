@@ -2,7 +2,7 @@
 # Load Libraries #
 ##################
 gcinfo(TRUE)
-packagelist <- c("RNeo4j", "ggplot2", "wesanderson", "igraph", "scales", "plyr", "cowplot", "vegan", "reshape2", "parallel", "stringr", "NetSwan")
+packagelist <- c("RNeo4j", "ggplot2", "wesanderson", "igraph", "scales", "plyr", "cowplot", "vegan", "reshape2", "parallel", "stringr")
 new.packages <- packagelist[!(packagelist %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages, repos='http://cran.us.r-project.org')
 lapply(packagelist, library, character.only = TRUE)
@@ -16,133 +16,184 @@ lapply(packagelist, library, character.only = TRUE)
 # Import graphs into a list
 skinsites <- c("Ax", "Ac", "Pa", "Tw", "Um", "Fh", "Ra")
 # Start list
-graphdf <- data.frame()
+graphdfTP2 <- data.frame()
+graphdfTP3 <- data.frame()
 
 for (i in skinsites) {
 	print(i)
 	filename <- paste("./data/skingraph-", i, ".Rdata", sep = "")
 	load(file = filename)
-	graphdf <- rbind(graphdf, sampletable)
+	graphdfTP2 <- rbind(graphdfTP2, sampletable)
 	rm(sampletable)
 }
 
 rm(i)
 
-graphdf <- graphdf[-4]
+for (i in skinsites) {
+	print(i)
+	filename <- paste("./data/skingraph-", i, "-TP3.Rdata", sep = "")
+	load(file = filename)
+	graphdfTP3 <- rbind(graphdfTP3, sampletable)
+	rm(sampletable)
+}
+
+rm(i)
+
+totalgraph <- rbind(graphdfTP2, graphdfTP3)
 
 # See the object size
-format(object.size(graphdf), units = "MB")
+format(object.size(totalgraph), units = "MB")
 
 # Run subsampling
-uniquephagegraph <- unique(graphdf[-c(2,6)])
-phageminseq <- min(ddply(uniquephagegraph, c("PatientID", "Location"), summarize, sum = sum(as.numeric(PhageAbundance)))$sum)
+uniquephagegraph <- unique(totalgraph[-c(2,7)])
+phageminseq <- quantile(ddply(uniquephagegraph, c("PatientID", "Location", "TimePoint"), summarize, sum = sum(as.numeric(PhageAbundance)))$sum, 0.05)
 print(format(object.size(uniquephagegraph), units = "MB"))
 
-uniquebacteriagraph <- unique(graphdf[-c(1,5)])
-bacminseq <- min(ddply(uniquebacteriagraph, c("PatientID", "Location"), summarize, sum = sum(as.numeric(BacteriaAbundance)))$sum)
+uniquebacteriagraph <- unique(totalgraph[-c(1,6)])
+bacminseq <- quantile(ddply(uniquebacteriagraph, c("PatientID", "Location", "TimePoint"), summarize, sum = sum(as.numeric(BacteriaAbundance)))$sum, 0.05)
 print(format(object.size(uniquephagegraph), units = "MB"))
 
 # Rarefy each sample using sequence counts
 rout <- lapply(unique(uniquephagegraph$PatientID), function(i) {
-	outputin <- lapply(unique(as.data.frame(uniquephagegraph[c(uniquephagegraph$PatientID %in% i),])$Location), function(j) {
-		print(c(i, j))
-		subsetdfin <- as.data.frame(uniquephagegraph[c(uniquephagegraph$PatientID %in% i),])[c(as.data.frame(uniquephagegraph[c(uniquephagegraph$PatientID %in% i),])$Location %in% j),]
-		subsetdfin$PhageAbundance <- c(rrarefy(subsetdfin$PhageAbundance, sample = phageminseq))
-		return(subsetdfin)
+
+	outputout <- lapply(unique(uniquephagegraph$TimePoint), function(t) {
+
+		outputin <- lapply(unique(as.data.frame(uniquephagegraph[c(uniquephagegraph$PatientID %in% i & uniquephagegraph$TimePoint %in% t),])$Location), function(j) {
+			print(c(i, t, j))
+			subsetdfin <- as.data.frame(uniquephagegraph[c(uniquephagegraph$PatientID %in% i & uniquephagegraph$TimePoint %in% t & uniquephagegraph$Location %in% j),])
+			if (sum(subsetdfin$PhageAbundance) >= phageminseq) {
+				subsetdfin$PhageAbundance <- c(rrarefy(subsetdfin$PhageAbundance, sample = phageminseq))
+				return(subsetdfin)
+			} else {
+				NULL
+			}
+		})
+		forresult <- as.data.frame(do.call(rbind, outputin))
+		rm(outputin)
+		return(forresult)
 	})
-	forresult <- as.data.frame(do.call(rbind, outputin))
-	rm(outputin)
-	return(forresult)
+	outresult <- as.data.frame(do.call(rbind, outputout))
+	rm(outputout)
+	return(outresult)
+
 })
+
 rdfphage <- as.data.frame(do.call(rbind, rout))
-rdfphage$combophage <- paste(rdfphage$from, rdfphage$PatientID, rdfphage$Location, sep = "__")
-rdfphage <- rdfphage[-c(1:3)]
+
+# Check the results
+ddply(rdfphage, c("PatientID", "Location", "TimePoint"), summarize, sum = sum(as.numeric(PhageAbundance)))
+
+rdfphage$combophage <- paste(rdfphage$from, rdfphage$PatientID, rdfphage$Location, rdfphage$TimePoint, sep = "__")
+rdfphage <- rdfphage[-c(1:4)]
 
 rout <- lapply(unique(uniquebacteriagraph$PatientID), function(i) {
-	outputin <- lapply(unique(as.data.frame(uniquebacteriagraph[c(uniquebacteriagraph$PatientID %in% i),])$Location), function(j) {
-		print(c(i, j))
-		subsetdfin <- as.data.frame(uniquebacteriagraph[c(uniquebacteriagraph$PatientID %in% i),])[c(as.data.frame(uniquebacteriagraph[c(uniquebacteriagraph$PatientID %in% i),])$Location %in% j),]
-		subsetdfin$BacteriaAbundance <- c(rrarefy(subsetdfin$BacteriaAbundance, sample = bacminseq))
-		return(subsetdfin)
+
+	outputout <- lapply(unique(uniquebacteriagraph$TimePoint), function(t) {
+
+		outputin <- lapply(unique(as.data.frame(uniquebacteriagraph[c(uniquebacteriagraph$PatientID %in% i & uniquebacteriagraph$TimePoint %in% t),])$Location), function(j) {
+			print(c(i, t, j))
+			subsetdfin <- as.data.frame(uniquebacteriagraph[c(uniquebacteriagraph$PatientID %in% i & uniquebacteriagraph$TimePoint %in% t & uniquebacteriagraph$Location %in% j),])
+			if (sum(subsetdfin$BacteriaAbundance) >= phageminseq) {
+				subsetdfin$BacteriaAbundance <- c(rrarefy(subsetdfin$BacteriaAbundance, sample = bacminseq))
+				return(subsetdfin)
+			} else {
+				NULL
+			}
+		})
+		forresult <- as.data.frame(do.call(rbind, outputin))
+		rm(outputin)
+		return(forresult)
 	})
-	forresult <- as.data.frame(do.call(rbind, outputin))
-	rm(outputin)
-	return(forresult)
+	outresult <- as.data.frame(do.call(rbind, outputout))
+	rm(outputout)
+	return(outresult)
+
 })
+
 rdfbacteria <- as.data.frame(do.call(rbind, rout))
-rdfbacteria$combobacteria <- paste(rdfbacteria$to, rdfbacteria$PatientID, rdfbacteria$Location, sep = "__")
-rdfbacteria <- rdfbacteria[-c(1:3)]
+
+ddply(rdfbacteria, c("PatientID", "Location", "TimePoint"), summarize, sum = sum(as.numeric(BacteriaAbundance)))
+
+rdfbacteria$combobacteria <- paste(rdfbacteria$to, rdfbacteria$PatientID, rdfbacteria$Location, rdfbacteria$TimePoint, sep = "__")
+rdfbacteria <- rdfbacteria[-c(1:4)]
 
 # Merge the subsampled abundances back into the original file
-graphdfcombo <- graphdf
-graphdfcombo$combophage <- paste(graphdfcombo$from, graphdfcombo$PatientID, graphdfcombo$Location, sep = "__")
-graphdfcombo$combobacteria <- paste(graphdfcombo$to, graphdfcombo$PatientID, graphdfcombo$Location, sep = "__")
-graphdfcombo <- graphdfcombo[-c(1:6)]
+totalgraphcombo <- totalgraph
+totalgraphcombo$combophage <- paste(totalgraphcombo$from, totalgraphcombo$PatientID, totalgraphcombo$Location, totalgraphcombo$TimePoint, sep = "__")
+totalgraphcombo$combobacteria <- paste(totalgraphcombo$to, totalgraphcombo$PatientID, totalgraphcombo$Location, totalgraphcombo$TimePoint, sep = "__")
+totalgraphcombo <- totalgraphcombo[-c(1:7)]
 
-format(object.size(graphdfcombo), units = "MB")
+format(object.size(totalgraphcombo), units = "MB")
 format(object.size(rdfphage), units = "KB")
 
-graphdfmerge <- merge(graphdfcombo, rdfphage, by = "combophage")
-graphdfmerge <- merge(graphdfmerge, rdfbacteria, by = "combobacteria")
+totalgraphmerge <- merge(totalgraphcombo, rdfphage, by = "combophage")
+totalgraphmerge <- merge(totalgraphmerge, rdfbacteria, by = "combobacteria")
 
 # Remove those without bacteria or phage nodes after subsampling
 # Zero here means loss of the node
-rdf <- graphdfmerge[!c(graphdfmerge$PhageAbundance == 0 | graphdfmerge$BacteriaAbundance == 0),]
+rdf <- totalgraphmerge[!c(totalgraphmerge$PhageAbundance == 0 | totalgraphmerge$BacteriaAbundance == 0),]
 # Calculate edge values from nodes
 rdf$edge <- log10(rdf$PhageAbundance * rdf$BacteriaAbundance) + 0.0001
 # Parse the values again
-rdf <- cbind(as.data.frame(str_split_fixed(rdf$combobacteria, "__", 3)), rdf)
-rdf <- cbind(as.data.frame(str_split_fixed(rdf$combophage, "__", 3)), rdf)
-rdf <- rdf[-c(2:3)]
-rdf <- rdf[-c(5:6)]
-colnames(rdf) <- c("from", "to", "PatientID", "Location", "PhageAbundance", "BacteriaAbundance", "edge")
+rdf <- cbind(as.data.frame(str_split_fixed(rdf$combobacteria, "__", 4)), rdf)
+rdf <- cbind(as.data.frame(str_split_fixed(rdf$combophage, "__", 4)), rdf)
+rdf <- rdf[-c(2:4)]
+rdf <- rdf[-c(6:7)]
+colnames(rdf) <- c("from", "to", "PatientID", "Location", "TimePoint", "PhageAbundance", "BacteriaAbundance", "edge")
 
 # Make a list of subgraphs for each of the samples
 # This will be used for diversity, centrality, etc
 routdiv <- lapply(unique(rdf$PatientID), function(i) {
-	subsetdfout <- as.data.frame(rdf[c(rdf$PatientID %in% i),])
-	outputin <- lapply(unique(subsetdfout$Location), function(j) {
-		subsetdfin <- subsetdfout[c(subsetdfout$Location %in% j),]
-		lapgraph <- graph_from_data_frame(subsetdfin[,c("to", "from")], directed = TRUE)
-		E(lapgraph)$weight <- subsetdfin[,c("edge")]
-		print(as.character(j))
-		V(lapgraph)$location <- as.character(j)
-		V(lapgraph)$patientid <- i
-		return(lapgraph)
+	outtime <- lapply(unique(rdf$TimePoint), function(t) {
+		subsetdfout <- as.data.frame(rdf[c(rdf$PatientID %in% i & rdf$TimePoint %in% t),])
+		outputin <- lapply(unique(subsetdfout$Location), function(j) {
+			subsetdfin <- subsetdfout[c(subsetdfout$Location %in% j),]
+			lapgraph <- graph_from_data_frame(subsetdfin[,c("to", "from")], directed = TRUE)
+			E(lapgraph)$weight <- subsetdfin[,c("edge")]
+			print(as.character(j))
+			V(lapgraph)$location <- as.character(j)
+			V(lapgraph)$patientid <- i
+			V(lapgraph)$timepoint <- t
+			return(lapgraph)
+		})
+		return(outputin)
 	})
-	return(outputin)
+	return(outtime)
 })
 
 routcentral <- lapply(c(1:length(routdiv)), function(i) {
-	listelement <- routdiv[[ i ]]
-	outputin <- lapply(c(1:length(listelement)), function(j) {
-		listgraph <- listelement[[ j ]]
-		patient <- unique(V(listgraph)$patientid)
-		location <- unique(V(listgraph)$location)
-		print(c(patient, location))
-		centraldf <- as.data.frame(alpha_centrality(listgraph, weights = E(listgraph)$weight))
-		colnames(centraldf) <- "acentrality"
-		
-		pagerank <- as.data.frame(page_rank(listgraph, weights = E(listgraph)$weight, directed = FALSE)$vector)
-		colnames(pagerank) <- "page_rank"
-		pagerank$label <- rownames(pagerank)
-
-		# swaneff <- as.data.frame(swan_efficiency(listgraph))
-		# colnames(swaneff) <- "swan_efficiency"
-		# pagerank <- cbind(pagerank, swaneff)
-
-		diversitydf <- as.data.frame(igraph::diversity(graph = listgraph, weights = E(listgraph)$weight))
-		centraldf$label <- rownames(centraldf)
-		colnames(diversitydf) <- "entropy"
-		diversitydf$label <- rownames(diversitydf)
-		centraldf <- merge(centraldf, diversitydf, by = "label")
-		centraldf <- merge(centraldf, pagerank, by = "label")
-		centraldf$subject <- patient
-		centraldf$Location <- location
-		return(centraldf)
+	listelementout <- routdiv[[ i ]]
+	outputout <- lapply(c(1:length(listelementout)), function(k) {
+		listelement <- listelementout[[ k ]]
+		outputin <- lapply(c(1:length(listelement)), function(j) {
+			listgraph <- listelement[[ j ]]
+			patient <- unique(V(listgraph)$patientid)
+			location <- unique(V(listgraph)$location)
+			Timepoint <- as.numeric(unique(V(listgraph)$timepoint))
+			print(c(patient, location, Timepoint))
+			centraldf <- as.data.frame(alpha_centrality(listgraph, weights = E(listgraph)$weight))
+			colnames(centraldf) <- "acentrality"
+			
+			pagerank <- as.data.frame(page_rank(listgraph, weights = E(listgraph)$weight, directed = FALSE)$vector)
+			colnames(pagerank) <- "page_rank"
+			pagerank$label <- rownames(pagerank)
+	
+			diversitydf <- as.data.frame(igraph::diversity(graph = listgraph, weights = E(listgraph)$weight))
+			centraldf$label <- rownames(centraldf)
+			colnames(diversitydf) <- "entropy"
+			diversitydf$label <- rownames(diversitydf)
+			centraldf <- merge(centraldf, diversitydf, by = "label")
+			centraldf <- merge(centraldf, pagerank, by = "label")
+			centraldf$subject <- patient
+			centraldf$Location <- location
+			centraldf$TimePoint <- Timepoint
+			return(centraldf)
+		})
+		forresult <- as.data.frame(do.call(rbind, outputin))
+		return(forresult)
 	})
-	forresult <- as.data.frame(do.call(rbind, outputin))
-	return(forresult)
+	outresult <- as.data.frame(do.call(rbind, outputout))
+	return(outresult)
 })
 rcentraldf <- as.data.frame(do.call(rbind, routcentral))
 # Focus on the phages for this
@@ -278,38 +329,78 @@ hamming_distance <- function(g1, g2) {
 	return(1 - intersection / (length1 + length2 - intersection))
 }
 
-# routham <- lapply(c(1:length(routdiv)), function(i) {
-# 	listelement1 <- routdiv[[ i ]]
-# 	outputin <- lapply(c(1:length(listelement1)), function(j) {
-# 		listgraph1 <- listelement1[[ j ]]
-# 		outdf1 <- lapply(c(1:length(routdiv)), function(k) {
-# 			listelement2 <- routdiv[[ k ]]
-# 				outdf2 <- lapply(c(1:length(listelement2)), function(l) {
-# 					print(c(i,j,k,l))
-# 					listgraph2 <- listelement2[[ l ]]
-# 					patient1 <- unique(V(listgraph1)$patientid)
-# 					patient2 <- unique(V(listgraph2)$patientid)
-# 					patient1tp <- paste(unique(V(listgraph1)$patientid), unique(V(listgraph1)$location), sep = "")
-# 					patient2tp <- paste(unique(V(listgraph2)$patientid), unique(V(listgraph2)$location), sep = "")
-# 					hdistval <- hamming_distance(listgraph1, listgraph2)
-# 					outdftop <- data.frame(patient1, patient2, patient1tp, patient2tp, hdistval)
-# 					return(outdftop)
-# 				})
-# 			inresulttop <- as.data.frame(do.call(rbind, outdf2))
-# 			return(inresulttop)
-# 		})
-# 		inresultmiddle <- as.data.frame(do.call(rbind, outdf1))
-# 		return(inresultmiddle)
-# 	})
-# 	forresult <- as.data.frame(do.call(rbind, outputin))
-# 	return(forresult)
-# })
+routham <- mclapply(c(1:length(routdiv)), function(i) {
+	listelement1 <- routdiv[[ i ]]
+	if(length(listelement1) != 0) {
+	outputin <- lapply(c(1:length(listelement1)), function(j) {
+		listgraph1 <- listelement1[[ j ]]
+		if(length(listgraph1) != 0) {
+		outputmid <- lapply(c(1:length(listgraph1)), function(k) {
+			listgraphfin1 <- listgraph1[[ k ]]
+			if(length(listgraphfin1) != 0) {
+			outdf1 <- lapply(c(1:length(routdiv)), function(l) {
+				listelement2 <- routdiv[[ l ]]
+				if(length(listelement2) != 0) {
+				outdf2 <- lapply(c(1:length(listelement2)), function(m) {
+					listgraph2 <- listelement2[[ m ]]
+					if(length(listgraph2) != 0) {
+					outdf2out <- lapply(c(1:length(listgraph2)), function(n) {
+						print(c(i,j,k,l,m,n))
+						listgraphfin2 <- listgraph2[[ n ]]
+						if(length(listgraphfin2) != 0) {
+						patient1 <- unique(V(listgraphfin1)$patientid)
+						patient2 <- unique(V(listgraphfin2)$patientid)
+						patient1tp <- paste(
+							unique(V(listgraphfin1)$patientid),
+							unique(V(listgraphfin1)$location),
+							unique(V(listgraphfin1)$timepoint), sep = "_")
+						patient2tp <- paste(
+							unique(V(listgraphfin2)$patientid),
+							unique(V(listgraphfin2)$location),
+							unique(V(listgraphfin2)$timepoint), sep = "_")
+						hdistval <- hamming_distance(listgraphfin1, listgraphfin2)
+						outdftop <- data.frame(patient1, patient2, patient1tp, patient2tp, hdistval)
+						return(outdftop)
+						} else {
+							return(NULL)
+						}
+					})
+					outmid2 <- as.data.frame(do.call(rbind, outdf2out))
+					return(outmid2)
+					} else {
+						return(NULL)
+					}
+				})
+				inresulttop <- as.data.frame(do.call(rbind, outdf2))
+				return(inresulttop)
+				} else {
+					return(NULL)
+				}
+			})
+			inresultmiddle <- as.data.frame(do.call(rbind, outdf1))
+			return(inresultmiddle)
+			} else {
+				return(NULL)
+			}
+		})
+		outputmidoutput <- as.data.frame(do.call(rbind, outputmid))
+		return(outputmidoutput)
+		} else {
+			return(NULL)
+		}
+	})
+	forresult <- as.data.frame(do.call(rbind, outputin))
+	return(forresult)
+	} else {
+		return(NULL)
+	}
+}, mc.cores = 4)
 
 # save(routham, file = "./skinbetadivbackup.Rdata")
 
 load(file = "./skinbetadivbackup.Rdata")
 
-routham <- as.data.frame(do.call(rbind, routham))
+# routham <- as.data.frame(do.call(rbind, routham))
 routhamnosame <- routham[!c(routham$hdistval == 0),]
 routhamnosame$location1 <- gsub("\\d+", "", routhamnosame$patient1tp, perl = TRUE)
 routhamnosame$location2 <- gsub("\\d+", "", routhamnosame$patient2tp, perl = TRUE)

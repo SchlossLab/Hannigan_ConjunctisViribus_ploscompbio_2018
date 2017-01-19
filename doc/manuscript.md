@@ -23,7 +23,7 @@ Just as the human microbiome field has benefited from an understanding of how di
 # Results
 
 ## The Virome of the Human Microbiome Dataset
-To provide a broad understanding of the human virome, we utilized all available high quality microbiome datasets that contained paired virus and and bacterial metagenomic samples. This resulted in the inclusion of four previously published datasets for three human virome studies. These studies included the impact of diet on the gut virome [@Minot:2011ez], the impact of anatomical location on the skin virome [@Hannigan:2015fz], and the virome of monozygotic twins and their mothers [@Reyes:2010cwa; @Turnbaugh:2009ei]. The viromes associated with these datasets were subjected to virus-like particle (VLP) purification to eliminate other organism DNA including bacteria, fungi, and human. This approach is advantageous because it allows us to study the active virome because only VLPs will have been sequenced.
+To provide a broad understanding of the human virome, we utilized all available high quality microbiome datasets that contained paired virus and and bacterial metagenomic samples. This resulted in the inclusion of four previously published datasets for three human virome studies. These studies included the impact of diet on the gut virome [@Minot:2011ez], the impact of anatomical location on the skin virome [@Hannigan:2015fz], and the virome of monozygotic twins and their mothers [@Reyes:2010cwa; @Turnbaugh:2009ei]. The viromes associated with these datasets were subjected to virus-like particle (VLP) purification to eliminate other organism DNA including bacteria, fungi, and human. This approach is advantageous because it allows us to study the active virome because only VLPs will have been sequenced. Additionally, it provides confidence that the majority of the sequences within the virome are in fact viral and that we are not aligning bacterial genomic DNA to other bacteria in the metagenomic datasets.
 
 ![*Summary information of validation dataset used in the interaction predictive model. A) Categorical heatmap highlighting the experimentally validated positive and negative interactions. Only bacteria species are shown, which represent multiple reference strains. Phages are labeled on the x-axis and bacteria are labeled on the y-axis. B) World map illustrating the sampling locations used in the study (red dots). C) Quantificaiton of bacterial host strains known to exist for each phage. D) Genome strandedness and E) linearity of the phage reference genomes used for the dataset.*\label{ValidationOverview}](../figures/BenchmarkDataset.pdf)
 
@@ -92,7 +92,7 @@ In addition to evaluating the anatomical differences of the virome, we also eval
 
 Together these findings present an initial look into the network structures of the human virome relationships with their host bacteria. We not only present the human virome as a network of its relationships with host bacteria, but also show that the structure of these relationships is dependent on the environmental conditions associated with the community, including diet, disease (obesity), and skin site.
 
-This work is a first step on a long road toward understanding the virome through its relationships. Thus there are certainly caveats and many future directions associated with this work that are beyond the scope of this initial manuscript. While our model for classifying bacteria and phage relationships outperforms existing models, we recognize that, like most models, a lot of effort can be made to improve this model even further. This will include the use of new and creative metrics, as well as improved training and validation datasets. This is an area that we are excited to continue developing in future work.
+This work is a first step on a long road toward understanding the virome through its relationships. Thus there are certainly caveats and many future directions associated with this work that are beyond the scope of this initial manuscript. While our model for classifying bacteria and phage relationships outperforms existing models, we recognize that, like most classification models, a lot of effort can be made to improve the model even further. This will include the use of new and creative metrics, as well as improved training and validation datasets. This is an area that we are excited to continue developing in future work.
 
 These findings and methodologies are particularly exciting because they represent a new way of understanding the human microbiome. We hope this work will represent an initial step toward understanding the human microbiota as complex interacting communities instead of the reductionist approach often utilized today. Not only have we provided new insights into the biology of the human virome, but we do so while presenting sophisticated approaches toward studying the virome in parallel with the bacterial host community.
 
@@ -144,7 +144,11 @@ The bacteria and phage operational genomic units (OGUs) were scored using the sa
 The weighted diameters of the networks were calculated using the `diameter` function in the igraph database. Thus the network diameter was defined as the length of the longest weighted geodesic within that graph. Briefly, the weighted geodesic is defined as the path between nodes with the shortest sum of edge weights.
 
 ## Centrality Analysis
-Alpha centrality [@Bonacich:2001bp] and PageRank [@Brin:1998jv] were calculated using the associated functions within the igraph R package.
+Alpha centrality [@Bonacich:2001bp] and PageRank [@Brin:1998jv] were calculated using the associated functions within the igraph R package. Briefly, a vector of node alpha centrality values (`x`) was calculated as:
+
+$$ x={ \left( I-\alpha { A }^{ T } \right)  }^{ -1 }e $$
+
+Where `I` is the associated identity matrix, `A` is the associated adjacency matrix, `e` is a the vector of external node importance values, and `alpa` is the constant alpha centrality parameter. Default paramters were used, thus providing an `alpha` and `e` value of 1.
 
 ## Network Shannon Entropy
 Shannon diversity was calculated according to Nathan Eagle *et al* and modified in concept to fit our environment [@Eagle:2010ce]. Shannon entropy S for each node i with edges j was defined as:
@@ -176,4 +180,5 @@ $$ H\left( M \right) =\frac { c }{ a+b+c } $$
 We thank the members of the Schloss lab for their underlying contributions. GDH is supported in part by the University of Michigan Molecular Mechanisms of Microbial Pathogenesis Fellowship.
 
 \newpage
+
 # References

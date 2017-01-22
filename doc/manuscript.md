@@ -1,5 +1,5 @@
 ---
-title: Understanding Human Virome Biogeography Through Relationships with Bacterial Hosts
+title: Understanding Human Microbiome Biogeography Through Relationships Between Bacteria and Bacteriophages
 author:
 - Geoffrey D Hannigan
 - Melissa B Duhaime
@@ -57,16 +57,13 @@ To test this hypothesis, we calculated the relationship dissimilarity (Hamming d
 ## Role of Diet in Gut Network Structure
 Diet is a major environmental factor that influences resource availability and gut microbiome composition, including bacteria and phages. To this end, we followed up on previous work that evaluated the role diet plays in modulating the gut virome by evaluating the role diet plays in virome host relationships within the gut. Instead of focusing on taxa and diversity, we are focusing on the relationships between bacteria and phages.
 
-![*Impact of diet on different aspects of the gut phage-bacteria ecological network. A) NMDS ordination visualizing the differences in networks between patients on either high or low fat diets. The results were statistically significant by ANOSIM (p < 0.05). Ordination based on Hamming distances. Lack of statistically significant difference in B) node centrality and C) Shannon Entropy between patients ingesting either low or high fat diet. D)Hamming distances between samples from D) the same (intra-personal) and different (interpersonal) subjects, as well as E) patients ingesting low or high fat diets. Observed differences were statistically significant (p < 0.05).*\label{dietnetworks}](../figures/dietnetworks.pdf){ width=90% }
-
 We evaluated the differences in gut phage-bacteria networks using three metrics: phage centrality, page rank, relationship Shannon entropy, and relationship dissimilarity (Hamming Distance). Using the alpha centrality metric, we found that diet had no significant impact of the degrees of phage centrality with the systems **(Figure \ref{dietnetworks} B)**. Likewise, we found a lack similarity between the Shannon entropy (alpha diversity) of the system between subjects fed with low or high fat diets **(Figure \ref{dietnetworks} C)**. This indicated a lack of difference in within-sample structure (centrality and relationship diversity) and led us to evaluate the differences in structure given shared composition between the networks.
 
 We evaluated the differences between sample composition using the Hamming distances between the node edges. We first evaluated the degree of sample similarity between and within subjects over time. This allowed us to investigate whether gut virome networks are more similar within individuals compared to between individuals. We found that the gut microbial networks are more similar within the same subject over time compared to between subjects **(Figure \ref{dietnetworks} D)**. When comparing diet, we found that the networks were more highly similar within diet classes **(Figure \ref{dietnetworks} A)**. We also found that high fat diets were more consistent across subjects while the low fat diets were highly variable **(Figure \ref{dietnetworks} E)**.
 
-## Association Between Obesity and Virome - Host Relationships
-The association between the microbiome and obesity remains a point of discussion among microbiome researchers and have seen conflicting evidence in past years. Although not a primary objective of our study, we were able to provide a preliminary observation of the link between the microbiome interactive network and obesity. The twin study incorporated into our analysis included three mothers, one of which was obese. Although the conclusions we can make are limited due to a low power, we found a lower degree of centrality in the obese network compared to the two non-obese networks **(Figure \ref{obesitynetwork})**. While this is insufficient evidence for claiming a link between gut microbiome networks and obesity, it does support the utility of these techniques and warrants further, dedicated investigation.
+The association between the microbiome and obesity remains a point of discussion among microbiome researchers and have seen conflicting evidence in past years. Although not a primary objective of our study, we were able to provide a preliminary observation of the link between the microbiome interactive network and obesity. The twin study incorporated into our analysis included three mothers, one of which was obese. Although the conclusions we can make are limited due to a low power, we found a lower degree of centrality in the obese network compared to the two non-obese networks **(Figure \ref{dietnetworks})**. While this is insufficient evidence for claiming a link between gut microbiome networks and obesity, it does support the utility of these techniques and warrants further, dedicated investigation.
 
-![*Obesity is associated with decreased less network centrality. Page rank centrality for each node in the obese and non-obese networks. Difference is statistically significant (p = 0.01)*\label{obesitynetwork}](../figures/obesity_network_difference.pdf){ width=40% }
+![*Impact of diet on different aspects of the gut phage-bacteria ecological network. A) NMDS ordination visualizing the differences in networks between patients on either high or low fat diets. The results were statistically significant by ANOSIM (p < 0.05). Ordination based on Hamming distances. Lack of statistically significant difference in B) node centrality and C) Shannon Entropy between patients ingesting either low or high fat diet. D)Hamming distances between samples from D) the same (intra-personal) and different (interpersonal) subjects, as well as E) patients ingesting low or high fat diets. Observed differences were statistically significant (p < 0.05).*\label{dietnetworks}](../figures/dietnetworks.pdf){ width=90% }
 
 ## Variation of Network Structure Across the Human Skin Landscape
 Previous work has shown differences in microbial communities between anatomical sites. These differences include bacteria, viruses, and fungi, and vary by degree of moisture, oil, and occlusion from the external environment. We hypothesize that like microbial composition and diversity, microbial network structure differs between anatomical sites. We addressed this hypothesis by evaluating the changes in network structure between anatomical sites within the skin virome dataset.
@@ -75,7 +72,7 @@ The degree of centrality among nodes was significantly different across anatomic
 
 To evaluate the impact of skin environmental conditions, we assessed the differences in community relationship structure between levels of occlusion and moisture/oil. We found that the unstable sites (intermittently moist and intermittently occluded) maintained more diverse relationships and a higher degree of alpha centrality. As expected, these sites also had particularly low Pagerank values. All of the sites were highly and significantly dissimilar by occlusion status. Only the intermittently moist site was significantly dissimilar from the moist site, although the other groups were nearly significantly different.
 
-![*Network properties of the human skin virome. A) Alpha centrality, B) Page Rank, C) Shannon entropy, and D) significance of Hamming dissimilarities which are E) visualized using NMDS ordination. Same metrics are shown for moisture of environments (F - J) and occlusion (K - O).*\label{skinnetwork}](../figures/skinplotresults.pdf){ width=100% }
+![*Network properties of the human skin virome. A) Alpha centrality, B) Page Rank, C) Shannon entropy, and D) significance of Hamming dissimilarities which are E) visualized using NMDS ordination. Same metrics are shown for moisture of environments (F - J) and occlusion (K - O).*\label{skinnetwork}](../figures/skinplotresults.pdf){ width=75% }
 
 # Discussion
 Here we build off of previous virome work to show that human virome relationship networks within the microbiome are altered by changing environmental conditions. The degree of node centrality, relationship entropy, and relationship dissimilarity was significantly altered upon changes in diet and anatomical skin site. Networks remained more similar with each individual over time, compared to all other individuals. Such network similarity was not observed within families or between mono-zygotic twin pairs. There may also be an association between network structure and obesity. These changes in network structure have important implications of the functionality of the ecological systems at large.
@@ -140,30 +137,20 @@ The final method we used for predicting infectious interactions between bacteria
 ## Virome Network Construction
 The bacteria and phage operational genomic units (OGUs) were scored using the same approach as outlined above. The infectious pairings between bacteria and phage OGUs were classified using the random forest model described above. The predicted infectious pairings and all associated metadata was saved as a graph database using Neo4j software. This network was used for downstream community analysis.
 
-## Network Diameter
-The weighted diameters of the networks were calculated using the `diameter` function in the igraph database. Thus the network diameter was defined as the length of the longest weighted geodesic within that graph. Briefly, the weighted geodesic is defined as the path between nodes with the shortest sum of edge weights.
-
 ## Centrality Analysis
-Alpha centrality [@Bonacich:2001bp] and PageRank [@Brin:1998jv] were calculated using the associated functions within the igraph R package. Briefly, a vector of node alpha centrality values (`x`) was calculated as:
+Degree and closeness centrality were calculated using the associated functions within the igraph R package. Breifly, the **closeness centrality** of Vi was calculated taking the inverse of the average length of the shortest path (`d`) between nodes Vi and the `k` other nodes Vj, such that closeness centrality of node Vi is:
 
-$$ x={ \left( I-\alpha { A }^{ T } \right)  }^{ -1 }e $$
+$$ { C }_{ C }\left( { V }_{ i } \right) ={ \left( \sum _{ j=1 }^{ k }{ d\left( { V }_{ i },{ V }_{ j } \right)  }  \right)  }^{ -1 } $$
 
-Where `I` is the associated identity matrix, `A` is the associated adjacency matrix, `e` is a the vector of external node importance values, and `alpa` is the constant alpha centrality parameter. Default paramters were used, thus providing an `alpha` and `e` value of 1.
+More simply, **degree centrality** of node Vi is defined as the sum of the number of k edges Ei associated with that node, such that:
 
-## Network Shannon Entropy
-Shannon diversity was calculated according to Nathan Eagle *et al* and modified in concept to fit our environment [@Eagle:2010ce]. Shannon entropy S for each node i with edges j was defined as:
+$$ { C }_{ D }\left( { V }_{ i } \right) =\sum _{ i=1 }^{ k }{ { E }_{ i } } $$
 
-$$ S\left( i \right) =-\sum _{ j=1 }^{ k }{ { p }_{ ij }\log { \left( { p }_{ ij } \right)  }  } $$
+The **centralization** metric was used to assess the average centrality of each sample graph `G`. Centralization was calculated by taking the sum of each vertex `Vi` centrality from the graph maximum centrality `Cw`, such that:
 
-Where k is the total number of edges associated with node i. We defined pij as:
+$$ C\left( G \right) =\frac { \sum _{ i=1 }^{ k }{ \max _{ w }{ c\left( w \right)  } -c\left( { v }_{ i } \right)  }  }{ { T } }  $$
 
-$$ { p }_{ ij }=\quad \frac { { V }_{ ij } }{ \sum _{ j=1 }^{ k }{ { V }_{ ij } }  } $$
-
-Where Vig is the difference between node weights between nodes i and j as:
-
-$$ { V }_{ ij }=\quad \log _{ 10 }{ \left( ij \right)  }  $$
-
-This was implemented using the igraph package available on CRAN.
+The values were corrected for uneven graph sizes by dividing the centralization score by the maximum theoretical centralization (`T`) for a graph with the same number of vertices.
 
 ## Network Relationship Dissimilarity
 Beta diversity was calculated using the Hamming distance implemented in R using functionality from the igraph package.

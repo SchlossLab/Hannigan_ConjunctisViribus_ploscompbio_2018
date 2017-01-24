@@ -372,6 +372,16 @@ ${PSTAT}/circularcontigsFormat.tsv :
 		-c ${PSTAT}/FinalContigCounts.tsv \
 		-x ${PSTAT}/circularcontigsFormat.tsv
 
+##########################
+# Get Length Per Cluster #
+##########################
+./data/clusterlength.tsv :
+	Rscript ./bin/collapseLength.R \
+		-i ${PSTAT}/ContigLength.tsv \
+		-c ./data/ContigClustersPhage/clustering_gt1000.csv \
+		-b ./data/ContigClustersBacteria/clustering_gt1000.csv \
+		-o ${PSTAT}/ClusterLength.tsv
+
 ######################################### INTERACTION SCORES ########################################
 
 ######################

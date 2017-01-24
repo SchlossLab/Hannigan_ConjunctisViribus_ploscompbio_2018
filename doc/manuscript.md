@@ -142,9 +142,13 @@ Degree and closeness centrality were calculated using the associated functions w
 
 $$ { C }_{ C }\left( { V }_{ i } \right) ={ \left( \sum _{ j=1 }^{ k }{ d\left( { V }_{ i },{ V }_{ j } \right)  }  \right)  }^{ -1 } $$
 
-More simply, **degree centrality** of node Vi is defined as the sum of the number of k edges Ei associated with that node, such that:
+The distance between nodes (`d`) was calculated as the shortest number of edges required to be traversed to move from one node to another. 
+
+The simple metric of **degree centrality** of node Vi was defined as the sum of the number of k edges Ei associated with that node, such that:
 
 $$ { C }_{ D }\left( { V }_{ i } \right) =\sum _{ i=1 }^{ k }{ { E }_{ i } } $$
+
+The Eigenvector centrality was calculated using the values of the first eigen vector of the associated adjacency matrix that are associated with each vertex `Vi`. Conceptually, this function results in a centrality value that reflects the connections of the vertex, as well as the centrality of the connected vertices.
 
 The **centralization** metric was used to assess the average centrality of each sample graph `G`. Centralization was calculated by taking the sum of each vertex `Vi` centrality from the graph maximum centrality `Cw`, such that:
 

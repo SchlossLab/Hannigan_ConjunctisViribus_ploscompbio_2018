@@ -347,10 +347,7 @@ PSTAT=./data/PhageContigStats
 # Prepare to plot contig stats like sequencing depth, length, and circularity
 ${PSTAT}/ContigLength.tsv \
 ${PSTAT}/FinalContigCounts.tsv \
-${PSTAT}/circularcontigsFormat.tsv : \
-			./data/TotalCatContigs.fa \
-			./data/ContigRelAbundForGraph.tsv \
-			./bin/contigstats.sh
+${PSTAT}/circularcontigsFormat.tsv :
 	echo $(shell date)  :  Calculating contig statistics >> ${DATENAME}.makelog
 	bash ./bin/contigstats.sh \
 		./data/TotalCatContigs.fa \

@@ -6,11 +6,13 @@
 ##################
 # Load Libraries #
 ##################
-packagelist <- c("RNeo4j", "ggplot2", "wesanderson", "igraph", "visNetwork", "scales", "plyr", "cowplot")
+packagelist <- c("RNeo4j", "ggplot2", "wesanderson", "igraph", "visNetwork", "scales", "plyr", "cowplot", "reshape2")
 new.packages <- packagelist[!(packagelist %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages, repos='http://cran.us.r-project.org')
 lapply(packagelist, library, character.only = TRUE)
 library("ggraph")
+library("grid")
+
 
 ###################
 # Set Subroutines #
@@ -62,7 +64,15 @@ graphDiameter <- function (nodeframe=nodeout, edgeframe=edgeout) {
   # Pull out the data for clustering
   ig <- graph_from_data_frame(edgeframe, directed=F)
   connectionresult <- diameter(ig, directed=F)
-  return(connectionresult)
+  edgecon <- edge_connectivity(ig)
+  dcc <- centr_degree(ig)$centralization
+  vert <- vcount(ig)
+  edge <- ecount(ig)
+  finaldf <- t(as.data.frame(c(connectionresult, edgecon, dcc, vert, edge)))
+  rownames(finaldf) <- NULL
+  colnames(finaldf) <- c("diameter", "econn", "dc", "vert", "edge")
+
+  return(finaldf)
 }
 
 connectionstrength <- function (nodeframe=nodeout, edgeframe=edgeout) {
@@ -108,78 +118,14 @@ totalnetwork <- plotnetwork()
 
 # Test connection strength of the network
 write(connectionstrength(), stderr())
-write(graphDiameter(), stderr())
+
+totalstats <- as.data.frame(graphDiameter())
+totalstats$class <- "Total"
 
 length(grep("Phage", nodeout[,1]))
 length(grep("Bacteria", nodeout[,1]))
 
 length(edgeout[,1])
-
-# Get number of hosts for each phage as histogram
-edgecount <- count(edgeout$from)
-edgecount <- edgecount[order(edgecount$freq, decreasing=FALSE),]
-edgecount$x <- factor(edgecount$x, levels=edgecount$x)
-
-edgehist <- ggplot(edgecount, aes(x=freq)) +
-  theme_classic() +
-  theme(axis.line.x = element_line(color="black"),
-    axis.line.y = element_line(color="black")) +
-  geom_histogram(fill="tomato3") +
-  xlab("Phage Host Count (Bacterial Strains)") +
-  ylab("Frequency")
-
-pdf(file="./figures/PhageHostHist.pdf",
-width=8,
-height=8)
-  a <- dev.cur()
-  png(file="./figures/PhageHostHist.png",
-  width=8,
-  height=8,
-  units="in",
-  res=800)
-    dev.control("enable")
-    edgehist
-    dev.copy(which=a)
-  dev.off()
-dev.off()
-
-# Get number of phages hitting bacteria
-querygenus <- "
-START n=node(*) MATCH (n)-[r]->(m) RETURN n.Name AS from, m.Species AS to;
-"
-graphoutputlist <- importgraphtodataframe(filter=0, cypherquery=querygenus)
-nodeout <- as.data.frame(graphoutputlist[1])
-edgeout <- as.data.frame(graphoutputlist[2])
-head(nodeout)
-head(edgeout)
-
-edgecount <- count(edgeout$to)
-edgecount <- edgecount[order(edgecount$freq, decreasing=FALSE),]
-edgecount$x <- factor(edgecount$x, levels=edgecount$x)
-
-edgeplotgg <- ggplot(edgecount, aes(x=x, y=freq)) +
-  theme_classic() +
-  theme(axis.line.x = element_line(color="black"),
-    axis.line.y = element_line(color="black")) +
-  geom_bar(stat="identity", fill="tomato3") +
-  coord_flip() +
-  ylab("Unweighted Count of Targeted Phage") +
-  xlab("")
-
-pdf(file="./figures/BacteriaEdgeCount.pdf",
-width=8,
-height=8)
-  a <- dev.cur()
-  png(file="./figures/BacteriaEdgeCount.png",
-  width=8,
-  height=8,
-  units="in",
-  res=800)
-    dev.control("enable")
-    edgeplotgg
-    dev.copy(which=a)
-  dev.off()
-dev.off()
 
 # Diet subgraph
 query <- "
@@ -205,6 +151,9 @@ nodeout <- as.data.frame(graphoutputlist[1])
 edgeout <- as.data.frame(graphoutputlist[2])
 head(nodeout)
 head(edgeout)
+
+dietstats <- as.data.frame(graphDiameter())
+dietstats$class <- "DietStudy"
 
 dietnetwork <- plotnetwork()
 
@@ -233,6 +182,9 @@ edgeout <- as.data.frame(graphoutputlist[2])
 head(nodeout)
 head(edgeout)
 
+twinstats <- as.data.frame(graphDiameter())
+twinstats$class <- "TwinStudy"
+
 twinnetwork <- plotnetwork()
 
 # Skin subgraph
@@ -256,6 +208,42 @@ edgeout <- unique(graphdf[c(1:2)])
 nodeout <- data.frame(id=unique(c(edgeout$from, edgeout$to)))
 nodeout$label <- nodeout$id
 
+skinstats <- as.data.frame(graphDiameter())
+skinstats$class <- "SkinStudy"
+
+allstats <- rbind(totalstats, dietstats, twinstats, skinstats)
+mstat <- melt(allstats)
+
+legend <- get_legend(
+  ggplot(mstat, aes(x = class, y = value, fill = class, group = class)) +
+    theme_classic() +
+    geom_bar(stat = "identity") +
+    scale_fill_manual(values = wes_palette("Darjeeling"), name = "Study")
+  )
+
+graphlist <- lapply(unique(mstat$variable), function(i) {
+  ggplot(mstat[c(mstat$variable %in% i),], aes(x = class, y = value, fill = class, group = class)) +
+    theme_classic() +
+    geom_bar(stat = "identity") +
+    theme(
+        axis.line.x = element_line(colour = "black"),
+        axis.line.y = element_line(colour = "black"),
+        axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        legend.position = "none"
+    ) +
+    scale_fill_manual(values = wes_palette("Darjeeling")) +
+    ylab(i)
+})
+
+baseplot <- plot_grid(plotlist = graphlist, nrow = 1, labels = LETTERS[5:9])
+withlegend <- plot_grid(
+  baseplot,
+  legend,
+  nrow = 1,
+  rel_widths = c(5, .75))
+
 skinnetwork <- plotnetwork()
 
 threeplot <- plot_grid(
@@ -265,10 +253,12 @@ threeplot <- plot_grid(
   ncol = 1,
   labels = c("B", "C", "D"))
 
-finalplot <- plot_grid(totalnetwork, threeplot, ncol = 2, rel_widths = c(2,1), labels = c("A"))
+almostplot <- plot_grid(totalnetwork, threeplot, ncol = 2, rel_widths = c(2,1), labels = c("A"))
+
+finalplot <- plot_grid(almostplot, withlegend, nrow = 2, rel_heights = c(2,1))
 
 pdf(file="./figures/BacteriaPhageNetworkDiagram.pdf",
 width=12,
-height=6)
+height=9)
   finalplot
 dev.off()

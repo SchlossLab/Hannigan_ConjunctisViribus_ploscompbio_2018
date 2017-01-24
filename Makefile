@@ -375,7 +375,7 @@ ${PSTAT}/circularcontigsFormat.tsv :
 ##########################
 # Get Length Per Cluster #
 ##########################
-./data/clusterlength.tsv :
+${PSTAT}/ClusterLength.tsv :
 	Rscript ./bin/collapseLength.R \
 		-i ${PSTAT}/ContigLength.tsv \
 		-c ./data/ContigClustersPhage/clustering_gt1000.csv \

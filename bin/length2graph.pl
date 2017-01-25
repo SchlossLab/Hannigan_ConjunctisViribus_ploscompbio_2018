@@ -51,7 +51,7 @@ foreach my $line (<$SAMPLES>) {
 
 	# Ensure there are no duplicated nodes
     die "There are multiple cluster nodes for $phageid: $!" if (scalar(@n12) gt 1);
-    die "There is no cluster node for $phageid: $!" if (scalar(@n12) lt 1);
+    print "There is no cluster node for $phageid. Probably had no recorded interactions: $!" if (scalar(@n12) lt 1);
 
     my $n2 = pop @n12;
     $n2->set_property( {Length => $phageid} );

@@ -46,6 +46,10 @@ mcl <- rbind(clusters, bacclusters)
 
 mmcl <- merge(input, mcl, by = "V1")
 
+head(mmcl)
+
+colnames(mmcl) <- c("V1", "V2", "V3")
+
 agtable <- ddply(input, c("V3"), summarize, scount=sum(V2))
 
 write.table(

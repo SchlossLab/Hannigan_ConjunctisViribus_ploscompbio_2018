@@ -495,6 +495,13 @@ addmetadata :
 		./data/ContigRelAbundForGraphClusteredBacteria.tsv \
 		./data/PublishedDatasets/metadatatable.tsv
 
+#########################################################
+# Add Contig Cluster Lengths for Downstream Corrections #
+#########################################################
+addlengths : ./data/PhageContigStats/ClusterLength.tsv
+	bash ./bin/AddLengths.sh \
+		./data/PhageContigStats/ClusterLength.tsv
+
 ############################################# ANALYSIS ############################################
 
 ################

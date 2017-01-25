@@ -28,20 +28,20 @@ awk 'NR % 2 {printf $0"\t"} !(NR % 2) {print length($0)}' \
 
 sed -i 's/>//' ${outcontiglength}
 
-#################################
-# Total Contig Sequencing Depth #
-#################################
-Rscript ./bin/CollapseContigCounts.R \
-	--input ${contigcounts} \
-	--out ${outcontigcount}
+# #################################
+# # Total Contig Sequencing Depth #
+# #################################
+# Rscript ./bin/CollapseContigCounts.R \
+# 	--input ${contigcounts} \
+# 	--out ${outcontigcount}
 
-####################################
-# Identify Likely Circular Contigs #
-####################################
-# ccontigs script
-${julia} ${ccontigs} \
-	-i ${contigfasta} \
-	-o ./data/PhageContigStats/circularcontigs.tsv
+# ####################################
+# # Identify Likely Circular Contigs #
+# ####################################
+# # ccontigs script
+# ${julia} ${ccontigs} \
+# 	-i ${contigfasta} \
+# 	-o ./data/PhageContigStats/circularcontigs.tsv
 
-awk '{ print $1"\tCircular" }' ./data/PhageContigStats/circularcontigs.tsv \
-	> ${outcontigcircles}
+# awk '{ print $1"\tCircular" }' ./data/PhageContigStats/circularcontigs.tsv \
+# 	> ${outcontigcircles}

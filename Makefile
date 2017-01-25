@@ -345,6 +345,7 @@ concoctify : ./data/ContigClustersBacteria/clustering_gt1000.csv ./data/ContigCl
 PSTAT=./data/PhageContigStats
 
 # Prepare to plot contig stats like sequencing depth, length, and circularity
+# Right now this is only getting length because I don't want a sep script
 ${PSTAT}/ContigLength.tsv \
 ${PSTAT}/FinalContigCounts.tsv \
 ${PSTAT}/circularcontigsFormat.tsv :

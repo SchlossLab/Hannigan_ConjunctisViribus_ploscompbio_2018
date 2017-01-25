@@ -50,7 +50,7 @@ head(mmcl)
 
 colnames(mmcl) <- c("V1", "V2", "V3")
 
-agtable <- ddply(input, c("V3"), summarize, scount=sum(V2))
+agtable <- ddply(mmcl, "V3", summarize, scount=sum(V2))
 
 write.table(
   x = agtable,

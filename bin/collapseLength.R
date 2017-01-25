@@ -37,8 +37,10 @@ opt <- parse_args(opt_parser);
 input <- read.delim(opt$input, head=FALSE, sep="\t")
 
 clusters <- read.delim(opt$clusters, head=FALSE, sep=",")
+clusters$V2 <- paste("Phage_", clusters$V2, sep = "")
 
 bacclusters <- read.delim(opt$bacclusters, head=FALSE, sep=",")
+bacclusters$V2 <- paste("Bacteria_", bacclusters$V2, sep = "")
 
 input$V2 <- as.numeric(as.character(input$V2))
 

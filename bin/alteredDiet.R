@@ -34,10 +34,18 @@ RETURN DISTINCT
 	t.Name AS TimePoint,
 	k.Name AS Diet,
 	toInt(d.Abundance) AS PhageAbundance,
-	toInt(e.Abundance) AS BacteriaAbundance;
+	toInt(z.Length) AS PhageLength,
+	toInt(e.Abundance) AS BacteriaAbundance,
+	toInt(a.Length) AS BacteriaLength;
 "
 
 sampletable <- as.data.frame(cypher(graph, sampleidquery))
+
+# Correct the lengths
+sampletable$PhageAbundance <- round(1e7 * sampletable$PhageAbundance / sampletable$PhageLength)
+sampletable$BacteriaAbundance <- round(1e7 * sampletable$BacteriaAbundance / sampletable$BacteriaLength)
+sampletable <- sampletable[,-9]
+sampletable <- sampletable[,-7]
 
 head(sampletable)
 
@@ -98,6 +106,9 @@ routdisease <- lapply(unique(rdf$Diet), function(i) {
 ##### ALPHA DIVERSITY AND CENTRALITY #####
 
 ### Alpha centrality & Shannon entropy per sample
+# Note that because edge weights were added to these graphs,
+# They will automatically have the weights incorporated into the
+# analysis. To remove weights, the value NA has to be used, not he NULL default.
 
 routcentral <- lapply(c(1:length(routdiv)), function(i) {
 	listelement <- routdiv[[ i ]]
@@ -156,7 +167,7 @@ diclbox <- ggplot(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in
 	stat_summary(fun.y = mean, fun.ymin = mean, fun.ymax = mean, geom = "crossbar", width = 0.5) +
 	geom_vline(xintercept=binlength,color="grey")
 
-t.test(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),]$dg ~ rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),]$patientdiet)
+t.test(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),]$cl ~ rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),]$patientdiet)
 
 ##### Obesity #####
 graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "root")

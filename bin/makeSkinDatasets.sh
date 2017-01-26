@@ -14,6 +14,17 @@ do
 	../../bin/neo4j-enterprise-2.3.0/bin/neo4j start
 	Rscript ./bin/GetSkinGraphs.R \
 		--location ${i} \
+		--timepoint TP2 \
+		--output ./data/skingraph-${i}.Rdata
+	../../bin/neo4j-enterprise-2.3.0/bin/neo4j stop
+done
+
+for i in "${SKINSITES[@]}"
+do
+	echo Processing skin site $i
+	../../bin/neo4j-enterprise-2.3.0/bin/neo4j start
+	Rscript ./bin/GetSkinGraphs.R \
+		--location ${i} \
 		--timepoint TP3 \
 		--output ./data/skingraph-${i}-TP3.Rdata
 	../../bin/neo4j-enterprise-2.3.0/bin/neo4j stop

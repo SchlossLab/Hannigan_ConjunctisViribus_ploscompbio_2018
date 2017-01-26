@@ -30,10 +30,18 @@ RETURN DISTINCT
 	t.Name AS TimePoint,
 	k.Name AS Diet,
 	toInt(d.Abundance) AS PhageAbundance,
-	toInt(e.Abundance) AS BacteriaAbundance;
+	toInt(z.Length) AS PhageLength,
+	toInt(e.Abundance) AS BacteriaAbundance,
+	toInt(a.Length) AS BacteriaLength;
 "
 
 sampletable <- as.data.frame(cypher(graph, sampleidquery))
+
+# Correct the lengths
+sampletable$PhageAbundance <- round(1e7 * sampletable$PhageAbundance / sampletable$PhageLength)
+sampletable$BacteriaAbundance <- round(1e7 * sampletable$BacteriaAbundance / sampletable$BacteriaLength)
+sampletable <- sampletable[,-9]
+sampletable <- sampletable[,-7]
 
 head(sampletable)
 
@@ -68,7 +76,7 @@ routdiv <- lapply(unique(rdf$PatientID), function(i) {
 	subsetdfout <- as.data.frame(rdf[c(rdf$PatientID %in% i),])
 	outputin <- lapply(unique(subsetdfout$TimePoint), function(j) {
 		subsetdfin <- subsetdfout[c(subsetdfout$TimePoint %in% j),]
-		lapgraph <- graph_from_data_frame(subsetdfin[,c("to", "from")], directed = TRUE)
+		lapgraph <- graph_from_data_frame(subsetdfin[,c("to", "from")], directed = FALSE)
 		E(lapgraph)$weight <- subsetdfin[,c("edge")]
 		V(lapgraph)$timepoint <- j
 		V(lapgraph)$patientid <- i
@@ -311,7 +319,7 @@ routdiv <- lapply(unique(rdf$PatientID), function(i) {
 		subsetdfout <- as.data.frame(rdf[c(rdf$PatientID %in% i & rdf$TimePoint %in% t),])
 		outputin <- lapply(unique(subsetdfout$Location), function(j) {
 			subsetdfin <- subsetdfout[c(subsetdfout$Location %in% j),]
-			lapgraph <- graph_from_data_frame(subsetdfin[,c("to", "from")], directed = TRUE)
+			lapgraph <- graph_from_data_frame(subsetdfin[,c("to", "from")], directed = FALSE)
 			E(lapgraph)$weight <- subsetdfin[,c("edge")]
 			print(as.character(j))
 			V(lapgraph)$location <- as.character(j)
@@ -463,7 +471,7 @@ routdiv <- lapply(unique(rdf$PatientID), function(i) {
 	subsetdfout <- as.data.frame(rdf[c(rdf$PatientID %in% i),])
 	outputin <- lapply(unique(subsetdfout$TimePoint), function(j) {
 		subsetdfin <- subsetdfout[c(subsetdfout$TimePoint %in% j),]
-		lapgraph <- graph_from_data_frame(subsetdfin[,c("to", "from")], directed = TRUE)
+		lapgraph <- graph_from_data_frame(subsetdfin[,c("to", "from")], directed = FALSE)
 		E(lapgraph)$weight <- subsetdfin[,c("edge")]
 		V(lapgraph)$timepoint <- j
 		V(lapgraph)$patientid <- i

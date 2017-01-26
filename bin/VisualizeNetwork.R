@@ -12,6 +12,7 @@ if(length(new.packages)) install.packages(new.packages, repos='http://cran.us.r-
 lapply(packagelist, library, character.only = TRUE)
 library("ggraph")
 library("grid")
+library("stringr")
 
 
 ###################
@@ -44,19 +45,47 @@ filter=0) {
 plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout) {
   write("Preparing Data for Plotting", stderr())
   # Pull out the data for clustering
-  ig <- graph_from_data_frame(edgeframe, directed=F)
+  ig <- graph_from_data_frame(edgeout, directed=F)
   # Set plot paramters
-  V(ig)$label <- ifelse(grepl("^Bacteria", nodeframe$id),
+  V(ig)$label <- ifelse(grepl("Bacteria", nodeout$id),
     "Bacteria",
     "Phage")
+  V(ig)$type <- ifelse(grepl("Bacteria", nodeout$id),
+    TRUE,
+    FALSE)
   # Create the plot
-  outputgraph <- ggraph(ig, 'igraph', algorithm = 'kk') + 
-        coord_fixed() + 
-        geom_edge_link0(edge_alpha = 0.05) +
+  fres <- ggraph(ig, 'igraph', algorithm = 'bipartite') + 
+        geom_edge_link0(edge_alpha = 0.0065) +
         geom_node_point(aes(color = label), size = 1.5) +
         ggforce::theme_no_axes() +
-        scale_color_manual(values = wes_palette("Royal1")[c(1,2)])
-  return(outputgraph)
+        scale_color_manual(values = wes_palette("Royal1")[c(2,4)]) +
+        coord_flip()
+
+  return(fres)
+}
+
+wplotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout) {
+  write("Preparing Data for Plotting", stderr())
+  # Pull out the data for clustering
+  ig <- graph_from_data_frame(edgeout, directed=F)
+  # Set plot paramters
+  V(ig)$label <- ifelse(grepl("Bacteria", nodeout$id),
+    "Bacteria",
+    "Phage")
+  V(ig)$type <- ifelse(grepl("Bacteria", nodeout$id),
+    TRUE,
+    FALSE)
+  V(ig)$weights <- nodeout$avg
+  # Create the plot
+  fres <- ggraph(ig, 'igraph', algorithm = 'bipartite') + 
+        geom_edge_link0(edge_alpha = 0.01) +
+        geom_node_point(aes(color = label, size = weights)) +
+        ggforce::theme_no_axes() +
+        scale_color_manual(values = wes_palette("Royal1")[c(2,4)]) +
+        coord_flip() +
+        theme(legend.position = "none")
+
+  return(fres)
 }
 
 graphDiameter <- function (nodeframe=nodeout, edgeframe=edgeout) {
@@ -64,13 +93,11 @@ graphDiameter <- function (nodeframe=nodeout, edgeframe=edgeout) {
   # Pull out the data for clustering
   ig <- graph_from_data_frame(edgeframe, directed=F)
   connectionresult <- diameter(ig, directed=F)
-  edgecon <- edge_connectivity(ig)
-  dcc <- centr_degree(ig)$centralization
   vert <- vcount(ig)
   edge <- ecount(ig)
-  finaldf <- t(as.data.frame(c(connectionresult, edgecon, dcc, vert, edge)))
+  finaldf <- t(as.data.frame(c(connectionresult, vert, edge)))
   rownames(finaldf) <- NULL
-  colnames(finaldf) <- c("diameter", "econn", "dc", "vert", "edge")
+  colnames(finaldf) <- c("diameter", "vert", "edge")
 
   return(finaldf)
 }
@@ -149,6 +176,13 @@ RETURN DISTINCT
 graphoutputlist <- importgraphtodataframe()
 nodeout <- as.data.frame(graphoutputlist[1])
 edgeout <- as.data.frame(graphoutputlist[2])
+# nodeout$order <- str_pad(row.names(nodeout), 4, pad = 0)
+# pabund <- ddply(edgeout[,c(1,6)], "from", summarize, avg = median(PhageAbundance))
+# babund <- ddply(edgeout[,c(2,7)], "to", summarize, avg = median(BacteriaAbundance))
+# colnames(babund) <- c("from", "avg")
+# rabund <- rbind(pabund, babund)
+# nodeout <- merge(nodeout, rabund, by.x = "label", by.y = "from")
+# nodeout <- nodeout[c(order(nodeout$order)),]
 head(nodeout)
 head(edgeout)
 
@@ -179,6 +213,13 @@ RETURN DISTINCT
 graphoutputlist <- importgraphtodataframe()
 nodeout <- as.data.frame(graphoutputlist[1])
 edgeout <- as.data.frame(graphoutputlist[2])
+# nodeout$order <- str_pad(row.names(nodeout), 4, pad = 0)
+# pabund <- ddply(edgeout[,c(1,6)], "from", summarize, avg = median(PhageAbundance))
+# babund <- ddply(edgeout[,c(2,7)], "to", summarize, avg = median(BacteriaAbundance))
+# colnames(babund) <- c("from", "avg")
+# rabund <- rbind(pabund, babund)
+# nodeout <- merge(nodeout, rabund, by.x = "label", by.y = "from")
+# nodeout <- nodeout[c(order(nodeout$order)),]
 head(nodeout)
 head(edgeout)
 
@@ -208,6 +249,16 @@ edgeout <- unique(graphdf[c(1:2)])
 nodeout <- data.frame(id=unique(c(edgeout$from, edgeout$to)))
 nodeout$label <- nodeout$id
 
+# nodeout$order <- str_pad(row.names(nodeout), 4, pad = 0)
+# pabund <- ddply(edgeout[,c(1,6)], "from", summarize, avg = median(PhageAbundance))
+# babund <- ddply(edgeout[,c(2,7)], "to", summarize, avg = median(BacteriaAbundance))
+# colnames(babund) <- c("from", "avg")
+# rabund <- rbind(pabund, babund)
+# nodeout <- merge(nodeout, rabund, by.x = "label", by.y = "from")
+# nodeout <- nodeout[c(order(nodeout$order)),]
+head(nodeout)
+head(edgeout)
+
 skinstats <- as.data.frame(graphDiameter())
 skinstats$class <- "SkinStudy"
 
@@ -228,16 +279,17 @@ graphlist <- lapply(unique(mstat$variable), function(i) {
     theme(
         axis.line.x = element_line(colour = "black"),
         axis.line.y = element_line(colour = "black"),
-        axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank(),
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank(),
         legend.position = "none"
     ) +
     scale_fill_manual(values = wes_palette("Darjeeling")) +
-    ylab(i)
+    ylab(i) +
+    coord_flip()
 })
 
-baseplot <- plot_grid(plotlist = graphlist, nrow = 1, labels = LETTERS[5:9])
+baseplot <- plot_grid(plotlist = graphlist, nrow = 1, labels = LETTERS[5:7])
 withlegend <- plot_grid(
   baseplot,
   legend,

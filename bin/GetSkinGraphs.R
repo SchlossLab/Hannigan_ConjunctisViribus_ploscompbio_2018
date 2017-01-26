@@ -57,7 +57,9 @@ RETURN DISTINCT
 	t.Name AS TimePoint,
 	k.Name AS Location,
 	toInt(d.Abundance) AS PhageAbundance,
-	toInt(e.Abundance) AS BacteriaAbundance;
+    toInt(z.Length) AS PhageLength,
+	toInt(e.Abundance) AS BacteriaAbundance,
+    toInt(a.Length) AS BacteriaLength;
 ", sep = "")
 
 sampletable <- as.data.frame(cypher(graph, sampleidquery))

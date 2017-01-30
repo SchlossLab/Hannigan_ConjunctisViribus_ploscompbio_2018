@@ -36,6 +36,8 @@ head(contigcounts)
 lengthcount <- merge(contiglength, contigcounts, by.x = "V1", by.y = "V1")
 colnames(lengthcount) <- c("ContigID", "Length", "Count")
 
+write("Making figure.", stderr())
+
 contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count, color = wes_palette("Royal1")[c(1)]) +
     theme_classic() +
     theme(
@@ -56,8 +58,10 @@ contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count, color = wes_pa
      xlab("Length (bp)") +
      ylab("Sequencing Depth")
 
-pdf(file="./figures/ContigStats.pdf",
-height=6,
-width=6)
+write("Saving figure.", stderr())
+
+pdf(file = "./figures/ContigStats.pdf",
+height = 6,
+width = 6)
   contigstatsplot
 dev.off()

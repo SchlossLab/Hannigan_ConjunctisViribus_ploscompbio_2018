@@ -110,4 +110,4 @@ excludedgraph <- ggplot(Exclusiondf[order(Exclusiondf$ExclusionStatus, decreasin
   ylab("Percent of Total Samples")
 
 # Save the model to a file so that it can be used later
-save(outmodel, excludedgraph, file="./data/exclusionplot.RData")
+save(excludedgraph, file="./data/exclusionplot.RData")

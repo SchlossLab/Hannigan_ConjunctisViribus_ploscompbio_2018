@@ -38,7 +38,7 @@ colnames(lengthcount) <- c("ContigID", "Length", "Count")
 
 write("Making figure.", stderr())
 
-contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count, color = wes_palette("Royal1")[c(1)])) +
+contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count) +
     theme_classic() +
     theme(
         axis.line.x = element_line(colour = "black"),
@@ -46,7 +46,7 @@ contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count, color = wes_pa
         legend.position = c(0.85, 0.9),
         legend.background = element_rect(color = "black", size = 0.5, linetype = "solid"),
         legend.text = element_text(size = 11)) +
-    geom_point() +
+    geom_point(fill = wes_palette("Royal1")[c(1)])) +
     scale_x_log10(
        breaks = scales::trans_breaks("log10", function(x) 10^x),
        labels = scales::trans_format("log10", scales::math_format(10^.x))

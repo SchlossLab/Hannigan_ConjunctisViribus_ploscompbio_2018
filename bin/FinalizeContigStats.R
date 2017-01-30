@@ -38,7 +38,7 @@ colnames(lengthcount) <- c("ContigID", "Length", "Count")
 
 write("Making figure.", stderr())
 
-contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count, color = wes_palette("Royal1")[c(1)]) +
+contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count, color = wes_palette("Royal1")[c(1)])) +
     theme_classic() +
     theme(
         axis.line.x = element_line(colour = "black"),

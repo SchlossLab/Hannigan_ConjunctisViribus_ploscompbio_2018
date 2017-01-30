@@ -44,7 +44,7 @@ contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count, wes_palette("R
         legend.position = c(0.85, 0.9),
         legend.background = element_rect(color = "black", size = 0.5, linetype = "solid"),
         legend.text = element_text(size = 11)) +
-    geom_point()
+    geom_point() +
     scale_x_log10(
        breaks = scales::trans_breaks("log10", function(x) 10^x),
        labels = scales::trans_format("log10", scales::math_format(10^.x))

@@ -17,7 +17,7 @@ lapply(list.of.packages, library, character.only = TRUE)
 suppressMessages(c(
 library("RNeo4j"),
 library("ggplot2"),
-library("wesanderson"),
+library("wesanderson")
 ))
 
 ###################

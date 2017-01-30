@@ -20,11 +20,6 @@ option_list <- list(
     type = "character",
     default = NULL,
     help = "Formatted contig count table.",
-    metavar = "character"),
-  make_option(c("-x", "--circular"),
-    type = "character",
-    default = NULL,
-    help = "Formatted contig circularity table.",
     metavar = "character")
 )
 
@@ -34,20 +29,14 @@ opt <- parse_args(opt_parser);
 # Import files
 contiglength <- read.delim(opt$lengths, head = FALSE, sep = "\t")
 contigcounts <- read.delim(opt$counts, head = TRUE, sep = "\t")
-circularlist <- read.delim(opt$circular, head = FALSE, sep = "\t")
 
 head(contiglength)
 head(contigcounts)
-head(circularlist)
 
 lengthcount <- merge(contiglength, contigcounts, by.x = "V1", by.y = "V1")
 colnames(lengthcount) <- c("ContigID", "Length", "Count")
 
-lengthcount$Circularity <- ifelse(lengthcount$ContigID %in% circularlist$V1, "Circular", "Linear")
-
-head(lengthcount[lengthcount$Circularity == "Circular",])
-
-contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count, colour = Circularity, alpha=Circularity)) +
+contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count, wes_palette("Royal1")[c(1)]) +
     theme_classic() +
     theme(
         axis.line.x = element_line(colour = "black"),
@@ -55,9 +44,7 @@ contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count, colour = Circu
         legend.position = c(0.85, 0.9),
         legend.background = element_rect(color = "black", size = 0.5, linetype = "solid"),
         legend.text = element_text(size = 11)) +
-    geom_point() +
-    scale_colour_manual(values = wes_palette("Royal1")[c(2,1)], name = "Contig Structure") +
-    scale_alpha_manual(guide='none', values = c(1.0,0.1)) +
+    geom_point()
     scale_x_log10(
        breaks = scales::trans_breaks("log10", function(x) 10^x),
        labels = scales::trans_format("log10", scales::math_format(10^.x))

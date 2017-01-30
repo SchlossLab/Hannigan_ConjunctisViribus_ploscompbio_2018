@@ -359,13 +359,11 @@ ${PSTAT}/circularcontigsFormat.tsv :
 ./figures/ContigStats.png : \
 			${PSTAT}/ContigLength.tsv \
 			${PSTAT}/FinalContigCounts.tsv \
-			${PSTAT}/circularcontigsFormat.tsv \
 			./bin/FinalizeContigStats.R
 	echo $(shell date)  :  Plotting contig statistics >> ${DATENAME}.makelog
 	Rscript ./bin/FinalizeContigStats.R \
 		-l ${PSTAT}/ContigLength.tsv \
-		-c ${PSTAT}/FinalContigCounts.tsv \
-		-x ${PSTAT}/circularcontigsFormat.tsv
+		-c ${PSTAT}/FinalContigCounts.tsv
 
 ##########################
 # Get Length Per Cluster #

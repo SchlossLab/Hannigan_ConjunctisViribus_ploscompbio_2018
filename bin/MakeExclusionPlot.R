@@ -103,7 +103,7 @@ excludedgraph <- ggplot(Exclusiondf[order(Exclusiondf$ExclusionStatus, decreasin
   theme(
     axis.line.x = element_line(colour = "black"),
     axis.line.y = element_line(colour = "black"),
-    legend.position = "top") +
+    legend.position = "bottom") +
   geom_bar(stat="identity", position="fill") +
   scale_fill_manual(values = wes_palette("Royal1")[c(2,1)], name = "") +
   xlab("Interaction Status") +

@@ -59,14 +59,5 @@ contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count, wes_palette("R
 pdf(file="./figures/ContigStats.pdf",
 height=6,
 width=6)
-  a <- dev.cur()
-  png(file="./figures/ContigStats.png",
-  height=6,
-  width=6,
-  units="in",
-  res=800)
-    dev.control("enable")
-        contigstatsplot
-    dev.copy(which=a)
-  dev.off()
+  contigstatsplot
 dev.off()

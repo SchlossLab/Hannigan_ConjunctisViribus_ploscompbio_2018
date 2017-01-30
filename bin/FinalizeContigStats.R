@@ -36,7 +36,7 @@ head(contigcounts)
 lengthcount <- merge(contiglength, contigcounts, by.x = "V1", by.y = "V1")
 colnames(lengthcount) <- c("ContigID", "Length", "Count")
 
-contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count, wes_palette("Royal1")[c(1)]) +
+contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count, color = wes_palette("Royal1")[c(1)]) +
     theme_classic() +
     theme(
         axis.line.x = element_line(colour = "black"),

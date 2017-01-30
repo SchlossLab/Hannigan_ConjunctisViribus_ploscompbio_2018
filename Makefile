@@ -116,13 +116,7 @@ ${BSET}/PfamInteractionsFormatScoredFlip.tsv : \
 ###################################
 # Build Prediction Graph Database #
 ###################################
-validationnetwork : \
-			${VALDIR}/Interactions.tsv \
-			${BSET}/BenchmarkCrisprsFormat.tsv \
-			${BSET}/BenchmarkProphagesFormatFlip.tsv \
-			${BSET}/PfamInteractionsFormatScoredFlip.tsv \
-			${BSET}/MatchesByBlastxFormatOrder.tsv \
-			./bin/CreateProteinNetwork
+validationnetwork :
 	echo $(shell date)  :  Building graph using validation dataset values for prediction >> ${DATENAME}.makelog
 	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	mkdir ../../bin/neo4j-enterprise-2.3.0/data/graph.db/

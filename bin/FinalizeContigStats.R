@@ -27,8 +27,8 @@ opt_parser <- OptionParser(option_list = option_list);
 opt <- parse_args(opt_parser);
 
 # Import files
-contiglength <- read.delim(opt$lengths, head = FALSE, sep = "\t")
-contigcounts <- read.delim(opt$counts, head = TRUE, sep = "\t")
+contiglength <- read.delim("./data/PhageContigStats/ContigLength.tsv", head = FALSE, sep = "\t")
+contigcounts <- read.delim("./data/PhageContigStats/FinalContigCounts.tsv", head = TRUE, sep = "\t")
 
 head(contiglength)
 head(contigcounts)
@@ -38,15 +38,8 @@ colnames(lengthcount) <- c("ContigID", "Length", "Count")
 
 write("Making figure.", stderr())
 
-contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count) +
+contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count)) +
     theme_classic() +
-    theme(
-        axis.line.x = element_line(colour = "black"),
-        axis.line.y = element_line(colour = "black"),
-        legend.position = c(0.85, 0.9),
-        legend.background = element_rect(color = "black", size = 0.5, linetype = "solid"),
-        legend.text = element_text(size = 11)) +
-    geom_point(fill = wes_palette("Royal1")[c(1)])) +
     scale_x_log10(
        breaks = scales::trans_breaks("log10", function(x) 10^x),
        labels = scales::trans_format("log10", scales::math_format(10^.x))
@@ -55,6 +48,7 @@ contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count) +
        breaks = scales::trans_breaks("log10", function(x) 10^x),
        labels = scales::trans_format("log10", scales::math_format(10^.x))) +
      annotation_logticks() +
+     geom_point() +
      xlab("Length (bp)") +
      ylab("Sequencing Depth")
 

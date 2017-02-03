@@ -5,7 +5,6 @@ author:
 - Melissa B Duhaime
 - Danai Koutra
 - Patrick D Schloss
-geometry: margin=1.0in
 ---
 
 \newpage

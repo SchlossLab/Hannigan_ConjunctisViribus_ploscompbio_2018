@@ -2,6 +2,6 @@
 
 echo Rendering now...
 
-pandoc -H options.sty -S --toc ./manuscript.md -f markdown -t latex -o ./manuscript.pdf --biblio=citations.bib --csl=/Users/Hannigan/git/styles/nature.csl
+pandoc --template=customtemplate.tex -H options.sty -s ./manuscript.md -f markdown -t latex -o ./manuscript.pdf --biblio=citations.bib --csl=./nature.csl
 
 echo Done

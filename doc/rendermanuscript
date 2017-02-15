@@ -1,7 +1,8 @@
 #! /bin/bash
 
 echo Rendering now...
-
-pandoc --template=customtemplate.tex -H options.sty -s ./manuscript.md -f markdown -t latex -o ./manuscript.pdf --biblio=citations.bib --csl=./nature.csl
-
+echo Running Knitr...
+Rscript -e "library(knitr); knit(input = './manuscript.Rmd', output = './manuscript.md')"
+echo Running Pandoc...
+pandoc --template=customtemplate.tex -H options.sty -s ./manuscript.md -f markdown -t latex -o ./manuscript.pdf --biblio=citations.bib --csl=./genome-research.csl
 echo Done

@@ -25,8 +25,6 @@ output:
 
 &nbsp;
 
-&nbsp;
-
 | ***Corresponding Author Information***
 | Patrick D Schloss, PhD
 | 1150 W Medical Center Dr. 1526 MSRB I
@@ -34,13 +32,15 @@ output:
 | Phone: (734) 647-5801
 | Email: pschloss@umich.edu
 
+***Running Title***: Network Diversity of the Healthy Human Microbiome
+
 ***Journal***: Genome Research ([*Preparation Details*](http://genome.cshlp.org/site/misc/ifora_mspreparation.xhtml))
 
 ***Keywords***: Virome, Microbiome, Graph Theory, Machine Learning
 
 ***Text Length***: 35,640 / 50,000 Characters
 
-\* *Figures included for internal editing purposes*
+\* *Figures at the end of the document for internal review only.*
 
 \newpage
 
@@ -201,6 +201,9 @@ Where `Cij` is the sum of the lesser centrality values for those vertices shared
 
 # Acknowledgments
 We thank the members of the Schloss lab for their underlying contributions. GDH is supported in part by the University of Michigan Molecular Mechanisms of Microbial Pathogenesis Fellowship.
+
+# Disclosure Declaration
+The authors report no conflicts of interest.
 
 \newpage
 

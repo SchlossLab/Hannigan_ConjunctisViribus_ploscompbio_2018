@@ -116,7 +116,7 @@ We supplemented this analysis by comparing the network signatures using the cent
 # Discussion
 We developed and implemented a network-based analytical approach that allowed us to begin evaluating the basic properties of the human microbiome through bacteria and phage *relationships*, instead of membership or diversity. The goal of this study was to provide an initial understanding of how phage-bacteria networks differ throughout the human body, so as to provide a baseline for future studies of how microbiome networks differ in disease states. This goal was similar to the initial studies of bacteria and viral diversity across the human body, as well as other environments [@Grice:2009eea; @Findley:2013jf; @Hannigan:2015fz; @Costello:2009im, @Consortium:2012iz; @Schloss:2005hz; @Minot:2011ez]. The use of network theory offered extensive analytical opportunities which could be applied to understand complex ecological communities. We focused on utilizing metrics of connectivity to understand the extent to which communities of bacteria and phages interact (e.g. horizontal gene transfer, modulated bacterial gene expression, alterations in abundance). By accomplishing this goal, we aimed to provide an initial understanding of human microbiome networks that will power fututure studies to use similar approaches in other setting such as disease states.
 
-We reported that, just as gut microbiome and virome composition and diversity are conserved in individuals [@Hannigan:2015fz; @Grice:2009eea; @Findley:2013jf; @Minot:2013ih], gut and skin microbiome network structures were also conserved within individuals over time. Gut network structure was not conserved among family members. These findings suggest that microbiome properties such as stability and the potential for horizontal gene transfer are personal, and potentially impacted by personal factors ranging from the body's immune system to environemntal conditions such as climate and diet. The ability of environmental conditions to shape gut and skin microbiome network structure was supported by our finding that diet and skin location were assocaited with altered network structures.
+We reported that, just as gut microbiome and virome composition and diversity are conserved in individuals [@Hannigan:2015fz; @Grice:2009eea; @Findley:2013jf; @Minot:2013ih], gut and skin microbiome network structures were also conserved within individuals over time. Gut network structure was not conserved among family members. These findings suggest that microbiome properties such as stability and the potential for horizontal gene transfer are personal, and potentially impacted by personal factors ranging from the body's immune system to environemntal conditions such as climate and diet. The ability of environmental conditions to shape gut and skin microbiome network structure was supported by our finding that diet and skin location were associated with altered network structures.
 
 We found evidence that diet was sufficient to alter gut microbiome network connectivity. Although our sample size was small, we found that high fat diets appeared to be less connected than low fat diets. This suggested that high fat diets may lead to less stable communities with a decreased ability to influence each other. We supported this finding with the observation that obesity is associated with decreased network connectivity. Further work will be required to characterize these relationships with a larger cohort, but our results allow us to speculate that the food we eat may not only impact what microbes colonize our guts, but may also impact interactions.
 
@@ -177,30 +177,39 @@ The final method we used for predicting infectious interactions between bacteria
 The bacteria and phage operational genomic units (OGUs) were scored using the same approach as outlined above. The infectious pairings between bacteria and phage OGUs were classified using the random forest model described above. The predicted infectious pairings and all associated metadata was saved as a graph database using Neo4j graph database software (v2.3.1) [@Neoj:Fuwr6PBN]. This network was used for downstream community analysis.
 
 ## Centrality Analysis
-Degree and closeness centrality were calculated using the associated functions within the igraph R package (v1.0.1) [@Theigraphsoftware:vh]. Briefly, the **closeness centrality** of Vi was calculated taking the inverse of the average length of the shortest path (`d`) between nodes Vi and the `k` other nodes Vj, such that closeness centrality of node Vi is:
+Let $G(V,E)$ be an undirected, unweighted graph with $|V|=n$ nodes and $|E|=m$ edges. Also, let $\mathbf{A}$ be its corresponding adjacency matrix with entries $a_{ij} = 1$ if nodes $V_i$ and $V_j$ are connected via an edge, and $a_{ij} = 0$ otherwise. 
 
-$$ { C }_{ C }\left( { V }_{ i } \right) ={ \left( \sum _{ j=1 }^{ k }{ d\left( { V }_{ i },{ V }_{ j } \right)  }  \right)  }^{ -1 } $$
+Briefly, the **closeness centrality** of node $V_i$ is calculated taking the inverse of the average length of the shortest paths (`d`) between nodes $V_i$ and all the other nodes $V_j$. Mathematically, the closeness centrality of node $V_i$ is given as:
 
-The distance between nodes (`d`) was calculated as the shortest number of edges required to be traversed to move from one node to another. 
+$$ { C }_{ C }\left( { V }_{ i } \right) ={ \left( \sum _{ j=1 }^{ n }{ d\left( { V }_{ i },{ V }_{ j } \right)  }  \right)  }^{ -1 } $$
 
-The simple metric of **degree centrality** of node Vi was defined as the sum of the number of k edges Ei associated with that node, such that:
+[//]: <> The distance between nodes (`d`) was calculated as the shortest number of edges required to be traversed to move from one node to another. 
 
-$$ { C }_{ D }\left( { V }_{ i } \right) =\sum _{ i=1 }^{ k }{ { E }_{ i } } $$
+Intuitively, the **degree centrality** of node $V_i$ is defined as the number of edges that are adjacent to that node:
 
-The Eigenvector centrality was calculated using the values of the first eigen vector of the associated adjacency matrix that are associated with each vertex `Vi`. Conceptually, this function results in a centrality value that reflects the connections of the vertex, as well as the centrality of the connected vertices.
+$$ { C }_{ D }\left( { V }_{ i } \right) =\sum _{ j=1 }^{ n }{ { a }_{ ij } } $$
 
-The **centralization** metric was used to assess the average centrality of each sample graph `G`. Centralization was calculated by taking the sum of each vertex `Vi` centrality from the graph maximum centrality `Cw`, such that:
+where $a_{ij}$ is the $ij^{th}$ entry in the adjacency matrix $\mathbf{A}$.
 
-$$ C\left( G \right) =\frac { \sum _{ i=1 }^{ k }{ \max _{ w }{ c\left( w \right)  } -c\left( { v }_{ i } \right)  }  }{ { T } }  $$
+[//]: <> The simple metric of degree centrality of node Vi was defined as the sum of the number of k edges Ei associated with that node, such that:
+
+
+The Eigenvector centrality of node $V_i$ is defined as the $i^{th}$ value in the first eigenvector of the associated adjacency matrix $\mathbf{A}$. Conceptually, this function results in a centrality value that reflects the connections of the vertex, as well as the centrality of its neighboring vertices.
+
+The **centralization** metric was used to assess the average centrality of each sample graph `G`. Centralization was calculated by taking the sum of each vertex `Vi`'s centrality from the graph maximum centrality `Cw`, such that:
+
+$$ C\left( G \right) =\frac { \sum _{ i=1 }^{ n }{ Cw -c\left( { v }_{ i } \right)  }  }{ { T } }  $$
 
 The values were corrected for uneven graph sizes by dividing the centralization score by the maximum theoretical centralization (`T`) for a graph with the same number of vertices.
+
+Degree and closeness centrality were calculated using the associated functions within the igraph R package (v1.0.1) [@Theigraphsoftware:vh].
 
 ## Network Relationship Dissimilarity
 We assessed similarity between graphs by evaluating the shared centrality of their vertices, as has been done previously. More specifically, we calculated the dissimilarity between graphs `Gi` and `Gj` using the Bray-Curtis dissimilarity metric and Eigenvector centrality values such that:
 
 $$ B\left( { G }_{ i },{ G }_{ j } \right) =1-\frac { 2{ C }_{ ij } }{ { C }_{ i }+{ C }_{ j } } $$
 
-Where `Cij` is the sum of the lesser centrality values for those vertices shared between graphs, and `Ci` and `Cj` are are the total number of vertices found in each graph. This allows us calculate the dissimilarity between graphs based on the shared centrality values between the two graphs.
+Where `Cij` is the sum of the lesser centrality values for those vertices shared between graphs, and `Ci` and `Cj` are the total number of vertices found in each graph. This allows us to calculate the dissimilarity between graphs based on the shared centrality values between the two graphs.
 
 # Acknowledgments
 We thank the members of the Schloss lab for their underlying contributions. GDH is supported in part by the University of Michigan Molecular Mechanisms of Microbial Pathogenesis Fellowship.

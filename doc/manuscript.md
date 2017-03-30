@@ -124,7 +124,7 @@ We demonstrated the diversity of relationships across the human body by showing 
 ## Data Availability
 All associated source code is available on GitHub at the following repository:
 
-https://github.com/SchlossLab/Hannigan-2016-ConjunctisViribus.
+https://github.com/SchlossLab/Hannigan_ConjunctisViribus_GenRes_2017
 
 ## Data Acquisition & Quality Control
 Raw sequencing data and associated metadata was acquired from the NCBI sequence read archive (SRA). Supplementary metadata was acquired from the same SRA repositories and their associated manuscripts. The gut virome diet study (SRA: `SRP002424`), twin virome studies (SRA: `SRP002523`; `SRP000319`), and skin virome study (SRA: `SRP049645`) were downloaded as `.sra` files. Sequencing files were converted to `fastq` format using the `fastq-dump` tool of the NCBI SRA Toolkit (v2.2.0). Sequences were quality trimmed using the Fastx toolkit (v0.0.14) to exclude bases with quality scores below 33 and shorter than 75 bp [@FASTXToolkit:wr]. Paired end reads were filtered to exclude and sequences missing their corresponding pair using the `get_trimmed_pairs.py` available in the source code.

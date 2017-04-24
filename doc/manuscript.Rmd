@@ -29,8 +29,6 @@ mainfont: 'Helvetica'
 
 &nbsp;
 
-&nbsp;
-
 | ***Corresponding Author Information***
 | Patrick D Schloss, PhD
 | 1150 W Medical Center Dr. 1526 MSRB I
@@ -213,7 +211,7 @@ Differences in intrapersonal and interpersonal network structure diversity, base
 Statistical significance of differences in univariate eigenvector centrality measurements of skin virome-microbiome networks were calculated using a pairwise Wilcoxon test, corrected for multiple hypothesis tests using the Holm correction method. Multivariate eigenvector centrality was measured as the mean differences between cluster centroids, with statistical significance measured using an ANOVA and post hoc Tukey test.
 
 # Acknowledgments
-We thank the members of the Schloss lab for their underlying contributions. GDH is supported in part by the University of Michigan Molecular Mechanisms of Microbial Pathogenesis Fellowship. GDH and PDS were supported in part by funding from the NIH (P30DK034933, U19AI09087, and U01AI124255).
+We thank the members of the Schloss lab for their underlying contributions. GDH was supported in part by the Molecular Mechanisms in Microbial Pathogenesis Training Program (T32 AI007528). GDH and PDS were supported in part by funding from the NIH (P30DK034933, U19AI09087, and U01AI124255).
 
 
 # Disclosure Declaration

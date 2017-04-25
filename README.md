@@ -1,10 +1,10 @@
 ![Networks](https://media.giphy.com/media/xTiTnxpQ3ghPiB2Hp6/giphy.gif)
 
-# Biogeography and Environmental Conditions Shape Phage and Bacteria Interaction Networks Across the Healthy Human Microbiome
+## Biogeography and Environmental Conditions Shape Phage and Bacteria Interaction Networks Across the Healthy Human Microbiome
 
-## Geoffrey D Hannigan, Melissa B Duhaime, Danai Koutra, and Patrick D Schloss
+#### Geoffrey D Hannigan, Melissa B Duhaime, Danai Koutra, and Patrick D Schloss
 
-## Hannigan-2016-ConjunctisViribus
+#### Hannigan-2016-ConjunctisViribus
 
 ## Abstract
 

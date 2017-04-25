@@ -1,6 +1,8 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/iprophage.svg?style=social)](https://twitter.com/iprophage)
 
-[![Twitter Follow](https://img.shields.io/twitter/follow/PatSchloss.svg?style=social)](https://twitter.com/PatSchloss)
+[![Twitter Follow](https://img.shields.io/twitter/follow/envirophage.svg?style=social)](https://twitter.com/envirophage)
+
+[![Twitter Follow](https://img.shields.io/twitter/follow/PatSchloss.svg?style=social)](https://twitter.com/PatSchloss) 
 
 ## Biogeography and Environmental Conditions Shape Phage and Bacteria Interaction Networks Across the Healthy Human Microbiome
 

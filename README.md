@@ -1,4 +1,4 @@
-![Networks](https://s-media-cache-ak0.pinimg.com/originals/ea/23/1e/ea231e54322aadc79294e0f2ddda4a53.gif)
+![Networks](https://media.giphy.com/media/xTiTnxpQ3ghPiB2Hp6/giphy.gif)
 
 # Biogeography and Environmental Conditions Shape Phage and Bacteria Interaction Networks Across the Healthy Human Microbiome
 

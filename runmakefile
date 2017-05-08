@@ -18,7 +18,7 @@
 module load R/3.3.2
 
 # Set working directory
-cd /mnt/EXT/Schloss-data/ghannig/Hannigan-2016-ConjunctisViribus || exit
+cd /nfs/turbo/pschloss/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
 make ./data/contigclustersidentity/longestcontigsbacteria.tsv

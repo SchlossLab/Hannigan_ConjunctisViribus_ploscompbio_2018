@@ -41,7 +41,7 @@ grep -A 1 -f ./data/tmpid/contiglist.tsv ${fastafile} \
 	| egrep -v "\-\-" \
 	> ./data/tmpid/contigrepset.fa
 
-# RunBlast ./data/tmpid/contigrepset.fa ${referencefile}
+RunBlast ./data/tmpid/contigrepset.fa ${referencefile}
 
 # Add cluster ID to the table
 cut -f 1,2 ./data/tmpid/blastout.tsv | sort | uniq > ./data/tmpid/cutblastout.tsv

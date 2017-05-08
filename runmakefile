@@ -21,4 +21,4 @@ module load R/3.3.2
 cd /nfs/turbo/pschloss/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
-make ./data/contigclustersidentity/longestcontigsbacteria.tsv
+make ./data/contigclustersidentity/VirusRepsetIds.tsv

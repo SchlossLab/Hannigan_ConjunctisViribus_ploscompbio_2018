@@ -4,8 +4,6 @@
 # University of Michigan
 
 library("optparse")
-library("ggplot2")
-library("cowplot")
 library("plyr")
 
 option_list <- list(

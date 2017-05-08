@@ -11,7 +11,7 @@ export outputfile=$4
 export BlastPath=$5
 
 # Get the contig representative sequences
-mkdir -p ./data/tmpidbac
+mkdir -p ./data/tmpid
 
 RunBlast () {
 	# 1 = Query Seqs

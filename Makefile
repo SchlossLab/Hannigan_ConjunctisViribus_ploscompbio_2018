@@ -493,6 +493,31 @@ addlengths : ./data/PhageContigStats/ClusterLength.tsv
 	bash ./bin/AddLengths.sh \
 		./data/PhageContigStats/ClusterLength.tsv
 
+################################## CONTIG CLUSTER IDENTIFICATION ##################################
+# Make contig length table
+./data/BacteriaContigLength.tsv : ./data/TotalCatContigsBacteria.fa
+	perl ./bin/ContigLengthTable.pl \
+		-i $< \
+		-o $@
+
+# Get ID for longest contig in each cluster
+./data/contigclustersidentity/longestcontigsbacteria.tsv : ./data/BacteriaContigLength.tsv
+	mkdir -p ./data/contigclustersidentity
+	Rscript ./bin/GetLongestContig.R \
+		--input $< \
+		--clusters ./data/ContigClustersBacteria/clustering_gt1000.csv \
+		--toplength 1 \
+		--out $@
+
+# Align the contig seqs to the virus reference database
+./data/contigclustersidentity/VirusRepsetIds.tsv :
+	bash ./bin/IdentifyContigs.sh \
+		./data/totalcontigsvirus.fa \
+		./data/metadata/VirusPhageReferenceFormat.fa \
+		./data/contigclustersidentity/longestcontigsvirus.tsv \
+		./data/contigclustersidentity/VirusRepsetIds.tsv \
+		"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/"
+
 ############################################# ANALYSIS ############################################
 
 ################

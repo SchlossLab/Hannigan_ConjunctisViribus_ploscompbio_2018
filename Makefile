@@ -511,7 +511,7 @@ addlengths : ./data/PhageContigStats/ClusterLength.tsv
 
 # Align the contig seqs to the virus reference database
 ./data/contigclustersidentity/VirusRepsetIds.tsv :
-	bash ./bin/IdentifyContigs.sh \
+	bash ./bin/IdentifyContigsBac.sh \
 		./data/TotalCatContigsBacteria.fa \
 		./data/reference/BacteriaReference.fa \
 		./data/contigclustersidentity/longestcontigsbacteria.tsv \

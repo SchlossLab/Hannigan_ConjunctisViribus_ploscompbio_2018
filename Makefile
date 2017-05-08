@@ -495,9 +495,9 @@ addlengths : ./data/PhageContigStats/ClusterLength.tsv
 
 ################################## CONTIG CLUSTER IDENTIFICATION ##################################
 # Make contig length table
-./data/BacteriaContigLength.tsv : ./data/TotalCatContigsBacteria.fa
+./data/BacteriaContigLength.tsv :
 	perl ./bin/ContigLengthTable.pl \
-		-i $< \
+		-i ./data/TotalCatContigsBacteria.fa \
 		-o $@
 
 # Get ID for longest contig in each cluster

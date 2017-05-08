@@ -25,7 +25,7 @@ input <- read.delim(file="./data/ValidationSet/Interactions.tsv",
   header=TRUE)
 genometypes <- read.delim(file="./data/ValidationSet/PhageGenomeTypes.tsv",
   sep="\t",
-  header=FALSE)
+  header = FALSE)
 genometypes$V1 <- gsub("_", " ", genometypes$V1, perl=TRUE)
 samplemetadata <- read.delim(file="./data/PublishedDatasets/metadatatable.tsv",
   sep="\t",
@@ -97,7 +97,7 @@ sitegeocodes <- geocode(locationsites)
 
 #Using GGPLOT, plot the Base World Map
 mp <- NULL
-mapWorld <- borders("world", colour=wes_palette("Royal1")[1], fill=wes_palette("Royal1")[1]) # create a layer of borders
+mapWorld <- borders("usa", colour=wes_palette("Royal1")[1], fill=wes_palette("Royal1")[1]) # create a layer of borders
 mapplot <-  ggplot(sitegeocodes, aes(x=lon, y=lat)) +
   theme_classic() +
   theme(axis.title.x=element_blank(),
@@ -110,8 +110,8 @@ mapplot <-  ggplot(sitegeocodes, aes(x=lon, y=lat)) +
   geom_point(color=wes_palette("Royal1")[2], size=3)
 
 
-barside <- plot_grid(dnatype, circulartype, labels = c("D", "E"), ncol = 1)
-buildingalmost <- plot_grid(mapplot, countbar, barside, labels = c("B", "C"), ncol = 1, rel_heights=c(2,2,1))
+barside <- plot_grid(dnatype, circulartype, labels = c("C", "D"), ncol = 1)
+buildingalmost <- plot_grid(countbar, barside, labels = c("B"), ncol = 1, rel_heights=c(2,1))
 donebuild <- plot_grid(heatmap, buildingalmost, labels = c("A"), ncol = 2)
 donebuild
 
@@ -120,20 +120,10 @@ donebuild
 ###############
 
 width <- 16
-height <- 10
+height <- 8
 
 pdf(file="./figures/BenchmarkDataset.pdf",
 width=width,
 height=height)
-  a <- dev.cur()
-  png(file="./figures/BenchmarkDataset.png",
-  width=width,
-  height=height,
-  units="in",
-  res=800)
-    dev.control("enable")
-    # ggplot heatmap
-    donebuild
-    dev.copy(which=a)
-  dev.off()
+  donebuild
 dev.off()

@@ -145,29 +145,33 @@ rcentraldf$di <- as.numeric(rcentraldf$di)
 binlength <- c(1:2) + 0.5
 didgbox <- ggplot(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),], aes(x = patientdiet, y = dg)) +
 	theme_classic() +
-	geom_dotplot(fill=wes_palette("Royal1")[2], binaxis = "y", binwidth = 0.0025, stackdir = "center") +
+	geom_dotplot(fill=wes_palette("Royal1")[2], binaxis = "y", stackdir = "center", dotsize = 0.5, stackratio = 1) +
 	ylab("Degree Centrality") +
 	xlab("") +
 	theme(
 	    axis.line.x = element_line(colour = "black"),
 	    axis.line.y = element_line(colour = "black")
 	) +
-	stat_summary(fun.y = mean, fun.ymin = mean, fun.ymax = mean, geom = "crossbar", width = 0.5) +
-	geom_vline(xintercept=binlength,color="grey")
+	# stat_summary(fun.y = mean, fun.ymin = mean, fun.ymax = mean, geom = "crossbar", width = 0.5) +
+	# geom_vline(xintercept=binlength,color="grey") +
+	geom_vline(xintercept=binlength,color="grey") +
+	ylim(0, NA) +
+	scale_x_discrete(labels = c("High Fat", "Low Fat"))
 
 diclbox <- ggplot(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),], aes(x = patientdiet, y = cl)) +
 	theme_classic() +
-	geom_dotplot(fill=wes_palette("Royal1")[2], binaxis = "y", binwidth = 0.0025, stackdir = "center") +
+	geom_dotplot(fill=wes_palette("Royal1")[2], binaxis = "y", stackdir = "center", dotsize = 0.5, stackratio = 1) +
 	ylab("Closeness Centrality") +
 	xlab("") +
 	theme(
 	    axis.line.x = element_line(colour = "black"),
 	    axis.line.y = element_line(colour = "black")
 	) +
-	stat_summary(fun.y = mean, fun.ymin = mean, fun.ymax = mean, geom = "crossbar", width = 0.5) +
-	geom_vline(xintercept=binlength,color="grey")
-
-t.test(rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),]$cl ~ rcentraldf[c(rcentraldf$time %in% "TP10" | rcentraldf$time %in% "TP8"),]$patientdiet)
+	# stat_summary(fun.y = mean, fun.ymin = mean, fun.ymax = mean, geom = "crossbar", width = 0.5) +
+	# geom_vline(xintercept=binlength,color="grey") +
+	geom_vline(xintercept=binlength,color="grey") +
+	ylim(0, NA) +
+	scale_x_discrete(labels = c("High Fat", "Low Fat"))
 
 ##### Obesity #####
 graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "root")
@@ -279,23 +283,29 @@ rcentraldfmothers <- rcentraldf[c(rcentraldf$person %in% "M"),]
 binlength <- c(1:2) + 0.5
 obdgbox <- ggplot(rcentraldfmothers, aes(x = patientdiet, y = dg)) +
 	theme_classic() +
-	geom_dotplot(fill=wes_palette("Royal1")[2], binaxis = "y", binwidth = 0.005, stackdir = "center") +
+	geom_dotplot(fill=wes_palette("Royal1")[2], binaxis = "y", stackdir = "center", dotsize = 0.5, stackratio = 1) +
 	ylab("Degree Centrality") +
 	xlab("") +
 	theme(
 	    axis.line.x = element_line(colour = "black"),
 	    axis.line.y = element_line(colour = "black")
-	)
+	) +
+	geom_vline(xintercept=binlength,color="grey") +
+	ylim(0, NA) +
+	scale_x_discrete(labels = c("High Fat", "Low Fat"))
 
 obclbox <- ggplot(rcentraldfmothers, aes(x = patientdiet, y = cl)) +
 	theme_classic() +
-	geom_dotplot(fill=wes_palette("Royal1")[2], binaxis = "y", binwidth = 0.005, stackdir = "center") +
+	geom_dotplot(fill=wes_palette("Royal1")[2], binaxis = "y", stackdir = "center", dotsize = 0.5, stackratio = 1) +
 	ylab("Closeness Centrality") +
 	xlab("") +
 	theme(
 	    axis.line.x = element_line(colour = "black"),
 	    axis.line.y = element_line(colour = "black")
-	)
+	) +
+	geom_vline(xintercept=binlength,color="grey") +
+	ylim(0, NA) +
+	scale_x_discrete(labels = c("High Fat", "Low Fat"))
 
 boxplots <- plot_grid(didgbox, diclbox, obdgbox, obclbox, labels = c("A", "B", "C", "D"), nrow = 1)
 

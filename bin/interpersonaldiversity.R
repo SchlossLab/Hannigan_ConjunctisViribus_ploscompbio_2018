@@ -1,7 +1,7 @@
 ##################
 # Load Libraries #
 ##################
-gcinfo(TRUE)
+gcinfo(FALSE)
 packagelist <- c("RNeo4j", "ggplot2", "wesanderson", "igraph", "visNetwork", "scales", "plyr", "cowplot", "vegan", "reshape2", "stringr")
 new.packages <- packagelist[!(packagelist %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages, repos='http://cran.us.r-project.org')
@@ -137,6 +137,8 @@ fx <- approxfun(pdf$x, pdf$y, yleft=0, yright=0)
 cdfdiet <- integrate(fx, -Inf, 0)
 cdfdiet
 
+pdietpvalue <- wilcox.test(data = ravg, avg ~ class, paired = TRUE)$p.value
+
 linediet <- ggplot(ravg, aes(x = class, y = avg, group = patient1)) +
 	theme_classic() +
 	theme(
@@ -146,7 +148,9 @@ linediet <- ggplot(ravg, aes(x = class, y = avg, group = patient1)) +
 	geom_line(colour = wes_palette("Royal1")[2]) +
 	geom_point(colour = "black") +
 	ylab("EV Centrality Distance") +
-	xlab("")
+	xlab("") +
+	ylim(0, NA) +
+	annotate("text", x = 1.5, y = 0, label = paste("p-value = ", signif(pdietpvalue, digits = 3), sep = ""))
 
 densitydiet <- ggplot(ravgslope, aes(y)) +
 	theme_classic() +
@@ -177,9 +181,10 @@ plotnmds_dietstudy <- ggplot(ORD_FIT, aes(x=MDS1, y=MDS2, colour=factor(V1))) +
 	  legend.position = "bottom"
 	) +
     geom_point() +
-    scale_colour_manual(values = wes_palette("Royal2"), name = "Subject")
+    scale_colour_manual(values = wes_palette("Darjeeling"), name = "Subject")
+plotnmds_dietstudy
 
-anosim(rdist, ORD_FIT$V1)
+anosimstat <- anosim(rdist, ORD_FIT$V1)
 
 ##############
 # Skin Graph #
@@ -211,6 +216,12 @@ for (i in skinsites) {
 rm(i)
 
 totalgraph <- rbind(graphdfTP2, graphdfTP3)
+
+# Correct the lengths
+totalgraph$PhageAbundance <- round(1e7 * totalgraph$PhageAbundance / totalgraph$PhageLength)
+totalgraph$BacteriaAbundance <- round(1e7 * totalgraph$BacteriaAbundance / totalgraph$BacteriaLength)
+totalgraph <- totalgraph[,-9]
+totalgraph <- totalgraph[,-7]
 
 # See the object size
 format(object.size(totalgraph), units = "MB")
@@ -315,15 +326,19 @@ colnames(rdf) <- c("from", "to", "PatientID", "Location", "TimePoint", "PhageAbu
 # Make a list of subgraphs for each of the samples
 # This will be used for diversity, centrality, etc
 routdiv <- lapply(unique(rdf$PatientID), function(i) {
+	print(i)
 	outtime <- lapply(unique(rdf$TimePoint), function(t) {
+		print(t)
 		subsetdfout <- as.data.frame(rdf[c(rdf$PatientID %in% i & rdf$TimePoint %in% t),])
 		outputin <- lapply(unique(subsetdfout$Location), function(j) {
+			print(j)
 			subsetdfin <- subsetdfout[c(subsetdfout$Location %in% j),]
 			lapgraph <- graph_from_data_frame(subsetdfin[,c("to", "from")], directed = FALSE)
 			E(lapgraph)$weight <- subsetdfin[,c("edge")]
 			print(as.character(j))
 			V(lapgraph)$location <- as.character(j)
-			V(lapgraph)$patientid <- i
+			V(lapgraph)$patientid <- as.character(i)
+			print(unique(V(lapgraph)$patientid))
 			V(lapgraph)$timepoint <- t
 			return(lapgraph)
 		})
@@ -331,6 +346,9 @@ routdiv <- lapply(unique(rdf$PatientID), function(i) {
 	})
 	return(outtime)
 })
+
+# save(routdiv, file = "./data/quickskinplot.RData")
+load(file = "./data/quickskinplot.RData")
 
 rcen <- lapply(routdiv, function(i) {
 	outputout <- lapply(i, function(k) {
@@ -358,9 +376,10 @@ rcast <- rcast[,-c(1:3)]
 rdistskin <- vegdist(rcast, method = "bray")
 
 rdm <- melt(as.matrix(rdistskin))
-rm <- cbind(rdm, as.data.frame(str_split_fixed(rdm$Var1, "_", 3)))
-rm <- cbind(rm, as.data.frame(str_split_fixed(rm$Var2, "_", 3)))
+rm <- cbind(rdm, as.data.frame(str_split_fixed(rdm$Var1, "_", 4)))
+rm <- cbind(rm, as.data.frame(str_split_fixed(rm$Var2, "_", 4)))
 rm <- rm[,-c(1:2)]
+rm <- rm[,-c(2,6)]
 colnames(rm) <- c("ec", "patient1", "time1", "location1", "patient2", "time2", "location2")
 rm <- rm[!c(rm$ec == 0),]
 
@@ -390,6 +409,8 @@ fx <- approxfun(pdf$x, pdf$y, yleft=0, yright=0)
 cdfskin <- integrate(fx, -Inf, 0)
 cdfskin
 
+pskinpvalue <- wilcox.test(data = ravg, avg ~ class, paired = TRUE)$p.value
+
 skinline <- ggplot(ravg, aes(x = class, y = avg, group = merged)) +
 	theme_classic() +
 	theme(
@@ -399,21 +420,53 @@ skinline <- ggplot(ravg, aes(x = class, y = avg, group = merged)) +
 	geom_line(colour = wes_palette("Royal1")[2]) +
 	geom_point(colour = "black") +
 	ylab("EV Centrality Distance") +
-	xlab("")
+	xlab("") +
+	ylim(0, NA) +
+	annotate("text", x = 1.5, y = 0, label = paste("p-value = ", signif(pskinpvalue, digits = 3), sep = ""))
 
-skinden <- ggplot(ravgslope, aes(y)) +
-	theme_classic() +
-	theme(
-	  axis.line.x = element_line(colour = "black"),
-	  axis.line.y = element_line(colour = "black")
-	) +
-	geom_density() +
-	geom_vline(xintercept = 0, linetype = "dashed") +
-	ylab("Probability") +
-	xlab("Intrapersonal Change") +
-	xlim(range(pdf$x))
+# For supplemental, do by specific site
 
-intrabetadiv_personal <- plot_grid(skinline, skinden, rel_heights = c(4, 1), ncol = 1)
+ravg <- ddply(rm, c("patient1", "class", "location1"), summarize, avg = mean(ec))
+counta <- ddply(ravg, c("patient1", "location1"), summarize, count = length(unique(class)))
+counta <- counta[c(counta$count == 2),]
+ravg <- merge(ravg, counta, by = c("patient1", "location1"))
+ravg$merged <- paste(ravg$patient1, ravg$location1, sep = "")
+ravgslope <- lapply(unique(ravg$merged), function(i) {
+	y <- ravg[c(ravg$class %in% "Intrapersonal" & ravg$merged %in% i), "avg"] - ravg[c(ravg$class %in% "Interpersonal" & ravg$merged %in% i), "avg"]
+	return(data.frame(i, y))
+})
+ravgslope <- do.call(rbind, ravgslope)
+ravgslope$location <- gsub("\\d+", "", ravgslope$i, perl = TRUE)
+ravgslope$subject <- gsub("\\D+", "", ravgslope$i, perl = TRUE)
+
+chg <- ravgslope[c(ravgslope$location %in% "Fh"),"y"]
+pdf <- density(chg)
+fx <- approxfun(pdf$x, pdf$y, yleft=0, yright=0)
+cdfskin <- integrate(fx, -Inf, 0)
+cdfskin
+
+bylocation <- lapply(unique(ravg$location1), function(i) {
+	chg <- ravg[c(ravg$location1 %in% i),]
+	intsig <- wilcox.test(data = chg, avg ~ class, paired = TRUE)$p.value
+
+	a <- ggplot(ravg[c(ravg$location1 %in% i),], aes(x = class, y = avg, group = merged)) +
+		theme_classic() +
+		theme(
+		  axis.line.x = element_line(colour = "black"),
+		  axis.line.y = element_line(colour = "black")
+		) +
+		geom_line(colour = wes_palette("Royal1")[2]) +
+		geom_point(colour = "black") +
+		ylab("EV Centrality Distance") +
+		xlab("") +
+		ggtitle(i) +
+		ylim(0, NA) +
+		annotate("text", x = 1.5, y = 0, label = paste("p-value = ", signif(intsig, digits = 3), sep = ""))
+
+	return(a)
+})
+
+supplocations <- plot_grid(plotlist = bylocation, nrow = 2)
 
 ##############
 # Twin Graph #
@@ -482,36 +535,6 @@ routdiv <- lapply(unique(rdf$PatientID), function(i) {
 	return(outputin)
 })
 
-routham <- lapply(c(1:length(routdiv)), function(i) {
-	listelement1 <- routdiv[[ i ]]
-	outputin <- lapply(c(1:length(listelement1)), function(j) {
-		listgraph1 <- listelement1[[ j ]]
-		outdf1 <- lapply(c(1:length(routdiv)), function(k) {
-			listelement2 <- routdiv[[ k ]]
-				outdf2 <- lapply(c(1:length(listelement2)), function(l) {
-					print(c(i,j,k,l))
-					listgraph2 <- listelement2[[ l ]]
-					patient1 <- unique(V(listgraph1)$patientid)
-					patient2 <- unique(V(listgraph2)$patientid)
-					patient1tp <- paste(unique(V(listgraph1)$patientid), unique(V(listgraph1)$timepoint), sep = "")
-					patient2tp <- paste(unique(V(listgraph2)$patientid), unique(V(listgraph2)$timepoint), sep = "")
-					diettype <- unique(V(listgraph1)$diet)
-					hdistval <- hamming_distance(listgraph1, listgraph2)
-					outdftop <- data.frame(patient1, patient2, diettype, patient1tp, patient2tp, hdistval)
-					return(outdftop)
-				})
-			inresulttop <- as.data.frame(do.call(rbind, outdf2))
-			return(inresulttop)
-		})
-		inresultmiddle <- as.data.frame(do.call(rbind, outdf1))
-		return(inresultmiddle)
-	})
-	forresult <- as.data.frame(do.call(rbind, outputin))
-	return(forresult)
-})
-routham <- as.data.frame(do.call(rbind, routham))
-routhamnosame <- routham[!c(routham$hdistval == 0),]
-
 rcen <- lapply(routdiv, function(i) {
 	outputout <- lapply(i, function(k) {
 		centraldf <- as.data.frame(eigen_centrality(k)$vector)
@@ -563,6 +586,8 @@ fx <- approxfun(pdf$x, pdf$y, yleft=0, yright=0)
 cdftwins <- integrate(fx, -Inf, 0)
 cdftwins
 
+ptwinpvalue <- wilcox.test(data = ravg, avg ~ class, paired = TRUE)$p.value
+
 twinline <- ggplot(ravg, aes(x = class, y = avg, group = patient1)) +
 	theme_classic() +
 	theme(
@@ -572,7 +597,9 @@ twinline <- ggplot(ravg, aes(x = class, y = avg, group = patient1)) +
 	geom_line(colour = wes_palette("Royal1")[2]) +
 	geom_point(colour = "black") +
 	ylab("EV Centrality Distance") +
-	xlab("")
+	xlab("") +
+	ylim(0, NA) +
+	annotate("text", x = 1.5, y = 0, label = paste("p-value = ", signif(ptwinpvalue, digits = 3), sep = ""))
 
 twinden <- ggplot(ravgslope, aes(y)) +
 	theme_classic() +
@@ -592,13 +619,23 @@ intrabetadivwithmothers <- plot_grid(twinline, twinden, rel_heights = c(4, 1), n
 # Final Plots #
 ###############
 boxplots <- plot_grid(
-	intrabetadiv,
-	intrabetadiv_personal,
-	intrabetadivwithmothers,
+	linediet,
+	twinline,
+	skinline,
 	labels = c("B", "C", "D"), ncol = 3)
 
-finalplot <- plot_grid(plotnmds_dietstudy, boxplots, labels = c("A"), rel_widths = c(1, 2))
+finalplot <- plot_grid(plotnmds_dietstudy, boxplots, labels = c("A"), rel_widths = c(1, 1.5))
 
 pdf("./figures/intrapersonal_diversity.pdf", width = 12, height = 5)
 	finalplot
 dev.off()
+
+pdf("./figures/intraallskin.pdf", width = 10, height = 10)
+	supplocations
+dev.off()
+
+probstats <- data.frame(
+	site = c("Diet", "Skin", "Twins", "DietAnosim", "AS"),
+	prob = c(pdietpvalue, pskinpvalue, ptwinpvalue, anosimstat$signif, anosimstat$statistic)
+)
+write.table(probstats, file = "./rtables/interstats.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)

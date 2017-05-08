@@ -9,6 +9,7 @@ library("optparse")
 library("plyr")
 library("ggplot2")
 library("wesanderson")
+library("hexbin")
 
 option_list <- list(
   make_option(c("-l", "--lengths"),
@@ -27,8 +28,8 @@ opt_parser <- OptionParser(option_list = option_list);
 opt <- parse_args(opt_parser);
 
 # Import files
-contiglength <- read.delim("./data/PhageContigStats/ContigLength.tsv", head = FALSE, sep = "\t")
-contigcounts <- read.delim("./data/PhageContigStats/FinalContigCounts.tsv", head = TRUE, sep = "\t")
+contiglength <- read.delim(opt$lengths, head = FALSE, sep = "\t")
+contigcounts <- read.delim(opt$counts, head = TRUE, sep = "\t")
 
 head(contiglength)
 head(contigcounts)
@@ -48,7 +49,7 @@ contigstatsplot <- ggplot(lengthcount, aes(x = Length, y = Count)) +
        breaks = scales::trans_breaks("log10", function(x) 10^x),
        labels = scales::trans_format("log10", scales::math_format(10^.x))) +
      annotation_logticks() +
-     geom_point() +
+     stat_binhex(bins = 100) +
      xlab("Length (bp)") +
      ylab("Sequencing Depth")
 

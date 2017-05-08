@@ -45,11 +45,11 @@ totalgraph <- rbind(graphdfTP2, graphdfTP3)
 format(object.size(totalgraph), units = "MB")
 
 # Run subsampling
-uniquephagegraph <- unique(totalgraph[-c(2,7)])
+uniquephagegraph <- unique(totalgraph[-c(2,7:9)])
 phageminseq <- quantile(ddply(uniquephagegraph, c("PatientID", "Location", "TimePoint"), summarize, sum = sum(as.numeric(PhageAbundance)))$sum, 0.05)
 print(format(object.size(uniquephagegraph), units = "MB"))
 
-uniquebacteriagraph <- unique(totalgraph[-c(1,6)])
+uniquebacteriagraph <- unique(totalgraph[-c(1,6,7,9)])
 bacminseq <- quantile(ddply(uniquebacteriagraph, c("PatientID", "Location", "TimePoint"), summarize, sum = sum(as.numeric(BacteriaAbundance)))$sum, 0.05)
 print(format(object.size(uniquephagegraph), units = "MB"))
 
@@ -121,7 +121,7 @@ rdfbacteria <- rdfbacteria[-c(1:4)]
 totalgraphcombo <- totalgraph
 totalgraphcombo$combophage <- paste(totalgraphcombo$from, totalgraphcombo$PatientID, totalgraphcombo$Location, totalgraphcombo$TimePoint, sep = "__")
 totalgraphcombo$combobacteria <- paste(totalgraphcombo$to, totalgraphcombo$PatientID, totalgraphcombo$Location, totalgraphcombo$TimePoint, sep = "__")
-totalgraphcombo <- totalgraphcombo[-c(1:7)]
+totalgraphcombo <- totalgraphcombo[-c(1:9)]
 
 format(object.size(totalgraphcombo), units = "MB")
 format(object.size(rdfphage), units = "KB")
@@ -200,7 +200,7 @@ rcentraldf$dg <- as.numeric(as.character(rcentraldf$dg))
 rcentraldf$di <- as.numeric(as.character(rcentraldf$di))
 
 
-ggplot(rcentraldf, aes(x = factor(location), y = ec)) +
+ggplot(rcentraldf, aes(x = factor(location), y = cl)) +
 	theme_classic() +
 	geom_boxplot(notch = TRUE, fill="gray") +
 	ylab("Alpha Centrality") +
@@ -231,9 +231,14 @@ box_moist <- ggplot(rcentralmerge, aes(x = factor(moisture), y = cl)) +
 	theme(
 	    axis.line.x = element_line(colour = "black"),
 	    axis.line.y = element_line(colour = "black")
-	)
+	) +
+	ylim(0, 0.005) +
+	geom_segment(x = 1, xend = 2, y = 0.0045, yend = 0.0045) +
+	annotate("text", x = 1.5, y = 0.00455, label = "*", size = 6) +
+	geom_segment(x = 1, xend = 3, y = 0.0048, yend = 0.0048) +
+	annotate("text", x = 1.5, y = 0.00485, label = "*", size = 6)
 
-pairwise.wilcox.test(x = rcentralmerge$ec, g = rcentralmerge$moisture)
+moistsig <- melt(pairwise.wilcox.test(x = rcentralmerge$ec, g = rcentralmerge$moisture)$p.value)
 
 # Occlusion Status
 
@@ -245,9 +250,16 @@ box_occ <- ggplot(rcentralmerge, aes(x = factor(occlusion), y = cl)) +
 	theme(
 	    axis.line.x = element_line(colour = "black"),
 	    axis.line.y = element_line(colour = "black")
-	)
+	) +
+	ylim(0, 0.005) +
+	geom_segment(x = 2, xend = 3, y = 0.0045, yend = 0.0045) +
+	annotate("text", x = 2.5, y = 0.00455, label = "*", size = 6) +
+	geom_segment(x = 1, xend = 3, y = 0.0048, yend = 0.0048) +
+	annotate("text", x = 2, y = 0.00485, label = "*", size = 6)
 
-pairwise.wilcox.test(x = rcentralmerge$cl, g = rcentralmerge$occlusion)
+occsig <- melt(pairwise.wilcox.test(x = rcentralmerge$cl, g = rcentralmerge$occlusion)$p.value)
+
+boxsig <- rbind(moistsig, occsig)
 
 # Beta diversity between graphs
 # Proportion of shared edges between graphs
@@ -360,7 +372,7 @@ moddf <- as.data.frame(mod.HSD$group)
 moddf$comparison <- row.names(moddf)
 moddf <- moddf[order(moddf$diff, decreasing = TRUE),]
 moddf$comparison <- factor(moddf$comparison, levels = moddf$comparison)
-moddf$significance <- ifelse(moddf[,"p adj"] < 0.05, "Sig", "NonSig")
+moddf$significance <- ifelse(moddf[,"p adj"] < 0.05, "Significant", "Insignificant")
 limits <- aes(ymax = upr, ymin=lwr)
 
 plotdiffs_moist <- ggplot(moddf, aes(y=diff, x=comparison, colour = significance)) +
@@ -375,7 +387,7 @@ plotdiffs_moist <- ggplot(moddf, aes(y=diff, x=comparison, colour = significance
 	  axis.line.y = element_line(colour = "black"),
 	  legend.position = "bottom"
 	) +
-	scale_color_manual(values = c("Tomato4", "Grey"), name = "Significance")
+	scale_color_manual(values = c("Tomato4", "Grey"), name = "")
 
 
 mod <- betadisper(d = rdistskin, routmerge[,"occlusion"])
@@ -387,7 +399,7 @@ moddf <- as.data.frame(mod.HSD$group)
 moddf$comparison <- row.names(moddf)
 moddf <- moddf[order(moddf$diff, decreasing = TRUE),]
 moddf$comparison <- factor(moddf$comparison, levels = moddf$comparison)
-moddf$significance <- ifelse(moddf[,"p adj"] < 0.05, "Sig", "NonSig")
+moddf$significance <- ifelse(moddf[,"p adj"] < 0.05, "Significant", "Insignificant")
 limits <- aes(ymax = upr, ymin=lwr)
 
 plotdiffs_occ <- ggplot(moddf, aes(y=diff, x=comparison, colour = significance)) +
@@ -402,7 +414,7 @@ plotdiffs_occ <- ggplot(moddf, aes(y=diff, x=comparison, colour = significance))
 	  axis.line.y = element_line(colour = "black"),
 	  legend.position = "bottom"
 	) +
-	scale_color_manual(values = c("Grey", "Tomato4"), name = "Significance")
+	scale_color_manual(values = c("Grey", "Tomato4"), name = "")
 
 moist_nmds <- plot_grid(plotnmds_moist, plotdiffs_moist, rel_heights = c(2,1), ncol = 1, labels = c("C", "E"))
 occ_nmds <- plot_grid(plotnmds_occ, plotdiffs_occ, rel_heights = c(2,1), ncol = 1, labels = c("D", "F"))
@@ -416,3 +428,7 @@ finalplot <- plot_grid(box_moist, box_occ, moist_nmds, occ_nmds, rel_heights = c
 pdf("./figures/skinplotresults.pdf", width = 10, height = 10)
 	finalplot
 dev.off()
+
+# Print the stats
+write.table(boxsig, file = "./rtables/skinboxsig.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
+

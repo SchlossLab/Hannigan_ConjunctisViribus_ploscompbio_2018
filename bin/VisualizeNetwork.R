@@ -14,6 +14,15 @@ library("ggraph")
 library("grid")
 library("stringr")
 
+suppressMessages(c(
+library("RNeo4j"),
+library("ggplot2"),
+library("C50"),
+library("caret"),
+library("wesanderson"),
+library("plotROC"),
+library("cowplot")
+))
 
 ###################
 # Set Subroutines #
@@ -56,10 +65,13 @@ plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout) {
   # Create the plot
   fres <- ggraph(ig, 'igraph', algorithm = 'bipartite') + 
         geom_edge_link0(edge_alpha = 0.0065) +
-        geom_node_point(aes(color = label), size = 1.5) +
+        geom_node_point(aes(color = label), size = 1.5, show.legend = FALSE) +
         ggforce::theme_no_axes() +
         scale_color_manual(values = wes_palette("Royal1")[c(2,4)]) +
-        coord_flip()
+        coord_flip() +
+        annotate("text", x = 475, y = 0.85, label = "Phage", size = 6, color = wes_palette("Royal1")[c(4)]) +
+        annotate("text", x = 25, y = 0.17, label = "Bacteria", size = 6, color = wes_palette("Royal1")[c(2)]) +
+        theme_graph(border = FALSE)
 
   return(fres)
 }
@@ -97,7 +109,7 @@ graphDiameter <- function (nodeframe=nodeout, edgeframe=edgeout) {
   edge <- ecount(ig)
   finaldf <- t(as.data.frame(c(connectionresult, vert, edge)))
   rownames(finaldf) <- NULL
-  colnames(finaldf) <- c("diameter", "vert", "edge")
+  colnames(finaldf) <- c("Diameter", "Vertices", "Edges")
 
   return(finaldf)
 }
@@ -149,10 +161,11 @@ write(connectionstrength(), stderr())
 totalstats <- as.data.frame(graphDiameter())
 totalstats$class <- "Total"
 
-length(grep("Phage", nodeout[,1]))
-length(grep("Bacteria", nodeout[,1]))
-
-length(edgeout[,1])
+# Collect some stats for the data table
+phagenodes <- length(grep("Phage", nodeout[,1]))
+bactnodes <- length(grep("Bacteria", nodeout[,1]))
+totaledges <- length(edgeout[,1])
+nestats <- data.frame(cats = c("PhageNodes", "BacteriaNodes", "Edges"), values = c(phagenodes, bactnodes, totaledges))
 
 # Diet subgraph
 query <- "
@@ -272,24 +285,39 @@ legend <- get_legend(
     scale_fill_manual(values = wes_palette("Darjeeling"), name = "Study")
   )
 
+so <- c("Total", "SkinStudy", "TwinStudy", "DietStudy")
+
+mstat <- mstat[order(ordered(mstat$class, levels = so), decreasing = TRUE),]
+mstat$class <- factor(mstat$class, levels = mstat$class)
+
+counter <- 1
 graphlist <- lapply(unique(mstat$variable), function(i) {
-  ggplot(mstat[c(mstat$variable %in% i),], aes(x = class, y = value, fill = class, group = class)) +
+  print(counter)
+  oplot <- ggplot(mstat[c(mstat$variable %in% i),], aes(x = class, y = value, fill = class, group = class)) +
     theme_classic() +
     geom_bar(stat = "identity") +
     theme(
         axis.line.x = element_line(colour = "black"),
         axis.line.y = element_line(colour = "black"),
         axis.title.y=element_blank(),
-        axis.text.y=element_blank(),
         axis.ticks.y=element_blank(),
         legend.position = "none"
     ) +
     scale_fill_manual(values = wes_palette("Darjeeling")) +
     ylab(i) +
     coord_flip()
+    if (counter == 1) {
+      oplot <- oplot
+    } else {
+      oplot <- oplot + theme(axis.text.y=element_text(colour = "white"))
+    }
+  # Double arrow for outer variable scope
+  counter <<- counter + 1
+  return(oplot)
 })
 
 baseplot <- plot_grid(plotlist = graphlist, nrow = 1, labels = LETTERS[5:7])
+baseplot
 withlegend <- plot_grid(
   baseplot,
   legend,
@@ -305,12 +333,55 @@ threeplot <- plot_grid(
   ncol = 1,
   labels = c("B", "C", "D"))
 
-almostplot <- plot_grid(totalnetwork, threeplot, ncol = 2, rel_widths = c(2,1), labels = c("A"))
+almostplot <- plot_grid(totalnetwork, baseplot, ncol = 2, rel_widths = c(2,1), labels = c("A"))
 
 finalplot <- plot_grid(almostplot, withlegend, nrow = 2, rel_heights = c(2,1))
 
-pdf(file="./figures/BacteriaPhageNetworkDiagram.pdf",
+write.table(allstats, file = "./rtables/genfigurestats.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
+write.table(nestats, file = "./rtables/nestats.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
+
+############# Add Prediction Model Stats #############
+load(file="./data/rfinteractionmodel.RData")
+load(file = "./data/exclusionplot.RData")
+
+# I am not including a probability threshold here since this is not one ROC curve,
+# but rather the average multiple generated ROC curves.
+roclobster <- ggplot(outmodel$pred, aes(d = obs, m = NotInteracts)) +
+  geom_roc(n.cuts = 0, color = wes_palette("Royal1")[2]) +
+  style_roc() +
+  theme(
+    axis.line.x = element_line(colour = "black"),
+    axis.line.y = element_line(colour = "black")
+  ) +
+  geom_segment(aes(x = 0, y = 0, xend = 1, yend = 1), linetype=2, colour=wes_palette("Royal1")[1])
+
+vardf <- data.frame(varImp(outmodel$finalModel))
+vardf$categories <- rownames(vardf)
+
+vardf <- vardf[order(vardf$Overall, decreasing = TRUE),]
+vardf$categories <- factor(vardf$categories, levels = vardf$categories)
+
+importanceplot <- ggplot(vardf, aes(x=categories, y=Overall)) +
+  theme_classic() +
+  theme(
+    axis.line.x = element_line(colour = "black"),
+    axis.line.y = element_line(colour = "black")
+  ) +
+  geom_bar(stat="identity", fill=wes_palette("Royal1")[1]) +
+  xlab("Categories") +
+  ylab("Importance Score")
+
+plothorz <- plot_grid(importanceplot, excludedgraph, ncol = 1, labels = c("B", "C"))
+wgraph <- plot_grid(plothorz, totalnetwork, ncol = 2, labels = c("", "D"))
+wroc <- plot_grid(roclobster, wgraph, ncol = 2, labels = c("A"))
+baseplot <- plot_grid(plotlist = graphlist, nrow = 1, labels = LETTERS[5:7])
+finalp <- plot_grid(wroc, baseplot, ncol = 1, rel_heights = c(2, 1))
+
+pdf(file="./figures/rocCurves.pdf",
 width=12,
-height=9)
-  finalplot
+height=10)
+  finalp
 dev.off()
+
+modelper <- outmodel$results[(order(outmodel$results$ROC, decreasing = TRUE)),][1,]
+write.table(modelper, file = "./rtables/genmodelper.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)

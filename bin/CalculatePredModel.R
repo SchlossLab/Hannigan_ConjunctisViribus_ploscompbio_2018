@@ -9,6 +9,7 @@
 list.of.packages <- c("RNeo4j", "ggplot2", "C50", "caret", "wesanderson", "plotROC")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
+lapply(list.of.packages, library, character.only = TRUE)
 
 #################
 # Set Libraries #
@@ -131,21 +132,20 @@ excludedgraph <- ggplot(Exclusiondf[order(Exclusiondf$ExclusionStatus, decreasin
   ylab("Percent of Total Samples")
 
 # Save the model to a file so that it can be used later
-save(outmodel, file="./data/rfinteractionmodel.RData")
+save(outmodel, excludedgraph, file="./data/rfinteractionmodel.RData")
+load(file="./data/rfinteractionmodel.RData")
 
 #############
 # Plot Data #
 #############
 roclobster <- ggplot(outmodel$pred, aes(d = obs, m = NotInteracts)) +
   geom_roc(n.cuts = 0, color = wes_palette("Royal1")[2]) +
-  theme_classic() +
+  style_roc() +
   theme(
     axis.line.x = element_line(colour = "black"),
     axis.line.y = element_line(colour = "black")
   ) +
-  geom_segment(aes(x = 0, y = 0, xend = 1, yend = 1), linetype=2, colour=wes_palette("Royal1")[1]) +
-  ylab("Sensitivity") +
-  xlab(paste("Inverse Specificity"))
+  geom_segment(aes(x = 0, y = 0, xend = 1, yend = 1), linetype=2, colour=wes_palette("Royal1")[1])
 
 # Plot prediction points
 rocdensity <- ggplot(outmodel$pred, aes(x=Interacts, group=obs, fill=obs)) +
@@ -176,6 +176,8 @@ importanceplot <- ggplot(vardf, aes(x=categories, y=Overall)) +
 
 barplots <- plot_grid(importanceplot, excludedgraph, labels=c("C", "D"), nrow=1)
 horizontal <- plot_grid(rocdensity, barplots, labels=c("B", ""), nrow=2)
+
+save(roclobster, rocdensity, vardf, importanceplot, file="./data/modelplots.Rdata")
 
 pdf(file="./figures/rocCurves.pdf",
 height=6,

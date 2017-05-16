@@ -509,11 +509,19 @@ addlengths : ./data/PhageContigStats/ClusterLength.tsv
 		--toplength 1 \
 		--out $@
 
-# Align the contig seqs to the virus reference database
-./data/contigclustersidentity/VirusRepsetIds.tsv :
+# Align the contig seqs to the bacterial reference database
+./data/contigclustersidentity/BacteriaRepsetIds.tsv :
 	bash ./bin/IdentifyContigsBac.sh \
 		./data/TotalCatContigsBacteria.fa \
 		./data/reference/BacteriaReference.fa \
+		./data/contigclustersidentity/longestcontigsbacteria.tsv \
+		$@ \
+		"/nfs/turbo/pschloss/bin/ncbi-blast-2.4.0+/bin/"
+
+./data/contigclustersidentity/VirusRepsetIds.tsv :
+	bash ./bin/IdentifyContigs.sh \
+		./data/TotalCatContigsBacteria.fa \
+		./data/reference/VirusPhageReference.fa \
 		./data/contigclustersidentity/longestcontigsbacteria.tsv \
 		$@ \
 		"/nfs/turbo/pschloss/bin/ncbi-blast-2.4.0+/bin/"

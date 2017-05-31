@@ -1,5 +1,5 @@
 ---
-title: Biogeography and Environmental Conditions Shape Phage and Bacteria Interaction Networks Across the Healthy Human Microbiome
+title: Biogeography & Environmental Conditions Shape Phage & Bacteria Interaction Networks Across the Human Microbiome
 author:
 - name: Geoffrey D Hannigan
   affiliation: 1
@@ -13,7 +13,7 @@ address:
   - code: 1
     address: Department of Microbiology & Immunology, University of Michigan, Ann Arbor, Michigan, 48109
   - code: 2
-    address: Department of Ecology and Evolutionary Biology, University of Michigan, Ann Arbor, Michigan, 48109
+    address: Department of Ecology & Evolutionary Biology, University of Michigan, Ann Arbor, Michigan, 48109
   - code: 3
     address: Department of Computer Science, University of Michigan, Ann Arbor, Michigan, 48109
   - code: \*
@@ -21,11 +21,17 @@ address:
 output:
   md_document:
     variant: markdown
-fontsize: 11pt
+fontsize: 12pt
 mainfont: 'Helvetica'
 ---
 
 &nbsp;
+
+&nbsp;
+
+&nbsp;
+
+***Running Title***: Network Diversity of the Healthy Human Microbiome
 
 | ***Corresponding Author Information***
 | Patrick D Schloss, PhD
@@ -33,18 +39,6 @@ mainfont: 'Helvetica'
 | Ann Arbor, Michigan 48109
 | Phone: (734) 647-5801
 | Email: pschloss@umich.edu
-
-***Running Title***: Network Diversity of the Healthy Human Microbiome
-
-***Journal***: mSystems
-
-***Keywords***: Virome, Microbiome, Graph Theory, Machine Learning
-
-***Abstract Length***: 236 / 250
-
-***Importance Length***: 145 / 150
-
-***Text Length***: 4,987 / 5,000 Words
 
 \newpage
 
@@ -59,6 +53,8 @@ skinboxsig <- read.delim(file = "../rtables/skinboxsig.tsv", header = TRUE, sep 
 
 # Abstract
 Viruses and bacteria are critical components of the human microbiome and play important roles in health and disease. Most previous work has relied on studying microbes and viruses independently, thereby reducing them to two separate communities. Such approaches are unable to capture how these microbial communities interact, such as through processes that maintain community stability or allow phage-host populations to co-evolve. We developed and implemented a network-based analytical approach to describe phage-bacteria network diversity throughout the human body. We accomplished this by building a machine learning algorithm to predict which phages could infect which bacteria in a given microbiome. This algorithm was applied to paired viral and bacterial metagenomic sequence sets from three previously published human cohorts. We organized the predicted interactions into networks that allowed us to evaluate phage-bacteria connectedness across the human body. We found that gut and skin network structures were person-specific and not conserved among cohabitating family members. High-fat diets and obesity were associated with less connected networks. Network structure differed between skin sites, with those exposed to the external environment being less connected and more prone to instability. This study quantified and contrasted the diversity of virome-microbiome networks across the human body and illustrated how environmental factors may influence phage-bacteria interactive dynamics. This work provides a baseline for future studies to better understand system perturbations, such as disease states, through ecological networks.
+
+\newpage
 
 # Importance
 
@@ -102,9 +98,7 @@ In addition to diet, obesity was found to influence network structure. Obesity-a
 ## Individuality of Microbial Networks
 Skin and gut community membership and diversity are highly personal, with people remaining more similar to themselves than to other people over time [@Grice:2009ee; @Hannigan:2015fz; @Minot:2013ih]. We therefore hypothesized that this personal conservation extended to microbiome network structure. We addressed this hypothesis by calculating the degree of dissimilarity between each subject's network, based on phage and bacteria abundance and centrality. We quantified phage and bacteria centrality within each sample graph using the weighted eigenvector centrality metric. This metric defines central phages as those that are highly abundant ($A_{O}$ as defined in the methods) and infect many distinct bacteria which themselves are abundant and infected by many other phages. Similarly, bacterial centrality was defined as those bacteria that were both abundant and connected to numerous phages that were themselves connected to many bacteria. We then calculated the similarity of community networks using the weighted eigenvector centrality of all nodes between all samples. Samples with similar network structures were interpreted as having similar capacities for maintaining stability and transmitting genetic material.
 
-We used this network dissimilarity metric to test whether microbiome network structures were more similar within people than between people over time. We found that gut microbiome network structures clustered by person (ANOSIM p-value = `r signif(interstats[c(interstats$site %in% "DietAnosim"), "prob"], digits = sigfig)`, R = `r signif(interstats[c(interstats$site %in% "AS"), "prob"], digits = sigfig)`, **Figure \ref{intradiv} A**). Network dissimilarity within each person over the 8-10 day sampling period was less than the average dissimilarity between that person and others, although this difference was not statistically significant (p-value = `r signif(interstats[c(interstats$site %in% "Diet"), "prob"], digits = sigfig)`, **Figure \ref{intradiv} B**). The lack of statistical confidence was likely due to the small sample size of this dataset. Although there was evidence for gut network conservation among individuals, we found no evidence for conservation of gut network structures within families. The gut network structures were not more similar within families (twins and their mothers; intrafamily) compared to other families (inter-family) (p-value = `r signif(interstats[c(interstats$site %in% "Twins"), "prob"], digits = sigfig)`, **Figure \ref{intradiv} C**).
-
-Skin microbiome network structure was strongly conserved within individuals (p-value < 0.001, **Figure \ref{intradiv} D**). This distribution was similar when separated by anatomical sites. Most sites were statistically significantly more conserved within individuals **(Supplemental Figure \ref{allskin})**.
+We used this network dissimilarity metric to test whether microbiome network structures were more similar within people than between people over time. We found that gut microbiome network structures clustered by person (ANOSIM p-value = `r signif(interstats[c(interstats$site %in% "DietAnosim"), "prob"], digits = sigfig)`, R = `r signif(interstats[c(interstats$site %in% "AS"), "prob"], digits = sigfig)`, **Figure \ref{intradiv} A**). Network dissimilarity within each person over the 8-10 day sampling period was less than the average dissimilarity between that person and others, although this difference was not statistically significant (p-value = `r signif(interstats[c(interstats$site %in% "Diet"), "prob"], digits = sigfig)`, **Figure \ref{intradiv} B**). The lack of statistical confidence was likely due to the small sample size of this dataset. Although there was evidence for gut network conservation among individuals, we found no evidence for conservation of gut network structures within families. The gut network structures were not more similar within families (twins and their mothers; intrafamily) compared to other families (inter-family) (p-value = `r signif(interstats[c(interstats$site %in% "Twins"), "prob"], digits = sigfig)`, **Figure \ref{intradiv} C**). In addition to the gut, skin microbiome network structure was strongly conserved within individuals (p-value < 0.001, **Figure \ref{intradiv} D**). This distribution was similar when separated by anatomical sites. Most sites were statistically significantly more conserved within individuals **(Supplemental Figure \ref{allskin})**.
 
 ## Association Between Environmental Stability and Network Structure Across the Human Skin Landscape
 Extensive work has illustrated differences in diversity and composition of the healthy human skin microbiome between anatomical sites, including bacteria, virus, and fungal communities [@Grice:2009ee; @Findley:2013jf; @Hannigan:2015fz]. These communities vary by degree of skin moisture, oil, and environmental exposure. As viruses are known to influence microbial diversity and community composition, we hypothesized that microbe-virus network structure would be specific to anatomical sites, as well. To test this, we evaluated the changes in network structure between anatomical sites within the skin dataset.
@@ -124,7 +118,7 @@ In addition to diet, the skin environment also influenced the microbiome interac
 
 While these findings take us an important step closer to understanding the microbiome through interspecies relationships, there are caveats to and considerations regarding the approach. First, as with most classification models, the infection classification model developed and applied is only as good as its training set -- in this case, the collection of experimentally-verified positive and negative infection data, where genomes of all members are fully sequenced. Large-scale experimental screens for phage and bacteria infectious interactions that report high-confidence negative interactions (i.e., no infection) are desperately needed, as they would provide more robust model training and improved model performance. Furthermore, just as we have improved on previous modeling efforts, we expect that new and creative scoring metrics will be integrated into this model to improve future performance.
 
-Second, although our analyses offer an informative proof of concept, this work was done retrospectively and relied on existing data up to seven years old. These archived datasets were limited by the technology and costs of the time. This resulted in small sequencing effort (as compared to today's dataset sizes) and thus datasets that were sub-optimally powered for statistical analyses. Further, two studies, the diet and twin studies, relied on multiple displacement amplification (MDA) in their library preparations--an approach used to overcome the large nucleic acids requirements typical of older sequencing library generation protocols. It is now known that MDA results in significant biases in microbial community composition [@Yilmaz:2010jb], as well as toward ssDNA viral genomes [@Kim:2008to; @Kim:2011hp], thus rendering the resulting microbial and viral metagenomes non-quantitative. Future work that employs larger sequence datasets and that avoids the use of bias-inducing amplification steps will build on and validate our findings, as well as inform the design and interpretation of further studies. 
+Second, although our analyses utilized the best datasets currently avilable for our study, this work was done retrospectively and relied on existing data up to seven years old. These archived datasets were limited by the technology and costs of the time. For example, the diet and twin studies, relied on multiple displacement amplification (MDA) in their library preparations--an approach used to overcome the large nucleic acids requirements typical of older sequencing library generation protocols. It is now known that MDA results in biases in microbial community composition [@Yilmaz:2010jb], as well as toward ssDNA viral genomes [@Kim:2008to; @Kim:2011hp], thus rendering the resulting microbial and viral metagenomes largely non-quantitative. Future work that employs larger sequence datasets and that avoids the use of bias-inducing amplification steps will build on and validate our findings, as well as inform the design and interpretation of further studies. 
 
 Finally, the networks in this study were built using operational genomic units (OGUs), which represented groups of highly similar bacteria or phage genomes or genome fragments as clustered sub-populations. Similar clustering definition and validation methods, both computational and experimental, have been implemented in other metagenomic sequencing studies, as well [@Minot:2012ed; @Deng:2014eb; @Brum:2015iaa; @Roux:2016cc]. These approaches could offer yet another level of sophistication to our network-based analyses. While this operationally defined clustering approach allows us to study whole community networks, our ability to make conclusions about interactions among specific phage or bacterial species or populations is inherently limited. Future work must address this limitation, e.g., through improved binning methods and deeper metagenomic shotgun sequencing, but most importantly through an improved conceptual framing of what defines ecologically and evolutionarily cohesive units for both phage and bacteria [@Polz:2006fi]. Defining operational genomic units and their taxonomic underpinnings (e.g., whether OGU clusters represent genera or species) is an active area of work critical to the utility of this approach. As a first step, phylogenomic analyses have been performed to cluster cyanophage isolate genomes into informative groups using shared gene content, average nucleotide identity of shared genes, and pairwise differences between genomes [@Gregory:2016cg]. Such population-genetic assessment of phage evolution, coupled with the ecological implications of genome heterogeneity, will inform how to define nodes in future iterations of the ecological network developed here.
 
@@ -132,8 +126,8 @@ Together our work takes an initial step towards defining bacteria-virus interact
 
 # Materials & Methods
 
-## Data Availability
-All associated source code is available on GitHub at the following repository:
+## Code Availability
+A reproducible version of this manuscript written in R markdown and all of the code used to obtain and process the sequencing data is available at the following GitHub repository:
 
 https://github.com/SchlossLab/Hannigan_ConjunctisViribus_mSystems_2017
 
@@ -233,7 +227,7 @@ The authors report no conflicts of interest.
 
 # Figures
 
-![**Summary of Multi-Study Network Model.** *(A) Average ROC curve used to create the microbiome-virome infection prediction model. (B) Importance scores associated with the metrics used in the random forest model to predict relationships between bacteria and phages. The importance score is defined as the mean decrease in accuracy of the model when a feature (e.g. Pfam) is excluded. (C) Proportions of samples included (gray) and excluded (red) in the model. Samples were excluded from the model because they did not yield any scores. Those interactions without scores were defined as not having interactions. (D) Bipartite visualization of the resulting phage-bacteria network. This network includes information from all three published studies. (E) Network diameter (measure of graph size; the greatest number of traversed vertices required between two vertices), (F) number of vertices, and (G) number of edges (relationships) for the total network (yellow) and the individual study sub-networks (diet study = red, skin study = green, twin study = orange).* \label{RocCurve}](../figures/rocCurves.pdf){ width=90% }
+![**Summary of Multi-Study Network Model.** *(A) Average ROC curve used to create the microbiome-virome infection prediction model. (B) Importance scores associated with the metrics used in the random forest model to predict relationships between bacteria and phages. The importance score is defined as the mean decrease in accuracy of the model when a feature (e.g. Pfam) is excluded. (C) Proportions of samples included (gray) and excluded (red) in the model. Samples were excluded from the model because they did not yield any scores. Those interactions without scores were defined as not having interactions. (D) Bipartite visualization of the resulting phage-bacteria network. This network includes information from all three published studies. (E) Network diameter (measure of graph size; the greatest number of traversed vertices required between two vertices), (F) number of vertices, and (G) number of edges (relationships) for the total network (yellow) and the individual study sub-networks (diet study = red, skin study = green, twin study = orange).* \label{RocCurve}](../figures/rocCurves.pdf){ width=85% }
 
 \newpage
 

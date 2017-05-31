@@ -46,8 +46,6 @@ mainfont: 'Helvetica'
 
 ***Text Length***: 4,987 / 5,000 Words
 
-\* *Figures at the end of the document for internal review only.*
-
 \newpage
 
 ```{r loadfiles, echo=FALSE}

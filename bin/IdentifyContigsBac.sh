@@ -28,7 +28,7 @@ RunBlast () {
     	-query "${1}" \
     	-out ./data/tmpid/blastout.tsv \
     	-db ./data/tmpid/ReferenceGenomes \
-    	-evalue 1e-5 \
+    	-evalue 1e-25 \
     	-num_threads 8 \
     	-max_target_seqs 1 \
     	-outfmt 6

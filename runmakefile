@@ -15,10 +15,10 @@
 #PBS -A pschloss_fluxod
 
 # Set the proper R module
-module load R/3.3.2
+module load R/3.3.3
 
 # Set working directory
 cd /nfs/turbo/pschloss/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
-make ./data/contigclustersidentity/VirusRepsetIds.tsv
+make ./data/contigclustersidentity/longestcontigsphage.tsv

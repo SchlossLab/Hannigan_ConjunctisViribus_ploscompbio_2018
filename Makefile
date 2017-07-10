@@ -494,6 +494,8 @@ addlengths : ./data/PhageContigStats/ClusterLength.tsv
 		./data/PhageContigStats/ClusterLength.tsv
 
 ################################## CONTIG CLUSTER IDENTIFICATION ##################################
+# Find phages in bacteria OGUs
+
 # Make contig length table
 ./data/BacteriaContigLength.tsv :
 	perl ./bin/ContigLengthTable.pl \
@@ -516,15 +518,34 @@ addlengths : ./data/PhageContigStats/ClusterLength.tsv
 		./data/reference/BacteriaReference.fa \
 		./data/contigclustersidentity/longestcontigsbacteria.tsv \
 		$@ \
-		"/nfs/turbo/pschloss/bin/ncbi-blast-2.4.0+/bin/"
+		"/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/"
 
-./data/contigclustersidentity/VirusRepsetIds.tsv :
+# Find bacteria in phage OGUs
+
+# Make contig length table
+./data/PhageContigLength.tsv :
+	perl ./bin/ContigLengthTable.pl \
+		-i ./data/TotalCatContigsPhage.fa \
+		-o $@
+
+# Get ID for longest contig in each cluster
+./data/contigclustersidentity/longestcontigsphage.tsv : ./data/PhageContigLength.tsv
+	mkdir -p ./data/contigclustersidentity
+	Rscript ./bin/GetLongestContig.R \
+		--input $< \
+		--clusters ./data/ContigClustersPhage/clustering_gt1000.csv \
+		--toplength 1 \
+		--out $@
+
+# Align the contig seqs to the bacterial reference database
+./data/contigclustersidentity/PhageRepsetIds.tsv :
 	bash ./bin/IdentifyContigs.sh \
-		./data/TotalCatContigsBacteria.fa \
-		./data/reference/VirusPhageReference.fa \
-		./data/contigclustersidentity/longestcontigsbacteria.tsv \
+		./data/TotalCatContigsPhage.fa \
+		./data/reference/BacteriaReference.fa \
+		./data/contigclustersidentity/longestcontigsphage.tsv \
 		$@ \
-		"/nfs/turbo/pschloss/bin/ncbi-blast-2.4.0+/bin/"
+		"/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/"
+
 
 ############################################# ANALYSIS ############################################
 

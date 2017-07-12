@@ -530,7 +530,7 @@ alignqc: ./data/tmpid/bacteria2phage-blastout.tsv ./data/tmpid/phage2bacteria-bl
 	echo Running blastn...
 	/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/blastn \
 		-query ./data/tmpid/bacteria-contigrepset.fa \
-		-out ./data/tmpid/bacteria2phage-blastout.tsv \
+		-out ./data/contigclustersidentity/bacteria2phage-blastout.tsv \
 		-db ./data/tmpid/PhageReferenceGenomes \
 		-evalue 1e-25 \
 		-num_threads 8 \
@@ -572,7 +572,7 @@ alignqc: ./data/tmpid/bacteria2phage-blastout.tsv ./data/tmpid/phage2bacteria-bl
 	echo Running blastn...
 	/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/blastn \
 		-query ./data/tmpid/phage-contigrepset.fa \
-		-out ./data/tmpid/phage2bacteria-blastout.tsv \
+		-out ./data/contigclustersidentity/phage2bacteria-blastout.tsv \
 		-db ./data/tmpid/BacteriaReferenceGenomes \
 		-evalue 1e-25 \
 		-num_threads 8 \

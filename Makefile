@@ -517,7 +517,7 @@ addlengths : ./data/PhageContigStats/ClusterLength.tsv
 	cut -f 1 ./data/contigclustersidentity/longestcontigsbacteria.tsv | \
 		tail -n +2 \
 		> ./data/tmpid/tmpcontiglist.tsv
-	grep -A 1 -f ./data/tmpid/tmpcontiglist.tsv ${fastafile} \
+	grep -A 1 -f ./data/tmpid/tmpcontiglist.tsv ./data/TotalCatContigsBacteria.fa \
 		| egrep -v "\-\-" \
 		> ./data/tmpid/bacteria-contigrepset.fa
 	/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/makeblastdb \
@@ -559,6 +559,29 @@ addlengths : ./data/PhageContigStats/ClusterLength.tsv
 		./data/contigclustersidentity/longestcontigsphage.tsv \
 		$@ \
 		"/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/"
+
+# Align phage contigs to bacterial reference
+./data/tmpid/phage2bacteria-blastout.tsv : ./data/contigclustersidentity/longestcontigsphage.tsv
+	mkdir -p ./data/tmpid
+	cut -f 1 ./data/contigclustersidentity/longestcontigsphage.tsv | \
+		tail -n +2 \
+		> ./data/tmpid/tmpcontiglist.tsv
+	grep -A 1 -f ./data/tmpid/tmpcontiglist.tsv ${fastafile} \
+		| egrep -v "\-\-" \
+		> ./data/tmpid/bacteria-contigrepset.fa
+	/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/makeblastdb \
+		-dbtype nucl \
+		-in ./data/reference/PhageReference.fa \
+		-out ./data/tmpid/PhageReferenceGenomes
+	echo Running blastn...
+	/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/blastn \
+		-query ./data/tmpid/bacteria-contigrepset.fa \
+		-out ./data/tmpid/phage2bacteria-blastout.tsv \
+		-db ./data/tmpid/PhageReferenceGenomes \
+		-evalue 1e-25 \
+		-num_threads 8 \
+		-max_target_seqs 1 \
+		-outfmt 6
 
 
 ############################################# ANALYSIS ############################################

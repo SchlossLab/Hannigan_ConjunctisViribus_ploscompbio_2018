@@ -494,6 +494,8 @@ addlengths : ./data/PhageContigStats/ClusterLength.tsv
 		./data/PhageContigStats/ClusterLength.tsv
 
 ################################## CONTIG CLUSTER IDENTIFICATION ##################################
+alignqc: ./data/tmpid/bacteria2phage-blastout.tsv ./data/tmpid/phage2bacteria-blastout.tsv
+
 # Find phages in bacteria OGUs
 
 # Make contig length table
@@ -534,6 +536,7 @@ addlengths : ./data/PhageContigStats/ClusterLength.tsv
 		-num_threads 8 \
 		-max_target_seqs 1 \
 		-outfmt 6
+	rm -rf ./data/tmpid
 
 # Find bacteria in phage OGUs
 
@@ -551,15 +554,6 @@ addlengths : ./data/PhageContigStats/ClusterLength.tsv
 		--clusters ./data/ContigClustersPhage/clustering_gt1000.csv \
 		--toplength 1 \
 		--out $@
-
-# Align the contig seqs to the bacterial reference database
-./data/contigclustersidentity/PhageRepsetIds.tsv :
-	bash ./bin/IdentifyContigs.sh \
-		./data/TotalCatContigsPhage.fa \
-		./data/reference/BacteriaReference.fa \
-		./data/contigclustersidentity/longestcontigsphage.tsv \
-		$@ \
-		"/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/"
 
 # Align phage contigs to bacterial reference
 ./data/tmpid/phage2bacteria-blastout.tsv : ./data/contigclustersidentity/longestcontigsphage.tsv
@@ -584,6 +578,7 @@ addlengths : ./data/PhageContigStats/ClusterLength.tsv
 		-num_threads 8 \
 		-max_target_seqs 1 \
 		-outfmt 6
+	rm -rf ./data/tmpid
 
 
 ############################################# ANALYSIS ############################################

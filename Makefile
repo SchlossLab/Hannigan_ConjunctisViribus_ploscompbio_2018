@@ -526,13 +526,13 @@ addlengths : ./data/PhageContigStats/ClusterLength.tsv
 		-out ./data/tmpid/PhageReferenceGenomes
 	echo Running blastn...
 	/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/blastn \
-    	-query ./data/tmpid/bacteria-contigrepset.fa \
-    	-out ./data/tmpid/bacteria2phage-blastout.tsv \
-    	-db ./data/tmpid/PhageReferenceGenomes \
-    	-evalue 1e-25 \
-    	-num_threads 8 \
-    	-max_target_seqs 1 \
-    	-outfmt 6
+		-query ./data/tmpid/bacteria-contigrepset.fa \
+		-out ./data/tmpid/bacteria2phage-blastout.tsv \
+		-db ./data/tmpid/PhageReferenceGenomes \
+		-evalue 1e-25 \
+		-num_threads 8 \
+		-max_target_seqs 1 \
+		-outfmt 6
 
 # Find bacteria in phage OGUs
 

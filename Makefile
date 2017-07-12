@@ -522,14 +522,14 @@ alignqc: ./data/tmpid/bacteria2phage-blastout.tsv ./data/tmpid/phage2bacteria-bl
 		> ./data/tmpid/tmpcontiglist.tsv
 	grep -A 1 -f ./data/tmpid/tmpcontiglist.tsv ./data/TotalCatContigsBacteria.fa \
 		| egrep -v "\-\-" \
-		> ./data/tmpid/bacteria-contigrepset.fa
+		> ./data/contigclustersidentity/bacteria-contigrepset.fa
 	/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/makeblastdb \
 		-dbtype nucl \
 		-in ./data/reference/VirusPhageReference.fa \
 		-out ./data/tmpid/PhageReferenceGenomes
 	echo Running blastn...
 	/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/blastn \
-		-query ./data/tmpid/bacteria-contigrepset.fa \
+		-query ./data/contigclustersidentity/bacteria-contigrepset.fa \
 		-out ./data/contigclustersidentity/bacteria2phage-blastout.tsv \
 		-db ./data/tmpid/PhageReferenceGenomes \
 		-evalue 1e-25 \
@@ -564,14 +564,14 @@ alignqc: ./data/tmpid/bacteria2phage-blastout.tsv ./data/tmpid/phage2bacteria-bl
 		> ./data/tmpid/tmpcontiglist.tsv
 	grep -A 1 -f ./data/tmpid/tmpcontiglist.tsv ./data/TotalCatContigsPhage.fa \
 		| egrep -v "\-\-" \
-		> ./data/tmpid/phage-contigrepset.fa
+		> ./data/contigclustersidentity/phage-contigrepset.fa
 	/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/makeblastdb \
 		-dbtype nucl \
 		-in ./data/reference/BacteriaReference.fa \
 		-out ./data/tmpid/BacteriaReferenceGenomes
 	echo Running blastn...
 	/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/blastn \
-		-query ./data/tmpid/phage-contigrepset.fa \
+		-query ./data/contigclustersidentity/phage-contigrepset.fa \
 		-out ./data/contigclustersidentity/phage2bacteria-blastout.tsv \
 		-db ./data/tmpid/BacteriaReferenceGenomes \
 		-evalue 1e-25 \

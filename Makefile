@@ -522,7 +522,7 @@ addlengths : ./data/PhageContigStats/ClusterLength.tsv
 		> ./data/tmpid/bacteria-contigrepset.fa
 	/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/makeblastdb \
 		-dbtype nucl \
-		-in ./data/reference/PhageReference.fa \
+		-in ./data/reference/VirusPhageReference.fa \
 		-out ./data/tmpid/PhageReferenceGenomes
 	echo Running blastn...
 	/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/blastn \

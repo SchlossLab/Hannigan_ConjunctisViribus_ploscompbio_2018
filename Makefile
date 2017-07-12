@@ -512,7 +512,7 @@ addlengths : ./data/PhageContigStats/ClusterLength.tsv
 		--out $@
 
 # Align bacterial contigs to phage reference
-./data/contigclustersidentity/BacteriaRepsetIds.tsv : ./data/contigclustersidentity/longestcontigsbacteria.tsv
+./data/tmpid/bacteria2phage-blastout.tsv : ./data/contigclustersidentity/longestcontigsbacteria.tsv
 	mkdir -p ./data/tmpid
 	cut -f 1 ./data/contigclustersidentity/longestcontigsbacteria.tsv | \
 		tail -n +2 \

@@ -511,14 +511,28 @@ addlengths : ./data/PhageContigStats/ClusterLength.tsv
 		--toplength 1 \
 		--out $@
 
-# Align the contig seqs to the bacterial reference database
-./data/contigclustersidentity/BacteriaRepsetIds.tsv :
-	bash ./bin/IdentifyContigsBac.sh \
-		./data/TotalCatContigsBacteria.fa \
-		./data/reference/BacteriaReference.fa \
-		./data/contigclustersidentity/longestcontigsbacteria.tsv \
-		$@ \
-		"/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/"
+# Align bacterial contigs to phage reference
+./data/contigclustersidentity/BacteriaRepsetIds.tsv : ./data/contigclustersidentity/longestcontigsbacteria.tsv
+	mkdir -p ./data/tmpid
+	cut -f 1 ./data/contigclustersidentity/longestcontigsbacteria.tsv | \
+		tail -n +2 \
+		> ./data/tmpid/tmpcontiglist.tsv
+	grep -A 1 -f ./data/tmpid/tmpcontiglist.tsv ${fastafile} \
+		| egrep -v "\-\-" \
+		> ./data/tmpid/bacteria-contigrepset.fa
+	/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/makeblastdb \
+		-dbtype nucl \
+		-in ./data/reference/PhageReference.fa \
+		-out ./data/tmpid/PhageReferenceGenomes
+	echo Running blastn...
+	/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/blastn \
+    	-query ./data/tmpid/bacteria-contigrepset.fa \
+    	-out ./data/tmpid/bacteria2phage-blastout.tsv \
+    	-db ./data/tmpid/PhageReferenceGenomes \
+    	-evalue 1e-25 \
+    	-num_threads 8 \
+    	-max_target_seqs 1 \
+    	-outfmt 6
 
 # Find bacteria in phage OGUs
 

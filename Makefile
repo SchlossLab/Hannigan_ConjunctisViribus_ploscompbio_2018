@@ -582,7 +582,9 @@ alignqc: ./data/tmpid/bacteria2phage-blastout.tsv ./data/tmpid/phage2bacteria-bl
 
 # Virsorter to further ID the two groups
 
-runvirsorter: ./data/virsorterid/phage-VIRSorter_global-phage-signal.csv ./data/virsorterid/bacteria-VIRSorter_global-phage-signal.csv
+runvirsorter: \
+	./data/virsorterid/phage-VIRSorter_global-phage-signal.csv \
+	./data/virsorterid/bacteria-VIRSorter_global-phage-signal.csv
 
 ./data/virsorterid/phage-VIRSorter_global-phage-signal.csv : ./data/contigclustersidentity/phage-contigrepset.fa
 	mkdir -p ./data/virsorterid/

@@ -581,10 +581,24 @@ alignqc: ./data/tmpid/bacteria2phage-blastout.tsv ./data/tmpid/phage2bacteria-bl
 	rm -rf ./data/tmpid
 
 # Virsorter to further ID the two groups
-runvirsorter : ./data/contigclustersidentity/phage-contigrepset.fa
-	mkdir -p ./data/virsorterid/
-	virsorter --db 2 --fna $< --wdir ./data/virsorterid/
 
+runvirsorter: ./data/virsorterid/phage-VIRSorter_global-phage-signal.csv ./data/virsorterid/bacteria-VIRSorter_global-phage-signal.csv
+
+./data/virsorterid/phage-VIRSorter_global-phage-signal.csv : ./data/contigclustersidentity/phage-contigrepset.fa
+	mkdir -p ./data/virsorterid/
+	cd ./data/virsorterid/
+	virsorter --db 2 --fna $<
+	rm -r [^V]*
+	mv VIRSorter_global-phage-signal.csv phage-VIRSorter_global-phage-signal.csv
+	cd ../..
+
+./data/virsorterid/bacteria-VIRSorter_global-phage-signal.csv : ./data/contigclustersidentity/bacteria-contigrepset.fa
+	mkdir -p ./data/virsorterid/
+	cd ./data/virsorterid/
+	virsorter --db 2 --fna $<
+	rm -r [^V]*
+	mv VIRSorter_global-phage-signal.csv bacteria-VIRSorter_global-phage-signal.csv
+	cd ../..
 
 ############################################# ANALYSIS ############################################
 

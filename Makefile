@@ -587,7 +587,7 @@ runvirsorter: ./data/virsorterid/phage-VIRSorter_global-phage-signal.csv ./data/
 ./data/virsorterid/phage-VIRSorter_global-phage-signal.csv : ./data/contigclustersidentity/phage-contigrepset.fa
 	mkdir -p ./data/virsorterid/
 	cd ./data/virsorterid/
-	virsorter --db 2 --fna $<
+	virsorter --db 1 --fna $<
 	rm -r [^V]*
 	mv VIRSorter_global-phage-signal.csv phage-VIRSorter_global-phage-signal.csv
 	cd ../..
@@ -595,7 +595,7 @@ runvirsorter: ./data/virsorterid/phage-VIRSorter_global-phage-signal.csv ./data/
 ./data/virsorterid/bacteria-VIRSorter_global-phage-signal.csv : ./data/contigclustersidentity/bacteria-contigrepset.fa
 	mkdir -p ./data/virsorterid/
 	cd ./data/virsorterid/
-	virsorter --db 2 --fna $<
+	virsorter --db 1 --fna $<
 	rm -r [^V]*
 	mv VIRSorter_global-phage-signal.csv bacteria-VIRSorter_global-phage-signal.csv
 	cd ../..

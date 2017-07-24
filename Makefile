@@ -586,19 +586,25 @@ runvirsorter: ./data/virsorterid/phage-VIRSorter_global-phage-signal.csv ./data/
 
 ./data/virsorterid/phage-VIRSorter_global-phage-signal.csv : ./data/contigclustersidentity/phage-contigrepset.fa
 	mkdir -p ./data/virsorterid/
-	cd ./data/virsorterid/
 	virsorter --db 1 --fna $<
-	rm -r [^V]*
-	mv VIRSorter_global-phage-signal.csv phage-VIRSorter_global-phage-signal.csv
-	cd ../..
+	mv VIRSorter_global-phage-signal.csv ./data/virsorterid/phage-VIRSorter_global-phage-signal.csv
+	rm Contigs_prots_vs_P*
+	rm error.log
+	rm -r r_*
+	rm log_*
+	rm -r fasta/
+	rm -r logs/
 
 ./data/virsorterid/bacteria-VIRSorter_global-phage-signal.csv : ./data/contigclustersidentity/bacteria-contigrepset.fa
 	mkdir -p ./data/virsorterid/
-	cd ./data/virsorterid/
 	virsorter --db 1 --fna $<
-	rm -r [^V]*
-	mv VIRSorter_global-phage-signal.csv bacteria-VIRSorter_global-phage-signal.csv
-	cd ../..
+	mv VIRSorter_global-phage-signal.csv ./data/virsorterid/bacteria-VIRSorter_global-phage-signal.csv
+	rm Contigs_prots_vs_P*
+	rm error.log
+	rm -r r_*
+	rm log_*
+	rm -r fasta/
+	rm -r logs/
 
 ############################################# ANALYSIS ############################################
 

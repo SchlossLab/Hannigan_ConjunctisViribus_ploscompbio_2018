@@ -21,4 +21,4 @@ module load R/3.3.3
 cd /nfs/turbo/schloss-lab/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
-make alignqc
+make runvirsorter

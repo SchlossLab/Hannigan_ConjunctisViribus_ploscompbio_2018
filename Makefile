@@ -590,13 +590,13 @@ runvirsorter: \
 	mkdir -p ./data/virsorterid/
 	virsorter --db 1 --fna $<
 	mv VIRSorter_global-phage-signal.csv ./data/virsorterid/phage-VIRSorter_global-phage-signal.csv
-	rm Contigs_prots_vs_P*
-	rm error.log
+	rm -rf Contigs_prots_vs_P*
+	rm -rf error.log
 	rm -rf r_*
-	rm log_*
+	rm -rf log_*
 	rm -rf fasta/
 	rm -rf logs/
-	rm Readme.txt
+	rm -rf Readme.txt
 	rm -rf Metric_files/
 	rm -rf Tab_files
 	rm -rf Predicted_viral_sequences
@@ -606,13 +606,13 @@ runvirsorter: \
 	mkdir -p ./data/virsorterid/
 	virsorter --db 1 --fna $<
 	mv VIRSorter_global-phage-signal.csv ./data/virsorterid/bacteria-VIRSorter_global-phage-signal.csv
-	rm Contigs_prots_vs_P*
-	rm error.log
+	rm -rf Contigs_prots_vs_P*
+	rm -rf error.log
 	rm -rf r_*
-	rm log_*
+	rm -rf log_*
 	rm -rf fasta/
 	rm -rf logs/
-	rm Readme.txt
+	rm -rf Readme.txt
 	rm -rf Metric_files/
 	rm -rf Tab_files
 	rm -rf Predicted_viral_sequences

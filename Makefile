@@ -594,6 +594,11 @@ runvirsorter: ./data/virsorterid/phage-VIRSorter_global-phage-signal.csv ./data/
 	rm log_*
 	rm -r fasta/
 	rm -r logs/
+	rm Readme.txt
+	rm -r Metric_files/
+	rm -r Tab_files
+	rm -r Predicted_viral_sequences
+	rm -r Fasta_files
 
 ./data/virsorterid/bacteria-VIRSorter_global-phage-signal.csv : ./data/contigclustersidentity/bacteria-contigrepset.fa
 	mkdir -p ./data/virsorterid/
@@ -605,6 +610,11 @@ runvirsorter: ./data/virsorterid/phage-VIRSorter_global-phage-signal.csv ./data/
 	rm log_*
 	rm -r fasta/
 	rm -r logs/
+	rm Readme.txt
+	rm -r Metric_files/
+	rm -r Tab_files
+	rm -r Predicted_viral_sequences
+	rm -r Fasta_files
 
 ############################################# ANALYSIS ############################################
 

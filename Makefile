@@ -580,6 +580,11 @@ alignqc: ./data/tmpid/bacteria2phage-blastout.tsv ./data/tmpid/phage2bacteria-bl
 		-outfmt 6
 	rm -rf ./data/tmpid
 
+# Virsorter to further ID the two groups
+runvirsorter : ./data/contigclustersidentity/phage-contigrepset.fa
+	mkdir -p ./data/virsorterid/
+	virsorter --db 2 --fna $< --wdir ./data/virsorterid/
+
 
 ############################################# ANALYSIS ############################################
 

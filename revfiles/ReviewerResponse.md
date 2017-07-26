@@ -1,3 +1,7 @@
+# Point-By-Point Reviewer Comment Response
+
+We would like to thank the reviewers and editor for taking the time to read our manuscript and offer constructive feedback. We incorporated the suggested edits and feel that this great improved the manusript. Below we included a point-by-point response to the reviewer comments, with our comments highlighted in *italics* and the relevant manuscript change locations highlighted as **bold**.
+
 # Reviewer #1 (Comments for the Author):
 
 Hannigan et al. describe a machine learning-based approach for predicting phage-bacterial host interactions and use it to build ecological networks for human microbiome samples based on published data. They analyze differences in network features as a function of host nutrition (low fat vs high fat), health status (lean vs obese twins) and body regions (diverse skin sites). The authors built their prediction model using data from previous publications as training set, containing 43 diverse bacterial species and 30 diverse phage strains, where the infectiveness relationship had been established experimentally (Fig 1A). The evaluation of the resulting predictive model shows that the amino acid similarity between phage and bacteria was the strongest predictor of infectiveness, followed by nucleotide similarity, shared protein families, and to a negligible degree CRISPRs (Fig 1B). They attribute the lack of predictive power of the latter to the minimal amounts of CRISPRs identified.
@@ -16,19 +20,19 @@ Taken together, the machine leaning-based approach would only require some addit
 
 1.  Conceptual distinction between infectiveness and community stability: For the development of the network approach, the authors use infectiveness data as evidence for interactions between phage and bacteria. For the analysis part, such interactions are used to describe community stability (i.e., more interactions per node, higher stability). If phages are considered as agents grazing on their microbial hosts, is it justified to use degree of infectiveness analogous to community stability? Some discussion or background information would be helpful.
 
-*Thank you for pointing this out. This is a good point for further discussion. We clarified in the text why we feel this is justified, as the degree of stability refers to the reduced likelihood that a randomly removed node will cause a major divide or lack of connection between agents within the network. We also provided citations to work that further explains this in metabolic and phage-bacteria systems, if the readers are interested in a more in-depth discussion of the topic.*
+*Thank you for pointing this out. This is a good point for further discussion. We clarified in the text why we feel this is justified, as the degree of stability refers to the reduced likelihood that a randomly removed node will cause a major divide or lack of connection between agents within the network. We also provided citations to work that further explains this in metabolic and phage-bacteria systems, if the readers are interested in a more in-depth discussion of the topic.* **LINES 177 - 184**
 
 2.  Testing for bacterial DNA in the phage fraction: The authors do not describe how bacterial sequences in the VLP fraction were eliminated. If bacterial sequences were present, they would be labeled as phages and lead to false predictions.
 
-*This is a good point and we agree that this needed to be better outlined in the text. It is important that we make clear that we are not violating our assumption that that phage OGU pool represents phages and the bacterial OGU pool represented bacteria. We updated the manuscript to address this concern in multiple ways. First, because this was a "data mining" endeavor, we do not have access to the samples for performing further molecular QC. The original study authors did however perform and report a variety of QC measures to confirm the purity of their virome sample sets. To this end, we summarized those QC results into Table S1, which we added to the manuscript and referenced in the results. Furthermore, we performed our own local alignment (blast) QC protocol to assess the degree to which our OGUs were contaminated. We found that many phages had genomic elements similar to reference bacteria genomes, which agrees with the previous findings that the majority of the phages in these systems are temperate. We also identified two complete phages using the stringent Virsorter algorithm. Conversely, there were minimal phage reference genome elements identified in the bacterial OGUs, which also agrees with the previous findings that these sequences are mostly bacterial (cited in Table S1). We also did not identify any phages in the bacterial dataset using Virsorter. The lack of prophage identification, both here and in the previous study analyses, speaks to the need to sequence the bacteria more deeply and create more robust assemblies (their larger size prevents assembly completion at the level that can be done with viruses).*
+*This is a good point and we agree that this needed to be better outlined in the text. It is important that we make clear that we are not violating our assumption that that phage OGU pool represents phages and the bacterial OGU pool represented bacteria. We updated the manuscript to address this concern in multiple ways. First, because this was a "data mining" endeavor, we do not have access to the samples for performing further molecular QC. The original study authors did however perform and report a variety of QC measures to confirm the purity of their virome sample sets. To this end, we summarized those QC results into Table S1, which we added to the manuscript and referenced in the results. Furthermore, we performed our own local alignment (blast) QC protocol to assess the degree to which our OGUs were contaminated. We found that many phages had genomic elements similar to reference bacteria genomes, which agrees with the previous findings that the majority of the phages in these systems are temperate. We also identified two complete phages using the stringent Virsorter algorithm. Conversely, there were minimal phage reference genome elements identified in the bacterial OGUs, which also agrees with the previous findings that these sequences are mostly bacterial (cited in Table S1). We also did not identify any phages in the bacterial dataset using Virsorter. The lack of prophage identification, both here and in the previous study analyses, speaks to the need to sequence the bacteria more deeply and create more robust assemblies (their larger size prevents assembly completion at the level that can be done with viruses).* **TABLE S1; LINES 91 - 114**
 
 3.  Combining data from VLPs and microbial fractions: Information on how data from these two individual samples were matched and normalized is not provided. How are potentially different amounts of VLPs in different samples accounted for?
 
-*We are not sure we understand this comment? Our goal was to use the edge weights to reflect samples that were highly relative abundant in both the bacterial metagenome and the phage metagenome. The edge weight used was therefore a multiplication function of the two relative abundance values, yielding a high value for those that were highly abundant in both, and low values for those that were not. This is described in the methods section of the manuscript. These values were recorded on a per-sample basis (within the subgraphs) so that each potential combination is accounted for, within each sampling pair. Furthermore, it may be worth noting that the bacterial and viral DNA extractions were done separately so as to maximize purity of the samples, but this approach allows us to more accurately measure the relative abundance in the bacterial and especially viral samples, as has been noted previously. We made this clearer in the text and added more  relevant citations.*
+*We are not sure we understand this comment? Our goal was to use the edge weights to reflect samples that were highly relative abundant in both the bacterial metagenome and the phage metagenome. The edge weight used was therefore a multiplication function of the two relative abundance values, yielding a high value for those that were highly abundant in both, and low values for those that were not. This is described in the methods section of the manuscript. These values were recorded on a per-sample basis (within the subgraphs) so that each potential combination is accounted for, within each sampling pair. Furthermore, it may be worth noting that the bacterial and viral DNA extractions were done separately so as to maximize purity of the samples, but this approach allows us to more accurately measure the relative abundance in the bacterial and especially viral samples, as has been noted previously. We made this clearer in the text and added more relevant citations.* **LINES 150 - 154**
 
 4.  Datasets underpowered to sustain claims on diet and obesity: Although the authors point out that the data are underpowered, they still make strong claims and the analysis of these data as major points of this manuscript.
 
-*We appreciate this point referring to figure 2, and while we attempted to avoid too strong of claims, we realize we fell short. Our goal was to present these as interesting observations, somewhat like a case study. We addressed this in the manuscript by further minimizing the effects of our claims and adding relevant caveats.*
+*We appreciate this point referring to figure 2, and while we attempted to avoid too strong of claims, we realize we fell short. Our goal was to present these as interesting observations, somewhat like a case study. We addressed this in the manuscript by further minimizing the effects of our claims and adding relevant caveats.* **LINES 29 - 31; 182 - 184; 185 - 202; 269 - 278**
 
 For example, 
 a.  the authors describe (158-164) how diet affects the network structure, without using sufficient data points to perform any statistical tests.
@@ -39,27 +43,27 @@ With respect to these analyses, the authors write for example, "We found evidenc
 
 * Throughout the manuscript, it is hard to follow how which and how many data points were used for each analysis. A supplementary table listing the samples for each of the studies and providing sample sizes in each figure would be very helpful.
 
-*We agree that this needed to be clarified in the manuscript. We added the relevant sample size information to the text and figure legends to make clearer what the data actually represent.*
+*We agree that this needed to be clarified in the manuscript. We added the relevant sample size information to the text and figure legends to make clearer what the data actually represent.* **LINES 187; 195 - 197; 220 - 222; 224 - 226; FIGURE LEGENDS 2,3,4**
 
 * Figure 1D is not informative and could be removed since the information is provided in the main text.
 
-*It is true that the information is in the text, but we feel this is still an important panel to the figure because it illustrates the degree of connectance between the phage and bacterial communities, and provides a visualization to the text included in the results section. Even more importantly, we intended this panel to act as a visual validation that there are no erroneous connections among phage and bacterial nodes. We made these reasons clearer in the text.*
+*It is true that the information is in the text, but we feel this is still an important panel to the figure because it illustrates the degree of connectance between the phage and bacterial communities, and provides a visualization to the text included in the results section. Even more importantly, we intended this panel to act as a visual validation that there are no erroneous connections among phage and bacterial nodes.*
 
 * Figure 1 EFG: color labels in legend are wrong and not since y-axis labels are present.
 
-*Thank you for pointing this mistake out. We have fixed it.*
+*Thank you for pointing this mistake out. We have fixed it.* **FIGURE LEGEND 1**
 
 * Figure 2 could use headers above the plots to indicate which one relate to impact of diet (AB) and which one to obesity (CD).
 
-*This was especially confusing because of the mislabeled axes. We fixed the axis labels to make the data clearer.*
+*This was especially confusing because of the mislabeled axes. We fixed the axis labels to make the data clearer.* ** FIGURE 2**
 
 * Figure 2 panels C and D have wrong x-axis labels. Should be "obese" and "healthy". Here it is not clear why only 2 and 1 data points are available. The original data in Reyes et al. seem to consist of 32 fecal samples from 13 individuals from 5 families with at least two time points.
 
-*We fixed the error, and made the causes for the sample size clearer in the text as well as the figure legends. Thank you for pointing this out.*
+*We fixed the error, and made the causes for the sample size clearer in the text as well as the figure legends. Thank you for pointing this out.* **LINES 195 - 196; FIGURE LEGEND 2**
 
 * Figure 3A. Not clear why only 8 data points are available if Minot et al. report 15 samples from 5 individuals.
 
-*We only used the subset of data points that had temporal data spaced approximately the same distance apart. We made this clearer in the text.*
+*We only used the subset of data points that had temporal data spaced approximately the same distance apart. We made this clearer in the text.* **LINES 187 - 188; 220 - 222; FIGURE LEGEND 1,2**
 
 * Figure 3B. Not clear how data were computed. If the comparison of within individuals (i.e. 1 value if same data as in 3A) with mean of all other individuals, then standard deviations should be shown. Suggest to show only the smallest inter-individual distance, which would greatly strengthen the point on individuality.
 
@@ -67,7 +71,7 @@ With respect to these analyses, the authors write for example, "We found evidenc
 
 * Figure 3C. Not clear which data were used, in particular if same data as in Figure 2 were used. E.g., were only the twins included, or also the mothers?
 
-*We made this information clearer in the text.*
+*We made this information clearer in the text.* **LINES 224 - 226; FIGURE LEGEND 3**
 
 * Figure 3D. As described for 4B, smallest inter-individual distance should be used if showing individuality should be demonstrated, which is very different from showing on average higher similarity within than between individuals.
 
@@ -75,7 +79,7 @@ With respect to these analyses, the authors write for example, "We found evidenc
 
 * Figure 4. Please provide sample numbers for each of the boxplots and data in 4E.
 
-*We added this information to the figure legend.*
+*We added this information to the figure legend.* **FIGURE LEGEND 4**.
 
 
 
@@ -87,30 +91,30 @@ The work presented in the manuscript entitled "Biogeography & Environmental Cond
 
 1. Network inference: operational genomic units were linked sample-wise, microbiome type wise or all microbiome together? Aminoacid similarity is not specific enough and is likely the cause of the high density of the network, which suggests that almost all phages infect all bacteria (86% density), meaning the resulting network is (likely) no statistically different from a random network with equal number of links. In the absence of further evidence and controls, I am not convinced with this result.
 
-*We would like to thank the reviewer for pointing out this area of clarification. The operational genomic units were linked sample-wise, by linking the OGUs found between each sample. The source of these samples were recorded, so that we knew whether they originated from the gut or the skin, etc. We also agree that amino acid similarity of genes along is not enough, and that is why we incorporated other similarity metrics in our random forest model. Even though the amino acid similarity metric was the most "important" to the model, it was used within the context of the other metrics in the random forest. It is true that this is a dense network, and we hypothesize that that may be because each OGU does not necessarily represent a specific phage or bacterial strain, but is an operationally defined group of similar genomes, similar to the operation taxonomic unit (OTU) often used in microbiome studies.*
+*We would like to thank the reviewer for pointing out this area of clarification. The operational genomic units were linked sample-wise, by linking the OGUs found between each sample. The source of these samples were recorded, so that we knew whether they originated from the gut or the skin, etc. We also agree that amino acid similarity of genes along is not enough, and that is why we incorporated other similarity metrics in our random forest model. As we described, even though the amino acid similarity metric was the most "important" to the model, it was used within the context of the other metrics in the random forest. It is true that this is a dense network, and we hypothesize that that may be because each OGU does not necessarily represent a specific phage or bacterial strain, but is an operationally defined group of similar genomes, similar to the operation taxonomic unit (OTU) often used in microbiome studies.* **SEE LINES 117 - 119; 305 - 323**
 
 2. Number of samples per study and metadata groups are not reported but the authors state about the diet effect: "Tests for statistical differences were not performed due to the small sample size ". If sample sizes are small for statistical analysis, no comparison should be made in the first place. The plots of Figure 2 feature 2 vs. 3 comparison for high fat vs. low fat and 2 vs. 1 for obese vs. healthy...are these the nb. of samples per group? Bacterial or phage diversity are likely confounders for network connectivity comparisons and this is overlooked here.
 
-*We appreciate this point and while we attempted to report this as more of a case trial observation (as outlined for the related comment above), we unintentionally used too strong of language, thus overstating the finding beyond our intentions. We also needed to make the analysis being performed clearer in the text. It is also true that the network analysis is a function of the diversity of the two communities, and we do not wish to make it sound like they are separate. We would be hesitant however to call this dependence a confounder since it is more building off of the diversity data and incorporating other additional information from the community. We made this clearer in the text.*
+*We appreciate this point and while we attempted to report this as more of a case trial observation (as outlined for the related comment above), we unintentionally used too strong of language, thus overstating the finding beyond our intentions. We also needed to make the analysis being performed clearer in the text. It is also true that the network analysis is a function of the diversity of the two communities, and we do not wish to make it sound like they are separate. We would be hesitant however to call this dependence a confounder since it is more building off of the diversity data and incorporating other additional information from the community. We made this clearer in the text.* **LINES 187; 195 - 197; 220 - 222; 224 - 226; FIGURE LEGENDS 2,3,4**
 
 3. Graph-analysis: Analysis of network nestedness and modularity (Weitz et al. Trends in Micr. 2012) may be more relevant than diameter, degree and closeness for phage-host networks.
 
-*We chose to omit such an analysis as was done in Weitz et al because, as we attempted to describe in the manuscript, we are not using the OGUs as individual phage strains as was done in the Weitz and other papers. Instead these OGUs are operational units that allow us to condense our dataset by contig similarity. Making statements with as high of phylogenetic resolution as Weitz et al would be unfounded at this point.*
+*We chose to omit such an analysis as was done in Weitz et al because, as we attempted to describe in the manuscript, we are not using the OGUs as individual phage strains as was done in the Weitz and other papers. Instead these OGUs are operational units that allow us to condense our dataset by contig similarity. We feel that making statements with as high of phylogenetic resolution as Weitz et al would be unfounded at this point.* 
 
 
 ## Other comments:
 
 1.  Training set contained on 43 diverse bacterial species and 30 diverse phage strains. Given than these numbers are (much) lower than the ones published in references 41, 47-51, from which the data on known interactions was extracted, I wonder how the curation/filtering was done.
 
-*Our limitation was not on how many known interactions that could be found, but instead on how many non-interactions could be found. In other words, we needed to utilize known infectious pairs, as well as phages that have been validated as not infecting certain bacteria. Because we were limited to only a small number of validated non-interactions, we decided to also limit the number of positive interactions included, so as to prevent a large bias in the ratio between the two interaction types in the training dataset. We appologize for this not being clearer in the text and have clarified that text.*
+*Our limitation was not on how many known interactions that could be found, but instead on how many non-interactions could be found. In other words, we needed to utilize known infectious pairs, as well as phages that have been validated as not infecting certain bacteria. Because we were limited to only a small number of validated non-interactions, we decided to also limit the number of positive interactions included, so as to prevent a large bias in the ratio between the two interaction types in the training dataset. We appologize for this not being clearer in the text and have clarified that text.* **LINES 125 - 128**
 
 2.  The sensitivity of the classifier is reported as 0.846. However, "Approximately one third of the training set relationships yielded no score and therefore were unable to be assigned an interaction prediction". This means the sensitivity can not be higher than 0.67...
 
-*Here we are reporting the accuracy for those values that were scored. Pairs without scores were omitted from this analysis, and we instead only focused on those that were scored. We made this clearer in the text.*
+*Here we are reporting the accuracy for those values that were scored. Pairs without scores were omitted from this analysis, and we instead only focused on those that were scored. We made this clearer in the text.* **LINES 144 - 145; FIGURE LEGEND 1**
 
 3.  Dataset: The authors should report the number of samples per study and associated metadata (e.g low /high fat diet, obese/lean).
 
-*This is a very good point and we added this information.*
+*This is a very good point and we added this information.* **LINES 187; 195 - 197; 220 - 222; 224 - 226; FIGURE LEGENDS 2,3,4**
 
 4.  OGU construction, why the OGUs were constructed with CONCOCT without coverage information (CONCOCT-NC)?
 
@@ -118,23 +122,23 @@ The work presented in the manuscript entitled "Biogeography & Environmental Cond
 
 5.  Network construction: The master network contained the three studies as sub-networks, which themselves each contained sub-networks for each sample. The authors provide only numbers of phage and bacterial nodes for the master network. For predicting the associations, were all phages and bacteria considered disregarding the sample type (skin vs. gut)?
 
-*Yes.*
+*Yes, as outlined in the results and methods sections.*
 
 6.  The phages and bacteria in the gut diet and twin sample sets were more sparsely related: each contained fewer than 150 vertices, fewer than 20,000 relationships". This is a bipartite network, what should be reported is the number of vertices of each type rather than the total nb of vertices (this is relevant to calculate the network density, we cannot know here what is the nb of possible interactions).
 
-*This is a good point that makes the manuscript clearer. We added these values to the results section of the manuscript so that the reader can access this information.*
+*This is a good point that makes the manuscript clearer. We added these values to the results section of the manuscript so that the reader can access this information.* **LINES 154 - 163**
 
 7.  Comparison with Paez-Espino et al. (Nature 2016, doi:10.1038/nature19094) phage-host human associated subnetworks should be done.
 
-*This is a cool suggestion. It sounds like this comment is a reference to the host range inferrences within the suggested manuscript. Paez-Espino et al used CRISPR and tRNA comparisons to identify bacterial hosts for the bacteriophage genomes and genome fragments. The group's work suggested that phage host range is broader than has been traditionally appreciated. In our discussion section, we mentioned a comparison of these and related findings to our own dataset. This information was included in the operational genomic unit section of the discussion.*
+*This is a cool suggestion. It sounds like this comment is a reference to the host range inferrences within the suggested manuscript. Paez-Espino et al used CRISPR and tRNA comparisons to identify bacterial hosts for the bacteriophage genomes and genome fragments. The group's work suggested that phage host range is broader than has been traditionally appreciated. In our discussion section, we mentioned a comparison of these and related findings to our own dataset. This information was included in the operational genomic unit section of the discussion.* **LINES 321 - 323**
 
 8.  Figure 1. panel B: methods include blastx, in the network inference Diamond was used instead; Panel E-F, colors in figure do not correspond to those in legend.
 
-*It is true that we used the Diamond aligner, but we used the blastx algorithm within the Diamond aligner (written as `diamond blastx`). We made this information clearer in the text and figure legend. We also fixed the color references.*
+*It is true that we used the Diamond aligner, but we used the blastx algorithm within the Diamond aligner (written as `diamond blastx`). We made this information clearer in the text. We also fixed the color references.* **FIGURE 1**
 
 9.  Figure 2 legend: it is not clear if/that the dots represent sample-wise networks. "Lines represent the mean degree of centrality for each diet", the only lines in the plots are parallel to the centrality axis, they are just splitting high fat vs. low fat diet fields in the x axis. X-axis from panels C and D are mislabeled. 
 
-*Thank you for pointing these out as well. We clarified the dot information in the text and legend, and also fixed the incorrect labels.*
+*Thank you for pointing these out as well. We clarified the dot information, and also fixed the incorrect labels.* **FIGURE 2**
 
 # Reviewer #3 (Comments for the Author):
 
@@ -152,4 +156,4 @@ The question is how were the above biases (including the kitome) taken into cons
 
 Even though the authors have acknowledged some of these biases including MDA, in their discussion, these concerns should be explicitly discussed and measures they have taken to overcome these.
 
-*This is a good point. We included further discussion about the biases associated with these methods. As far as measures to overcome these biases, we acknoledge the biases and only performed analyses within studies where samples were treated the same. The goal is for this work to use these findings as a jumping off point, and performing future studies with more limited biases from techniques such as MDA.*
+*This is a good point. We included of the biases associated with these methods. As far as measures to overcome these biases, we acknoledge the biases and only performed analyses within studies where samples were treated the same. The goal is for this work to use these findings as a jumping off point, and performing future studies with more limited biases from techniques such as MDA.* **LINES 296 - 304**

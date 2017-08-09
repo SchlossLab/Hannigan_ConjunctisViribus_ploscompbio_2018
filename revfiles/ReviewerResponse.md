@@ -3,7 +3,7 @@ title: Point-By-Point Reviewer Comment Response
 author: Hannigan *et al*.
 ---
 
-We would like to thank the reviewers and editor for taking the time to read our manuscript and offer constructive feedback. We incorporated the suggested edits and feel that this greatly improved the manuscript. Below we included a point-by-point response to the reviewer comments, with our comments highlighted in *italics* and the relevant manuscript change locations highlighted as **bold**.
+We would like to thank the reviewers and editor for taking the time to read our manuscript and offer constructive feedback. We incorporated the suggested edits and feel that this greatly improved the manuscript. Below we included a point-by-point response to the reviewer comments, with our comments highlighted in *italics* and the relevant manuscript change locations highlighted as **bold**. Line numbers were included to guide the reviewers to the relevant sections, and in-text changes are highlighted in red and blue.
 
 # Reviewer #1 (Comments for the Author):
 

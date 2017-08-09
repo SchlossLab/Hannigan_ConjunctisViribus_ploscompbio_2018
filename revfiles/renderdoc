@@ -1,4 +1,4 @@
 #! /bin/bash
 
 echo Rendering now...
-pandoc -s ./ReviewerResponse.md -f markdown -t latex -o ./ReviewerResponse.pdf
+pandoc -H options.sty -s ./ReviewerResponse.md -f markdown -t latex -o ./ReviewerResponse.pdf

@@ -266,7 +266,7 @@ The authors report no conflicts of interest.
 
 # Supplemental Table Legend
 
-Table: Summary of the primary quality control measures reported in the original publications of the viromes used in this current study.
+Table S1: Summary of the primary quality control measures reported in the original publications of the viromes used in this current study.
 
 \newpage
 

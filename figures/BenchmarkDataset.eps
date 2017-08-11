@@ -1,0 +1,9085 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%XpdfVersion: 3.04
+%%Creator: R
+%%Title: R Graphics Output
+%%LanguageLevel: 2
+%%DocumentSuppliedResources: (atend)
+%%BoundingBox: 0 0 1152 576
+%%EndComments
+%%BeginProlog
+%%BeginResource: procset xpdf 3.04 0
+%%Copyright: Copyright 1996-2014 Glyph & Cog, LLC
+/xpdf 75 dict def xpdf begin
+% PDF special state
+/pdfDictSize 15 def
+/pdfSetup {
+  /pdfDuplex exch def
+  /setpagedevice where {
+    pop 2 dict begin
+      /Policies 1 dict dup begin /PageSize 6 def end def
+      pdfDuplex { /Duplex true def } if
+    currentdict end setpagedevice
+  } if
+  /pdfPageW 0 def
+  /pdfPageH 0 def
+} def
+/pdfSetupPaper {
+  2 copy pdfPageH ne exch pdfPageW ne or {
+    /pdfPageH exch def
+    /pdfPageW exch def
+    /setpagedevice where {
+      pop 3 dict begin
+        /PageSize [pdfPageW pdfPageH] def
+        pdfDuplex { /Duplex true def } if
+        /ImagingBBox null def
+      currentdict end setpagedevice
+    } if
+  } {
+    pop pop
+  } ifelse
+} def
+/pdfStartPage {
+  pdfDictSize dict begin
+  /pdfFillCS [] def
+  /pdfFillXform {} def
+  /pdfStrokeCS [] def
+  /pdfStrokeXform {} def
+  /pdfFill [0] def
+  /pdfStroke [0] def
+  /pdfFillOP false def
+  /pdfStrokeOP false def
+  /pdfLastFill false def
+  /pdfLastStroke false def
+  /pdfTextMat [1 0 0 1 0 0] def
+  /pdfFontSize 0 def
+  /pdfCharSpacing 0 def
+  /pdfTextRender 0 def
+  /pdfTextRise 0 def
+  /pdfWordSpacing 0 def
+  /pdfHorizScaling 1 def
+  /pdfTextClipPath [] def
+} def
+/pdfEndPage { end } def
+% PDF color state
+/cs { /pdfFillXform exch def dup /pdfFillCS exch def
+      setcolorspace } def
+/CS { /pdfStrokeXform exch def dup /pdfStrokeCS exch def
+      setcolorspace } def
+/sc { pdfLastFill not { pdfFillCS setcolorspace } if
+      dup /pdfFill exch def aload pop pdfFillXform setcolor
+     /pdfLastFill true def /pdfLastStroke false def } def
+/SC { pdfLastStroke not { pdfStrokeCS setcolorspace } if
+      dup /pdfStroke exch def aload pop pdfStrokeXform setcolor
+     /pdfLastStroke true def /pdfLastFill false def } def
+/op { /pdfFillOP exch def
+      pdfLastFill { pdfFillOP setoverprint } if } def
+/OP { /pdfStrokeOP exch def
+      pdfLastStroke { pdfStrokeOP setoverprint } if } def
+/fCol {
+  pdfLastFill not {
+    pdfFillCS setcolorspace
+    pdfFill aload pop pdfFillXform setcolor
+    pdfFillOP setoverprint
+    /pdfLastFill true def /pdfLastStroke false def
+  } if
+} def
+/sCol {
+  pdfLastStroke not {
+    pdfStrokeCS setcolorspace
+    pdfStroke aload pop pdfStrokeXform setcolor
+    pdfStrokeOP setoverprint
+    /pdfLastStroke true def /pdfLastFill false def
+  } if
+} def
+% build a font
+/pdfMakeFont {
+  4 3 roll findfont
+  4 2 roll matrix scale makefont
+  dup length dict begin
+    { 1 index /FID ne { def } { pop pop } ifelse } forall
+    /Encoding exch def
+    currentdict
+  end
+  definefont pop
+} def
+/pdfMakeFont16 {
+  exch findfont
+  dup length dict begin
+    { 1 index /FID ne { def } { pop pop } ifelse } forall
+    /WMode exch def
+    currentdict
+  end
+  definefont pop
+} def
+% graphics state operators
+/q { gsave pdfDictSize dict begin } def
+/Q {
+  end grestore
+  /pdfLastFill where {
+    pop
+    pdfLastFill {
+      pdfFillOP setoverprint
+    } {
+      pdfStrokeOP setoverprint
+    } ifelse
+  } if
+} def
+/cm { concat } def
+/d { setdash } def
+/i { setflat } def
+/j { setlinejoin } def
+/J { setlinecap } def
+/M { setmiterlimit } def
+/w { setlinewidth } def
+% path segment operators
+/m { moveto } def
+/l { lineto } def
+/c { curveto } def
+/re { 4 2 roll moveto 1 index 0 rlineto 0 exch rlineto
+      neg 0 rlineto closepath } def
+/h { closepath } def
+% path painting operators
+/S { sCol stroke } def
+/Sf { fCol stroke } def
+/f { fCol fill } def
+/f* { fCol eofill } def
+% clipping operators
+/W { clip newpath } def
+/W* { eoclip newpath } def
+/Ws { strokepath clip newpath } def
+% text state operators
+/Tc { /pdfCharSpacing exch def } def
+/Tf { dup /pdfFontSize exch def
+      dup pdfHorizScaling mul exch matrix scale
+      pdfTextMat matrix concatmatrix dup 4 0 put dup 5 0 put
+      exch findfont exch makefont setfont } def
+/Tr { /pdfTextRender exch def } def
+/Ts { /pdfTextRise exch def } def
+/Tw { /pdfWordSpacing exch def } def
+/Tz { /pdfHorizScaling exch def } def
+% text positioning operators
+/Td { pdfTextMat transform moveto } def
+/Tm { /pdfTextMat exch def } def
+% text string operators
+/xyshow where {
+  pop
+  /xyshow2 {
+    dup length array
+    0 2 2 index length 1 sub {
+      2 index 1 index 2 copy get 3 1 roll 1 add get
+      pdfTextMat dtransform
+      4 2 roll 2 copy 6 5 roll put 1 add 3 1 roll dup 4 2 roll put
+    } for
+    exch pop
+    xyshow
+  } def
+}{
+  /xyshow2 {
+    currentfont /FontType get 0 eq {
+      0 2 3 index length 1 sub {
+        currentpoint 4 index 3 index 2 getinterval show moveto
+        2 copy get 2 index 3 2 roll 1 add get
+        pdfTextMat dtransform rmoveto
+      } for
+    } {
+      0 1 3 index length 1 sub {
+        currentpoint 4 index 3 index 1 getinterval show moveto
+        2 copy 2 mul get 2 index 3 2 roll 2 mul 1 add get
+        pdfTextMat dtransform rmoveto
+      } for
+    } ifelse
+    pop pop
+  } def
+} ifelse
+/cshow where {
+  pop
+  /xycp {
+    0 3 2 roll
+    {
+      pop pop currentpoint 3 2 roll
+      1 string dup 0 4 3 roll put false charpath moveto
+      2 copy get 2 index 2 index 1 add get
+      pdfTextMat dtransform rmoveto
+      2 add
+    } exch cshow
+    pop pop
+  } def
+}{
+  /xycp {
+    currentfont /FontType get 0 eq {
+      0 2 3 index length 1 sub {
+        currentpoint 4 index 3 index 2 getinterval false charpath moveto
+        2 copy get 2 index 3 2 roll 1 add get
+        pdfTextMat dtransform rmoveto
+      } for
+    } {
+      0 1 3 index length 1 sub {
+        currentpoint 4 index 3 index 1 getinterval false charpath moveto
+        2 copy 2 mul get 2 index 3 2 roll 2 mul 1 add get
+        pdfTextMat dtransform rmoveto
+      } for
+    } ifelse
+    pop pop
+  } def
+} ifelse
+/Tj {
+  fCol
+  0 pdfTextRise pdfTextMat dtransform rmoveto
+  currentpoint 4 2 roll
+  pdfTextRender 1 and 0 eq {
+    2 copy xyshow2
+  } if
+  pdfTextRender 3 and dup 1 eq exch 2 eq or {
+    3 index 3 index moveto
+    2 copy
+    currentfont /FontType get 3 eq { fCol } { sCol } ifelse
+    xycp currentpoint stroke moveto
+  } if
+  pdfTextRender 4 and 0 ne {
+    4 2 roll moveto xycp
+    /pdfTextClipPath [ pdfTextClipPath aload pop
+      {/moveto cvx}
+      {/lineto cvx}
+      {/curveto cvx}
+      {/closepath cvx}
+    pathforall ] def
+    currentpoint newpath moveto
+  } {
+    pop pop pop pop
+  } ifelse
+  0 pdfTextRise neg pdfTextMat dtransform rmoveto
+} def
+/TJm { 0.001 mul pdfFontSize mul pdfHorizScaling mul neg 0
+       pdfTextMat dtransform rmoveto } def
+/TJmV { 0.001 mul pdfFontSize mul neg 0 exch
+        pdfTextMat dtransform rmoveto } def
+/Tclip { pdfTextClipPath cvx exec clip newpath
+         /pdfTextClipPath [] def } def
+% Level 2/3 image operators
+/pdfImBuf 100 string def
+/pdfImStr {
+  2 copy exch length lt {
+    2 copy get exch 1 add exch
+  } {
+    ()
+  } ifelse
+} def
+/skipEOD {
+  { currentfile pdfImBuf readline
+    not { pop exit } if
+    (%-EOD-) eq { exit } if } loop
+} def
+/pdfIm { image skipEOD } def
+/pdfImM { fCol imagemask skipEOD } def
+/pr {
+  4 2 roll exch 5 index div exch 4 index div moveto
+  exch 3 index div dup 0 rlineto
+  exch 2 index div 0 exch rlineto
+  neg 0 rlineto
+  closepath
+} def
+/pdfImClip { gsave clip } def
+/pdfImClipEnd { grestore } def
+% shading operators
+/colordelta {
+  false 0 1 3 index length 1 sub {
+    dup 4 index exch get 3 index 3 2 roll get sub abs 0.004 gt {
+      pop true
+    } if
+  } for
+  exch pop exch pop
+} def
+/funcCol { func n array astore } def
+/funcSH {
+  dup 0 eq {
+    true
+  } {
+    dup 6 eq {
+      false
+    } {
+      4 index 4 index funcCol dup
+      6 index 4 index funcCol dup
+      3 1 roll colordelta 3 1 roll
+      5 index 5 index funcCol dup
+      3 1 roll colordelta 3 1 roll
+      6 index 8 index funcCol dup
+      3 1 roll colordelta 3 1 roll
+      colordelta or or or
+    } ifelse
+  } ifelse
+  {
+    1 add
+    4 index 3 index add 0.5 mul exch 4 index 3 index add 0.5 mul exch
+    6 index 6 index 4 index 4 index 4 index funcSH
+    2 index 6 index 6 index 4 index 4 index funcSH
+    6 index 2 index 4 index 6 index 4 index funcSH
+    5 3 roll 3 2 roll funcSH pop pop
+  } {
+    pop 3 index 2 index add 0.5 mul 3 index  2 index add 0.5 mul
+    funcCol sc
+    dup 4 index exch mat transform m
+    3 index 3 index mat transform l
+    1 index 3 index mat transform l
+    mat transform l pop pop h f*
+  } ifelse
+} def
+/axialCol {
+  dup 0 lt {
+    pop t0
+  } {
+    dup 1 gt {
+      pop t1
+    } {
+      dt mul t0 add
+    } ifelse
+  } ifelse
+  func n array astore
+} def
+/axialSH {
+  dup 2 lt {
+    true
+  } {
+    dup 8 eq {
+      false
+    } {
+      2 index axialCol 2 index axialCol colordelta
+    } ifelse
+  } ifelse
+  {
+    1 add 3 1 roll 2 copy add 0.5 mul
+    dup 4 3 roll exch 4 index axialSH
+    exch 3 2 roll axialSH
+  } {
+    pop 2 copy add 0.5 mul
+    axialCol sc
+    exch dup dx mul x0 add exch dy mul y0 add
+    3 2 roll dup dx mul x0 add exch dy mul y0 add
+    dx abs dy abs ge {
+      2 copy yMin sub dy mul dx div add yMin m
+      yMax sub dy mul dx div add yMax l
+      2 copy yMax sub dy mul dx div add yMax l
+      yMin sub dy mul dx div add yMin l
+      h f*
+    } {
+      exch 2 copy xMin sub dx mul dy div add xMin exch m
+      xMax sub dx mul dy div add xMax exch l
+      exch 2 copy xMax sub dx mul dy div add xMax exch l
+      xMin sub dx mul dy div add xMin exch l
+      h f*
+    } ifelse
+  } ifelse
+} def
+/radialCol {
+  dup t0 lt {
+    pop t0
+  } {
+    dup t1 gt {
+      pop t1
+    } if
+  } ifelse
+  func n array astore
+} def
+/radialSH {
+  dup 0 eq {
+    true
+  } {
+    dup 8 eq {
+      false
+    } {
+      2 index dt mul t0 add radialCol
+      2 index dt mul t0 add radialCol colordelta
+    } ifelse
+  } ifelse
+  {
+    1 add 3 1 roll 2 copy add 0.5 mul
+    dup 4 3 roll exch 4 index radialSH
+    exch 3 2 roll radialSH
+  } {
+    pop 2 copy add 0.5 mul dt mul t0 add
+    radialCol sc
+    encl {
+      exch dup dx mul x0 add exch dup dy mul y0 add exch dr mul r0 add
+      0 360 arc h
+      dup dx mul x0 add exch dup dy mul y0 add exch dr mul r0 add
+      360 0 arcn h f
+    } {
+      2 copy
+      dup dx mul x0 add exch dup dy mul y0 add exch dr mul r0 add
+      a1 a2 arcn
+      dup dx mul x0 add exch dup dy mul y0 add exch dr mul r0 add
+      a2 a1 arcn h
+      dup dx mul x0 add exch dup dy mul y0 add exch dr mul r0 add
+      a1 a2 arc
+      dup dx mul x0 add exch dup dy mul y0 add exch dr mul r0 add
+      a2 a1 arc h f
+    } ifelse
+  } ifelse
+} def
+end
+%%EndResource
+%%EndProlog
+%%BeginSetup
+xpdf begin
+/F10_0 /Helvetica 1 1
+[ /.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef
+  /.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef
+  /.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef
+  /.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef
+  /space/exclam/quotedbl/numbersign/dollar/percent/ampersand/quotesingle
+  /parenleft/parenright/asterisk/plus/comma/minus/period/slash
+  /zero/one/two/three/four/five/six/seven
+  /eight/nine/colon/semicolon/less/equal/greater/question
+  /at/A/B/C/D/E/F/G
+  /H/I/J/K/L/M/N/O
+  /P/Q/R/S/T/U/V/W
+  /X/Y/Z/bracketleft/backslash/bracketright/asciicircum/underscore
+  /quoteleft/a/b/c/d/e/f/g
+  /h/i/j/k/l/m/n/o
+  /p/q/r/s/t/u/v/w
+  /x/y/z/braceleft/bar/braceright/asciitilde/bullet
+  /Euro/bullet/quotesinglbase/florin/quotedblbase/ellipsis/dagger/daggerdbl
+  /circumflex/perthousand/Scaron/guilsinglleft/OE/bullet/Zcaron/bullet
+  /dotlessi/grave/acute/circumflex/tilde/macron/breve/dotaccent
+  /dieresis/.notdef/ring/cedilla/.notdef/hungarumlaut/ogonek/caron
+  /space/exclamdown/cent/sterling/currency/yen/brokenbar/section
+  /dieresis/copyright/ordfeminine/guillemotleft/logicalnot/hyphen/registered/macron
+  /degree/plusminus/twosuperior/threesuperior/acute/mu/paragraph/periodcentered
+  /cedilla/onesuperior/ordmasculine/guillemotright/onequarter/onehalf/threequarters/questiondown
+  /Agrave/Aacute/Acircumflex/Atilde/Adieresis/Aring/AE/Ccedilla
+  /Egrave/Eacute/Ecircumflex/Edieresis/Igrave/Iacute/Icircumflex/Idieresis
+  /Eth/Ntilde/Ograve/Oacute/Ocircumflex/Otilde/Odieresis/multiply
+  /Oslash/Ugrave/Uacute/Ucircumflex/Udieresis/Yacute/Thorn/germandbls
+  /agrave/aacute/acircumflex/atilde/adieresis/aring/ae/ccedilla
+  /egrave/eacute/ecircumflex/edieresis/igrave/iacute/icircumflex/idieresis
+  /eth/ntilde/ograve/oacute/ocircumflex/otilde/odieresis/divide
+  /oslash/ugrave/uacute/ucircumflex/udieresis/yacute/thorn/ydieresis]
+pdfMakeFont
+/F11_0 /Helvetica-Bold 1 1
+[ /.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef
+  /.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef
+  /.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef
+  /.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef
+  /space/exclam/quotedbl/numbersign/dollar/percent/ampersand/quotesingle
+  /parenleft/parenright/asterisk/plus/comma/minus/period/slash
+  /zero/one/two/three/four/five/six/seven
+  /eight/nine/colon/semicolon/less/equal/greater/question
+  /at/A/B/C/D/E/F/G
+  /H/I/J/K/L/M/N/O
+  /P/Q/R/S/T/U/V/W
+  /X/Y/Z/bracketleft/backslash/bracketright/asciicircum/underscore
+  /quoteleft/a/b/c/d/e/f/g
+  /h/i/j/k/l/m/n/o
+  /p/q/r/s/t/u/v/w
+  /x/y/z/braceleft/bar/braceright/asciitilde/bullet
+  /Euro/bullet/quotesinglbase/florin/quotedblbase/ellipsis/dagger/daggerdbl
+  /circumflex/perthousand/Scaron/guilsinglleft/OE/bullet/Zcaron/bullet
+  /dotlessi/grave/acute/circumflex/tilde/macron/breve/dotaccent
+  /dieresis/.notdef/ring/cedilla/.notdef/hungarumlaut/ogonek/caron
+  /space/exclamdown/cent/sterling/currency/yen/brokenbar/section
+  /dieresis/copyright/ordfeminine/guillemotleft/logicalnot/hyphen/registered/macron
+  /degree/plusminus/twosuperior/threesuperior/acute/mu/paragraph/periodcentered
+  /cedilla/onesuperior/ordmasculine/guillemotright/onequarter/onehalf/threequarters/questiondown
+  /Agrave/Aacute/Acircumflex/Atilde/Adieresis/Aring/AE/Ccedilla
+  /Egrave/Eacute/Ecircumflex/Edieresis/Igrave/Iacute/Icircumflex/Idieresis
+  /Eth/Ntilde/Ograve/Oacute/Ocircumflex/Otilde/Odieresis/multiply
+  /Oslash/Ugrave/Uacute/Ucircumflex/Udieresis/Yacute/Thorn/germandbls
+  /agrave/aacute/acircumflex/atilde/adieresis/aring/ae/ccedilla
+  /egrave/eacute/ecircumflex/edieresis/igrave/iacute/icircumflex/idieresis
+  /eth/ntilde/ograve/oacute/ocircumflex/otilde/odieresis/divide
+  /oslash/ugrave/uacute/ucircumflex/udieresis/yacute/thorn/ydieresis]
+pdfMakeFont
+end
+%%EndSetup
+xpdf begin
+pdfStartPage
+[] 0 d
+1 i
+0 j
+0 J
+10 M
+1 w
+/DeviceGray {} cs
+[0] sc
+/DeviceGray {} CS
+[0] SC
+false op
+false OP
+{} settransfer
+0 0 1152 576 re
+W
+q
+1 J
+1 j
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+3.49 3.49 574.26 572.51 re
+W
+/DeviceRGB {} cs
+[0 0 0] sc
+[1 1 1] sc
+/DeviceRGB {} CS
+[0 0 0] SC
+[1 1 1] SC
+1.07 w
+[] 0 d
+1 J
+1 j
+10 M
+3.49 3.49 574.26 572.51 re
+f
+3.49 3.49 574.26 572.51 re
+S
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+144.71 141.6 348.13 428.92 re
+W
+/DeviceRGB {} cs
+[0 0 0] sc
+[1 1 1] sc
+144.71 141.6 348.13 428.92 re
+f
+/DeviceRGB {} CS
+[0 0 0] SC
+[0.922 0.922 0.922] SC
+1.07 w
+[] 0 d
+0 J
+1 j
+10 M
+144.71 147.56 m
+492.84 147.56 l
+S
+144.71 157.49 m
+492.84 157.49 l
+S
+144.71 167.42 m
+492.84 167.42 l
+S
+144.71 177.35 m
+492.84 177.35 l
+S
+144.71 187.28 m
+492.84 187.28 l
+S
+144.71 197.2 m
+492.84 197.2 l
+S
+144.71 207.13 m
+492.84 207.13 l
+S
+144.71 217.06 m
+492.84 217.06 l
+S
+144.71 226.99 m
+492.84 226.99 l
+S
+144.71 236.92 m
+492.84 236.92 l
+S
+144.71 246.85 m
+492.84 246.85 l
+S
+144.71 256.78 m
+492.84 256.78 l
+S
+144.71 266.7 m
+492.84 266.7 l
+S
+144.71 276.63 m
+492.84 276.63 l
+S
+144.71 286.56 m
+492.84 286.56 l
+S
+144.71 296.49 m
+492.84 296.49 l
+S
+144.71 306.42 m
+492.84 306.42 l
+S
+144.71 316.35 m
+492.84 316.35 l
+S
+144.71 326.28 m
+492.84 326.28 l
+S
+144.71 336.2 m
+492.84 336.2 l
+S
+144.71 346.13 m
+492.84 346.13 l
+S
+144.71 356.06 m
+492.84 356.06 l
+S
+144.71 365.99 m
+492.84 365.99 l
+S
+144.71 375.92 m
+492.84 375.92 l
+S
+144.71 385.85 m
+492.84 385.85 l
+S
+144.71 395.78 m
+492.84 395.78 l
+S
+144.71 405.71 m
+492.84 405.71 l
+S
+144.71 415.63 m
+492.84 415.63 l
+S
+144.71 425.56 m
+492.84 425.56 l
+S
+144.71 435.49 m
+492.84 435.49 l
+S
+144.71 445.42 m
+492.84 445.42 l
+S
+144.71 455.35 m
+492.84 455.35 l
+S
+144.71 465.28 m
+492.84 465.28 l
+S
+144.71 475.21 m
+492.84 475.21 l
+S
+144.71 485.13 m
+492.84 485.13 l
+S
+144.71 495.06 m
+492.84 495.06 l
+S
+144.71 504.99 m
+492.84 504.99 l
+S
+144.71 514.92 m
+492.84 514.92 l
+S
+144.71 524.85 m
+492.84 524.85 l
+S
+144.71 534.78 m
+492.84 534.78 l
+S
+144.71 544.71 m
+492.84 544.71 l
+S
+144.71 554.63 m
+492.84 554.63 l
+S
+144.71 564.56 m
+492.84 564.56 l
+S
+151.62 141.6 m
+151.62 570.52 l
+S
+163.15 141.6 m
+163.15 570.52 l
+S
+174.68 141.6 m
+174.68 570.52 l
+S
+186.21 141.6 m
+186.21 570.52 l
+S
+197.73 141.6 m
+197.73 570.52 l
+S
+209.26 141.6 m
+209.26 570.52 l
+S
+220.79 141.6 m
+220.79 570.52 l
+S
+232.32 141.6 m
+232.32 570.52 l
+S
+243.84 141.6 m
+243.84 570.52 l
+S
+255.37 141.6 m
+255.37 570.52 l
+S
+266.9 141.6 m
+266.9 570.52 l
+S
+278.43 141.6 m
+278.43 570.52 l
+S
+289.95 141.6 m
+289.95 570.52 l
+S
+301.48 141.6 m
+301.48 570.52 l
+S
+313.01 141.6 m
+313.01 570.52 l
+S
+324.54 141.6 m
+324.54 570.52 l
+S
+336.06 141.6 m
+336.06 570.52 l
+S
+347.59 141.6 m
+347.59 570.52 l
+S
+359.12 141.6 m
+359.12 570.52 l
+S
+370.65 141.6 m
+370.65 570.52 l
+S
+382.17 141.6 m
+382.17 570.52 l
+S
+393.7 141.6 m
+393.7 570.52 l
+S
+405.23 141.6 m
+405.23 570.52 l
+S
+416.76 141.6 m
+416.76 570.52 l
+S
+428.28 141.6 m
+428.28 570.52 l
+S
+439.81 141.6 m
+439.81 570.52 l
+S
+451.34 141.6 m
+451.34 570.52 l
+S
+462.87 141.6 m
+462.87 570.52 l
+S
+474.39 141.6 m
+474.39 570.52 l
+S
+485.92 141.6 m
+485.92 570.52 l
+S
+[0.788 0.2 0.071] sc
+307.25 142.6 11.53 9.93 re
+f
+318.77 142.6 11.53 9.93 re
+f
+330.3 142.6 11.53 9.93 re
+f
+341.83 142.6 11.53 9.93 re
+f
+307.25 142.6 11.53 9.93 re
+f
+318.77 142.6 11.53 9.93 re
+f
+330.3 142.6 11.53 9.93 re
+f
+341.83 142.6 11.53 9.93 re
+f
+387.94 152.53 11.53 9.93 re
+f
+[0.537 0.616 0.643] sc
+145.86 152.53 11.53 9.93 re
+f
+145.86 152.53 11.53 9.93 re
+f
+318.77 162.45 11.53 9.93 re
+f
+341.83 162.45 11.53 9.93 re
+f
+330.3 162.45 11.53 9.93 re
+f
+307.25 162.45 11.53 9.93 re
+f
+318.77 162.45 11.53 9.93 re
+f
+341.83 162.45 11.53 9.93 re
+f
+330.3 162.45 11.53 9.93 re
+f
+307.25 162.45 11.53 9.93 re
+f
+318.77 172.38 11.53 9.93 re
+f
+341.83 172.38 11.53 9.93 re
+f
+330.3 172.38 11.53 9.93 re
+f
+307.25 172.38 11.53 9.93 re
+f
+[0.788 0.2 0.071] sc
+238.08 192.24 11.53 9.93 re
+f
+226.55 192.24 11.53 9.93 re
+f
+238.08 192.24 11.53 9.93 re
+f
+226.55 192.24 11.53 9.93 re
+f
+238.08 182.31 11.53 9.93 re
+f
+226.55 182.31 11.53 9.93 re
+f
+238.08 202.17 11.53 9.93 re
+f
+226.55 202.17 11.53 9.93 re
+f
+[0.537 0.616 0.643] sc
+157.39 212.1 11.53 9.93 re
+f
+168.92 212.1 11.53 9.93 re
+f
+157.39 212.1 11.53 9.93 re
+f
+168.92 212.1 11.53 9.93 re
+f
+318.77 222.03 11.53 9.93 re
+f
+307.25 222.03 11.53 9.93 re
+f
+330.3 222.03 11.53 9.93 re
+f
+341.83 222.03 11.53 9.93 re
+f
+180.44 231.95 11.53 9.93 re
+f
+191.97 231.95 11.53 9.93 re
+f
+180.44 231.95 11.53 9.93 re
+f
+191.97 231.95 11.53 9.93 re
+f
+203.5 241.88 11.53 9.93 re
+f
+203.5 241.88 11.53 9.93 re
+f
+215.03 251.81 11.53 9.93 re
+f
+318.77 281.6 11.53 9.93 re
+f
+330.3 281.6 11.53 9.93 re
+f
+307.25 281.6 11.53 9.93 re
+f
+341.83 281.6 11.53 9.93 re
+f
+[0.788 0.2 0.071] sc
+364.88 281.6 11.53 9.93 re
+f
+376.41 281.6 11.53 9.93 re
+f
+387.94 261.74 11.53 9.93 re
+f
+387.94 261.74 11.53 9.93 re
+f
+[0.537 0.616 0.643] sc
+249.61 271.67 11.53 9.93 re
+f
+[0.788 0.2 0.071] sc
+387.94 281.6 11.53 9.93 re
+f
+[0.537 0.616 0.643] sc
+226.55 281.6 11.53 9.93 re
+f
+238.08 281.6 11.53 9.93 re
+f
+261.14 291.53 11.53 9.93 re
+f
+261.14 291.53 11.53 9.93 re
+f
+272.66 301.45 11.53 9.93 re
+f
+272.66 301.45 11.53 9.93 re
+f
+284.19 301.45 11.53 9.93 re
+f
+284.19 301.45 11.53 9.93 re
+f
+387.94 311.38 11.53 9.93 re
+f
+341.83 321.31 11.53 9.93 re
+f
+330.3 321.31 11.53 9.93 re
+f
+318.77 321.31 11.53 9.93 re
+f
+307.25 321.31 11.53 9.93 re
+f
+341.83 321.31 11.53 9.93 re
+f
+330.3 321.31 11.53 9.93 re
+f
+318.77 321.31 11.53 9.93 re
+f
+307.25 321.31 11.53 9.93 re
+f
+295.72 331.24 11.53 9.93 re
+f
+330.3 370.96 11.53 9.93 re
+f
+341.83 370.96 11.53 9.93 re
+f
+307.25 370.96 11.53 9.93 re
+f
+318.77 370.96 11.53 9.93 re
+f
+330.3 370.96 11.53 9.93 re
+f
+341.83 370.96 11.53 9.93 re
+f
+307.25 370.96 11.53 9.93 re
+f
+318.77 370.96 11.53 9.93 re
+f
+330.3 370.96 11.53 9.93 re
+f
+341.83 370.96 11.53 9.93 re
+f
+307.25 370.96 11.53 9.93 re
+f
+318.77 370.96 11.53 9.93 re
+f
+364.88 370.96 11.53 9.93 re
+f
+376.41 370.96 11.53 9.93 re
+f
+364.88 370.96 11.53 9.93 re
+f
+376.41 370.96 11.53 9.93 re
+f
+364.88 370.96 11.53 9.93 re
+f
+376.41 370.96 11.53 9.93 re
+f
+364.88 370.96 11.53 9.93 re
+f
+376.41 370.96 11.53 9.93 re
+f
+364.88 370.96 11.53 9.93 re
+f
+376.41 370.96 11.53 9.93 re
+f
+364.88 370.96 11.53 9.93 re
+f
+376.41 370.96 11.53 9.93 re
+f
+[0.788 0.2 0.071] sc
+468.63 341.17 11.53 9.93 re
+f
+[0.537 0.616 0.643] sc
+468.63 351.1 11.53 9.93 re
+f
+353.36 361.03 11.53 9.93 re
+f
+353.36 361.03 11.53 9.93 re
+f
+387.94 370.96 11.53 9.93 re
+f
+387.94 370.96 11.53 9.93 re
+f
+387.94 370.96 11.53 9.93 re
+f
+387.94 370.96 11.53 9.93 re
+f
+[0.788 0.2 0.071] sc
+226.55 380.88 11.53 9.93 re
+f
+238.08 380.88 11.53 9.93 re
+f
+226.55 380.88 11.53 9.93 re
+f
+238.08 380.88 11.53 9.93 re
+f
+[0.537 0.616 0.643] sc
+399.47 390.81 11.53 9.93 re
+f
+410.99 390.81 11.53 9.93 re
+f
+399.47 390.81 11.53 9.93 re
+f
+410.99 390.81 11.53 9.93 re
+f
+364.88 450.38 11.53 9.93 re
+f
+376.41 450.38 11.53 9.93 re
+f
+[0.788 0.2 0.071] sc
+307.25 400.74 11.53 9.93 re
+f
+318.77 400.74 11.53 9.93 re
+f
+[0.537 0.616 0.643] sc
+422.52 400.74 11.53 9.93 re
+f
+[0.788 0.2 0.071] sc
+341.83 400.74 11.53 9.93 re
+f
+330.3 400.74 11.53 9.93 re
+f
+307.25 400.74 11.53 9.93 re
+f
+318.77 400.74 11.53 9.93 re
+f
+[0.537 0.616 0.643] sc
+422.52 400.74 11.53 9.93 re
+f
+[0.788 0.2 0.071] sc
+341.83 400.74 11.53 9.93 re
+f
+330.3 400.74 11.53 9.93 re
+f
+[0.537 0.616 0.643] sc
+238.08 400.74 11.53 9.93 re
+f
+[0.788 0.2 0.071] sc
+226.55 400.74 11.53 9.93 re
+f
+[0.537 0.616 0.643] sc
+238.08 400.74 11.53 9.93 re
+f
+[0.788 0.2 0.071] sc
+226.55 400.74 11.53 9.93 re
+f
+387.94 410.67 11.53 9.93 re
+f
+387.94 410.67 11.53 9.93 re
+f
+341.83 420.6 11.53 9.93 re
+f
+318.77 420.6 11.53 9.93 re
+f
+307.25 420.6 11.53 9.93 re
+f
+330.3 420.6 11.53 9.93 re
+f
+341.83 420.6 11.53 9.93 re
+f
+318.77 420.6 11.53 9.93 re
+f
+307.25 420.6 11.53 9.93 re
+f
+330.3 420.6 11.53 9.93 re
+f
+307.25 430.53 11.53 9.93 re
+f
+341.83 430.53 11.53 9.93 re
+f
+330.3 430.53 11.53 9.93 re
+f
+318.77 430.53 11.53 9.93 re
+f
+307.25 430.53 11.53 9.93 re
+f
+341.83 430.53 11.53 9.93 re
+f
+330.3 430.53 11.53 9.93 re
+f
+318.77 430.53 11.53 9.93 re
+f
+[0.537 0.616 0.643] sc
+387.94 440.46 11.53 9.93 re
+f
+387.94 440.46 11.53 9.93 re
+f
+387.94 460.31 11.53 9.93 re
+f
+387.94 460.31 11.53 9.93 re
+f
+387.94 460.31 11.53 9.93 re
+f
+434.05 470.24 11.53 9.93 re
+f
+434.05 470.24 11.53 9.93 re
+f
+[0.788 0.2 0.071] sc
+387.94 470.24 11.53 9.93 re
+f
+387.94 470.24 11.53 9.93 re
+f
+387.94 480.17 11.53 9.93 re
+f
+387.94 480.17 11.53 9.93 re
+f
+387.94 490.1 11.53 9.93 re
+f
+387.94 490.1 11.53 9.93 re
+f
+[0.537 0.616 0.643] sc
+445.58 500.03 11.53 9.93 re
+f
+445.58 500.03 11.53 9.93 re
+f
+445.58 500.03 11.53 9.93 re
+f
+[0.788 0.2 0.071] sc
+387.94 500.03 11.53 9.93 re
+f
+387.94 500.03 11.53 9.93 re
+f
+387.94 500.03 11.53 9.93 re
+f
+[0.537 0.616 0.643] sc
+387.94 509.96 11.53 9.93 re
+f
+387.94 509.96 11.53 9.93 re
+f
+457.1 519.88 11.53 9.93 re
+f
+468.63 529.81 11.53 9.93 re
+f
+468.63 529.81 11.53 9.93 re
+f
+468.63 539.74 11.53 9.93 re
+f
+468.63 539.74 11.53 9.93 re
+f
+[0.788 0.2 0.071] sc
+468.63 549.67 11.53 9.93 re
+f
+468.63 549.67 11.53 9.93 re
+f
+[0.537 0.616 0.643] sc
+480.16 559.6 11.53 9.93 re
+f
+480.16 559.6 11.53 9.93 re
+f
+480.16 559.6 11.53 9.93 re
+f
+[0.2 0.2 0.2] SC
+1.07 w
+[] 0 d
+1 J
+144.71 141.6 348.13 428.92 re
+S
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0.302 0.302 0.302] sc
+[9 0 0 9 25.01 144.33] Tm
+0 0 Td
+/F10_0 1 Tf
+(Achromobacter xyloso)
+[0.667
+0
+0.5
+0
+0.556
+0
+0.333
+0
+0.556
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0
+0.278
+0
+0.5
+0
+0.5
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.556
+0] Tj
+30 TJm
+(xidans)
+[0.5
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 40.73 154.26] Tm
+0 0 Td
+/F10_0 1 Tf
+(Acinetobacter baumannii)
+[0.667
+0
+0.5
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 75.7 164.19] Tm
+0 0 Td
+/F10_0 1 Tf
+(Ar)
+[0.667
+0
+0.333
+0] Tj
+-40 TJm
+(throbacter sp)
+[0.278
+0
+0.556
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0
+0.278
+0
+0.5
+0
+0.556
+0] Tj
+35 TJm
+(.)
+[0.278
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 34.96 174.12] Tm
+0 0 Td
+/F10_0 1 Tf
+(Ar)
+[0.667
+0
+0.333
+0] Tj
+-40 TJm
+(throbacter sulf)
+[0.278
+0
+0.556
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0
+0.278
+0
+0.5
+0
+0.556
+0
+0.222
+0
+0.278
+0] Tj
+30 TJm
+(oniv)
+[0.556
+0
+0.556
+0
+0.222
+0
+0.5
+0] Tj
+25 TJm
+(or)
+[0.556
+0
+0.333
+0] Tj
+10 TJm
+(ans)
+[0.556
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 35.15 184.04] Tm
+0 0 Td
+/F10_0 1 Tf
+(Bacillus am)
+[0.667
+0
+0.556
+0
+0.5
+0
+0.222
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.833
+0] Tj
+15 TJm
+(yloliquef)
+[0.5
+0
+0.222
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0] Tj
+30 TJm
+(aciens)
+[0.556
+0
+0.5
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 75.26 193.97] Tm
+0 0 Td
+/F10_0 1 Tf
+(Bacillus pumilus)
+[0.667
+0
+0.556
+0
+0.5
+0
+0.222
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.833
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 78.76 203.9] Tm
+0 0 Td
+/F10_0 1 Tf
+(Bacillus subtilis)
+[0.667
+0
+0.556
+0
+0.5
+0
+0.222
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.222
+0
+0.222
+0
+0.222
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 35.96 213.83] Tm
+0 0 Td
+/F10_0 1 Tf
+(Bur)
+[0.667
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(kholder)
+[0.5
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ia cenocepacia)
+[0.222
+0
+0.556
+0
+0.278
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.222
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 52.16 223.76] Tm
+0 0 Td
+/F10_0 1 Tf
+(Chr)
+[0.722
+0
+0.556
+0
+0.333
+0] Tj
+-30 TJm
+(yseobacter)
+[0.5
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ium sp)
+[0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.5
+0
+0.556
+0] Tj
+35 TJm
+(.)
+[0.278
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 46.99 233.69] Tm
+0 0 Td
+/F10_0 1 Tf
+(Clostr)
+[0.722
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.333
+0] Tj
+-15 TJm
+(idium perfr)
+[0.222
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.333
+0
+0.278
+0
+0.333
+0] Tj
+-15 TJm
+(ingens)
+[0.222
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 22.34 243.62] Tm
+0 0 Td
+/F10_0 1 Tf
+(Cor)
+[0.722
+0
+0.556
+0
+0.333
+0] Tj
+-30 TJm
+(ynebacter)
+[0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ium glutamicum)
+[0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.833
+0
+0.222
+0
+0.5
+0
+0.556
+0
+0.833
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 50.75 253.54] Tm
+0 0 Td
+/F10_0 1 Tf
+(Cronobacter sakazakii)
+[0.722
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0
+0.278
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.222
+0
+0.222
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 43.22 263.47] Tm
+0 0 Td
+/F10_0 1 Tf
+(Enterobacter aerogenes)
+[0.667
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 66.85 273.4] Tm
+0 0 Td
+/F10_0 1 Tf
+(Erwinia am)
+[0.667
+0
+0.333
+0
+0.722
+0
+0.222
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.833
+0] Tj
+15 TJm
+(ylo)
+[0.5
+0
+0.222
+0
+0.556
+0] Tj
+15 TJm
+(v)
+[0.5
+0] Tj
+25 TJm
+(or)
+[0.556
+0
+0.333
+0] Tj
+10 TJm
+(a)
+[0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 77.13 283.33] Tm
+0 0 Td
+/F10_0 1 Tf
+(Escher)
+[0.667
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ichia coli)
+[0.222
+0
+0.5
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.5
+0
+0.556
+0
+0.222
+0
+0.222
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 49.24 293.26] Tm
+0 0 Td
+/F10_0 1 Tf
+(Klebsiella pneumoniae)
+[0.667
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.222
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 66.75 303.19] Tm
+0 0 Td
+/F10_0 1 Tf
+(Lactococcus lactis)
+[0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.222
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 44.6 313.12] Tm
+0 0 Td
+/F10_0 1 Tf
+(Lister)
+[0.556
+0
+0.222
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ia monocytogenes)
+[0.222
+0
+0.556
+0
+0.278
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 63.94 323.05] Tm
+0 0 Td
+/F10_0 1 Tf
+(Microbacter)
+[0.833
+0
+0.222
+0
+0.5
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ium sp)
+[0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.5
+0
+0.556
+0] Tj
+35 TJm
+(.)
+[0.278
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 32.62 332.97] Tm
+0 0 Td
+/F10_0 1 Tf
+(Mycobacter)
+[0.833
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ium smegmatis)
+[0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.5
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.833
+0
+0.556
+0
+0.278
+0
+0.222
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 34.59 342.9] Tm
+0 0 Td
+/F10_0 1 Tf
+(Photobacter)
+[0.667
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ium angustum)
+[0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.833
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 35.59 352.83] Tm
+0 0 Td
+/F10_0 1 Tf
+(Photobacter)
+[0.667
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ium leiognathi)
+[0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.222
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.222
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 40.6 362.76] Tm
+0 0 Td
+/F10_0 1 Tf
+(Propionibacter)
+[0.667
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ium acnes)
+[0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 35.09 372.69] Tm
+0 0 Td
+/F10_0 1 Tf
+(Pseudomonas aer)
+[0.667
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(uginosa)
+[0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 55.23 382.62] Tm
+0 0 Td
+/F10_0 1 Tf
+(Pseudomonas putida)
+[0.667
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.222
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 43.11 392.55] Tm
+0 0 Td
+/F10_0 1 Tf
+(Ralstonia solanacear)
+[0.722
+0
+0.556
+0
+0.222
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.5
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(um)
+[0.556
+0
+0.833
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 60.61 402.47] Tm
+0 0 Td
+/F10_0 1 Tf
+(Salmonella enter)
+[0.667
+0
+0.556
+0
+0.222
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ica)
+[0.222
+0
+0.5
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 57.34 412.4] Tm
+0 0 Td
+/F10_0 1 Tf
+(Serr)
+[0.667
+0
+0.556
+0
+0.333
+0
+0.333
+0] Tj
+10 TJm
+(atia marcescens)
+[0.556
+0
+0.278
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.833
+0
+0.556
+0
+0.333
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 82.02 422.33] Tm
+0 0 Td
+/F10_0 1 Tf
+(Shigella bo)
+[0.667
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0] Tj
+30 TJm
+(ydii)
+[0.5
+0
+0.556
+0
+0.222
+0
+0.222
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 76.39 432.26] Tm
+0 0 Td
+/F10_0 1 Tf
+(Shigella fle)
+[0.667
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.278
+0
+0.222
+0
+0.556
+0] Tj
+30 TJm
+(xner)
+[0.5
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(i)
+[0.222
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 78.75 442.19] Tm
+0 0 Td
+/F10_0 1 Tf
+(Shigella sonnei)
+[0.667
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 60.23 452.12] Tm
+0 0 Td
+/F10_0 1 Tf
+(Sphaerotilus natans)
+[0.667
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.333
+0
+0.556
+0
+0.278
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 47 462.05] Tm
+0 0 Td
+/F10_0 1 Tf
+(Staph)
+[0.667
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0] Tj
+30 TJm
+(ylococcus aureus)
+[0.5
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 28.28 471.97] Tm
+0 0 Td
+/F10_0 1 Tf
+(Staph)
+[0.667
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0] Tj
+30 TJm
+(ylococcus epider)
+[0.5
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+-25 TJm
+(midis)
+[0.833
+0
+0.222
+0
+0.556
+0
+0.222
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 39.23 481.9] Tm
+0 0 Td
+/F10_0 1 Tf
+(Streptococcus agalactiae)
+[0.667
+0
+0.278
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.222
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 48.24 491.83] Tm
+0 0 Td
+/F10_0 1 Tf
+(Streptococcus gordonii)
+[0.667
+0
+0.278
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 30.72 501.76] Tm
+0 0 Td
+/F10_0 1 Tf
+(Streptococcus pneumoniae)
+[0.667
+0
+0.278
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 42.84 511.69] Tm
+0 0 Td
+/F10_0 1 Tf
+(Streptococcus saliv)
+[0.667
+0
+0.278
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.5
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.5
+0] Tj
+25 TJm
+(ar)
+[0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ius)
+[0.222
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 49.89 521.62] Tm
+0 0 Td
+/F10_0 1 Tf
+(Ther)
+[0.611
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+-25 TJm
+(m)
+[0.833
+0] Tj
+10 TJm
+(us ther)
+[0.556
+0
+0.5
+0
+0.278
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+-25 TJm
+(mophilus)
+[0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 71.98 531.55] Tm
+0 0 Td
+/F10_0 1 Tf
+(Vibr)
+[0.667
+0
+0.222
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(io natr)
+[0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.333
+0] Tj
+-15 TJm
+(iegens)
+[0.222
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 43.7 541.48] Tm
+0 0 Td
+/F10_0 1 Tf
+(Vibr)
+[0.667
+0
+0.222
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(io par)
+[0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+10 TJm
+(ahaemolyticus)
+[0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.833
+0
+0.556
+0
+0.222
+0
+0.5
+0
+0.278
+0
+0.222
+0
+0.5
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 77.13 551.4] Tm
+0 0 Td
+/F10_0 1 Tf
+(Vibr)
+[0.667
+0
+0.222
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(io vulnificus)
+[0.222
+0
+0.556
+0
+0.278
+0
+0.5
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.222
+0
+0.278
+0
+0.222
+0
+0.5
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 73.02 561.33] Tm
+0 0 Td
+/F10_0 1 Tf
+(Xylella f)
+[0.667
+0
+0.5
+0
+0.222
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.278
+0] Tj
+30 TJm
+(astidiosa)
+[0.556
+0
+0.5
+0
+0.278
+0
+0.222
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.556
+0] Tj
+Q
+q
+Q
+q
+/DeviceRGB {} CS
+[0 0 0] SC
+[0.2 0.2 0.2] SC
+1.07 w
+[] 0 d
+0 J
+1 j
+10 M
+141.97 147.56 m
+144.71 147.56 l
+S
+141.97 157.49 m
+144.71 157.49 l
+S
+141.97 167.42 m
+144.71 167.42 l
+S
+141.97 177.35 m
+144.71 177.35 l
+S
+141.97 187.28 m
+144.71 187.28 l
+S
+141.97 197.2 m
+144.71 197.2 l
+S
+141.97 207.13 m
+144.71 207.13 l
+S
+141.97 217.06 m
+144.71 217.06 l
+S
+141.97 226.99 m
+144.71 226.99 l
+S
+141.97 236.92 m
+144.71 236.92 l
+S
+141.97 246.85 m
+144.71 246.85 l
+S
+141.97 256.78 m
+144.71 256.78 l
+S
+141.97 266.7 m
+144.71 266.7 l
+S
+141.97 276.63 m
+144.71 276.63 l
+S
+141.97 286.56 m
+144.71 286.56 l
+S
+141.97 296.49 m
+144.71 296.49 l
+S
+141.97 306.42 m
+144.71 306.42 l
+S
+141.97 316.35 m
+144.71 316.35 l
+S
+141.97 326.28 m
+144.71 326.28 l
+S
+141.97 336.2 m
+144.71 336.2 l
+S
+141.97 346.13 m
+144.71 346.13 l
+S
+141.97 356.06 m
+144.71 356.06 l
+S
+141.97 365.99 m
+144.71 365.99 l
+S
+141.97 375.92 m
+144.71 375.92 l
+S
+141.97 385.85 m
+144.71 385.85 l
+S
+141.97 395.78 m
+144.71 395.78 l
+S
+141.97 405.71 m
+144.71 405.71 l
+S
+141.97 415.63 m
+144.71 415.63 l
+S
+141.97 425.56 m
+144.71 425.56 l
+S
+141.97 435.49 m
+144.71 435.49 l
+S
+141.97 445.42 m
+144.71 445.42 l
+S
+141.97 455.35 m
+144.71 455.35 l
+S
+141.97 465.28 m
+144.71 465.28 l
+S
+141.97 475.21 m
+144.71 475.21 l
+S
+141.97 485.13 m
+144.71 485.13 l
+S
+141.97 495.06 m
+144.71 495.06 l
+S
+141.97 504.99 m
+144.71 504.99 l
+S
+141.97 514.92 m
+144.71 514.92 l
+S
+141.97 524.85 m
+144.71 524.85 l
+S
+141.97 534.78 m
+144.71 534.78 l
+S
+141.97 544.71 m
+144.71 544.71 l
+S
+141.97 554.63 m
+144.71 554.63 l
+S
+141.97 564.56 m
+144.71 564.56 l
+S
+Q
+q
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+/DeviceRGB {} CS
+[0 0 0] SC
+[0.2 0.2 0.2] SC
+1.07 w
+[] 0 d
+0 J
+1 j
+10 M
+151.62 138.86 m
+151.62 141.6 l
+S
+163.15 138.86 m
+163.15 141.6 l
+S
+174.68 138.86 m
+174.68 141.6 l
+S
+186.21 138.86 m
+186.21 141.6 l
+S
+197.73 138.86 m
+197.73 141.6 l
+S
+209.26 138.86 m
+209.26 141.6 l
+S
+220.79 138.86 m
+220.79 141.6 l
+S
+232.32 138.86 m
+232.32 141.6 l
+S
+243.84 138.86 m
+243.84 141.6 l
+S
+255.37 138.86 m
+255.37 141.6 l
+S
+266.9 138.86 m
+266.9 141.6 l
+S
+278.43 138.86 m
+278.43 141.6 l
+S
+289.95 138.86 m
+289.95 141.6 l
+S
+301.48 138.86 m
+301.48 141.6 l
+S
+313.01 138.86 m
+313.01 141.6 l
+S
+324.54 138.86 m
+324.54 141.6 l
+S
+336.06 138.86 m
+336.06 141.6 l
+S
+347.59 138.86 m
+347.59 141.6 l
+S
+359.12 138.86 m
+359.12 141.6 l
+S
+370.65 138.86 m
+370.65 141.6 l
+S
+382.17 138.86 m
+382.17 141.6 l
+S
+393.7 138.86 m
+393.7 141.6 l
+S
+405.23 138.86 m
+405.23 141.6 l
+S
+416.76 138.86 m
+416.76 141.6 l
+S
+428.28 138.86 m
+428.28 141.6 l
+S
+439.81 138.86 m
+439.81 141.6 l
+S
+451.34 138.86 m
+451.34 141.6 l
+S
+462.87 138.86 m
+462.87 141.6 l
+S
+474.39 138.86 m
+474.39 141.6 l
+S
+485.92 138.86 m
+485.92 141.6 l
+S
+Q
+q
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0.302 0.302 0.302] sc
+[6.36 6.36 -6.36 6.36 81.87 57.78] Tm
+0 0 Td
+/F10_0 1 Tf
+(Acinetobacter phage P)
+[0.667
+0
+0.5
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0] Tj
+50 TJm
+(etty)
+[0.556
+0
+0.278
+0
+0.278
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 99.26 63.64] Tm
+0 0 Td
+/F10_0 1 Tf
+(Bur)
+[0.667
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(kholder)
+[0.5
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ia phage KL1)
+[0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 106.54 59.39] Tm
+0 0 Td
+/F10_0 1 Tf
+(Bur)
+[0.667
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(kholder)
+[0.5
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ia phage KS14)
+[0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.667
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 112.17 53.5] Tm
+0 0 Td
+/F10_0 1 Tf
+(Clostr)
+[0.722
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.333
+0] Tj
+-15 TJm
+(idium phage phiCP7R)
+[0.222
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.722
+0
+0.667
+0
+0.556
+0
+0.722
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 129 58.8] Tm
+0 0 Td
+/F10_0 1 Tf
+(Clostr)
+[0.722
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.333
+0] Tj
+-15 TJm
+(idium phage phiZP2)
+[0.222
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.611
+0
+0.667
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 125.47 43.74] Tm
+0 0 Td
+/F10_0 1 Tf
+(Cor)
+[0.722
+0
+0.556
+0
+0.333
+0] Tj
+-30 TJm
+(ynebacter)
+[0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ium phage P1201)
+[0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 156.39 63.13] Tm
+0 0 Td
+/F10_0 1 Tf
+(Cronobacter phage CR5)
+[0.722
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.722
+0
+0.722
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 162.5 57.72] Tm
+0 0 Td
+/F10_0 1 Tf
+(Enterobacter)
+[0.667
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ia phage K1F)
+[0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.556
+0
+0.611
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 170.14 53.83] Tm
+0 0 Td
+/F10_0 1 Tf
+(Enterobacter)
+[0.667
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ia phage phi92)
+[0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 193.44 65.61] Tm
+0 0 Td
+/F10_0 1 Tf
+(Erwinia phage phiEaH2)
+[0.667
+0
+0.333
+0
+0.722
+0
+0.222
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.667
+0
+0.556
+0
+0.722
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 207.44 68.08] Tm
+0 0 Td
+/F10_0 1 Tf
+(Klebsiella phage KP15)
+[0.667
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.222
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.667
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 215.78 64.89] Tm
+0 0 Td
+/F10_0 1 Tf
+(Lactococcus phage 949)
+[0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 218.82 56.4] Tm
+0 0 Td
+/F10_0 1 Tf
+(Lactococcus phage phiL47)
+[0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 223.2 49.25] Tm
+0 0 Td
+/F10_0 1 Tf
+(Mycobacter)
+[0.833
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ium phage SWU1)
+[0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.944
+0
+0.722
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 248.71 63.23] Tm
+0 0 Td
+/F10_0 1 Tf
+(Pb)
+[0.667
+0
+0.556
+0] Tj
+20 TJm
+(unalik)
+[0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.5
+0] Tj
+20 TJm
+(e)
+[0.556
+0] Tj
+30 TJm
+(vir)
+[0.5
+0
+0.222
+0
+0.333
+0] Tj
+-15 TJm
+(us phiF)
+[0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.611
+0] Tj
+30 TJm
+(enr)
+[0.556
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(iz)
+[0.222
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 259.78 62.78] Tm
+0 0 Td
+/F10_0 1 Tf
+(Pb)
+[0.667
+0
+0.556
+0] Tj
+20 TJm
+(unalik)
+[0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.5
+0] Tj
+20 TJm
+(e)
+[0.556
+0] Tj
+30 TJm
+(vir)
+[0.5
+0
+0.222
+0
+0.333
+0] Tj
+-15 TJm
+(us phiHabibi)
+[0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.722
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.222
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 270.25 61.72] Tm
+0 0 Td
+/F10_0 1 Tf
+(Pb)
+[0.667
+0
+0.556
+0] Tj
+20 TJm
+(unalik)
+[0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.5
+0] Tj
+20 TJm
+(e)
+[0.556
+0] Tj
+30 TJm
+(vir)
+[0.5
+0
+0.222
+0
+0.333
+0] Tj
+-15 TJm
+(us phiMoody)
+[0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 284.34 64.28] Tm
+0 0 Td
+/F10_0 1 Tf
+(Pb)
+[0.667
+0
+0.556
+0] Tj
+20 TJm
+(unalik)
+[0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.5
+0] Tj
+20 TJm
+(e)
+[0.556
+0] Tj
+30 TJm
+(vir)
+[0.5
+0
+0.222
+0
+0.333
+0] Tj
+-15 TJm
+(us phiV)
+[0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.667
+0] Tj
+70 TJm
+(ader)
+[0.556
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 256.42 24.83] Tm
+0 0 Td
+/F10_0 1 Tf
+(Propionibacter)
+[0.667
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ium phage PHL112N00)
+[0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.722
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.722
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 265.46 22.34] Tm
+0 0 Td
+/F10_0 1 Tf
+(Pseudomonas aer)
+[0.667
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(uginosa phage F116)
+[0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.611
+0
+0.556
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 316.7 62.06] Tm
+0 0 Td
+/F10_0 1 Tf
+(Pseudomonas phage D3)
+[0.667
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.722
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 316.61 50.44] Tm
+0 0 Td
+/F10_0 1 Tf
+(Pseudomonas phage P)
+[0.667
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0] Tj
+120 TJm
+(A1phi)
+[0.667
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 344.36 66.67] Tm
+0 0 Td
+/F10_0 1 Tf
+(Ralstonia phage RSM3)
+[0.722
+0
+0.556
+0
+0.222
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.722
+0
+0.667
+0
+0.833
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 356.95 67.73] Tm
+0 0 Td
+/F10_0 1 Tf
+(Ralstonia phage RSS1)
+[0.722
+0
+0.556
+0
+0.222
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.722
+0
+0.667
+0
+0.667
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 343.88 43.13] Tm
+0 0 Td
+/F10_0 1 Tf
+(Salmonella phage FSL SP-058)
+[0.667
+0
+0.556
+0
+0.222
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.611
+0
+0.667
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.667
+0
+0.584
+0
+0.556
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 353.67 41.39] Tm
+0 0 Td
+/F10_0 1 Tf
+(Staph)
+[0.667
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0] Tj
+30 TJm
+(ylococcus phage CNPH82)
+[0.5
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.722
+0
+0.722
+0
+0.667
+0
+0.722
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 383.03 59.23] Tm
+0 0 Td
+/F10_0 1 Tf
+(Streptococcus phage K13)
+[0.667
+0
+0.278
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 407.57 72.24] Tm
+0 0 Td
+/F10_0 1 Tf
+(Ther)
+[0.611
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+-25 TJm
+(m)
+[0.833
+0] Tj
+10 TJm
+(us phage TMA)
+[0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.611
+0
+0.833
+0
+0.667
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 421.56 74.7] Tm
+0 0 Td
+/F10_0 1 Tf
+(Vibr)
+[0.667
+0
+0.222
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(io phage KVP40)
+[0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.667
+0
+0.667
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[6.36 6.36 -6.36 6.36 430.9 72.51] Tm
+0 0 Td
+/F10_0 1 Tf
+(Xylella phage Xf)
+[0.667
+0
+0.5
+0
+0.222
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.278
+0] Tj
+30 TJm
+(as53)
+[0.556
+0
+0.5
+0
+0.556
+0
+0.556
+0] Tj
+Q
+q
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+/DeviceRGB {} cs
+[0 0 0] sc
+[1 1 1] sc
+504.18 327 68.09 58.12 re
+f
+Q
+q
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0 0 0] sc
+[11 0 0 11 509.85 371.55] Tm
+0 0 Td
+/F10_0 1 Tf
+(Inter)
+[0.278
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+10 TJm
+(actions)
+[0.556
+0
+0.5
+0
+0.278
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.5
+0] Tj
+Q
+q
+Q
+q
+/DeviceRGB {} cs
+[0 0 0] sc
+[1 1 1] sc
+509.85 349.95 17.28 17.28 re
+f
+Q
+q
+Q
+q
+/DeviceRGB {} cs
+[0 0 0] sc
+[0.788 0.2 0.071] sc
+509.99 350.09 17 17 re
+f
+Q
+q
+Q
+q
+/DeviceRGB {} cs
+[0 0 0] sc
+[1 1 1] sc
+509.85 332.67 17.28 17.28 re
+f
+Q
+q
+Q
+q
+/DeviceRGB {} cs
+[0 0 0] sc
+[0.537 0.616 0.643] sc
+509.99 332.81 17 17 re
+f
+Q
+q
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0 0 0] sc
+[9 0 0 9 529.29 355.36] Tm
+0 0 Td
+/F10_0 1 Tf
+(Negativ)
+[0.722
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.222
+0
+0.5
+0] Tj
+25 TJm
+(e)
+[0.556
+0] Tj
+Q
+q
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0 0 0] sc
+[9 0 0 9 529.29 338.08] Tm
+0 0 Td
+/F10_0 1 Tf
+(P)
+[0.667
+0] Tj
+50 TJm
+(ositiv)
+[0.556
+0
+0.5
+0
+0.222
+0
+0.278
+0
+0.222
+0
+0.5
+0] Tj
+25 TJm
+(e)
+[0.556
+0] Tj
+Q
+q
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0 0 0] sc
+[14 0 0 14 8.54 560.92] Tm
+0 0 Td
+/F11_0 1 Tf
+(A)
+[0.722
+0] Tj
+Q
+q
+577.74 3.49 574.26 572.51 re
+W
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+581.23 196.65 570.77 379.35 re
+W
+/DeviceRGB {} cs
+[0 0 0] sc
+[1 1 1] sc
+/DeviceRGB {} CS
+[0 0 0] SC
+[1 1 1] SC
+1.07 w
+[] 0 d
+1 J
+1 j
+10 M
+581.23 196.65 570.77 379.35 re
+f
+581.23 196.65 570.77 379.35 re
+S
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+760.24 227.13 386.28 343.39 re
+W
+/DeviceRGB {} cs
+[0 0 0] sc
+[1 1 1] sc
+760.24 227.13 386.28 343.39 re
+f
+[0.788 0.2 0.071] sc
+777.8 228.83 29.26 10.23 re
+f
+777.8 240.2 29.26 10.23 re
+f
+777.8 251.57 29.26 10.23 re
+f
+777.8 262.95 29.26 10.23 re
+f
+777.8 274.32 29.26 10.23 re
+f
+777.8 285.69 58.53 10.23 re
+f
+777.8 297.06 58.53 10.23 re
+f
+777.8 308.43 58.53 10.23 re
+f
+777.8 319.8 58.53 10.23 re
+f
+777.8 331.17 58.53 10.23 re
+f
+777.8 342.54 58.53 10.23 re
+f
+777.8 353.91 58.53 10.23 re
+f
+777.8 365.28 58.53 10.23 re
+f
+777.8 376.65 58.53 10.23 re
+f
+777.8 388.02 58.53 10.23 re
+f
+777.8 399.39 58.53 10.23 re
+f
+777.8 410.76 58.53 10.23 re
+f
+777.8 422.13 58.53 10.23 re
+f
+777.8 433.5 58.53 10.23 re
+f
+777.8 444.88 87.79 10.23 re
+f
+777.8 456.25 87.79 10.23 re
+f
+777.8 467.62 87.79 10.23 re
+f
+777.8 478.99 146.32 10.23 re
+f
+777.8 490.36 204.84 10.23 re
+f
+777.8 501.73 204.84 10.23 re
+f
+777.8 513.1 292.64 10.23 re
+f
+777.8 524.47 292.64 10.23 re
+f
+777.8 535.84 292.64 10.23 re
+f
+777.8 547.21 292.64 10.23 re
+f
+777.8 558.58 351.16 10.23 re
+f
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+/DeviceRGB {} CS
+[0 0 0] SC
+[0 0 0] SC
+1.07 w
+[] 0 d
+0 J
+1 j
+10 M
+760.24 227.13 m
+760.24 570.52 l
+S
+Q
+q
+Q
+q
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0.302 0.302 0.302] sc
+[9 0 0 9 657.77 230.72] Tm
+0 0 Td
+/F10_0 1 Tf
+(Cronobacter phage CR5)
+[0.722
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.722
+0
+0.722
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 650.12 242.09] Tm
+0 0 Td
+/F10_0 1 Tf
+(Enterobacter)
+[0.667
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ia phage K1F)
+[0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.556
+0
+0.611
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 661.27 253.46] Tm
+0 0 Td
+/F10_0 1 Tf
+(Erwinia phage phiEaH2)
+[0.667
+0
+0.333
+0
+0.722
+0
+0.222
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.667
+0
+0.556
+0
+0.722
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 638.14 264.83] Tm
+0 0 Td
+/F10_0 1 Tf
+(Mycobacter)
+[0.833
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ium phage SWU1)
+[0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.944
+0
+0.722
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 670.65 276.2] Tm
+0 0 Td
+/F10_0 1 Tf
+(Ther)
+[0.611
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+-25 TJm
+(m)
+[0.833
+0] Tj
+10 TJm
+(us phage TMA)
+[0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.611
+0
+0.833
+0
+0.667
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 650.2 287.57] Tm
+0 0 Td
+/F10_0 1 Tf
+(Acinetobacter phage P)
+[0.667
+0
+0.5
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0] Tj
+50 TJm
+(etty)
+[0.556
+0
+0.278
+0
+0.278
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 658.49 298.94] Tm
+0 0 Td
+/F10_0 1 Tf
+(Bur)
+[0.667
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(kholder)
+[0.5
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ia phage KL1)
+[0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 652.49 310.31] Tm
+0 0 Td
+/F10_0 1 Tf
+(Bur)
+[0.667
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(kholder)
+[0.5
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ia phage KS14)
+[0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.667
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 644.14 321.68] Tm
+0 0 Td
+/F10_0 1 Tf
+(Clostr)
+[0.722
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.333
+0] Tj
+-15 TJm
+(idium phage phiCP7R)
+[0.222
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.722
+0
+0.667
+0
+0.556
+0
+0.722
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 651.64 333.05] Tm
+0 0 Td
+/F10_0 1 Tf
+(Clostr)
+[0.722
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.333
+0] Tj
+-15 TJm
+(idium phage phiZP2)
+[0.222
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.611
+0
+0.667
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 630.35 344.43] Tm
+0 0 Td
+/F10_0 1 Tf
+(Cor)
+[0.722
+0
+0.556
+0
+0.333
+0] Tj
+-30 TJm
+(ynebacter)
+[0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ium phage P1201)
+[0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 664.76 355.8] Tm
+0 0 Td
+/F10_0 1 Tf
+(Klebsiella phage KP15)
+[0.667
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.222
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.667
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 660.25 367.17] Tm
+0 0 Td
+/F10_0 1 Tf
+(Lactococcus phage 949)
+[0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 648.25 378.54] Tm
+0 0 Td
+/F10_0 1 Tf
+(Lactococcus phage phiL47)
+[0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 603.61 389.91] Tm
+0 0 Td
+/F10_0 1 Tf
+(Propionibacter)
+[0.667
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ium phage PHL112N00)
+[0.222
+0
+0.556
+0
+0.833
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.722
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.722
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 662.77 401.28] Tm
+0 0 Td
+/F10_0 1 Tf
+(Ralstonia phage RSM3)
+[0.722
+0
+0.556
+0
+0.222
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.722
+0
+0.667
+0
+0.833
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 664.27 412.65] Tm
+0 0 Td
+/F10_0 1 Tf
+(Ralstonia phage RSS1)
+[0.722
+0
+0.556
+0
+0.222
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.722
+0
+0.667
+0
+0.667
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 629.49 424.02] Tm
+0 0 Td
+/F10_0 1 Tf
+(Salmonella phage FSL SP-058)
+[0.667
+0
+0.556
+0
+0.222
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.611
+0
+0.667
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.667
+0
+0.584
+0
+0.556
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 627.02 435.39] Tm
+0 0 Td
+/F10_0 1 Tf
+(Staph)
+[0.667
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0] Tj
+30 TJm
+(ylococcus phage CNPH82)
+[0.5
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.722
+0
+0.722
+0
+0.667
+0
+0.722
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 644.61 446.76] Tm
+0 0 Td
+/F10_0 1 Tf
+(Enterobacter)
+[0.667
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(ia phage phi92)
+[0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 652.25 458.13] Tm
+0 0 Td
+/F10_0 1 Tf
+(Streptococcus phage K13)
+[0.667
+0
+0.278
+0
+0.333
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 671.03 469.5] Tm
+0 0 Td
+/F10_0 1 Tf
+(Xylella phage Xf)
+[0.667
+0
+0.5
+0
+0.222
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.278
+0] Tj
+30 TJm
+(as53)
+[0.556
+0
+0.5
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 674.13 480.87] Tm
+0 0 Td
+/F10_0 1 Tf
+(Vibr)
+[0.667
+0
+0.222
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(io phage KVP40)
+[0.222
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0
+0.667
+0
+0.667
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 600.09 492.24] Tm
+0 0 Td
+/F10_0 1 Tf
+(Pseudomonas aer)
+[0.667
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(uginosa phage F116)
+[0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.611
+0
+0.556
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 656.26 503.61] Tm
+0 0 Td
+/F10_0 1 Tf
+(Pseudomonas phage D3)
+[0.667
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.722
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 657.91 514.98] Tm
+0 0 Td
+/F10_0 1 Tf
+(Pb)
+[0.667
+0
+0.556
+0] Tj
+20 TJm
+(unalik)
+[0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.5
+0] Tj
+20 TJm
+(e)
+[0.556
+0] Tj
+30 TJm
+(vir)
+[0.5
+0
+0.222
+0
+0.333
+0] Tj
+-15 TJm
+(us phiF)
+[0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.611
+0] Tj
+30 TJm
+(enr)
+[0.556
+0
+0.556
+0
+0.333
+0] Tj
+-15 TJm
+(iz)
+[0.222
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 657.27 526.36] Tm
+0 0 Td
+/F10_0 1 Tf
+(Pb)
+[0.667
+0
+0.556
+0] Tj
+20 TJm
+(unalik)
+[0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.5
+0] Tj
+20 TJm
+(e)
+[0.556
+0] Tj
+30 TJm
+(vir)
+[0.5
+0
+0.222
+0
+0.333
+0] Tj
+-15 TJm
+(us phiHabibi)
+[0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.722
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.222
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 655.77 537.73] Tm
+0 0 Td
+/F10_0 1 Tf
+(Pb)
+[0.667
+0
+0.556
+0] Tj
+20 TJm
+(unalik)
+[0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.5
+0] Tj
+20 TJm
+(e)
+[0.556
+0] Tj
+30 TJm
+(vir)
+[0.5
+0
+0.222
+0
+0.333
+0] Tj
+-15 TJm
+(us phiMoody)
+[0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 659.4 549.1] Tm
+0 0 Td
+/F10_0 1 Tf
+(Pb)
+[0.667
+0
+0.556
+0] Tj
+20 TJm
+(unalik)
+[0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.222
+0
+0.5
+0] Tj
+20 TJm
+(e)
+[0.556
+0] Tj
+30 TJm
+(vir)
+[0.5
+0
+0.222
+0
+0.333
+0] Tj
+-15 TJm
+(us phiV)
+[0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.222
+0
+0.667
+0] Tj
+70 TJm
+(ader)
+[0.556
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 639.82 560.47] Tm
+0 0 Td
+/F10_0 1 Tf
+(Pseudomonas phage P)
+[0.667
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.833
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.278
+0
+0.667
+0] Tj
+120 TJm
+(A1phi)
+[0.667
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.222
+0] Tj
+Q
+q
+Q
+q
+/DeviceRGB {} CS
+[0 0 0] SC
+[0.2 0.2 0.2] SC
+1.07 w
+[] 0 d
+0 J
+1 j
+10 M
+757.5 233.95 m
+760.24 233.95 l
+S
+757.5 245.32 m
+760.24 245.32 l
+S
+757.5 256.69 m
+760.24 256.69 l
+S
+757.5 268.06 m
+760.24 268.06 l
+S
+757.5 279.43 m
+760.24 279.43 l
+S
+757.5 290.8 m
+760.24 290.8 l
+S
+757.5 302.17 m
+760.24 302.17 l
+S
+757.5 313.54 m
+760.24 313.54 l
+S
+757.5 324.92 m
+760.24 324.92 l
+S
+757.5 336.29 m
+760.24 336.29 l
+S
+757.5 347.66 m
+760.24 347.66 l
+S
+757.5 359.03 m
+760.24 359.03 l
+S
+757.5 370.4 m
+760.24 370.4 l
+S
+757.5 381.77 m
+760.24 381.77 l
+S
+757.5 393.14 m
+760.24 393.14 l
+S
+757.5 404.51 m
+760.24 404.51 l
+S
+757.5 415.88 m
+760.24 415.88 l
+S
+757.5 427.25 m
+760.24 427.25 l
+S
+757.5 438.62 m
+760.24 438.62 l
+S
+757.5 449.99 m
+760.24 449.99 l
+S
+757.5 461.36 m
+760.24 461.36 l
+S
+757.5 472.73 m
+760.24 472.73 l
+S
+757.5 484.1 m
+760.24 484.1 l
+S
+757.5 495.47 m
+760.24 495.47 l
+S
+757.5 506.85 m
+760.24 506.85 l
+S
+757.5 518.22 m
+760.24 518.22 l
+S
+757.5 529.59 m
+760.24 529.59 l
+S
+757.5 540.96 m
+760.24 540.96 l
+S
+757.5 552.33 m
+760.24 552.33 l
+S
+757.5 563.7 m
+760.24 563.7 l
+S
+Q
+q
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+/DeviceRGB {} CS
+[0 0 0] SC
+[0 0 0] SC
+1.07 w
+[] 0 d
+0 J
+1 j
+10 M
+760.24 227.13 m
+1146.52 227.13 l
+S
+Q
+q
+Q
+q
+Q
+q
+/DeviceRGB {} CS
+[0 0 0] SC
+[0.2 0.2 0.2] SC
+1.07 w
+[] 0 d
+0 J
+1 j
+10 M
+777.8 224.39 m
+777.8 227.13 l
+S
+850.96 224.39 m
+850.96 227.13 l
+S
+924.12 224.39 m
+924.12 227.13 l
+S
+997.28 224.39 m
+997.28 227.13 l
+S
+1070.44 224.39 m
+1070.44 227.13 l
+S
+1143.59 224.39 m
+1143.59 227.13 l
+S
+Q
+q
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0.302 0.302 0.302] sc
+[9 0 0 9 771.54 215.73] Tm
+0 0 Td
+/F10_0 1 Tf
+(0.0)
+[0.556
+0
+0.278
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 844.7 215.73] Tm
+0 0 Td
+/F10_0 1 Tf
+(2.5)
+[0.556
+0
+0.278
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 917.86 215.73] Tm
+0 0 Td
+/F10_0 1 Tf
+(5.0)
+[0.556
+0
+0.278
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 991.02 215.73] Tm
+0 0 Td
+/F10_0 1 Tf
+(7.5)
+[0.556
+0
+0.278
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 1061.68 215.73] Tm
+0 0 Td
+/F10_0 1 Tf
+(10.0)
+[0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 1134.84 215.73] Tm
+0 0 Td
+/F10_0 1 Tf
+(12.5)
+[0.556
+0
+0.556
+0
+0.278
+0
+0.556
+0] Tj
+Q
+q
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0 0 0] sc
+[11 0 0 11 923.48 202.36] Tm
+0 0 Td
+/F10_0 1 Tf
+(Host Str)
+[0.722
+0
+0.556
+0
+0.5
+0
+0.278
+0
+0.278
+0
+0.667
+0
+0.278
+0
+0.333
+0] Tj
+10 TJm
+(ains)
+[0.556
+0
+0.222
+0
+0.556
+0
+0.5
+0] Tj
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0 0 0] sc
+[14 0 0 14 586.28 560.92] Tm
+0 0 Td
+/F11_0 1 Tf
+(B)
+[0.722
+0] Tj
+Q
+q
+581.23 6.97 570.77 189.68 re
+W
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+584.72 103.56 567.28 93.09 re
+W
+/DeviceRGB {} cs
+[0 0 0] sc
+[1 1 1] sc
+/DeviceRGB {} CS
+[0 0 0] SC
+[1 1 1] SC
+1.07 w
+[] 0 d
+1 J
+1 j
+10 M
+584.72 103.56 567.28 93.09 re
+f
+584.72 103.56 567.28 93.09 re
+S
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+592.94 133.99 462.96 57.18 re
+W
+/DeviceRGB {} cs
+[0 0 0] sc
+[1 1 1] sc
+592.94 133.99 462.96 57.18 re
+f
+[0.863 0.525 0.231] sc
+613.98 136.84 14.03 51.47 re
+f
+[0.537 0.616 0.643] sc
+628.01 136.84 28.06 51.47 re
+f
+[0.788 0.2 0.071] sc
+656.07 136.84 378.78 51.47 re
+f
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+/DeviceRGB {} CS
+[0 0 0] SC
+[0 0 0] SC
+1.07 w
+[] 0 d
+0 J
+1 j
+10 M
+592.94 133.99 m
+592.94 191.17 l
+S
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+/DeviceRGB {} CS
+[0 0 0] SC
+[0 0 0] SC
+1.07 w
+[] 0 d
+0 J
+1 j
+10 M
+592.94 133.99 m
+1055.89 133.99 l
+S
+Q
+q
+Q
+q
+Q
+q
+/DeviceRGB {} CS
+[0 0 0] SC
+[0.2 0.2 0.2] SC
+1.07 w
+[] 0 d
+0 J
+1 j
+10 M
+613.98 131.25 m
+613.98 133.99 l
+S
+719.2 131.25 m
+719.2 133.99 l
+S
+824.41 131.25 m
+824.41 133.99 l
+S
+929.63 131.25 m
+929.63 133.99 l
+S
+1034.85 131.25 m
+1034.85 133.99 l
+S
+Q
+q
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0.302 0.302 0.302] sc
+[9 0 0 9 605.22 122.59] Tm
+0 0 Td
+/F10_0 1 Tf
+(0.00)
+[0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 710.44 122.59] Tm
+0 0 Td
+/F10_0 1 Tf
+(0.25)
+[0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 815.66 122.59] Tm
+0 0 Td
+/F10_0 1 Tf
+(0.50)
+[0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 920.88 122.59] Tm
+0 0 Td
+/F10_0 1 Tf
+(0.75)
+[0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 1026.09 122.59] Tm
+0 0 Td
+/F10_0 1 Tf
+(1.00)
+[0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0] Tj
+Q
+q
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0 0 0] sc
+[11 0 0 11 784.48 109.21] Tm
+0 0 Td
+/F10_0 1 Tf
+(Relativ)
+[0.722
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.222
+0
+0.5
+0] Tj
+25 TJm
+(e P)
+[0.556
+0
+0.278
+0
+0.667
+0] Tj
+50 TJm
+(ercent)
+[0.556
+0
+0.333
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.278
+0] Tj
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+/DeviceRGB {} cs
+[0 0 0] sc
+[1 1 1] sc
+1067.23 124.88 79.29 75.4 re
+f
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+/DeviceRGB {} cs
+[0 0 0] sc
+[0.788 0.2 0.071] sc
+1073.61 165.82 15.86 15.86 re
+f
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+/DeviceRGB {} cs
+[0 0 0] sc
+[0.537 0.616 0.643] sc
+1073.61 148.54 15.86 15.86 re
+f
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+/DeviceRGB {} cs
+[0 0 0] sc
+[0.863 0.525 0.231] sc
+1073.61 131.26 15.86 15.86 re
+f
+Q
+q
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0 0 0] sc
+[9 0 0 9 1092.34 170.52] Tm
+0 0 Td
+/F10_0 1 Tf
+(dsDNA)
+[0.556
+0
+0.5
+0
+0.722
+0
+0.722
+0
+0.667
+0] Tj
+Q
+q
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0 0 0] sc
+[9 0 0 9 1092.34 153.24] Tm
+0 0 Td
+/F10_0 1 Tf
+(ssDNA)
+[0.5
+0
+0.5
+0
+0.722
+0
+0.722
+0
+0.667
+0] Tj
+Q
+q
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0 0 0] sc
+[9 0 0 9 1092.34 135.96] Tm
+0 0 Td
+/F10_0 1 Tf
+(Unclassified)
+[0.722
+0
+0.556
+0
+0.5
+0
+0.222
+0
+0.556
+0
+0.5
+0
+0.5
+0
+0.222
+0
+0.278
+0
+0.222
+0
+0.556
+0
+0.556
+0] Tj
+Q
+q
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0 0 0] sc
+[14 0 0 14 589.77 181.57] Tm
+0 0 Td
+/F11_0 1 Tf
+(C)
+[0.722
+0] Tj
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+584.72 10.46 567.28 93.09 re
+W
+/DeviceRGB {} cs
+[0 0 0] sc
+[1 1 1] sc
+/DeviceRGB {} CS
+[0 0 0] SC
+[1 1 1] SC
+1.07 w
+[] 0 d
+1 J
+1 j
+10 M
+584.72 10.46 567.28 93.09 re
+f
+584.72 10.46 567.28 93.09 re
+S
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+592.94 40.89 482.47 57.18 re
+W
+/DeviceRGB {} cs
+[0 0 0] sc
+[1 1 1] sc
+592.94 40.89 482.47 57.18 re
+f
+[0.537 0.616 0.643] sc
+614.87 43.75 365.51 51.47 re
+f
+[0.788 0.2 0.071] sc
+980.37 43.75 73.1 51.47 re
+f
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+/DeviceRGB {} CS
+[0 0 0] SC
+[0 0 0] SC
+1.07 w
+[] 0 d
+0 J
+1 j
+10 M
+592.94 40.89 m
+592.94 98.08 l
+S
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+/DeviceRGB {} CS
+[0 0 0] SC
+[0 0 0] SC
+1.07 w
+[] 0 d
+0 J
+1 j
+10 M
+592.94 40.89 m
+1075.41 40.89 l
+S
+Q
+q
+Q
+q
+Q
+q
+/DeviceRGB {} CS
+[0 0 0] SC
+[0.2 0.2 0.2] SC
+1.07 w
+[] 0 d
+0 J
+1 j
+10 M
+614.87 38.15 m
+614.87 40.89 l
+S
+724.52 38.15 m
+724.52 40.89 l
+S
+834.17 38.15 m
+834.17 40.89 l
+S
+943.82 38.15 m
+943.82 40.89 l
+S
+1053.47 38.15 m
+1053.47 40.89 l
+S
+Q
+q
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0.302 0.302 0.302] sc
+[9 0 0 9 606.11 29.5] Tm
+0 0 Td
+/F10_0 1 Tf
+(0.00)
+[0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 715.76 29.5] Tm
+0 0 Td
+/F10_0 1 Tf
+(0.25)
+[0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 825.41 29.5] Tm
+0 0 Td
+/F10_0 1 Tf
+(0.50)
+[0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 935.07 29.5] Tm
+0 0 Td
+/F10_0 1 Tf
+(0.75)
+[0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0] Tj
+[1 0 0 1 0 0] Tm
+0 0 Td
+[9 0 0 9 1044.72 29.5] Tm
+0 0 Td
+/F10_0 1 Tf
+(1.00)
+[0.556
+0
+0.278
+0
+0.556
+0
+0.556
+0] Tj
+Q
+q
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0 0 0] sc
+[11 0 0 11 794.24 16.12] Tm
+0 0 Td
+/F10_0 1 Tf
+(Relativ)
+[0.722
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.278
+0
+0.222
+0
+0.5
+0] Tj
+25 TJm
+(e P)
+[0.556
+0
+0.278
+0
+0.667
+0] Tj
+50 TJm
+(ercent)
+[0.556
+0
+0.333
+0
+0.5
+0
+0.556
+0
+0.556
+0
+0.278
+0] Tj
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+/DeviceRGB {} cs
+[0 0 0] sc
+[1 1 1] sc
+1086.74 40.43 59.78 58.12 re
+f
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+/DeviceRGB {} cs
+[0 0 0] sc
+[0.788 0.2 0.071] sc
+1093.12 64.08 15.86 15.86 re
+f
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+/DeviceRGB {} cs
+[0 0 0] sc
+[0.537 0.616 0.643] sc
+1093.12 46.8 15.86 15.86 re
+f
+Q
+q
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0 0 0] sc
+[9 0 0 9 1111.85 68.78] Tm
+0 0 Td
+/F10_0 1 Tf
+(circular)
+[0.5
+0
+0.222
+0
+0.333
+0
+0.5
+0
+0.556
+0
+0.222
+0
+0.556
+0
+0.333
+0] Tj
+Q
+q
+Q
+q
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0 0 0] sc
+[9 0 0 9 1111.85 51.5] Tm
+0 0 Td
+/F10_0 1 Tf
+(linear)
+[0.222
+0
+0.222
+0
+0.556
+0
+0.556
+0
+0.556
+0
+0.333
+0] Tj
+Q
+q
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+Q
+q
+584.72 10.46 567.28 186.19 re
+W
+[1 0 0 1 0 0] Tm
+0 0 Td
+/DeviceRGB {} cs
+[0 0 0] sc
+[0 0 0] sc
+[14 0 0 14 589.77 88.48] Tm
+0 0 Td
+/F11_0 1 Tf
+(D)
+[0.722
+0] Tj
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+581.23 6.97 570.77 569.03 re
+W
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+3.49 3.49 1148.51 572.51 re
+W
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+q
+Q
+Q
+showpage
+%%PageTrailer
+pdfEndPage
+end
+%%Trailer
+%%DocumentSuppliedResources:
+%%EOF

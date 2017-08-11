@@ -28,7 +28,6 @@
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
-\usepackage{longtable,booktabs}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -240,14 +239,14 @@ subjected to virus-like particle (VLP) purification, which removed
 contaminating DNA from human cells, bacteria, etc. To this end, the
 publishing authors employed combinations of filtration, chloroform/DNase
 treatment, and cesium chloride gradients to eliminate organismal DNA
-(bacteria, human, fungal, etc) and thereby allow for direct assessment
-of both the extracellular and fully-assembled intracellular virome
-\textbf{(Supplemental Figure \ref{SequenceStats} A-B)} (14, 39). Each
-research group reported quality control measures to ensure the purity of
-the virome sequence datasets, using both computational and molecular
-techniques, including, for example, 16S rRNA gene qPCR \textbf{(Table
-S1)}. These reports confirmed that the virome libraries consisted of
-highly purified virus genomic DNA.
+(e.g.~bacteria, human, fungi, etc) and thereby allow for direct
+assessment of both the extracellular and fully-assembled intracellular
+virome \textbf{(Supplemental Figure \ref{SequenceStats} A-B)} (14, 39).
+Each research group reported quality control measures to ensure the
+purity of the virome sequence datasets, using both computational and
+molecular techniques (e.g.~16S rRNA gene qPCR) \textbf{(Table S1)}.
+These reports confirmed that the virome libraries consisted of highly
+purified virus genomic DNA.
 
 The bacterial and viral sequences from these studies were quality
 filtered and assembled into contigs. We further grouped the related
@@ -261,29 +260,29 @@ phages. Contig lengths within clusters ranged between \(10^{3}\) and
 \(10^{5.5}\) bp \textbf{(Supplemental Figure \ref{ContigStats} -
 \ref{ClusterStats})}.
 
-We supplemented the previous study findings \textbf{(Table S1)} and
-found that, in light of the rigorous purification and quality control
-during sample collection and preparation, 77\% (228 / 298 operational
-genomic units) still had some nucleotide similarity to a given bacterial
-reference genome (e-value \textless{} \(10^{-25}\)). As absence of
-bacterial contamination has been confirmed \textbf{(Table S1)}, we
-interpret this as evidence that the majority of the gut and skin
-bacteriophages were temperate and thereby shared elements with bacterial
-reference genomes that contained similar integrated phages when
-sequenced--a trend previously reported (14). Additionally, we identified
-two OGUs as being complete phages using the stringent Virsorter phage
-identification algorithm (class 1 confidence group) (47).
+While supplementing the previous quality control measures \textbf{(Table
+S1)} we found that, in light of the rigorous purification and quality
+control during sample collection and preparation, 77\% (228 / 298
+operational genomic units) still had some nucleotide similarity to a
+given bacterial reference genome (e-value \textless{} \(10^{-25}\)). As
+absence of bacterial contamination had been confirmed by sensitive
+molecular methods \textbf{(Table S1)}, we interpreted this as evidence
+that the majority of the gut and skin bacteriophages were temperate and
+thereby shared elements with bacterial reference genomes that contained
+similar integrated phages when sequenced--a trend previously reported
+(14). Additionally, we identified two OGUs as being complete phages
+using the stringent Virsorter phage identification algorithm (class 1
+confidence group) (47).
 
-While the whole metagenomic shotgun sequence samples were not subjected
-to purification, they primarily consisted of bacteria, quantified with
-an average viral relative abundance of 0.4\% \textbf{(Table S1)} (13,
-14, 38, 39). We again supplemented these findings and found that only
-2\% (6 / 280 operational genomic units) of bacteria had significantly
-strong nucleotide similarity to phage reference genomes (e-value
-\textless{} \(10^{-25}\)) (13, 14, 38, 39). No OGUs were confidently
-identified as lytic or temperate phage OGUs in the bacterial dataset
-using the Virsorter algorithm (47). Together this suggests only minimal
-``contamination'' of the bacterial OGUs.
+The whole metagenomic shotgun sequence samples primarily consisted of
+bacteria, with an average viral relative abundance of 0.4\%
+\textbf{(Table S1)} (13, 14, 38, 39). We found that only 2\% (6 / 280
+OGUs) of bacterial OGUs had significantly strong nucleotide similarity
+to phage reference genomes (e-value \textless{} \(10^{-25}\)) (13, 14,
+38, 39). No OGUs were confidently identified as lytic or temperate phage
+OGUs in the bacterial dataset using the Virsorter algorithm (47).
+Together this suggests only minimal ``contamination'' of the bacterial
+OGUs.
 
 \subsection{Evaluating the Model to Predict Phage-Bacteria
 Interactions}\label{evaluating-the-model-to-predict-phage-bacteria-interactions}
@@ -336,7 +335,7 @@ for each sample \textbf{(Figure \ref{RocCurve} D)}. Metadata including
 study, sample ID, disease, and OGU abundance within the community were
 stored in the master network for parsing in downstream analyses
 \textbf{(Supplemental Figure \ref{NetworkDiagram})}. Bacterial and phage
-relative abundance was recorded in each sample for each OGU, and the
+relative abundance was recorded in each sample for each OGU and the
 weight of the edge connecting those OGUs was calculated as a function of
 those relative abundance values. The separate extraction of the phage
 and bacterial libraries ensured a more accurate measurement of the
@@ -351,7 +350,7 @@ size; the greatest number of traversed vertices required between two
 vertices) and included 576 (297 phages, 279 bacteria, 99.7\% total) and
 72,127 (99.8\%) of the master network nodes and edges, respectively
 \textbf{(Figure \ref{RocCurve} E - F)}. The phages and bacteria in the
-gut diet and twin sample sets were more sparsely related, with the diet
+diet and twin sample sets were more sparsely related, with the diet
 study consisting of 89 (41 phages, 48 bacteria) nodes and 5,566
 relationships, and the twin study containing 137 (36 phages, 101
 bacteria) nodes and 17,250 relationships \textbf{(Figure \ref{RocCurve}
@@ -389,8 +388,8 @@ divisions across the network (30, 58). We used this information to
 calculate the average connectedness per sample, which was corrected for
 the maximum potential degree of connectedness. Unfortunately our dataset
 was insufficiently powered to make strong conclusions toward this
-hypothesis, but the data still provides an interesting ``case
-observation'' that warrants further investigation.
+hypothesis, but this is an interesting observation that warrants further
+investigation.
 
 Using our limited sample set, we observed that the gut microbiome
 network structures associated with high-fat diets appeared less
@@ -417,9 +416,9 @@ obesity-associated network appeared to have a higher degree centrality
 than the healthy-associated networks \textbf{(Figure \ref{dietnetworks}
 D)}. These results suggested that the obesity-associated networks are
 less connected, having microbes further from all other microbes within
-the community. This again comes with the caveat that this is a case
-observation with too small of a sample size to make more substantial
-claims. This is however an area for future investigation.
+the community. This again comes with the caveat that this is a
+preliminary observation with too small of a sample size to make more
+substantial claims.
 
 \subsection{Individuality of Microbial
 Networks}\label{individuality-of-microbial-networks}
@@ -451,9 +450,9 @@ A}). Network dissimilarity within each person over the 8-10 day sampling
 period was less than the average dissimilarity between that person and
 others, although this difference was not statistically significant
 (p-value = 0.125, \textbf{Figure \ref{intradiv} B}). Four of the five
-available subjects were used here because one of the subjects was not
-sampled at the initial time point. The lack of statistical confidence
-was again due to the small sample size of this dataset.
+available subjects were used because one of the subjects was not sampled
+at the initial time point. The lack of statistical confidence was likely
+due to the small sample size of this dataset.
 
 Although there was evidence for gut network conservation among
 individuals, we found no evidence for conservation of gut network
@@ -911,11 +910,11 @@ The authors report no conflicts of interest.
 
 \newpage
 
-\section{Figures}\label{figures}
+\section{Figure Legends}\label{figure-legends}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.85000\textwidth]{../figures/rocCurves.pdf}
+\includegraphics[width=0.85000\textwidth]{}
 \caption{\textbf{Summary of Multi-Study Network Model.} \emph{(A)
 Average ROC curve used to create the microbiome-virome infection
 prediction model. (B) Importance scores associated with the metrics used
@@ -942,11 +941,9 @@ sub-networks (diet study = red, skin study = yellow, twin study =
 green).} \label{RocCurve}}
 \end{figure}
 
-\newpage
-
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.90000\textwidth]{../figures/dietnetworks.pdf}
+\includegraphics[width=0.90000\textwidth]{}
 \caption{\textbf{Impact of Diet and Obesity on Gut Network Structure.}
 \emph{(A) Quantification of average degree centrality (number of edges
 per node) and (B) closeness centrality (average distance from each node
@@ -966,7 +963,7 @@ bacteria data.} \label{dietnetworks}}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.90000\textwidth]{../figures/intrapersonal_diversity.pdf}
+\includegraphics[width=0.90000\textwidth]{}
 \caption{\textbf{Intrapersonal vs Interpersonal Network Dissimilarity
 Across Different Human Systems.} \emph{(A) NMDS ordination illustrating
 network dissimilarity between subjects over time. Each sample is colored
@@ -995,7 +992,7 @@ a paired Wilcoxon test.}\label{intradiv}}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.75000\textwidth]{../figures/skinplotresults.pdf}
+\includegraphics[width=0.75000\textwidth]{}
 \caption{\textbf{Impact of Skin Micro-Environment on Microbiome Network
 Structure.} \emph{(A) Notched box-plot depicting differences in average
 eigenvector centrality between moist, intermittently moist, and
@@ -1020,13 +1017,13 @@ and non-significant comparisons are gray.}\label{skinnetwork}}
 
 \newpage
 
-\section{Supplemental Figures}\label{supplemental-figures}
+\section{Supplemental Figure Legends}\label{supplemental-figure-legends}
 
 \beginsupplement
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.80000\textwidth]{../figures/SequenceAbund.pdf}
+\includegraphics[width=0.80000\textwidth]{}
 \caption{\textbf{Sequencing Depth Summary.} \emph{Number of sequences
 that aligned to (A) Phage and (B) Bacteria operational genomic units per
 sample and colored by study.}\label{SequenceStats}}
@@ -1036,7 +1033,7 @@ sample and colored by study.}\label{SequenceStats}}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.50000\textwidth]{../figures/ContigStats.pdf}
+\includegraphics[width=0.50000\textwidth]{}
 \caption{\textbf{Contig Summary Statistics.} \emph{Scatter plot heat map
 with each hexagon representing the abundance of contigs. Contigs are
 organized by length on the x-axis and the number of aligned sequences on
@@ -1047,7 +1044,7 @@ the y-axis.}\label{ContigStats}}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.80000\textwidth]{../figures/ClusterStats.pdf}
+\includegraphics[width=0.80000\textwidth]{}
 \caption{\textbf{Operational Genomic Unit Summary Statistics.}
 \emph{Scatter plot with operational genomic unit clusters organized by
 average contig length within the cluster on the x-axis and the number of
@@ -1059,7 +1056,7 @@ bacteriophages and (B) bacteria are shown.}\label{ClusterStats}}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=1.00000\textwidth]{../figures/BenchmarkDataset.pdf}
+\includegraphics[width=1.00000\textwidth]{}
 \caption{\textbf{Summary information of validation dataset used in the
 interaction predictive model.} \emph{A) Categorical heat-map
 highlighting the experimentally validated positive and negative
@@ -1075,7 +1072,7 @@ dataset.}\label{ValidationOverview}}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.50000\textwidth]{../figures/graphdatabasediagram.pdf}
+\includegraphics[width=0.50000\textwidth]{}
 \caption{\textbf{Structure of the interactive network.} \emph{Metadata
 relationships to samples (Phage Sample ID and Bacteria Sample ID)
 included the associated time point, the study, the subject the sample
@@ -1089,7 +1086,7 @@ recorded.}\label{NetworkDiagram}}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.75000\textwidth]{../figures/intraallskin.pdf}
+\includegraphics[width=0.75000\textwidth]{}
 \caption{\textbf{Intrapersonal vs Interpersonal Dissimilarity of the
 Skin.} \emph{Quantification of skin network dissimilarity within the
 same subject and anatomical location over time (intrapersonal) and the
@@ -1103,100 +1100,10 @@ was calculated using a paired Wilcoxon test.}\label{allskin}}
 
 \newpage
 
-\section{Supplemental Tables}\label{supplemental-tables}
+\section{Supplemental Table Legend}\label{supplemental-table-legend}
 
-\begin{longtable}[]{@{}lll@{}}
-\caption{Summary of the primary quality control measures reported in the
-original publications of the viromes used in this current
-study.}\tabularnewline
-\toprule
-\begin{minipage}[b]{0.24\columnwidth}\raggedright\strut
-Study
-\strut\end{minipage} &
-\begin{minipage}[b]{0.17\columnwidth}\raggedright\strut
-Citation
-\strut\end{minipage} &
-\begin{minipage}[b]{0.50\columnwidth}\raggedright\strut
-Virome Quality Control Measures
-\strut\end{minipage}\tabularnewline
-\midrule
-\endfirsthead
-\toprule
-\begin{minipage}[b]{0.24\columnwidth}\raggedright\strut
-Study
-\strut\end{minipage} &
-\begin{minipage}[b]{0.17\columnwidth}\raggedright\strut
-Citation
-\strut\end{minipage} &
-\begin{minipage}[b]{0.50\columnwidth}\raggedright\strut
-Virome Quality Control Measures
-\strut\end{minipage}\tabularnewline
-\midrule
-\endhead
-\begin{minipage}[t]{0.24\columnwidth}\raggedright\strut
-Diet \& the Gut Virome
-\strut\end{minipage} &
-\begin{minipage}[t]{0.17\columnwidth}\raggedright\strut
-Minot, 2011
-\strut\end{minipage} &
-\begin{minipage}[t]{0.50\columnwidth}\raggedright\strut
-• 16S rRNA gene qPCR revealed reduction in bacterial DNA of at least
-10,000X.
-\strut\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.24\columnwidth}\raggedright\strut
-\strut\end{minipage} &
-\begin{minipage}[t]{0.17\columnwidth}\raggedright\strut
-\strut\end{minipage} &
-\begin{minipage}[t]{0.50\columnwidth}\raggedright\strut
-• Alignment of shotgun sequences revealed 35X reduction in 16S rRNA gene
-alignments in virome compared to bacteria shotgun.
-\strut\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.24\columnwidth}\raggedright\strut
-\strut\end{minipage} &
-\begin{minipage}[t]{0.17\columnwidth}\raggedright\strut
-\strut\end{minipage} &
-\begin{minipage}[t]{0.50\columnwidth}\raggedright\strut
-• Electron microscopy and nucleic acid stain techniques visually
-confirmed lack of bacteria in virome samples.
-\strut\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.24\columnwidth}\raggedright\strut
-Skin Virome
-\strut\end{minipage} &
-\begin{minipage}[t]{0.17\columnwidth}\raggedright\strut
-Hannigan, 2015
-\strut\end{minipage} &
-\begin{minipage}[t]{0.50\columnwidth}\raggedright\strut
-• Significant reduction in reads mapping to 16S rRNA gene sequence,
-compared to bacteria shotgun dataset.
-\strut\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.24\columnwidth}\raggedright\strut
-\strut\end{minipage} &
-\begin{minipage}[t]{0.17\columnwidth}\raggedright\strut
-\strut\end{minipage} &
-\begin{minipage}[t]{0.50\columnwidth}\raggedright\strut
-• Significant reduction in reads mapping to human genome, compared to
-bacteria shotgun dataset.
-\strut\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.24\columnwidth}\raggedright\strut
-\strut\end{minipage} &
-\begin{minipage}[t]{0.17\columnwidth}\raggedright\strut
-\strut\end{minipage} &
-\begin{minipage}[t]{0.50\columnwidth}\raggedright\strut
-• Average viral relative abundance of 0.4\% in bacterial shotgun
-dataset.
-\strut\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.24\columnwidth}\raggedright\strut
-Twin Gut Virome
-\strut\end{minipage} &
-\begin{minipage}[t]{0.17\columnwidth}\raggedright\strut
-Reyes, 2010
-\strut\end{minipage} &
-\begin{minipage}[t]{0.50\columnwidth}\raggedright\strut
-• Confirmation that 2.5\% of bacterial shotgun reads mapped to virome,
-and 76\% of virome reads matched the shotgun 2.5\%.
-\strut\end{minipage}\tabularnewline
-\bottomrule
-\end{longtable}
+Table: Summary of the primary quality control measures reported in the
+original publications of the viromes used in this current study.
 
 \newpage
 

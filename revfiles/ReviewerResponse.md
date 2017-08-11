@@ -46,7 +46,7 @@ With respect to these analyses, the authors write for example, "We found evidenc
 
 * Throughout the manuscript, it is hard to follow how which and how many data points were used for each analysis. A supplementary table listing the samples for each of the studies and providing sample sizes in each figure would be very helpful.
 
-*We added the relevant sample size information to the text and figure legends to make clearer what the data actually represent.* **LINES 191 - 192; 200 - 202; 219 - 221; 224 - 225; 229; FIGURE LEGENDS 2,3,4**
+*We added the relevant sample size information to the text and figure legends to make clearer what the data actually represent.* **LINES 191 - 192; 200 - 202; 224 - 225; 229; FIGURE LEGENDS 2,3,4**
 
 * Figure 1D is not informative and could be removed since the information is provided in the main text.
 
@@ -98,7 +98,7 @@ The work presented in the manuscript entitled "Biogeography & Environmental Cond
 
 2. Number of samples per study and metadata groups are not reported but the authors state about the diet effect: "Tests for statistical differences were not performed due to the small sample size ". If sample sizes are small for statistical analysis, no comparison should be made in the first place. The plots of Figure 2 feature 2 vs. 3 comparison for high fat vs. low fat and 2 vs. 1 for obese vs. healthy...are these the nb. of samples per group? Bacterial or phage diversity are likely confounders for network connectivity comparisons and this is overlooked here.
 
-*We appreciate this point and while we attempted to report this as more of a case trial observation (as outlined for the related comment above), we unintentionally used too strong of language, thus overstating the finding beyond our intentions. We also needed to clarify the analysis being performed. It is also true that the network analysis is a function of the diversity of the two communities, and we did not wish to make it sound like they are separate. We would be hesitant however to call this dependence a confounder since it is more building off of the diversity data and incorporating other additional information from the community. We made this clearer in the text.* **LINES 191 - 192; 200 - 202; 219 - 221; 224 - 225; 229; FIGURE LEGENDS 2,3,4**
+*We appreciate this point and while we attempted to report this as more of a case trial observation (as outlined for the related comment above), we unintentionally used too strong of language, thus overstating the finding beyond our intentions. We also needed to clarify the analysis being performed. It is also true that the network analysis is a function of the diversity of the two communities, and we did not wish to make it sound like they are separate. We would be hesitant however to call this dependence a confounder since it is more building off of the diversity data and incorporating other additional information from the community. We made this clearer in the text.* **LINES 191 - 192; 200 - 202; 224 - 225; 229; FIGURE LEGENDS 2,3,4**
 
 3. Graph-analysis: Analysis of network nestedness and modularity (Weitz et al. Trends in Micr. 2012) may be more relevant than diameter, degree and closeness for phage-host networks.
 
@@ -117,7 +117,7 @@ The work presented in the manuscript entitled "Biogeography & Environmental Cond
 
 3.  Dataset: The authors should report the number of samples per study and associated metadata (e.g low /high fat diet, obese/lean).
 
-*We have added this information.* **LINES 191 - 192; 200 - 202; 219 - 221; 224 - 225; 229; FIGURE LEGENDS 2,3,4**
+*We have added this information.* **LINES 191 - 192; 200 - 202; 224 - 225; 229; FIGURE LEGENDS 2,3,4**
 
 4.  OGU construction, why the OGUs were constructed with CONCOCT without coverage information (CONCOCT-NC)?
 

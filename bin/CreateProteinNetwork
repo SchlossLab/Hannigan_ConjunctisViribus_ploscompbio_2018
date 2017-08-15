@@ -3,7 +3,7 @@
 validation=${6}
 
 # Load perl module
-module load perl-modules
+module load perl-modules/1.0
 
 # # Remove proxy env variables before running the perl script
 # unset http_proxy https_proxy ftp_proxy no_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY NO_PROXY

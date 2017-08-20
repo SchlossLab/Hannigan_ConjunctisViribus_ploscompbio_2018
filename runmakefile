@@ -24,4 +24,4 @@ module load bioperl/1.6.1
 cd /nfs/turbo/schloss-lab/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
-make expnetwork
+make validationnetwork

@@ -441,7 +441,7 @@ expnetwork :
 	# Note that this resets the graph database and erases
 	# the validation information we previously added.
 	echo $(shell date)  :  Building network using experimental dataset predictive values >> ${DATENAME}.makelog
-	rm -r ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
+	rm -rf ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	mkdir ../../bin/neo4j-enterprise-2.3.0/data/graph.db/
 	bash ./bin/CreateProteinNetwork \
 		${VALDIR}/Interactions.tsv \

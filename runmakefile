@@ -17,9 +17,11 @@
 # Set the proper R module
 module load R/3.3.3
 module load virsorter
+module load perl-modules
+module load bioperl/1.6.1
 
 # Set working directory
 cd /nfs/turbo/schloss-lab/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
-make runvirsorter
+make expnetwork

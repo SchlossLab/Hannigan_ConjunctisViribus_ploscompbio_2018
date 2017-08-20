@@ -20,7 +20,7 @@ if [[ ${validation} == "FALSE" ]]; then
 			-b "${3}" \
 			-p "${4}" \
 			-x "${5}" \
-		|| /mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
+		|| /nfs/turbo/schloss-lab/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
 else
 	perl ./bin/BenchmarkDatabaseCreation.pl \
 			-i "${1}" \
@@ -29,8 +29,8 @@ else
 			-p "${4}" \
 			-x "${5}" \
 			-v \
-		|| /mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
+		|| /nfs/turbo/schloss-lab/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
 fi
 
 # Stop local neo4j server
-/mnt/EXT/Schloss-data/bin/neo4j-enterprise-2.3.0/bin/neo4j stop
+/nfs/turbo/schloss-lab/bin/neo4j-enterprise-2.3.0/bin/neo4j stop

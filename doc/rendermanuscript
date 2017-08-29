@@ -22,6 +22,9 @@ latexdiff oman.tex manuscript.tex > diff.tex
 # Must run twice for proper figure number references
 xelatex diff.tex
 xelatex diff.tex
+# Run through the unmarked version
+xelatex manuscript.tex
+xelatex manuscript.tex
 # Convert output pdf the long way
 mv diff.pdf final-diff.pdf
 rm diff.*

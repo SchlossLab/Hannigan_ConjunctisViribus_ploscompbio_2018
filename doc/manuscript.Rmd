@@ -58,7 +58,7 @@ Viruses and bacteria are critical components of the human microbiome and play im
 
 \newpage
 
-# Importance
+# Author Summary
 
 The human microbiome, the collection of microbial communities that colonize the human body, is a crucial component to health and disease. Two major components to the human microbiome are the bacterial and viral communities. These communities have primarily been studied separately using metrics of community composition and diversity. These approaches have failed to capture the complex dynamics of interacting bacteria and phage communities, which frequently share genetic information and work together to maintain stable ecosystems. Removal of bacteria or phage can disrupt or even collapse those ecosystems. Relationship-based network approaches allow us to capture this interaction information. Using this network-based approach with three independent human cohorts, we were able to present an initial understanding of how phage-bacteria networks differ throughout the human body, so as to provide a baseline for future studies of how and why microbiome networks differ in disease states.
 
@@ -137,7 +137,7 @@ Together our work takes an initial step towards defining bacteria-virus interact
 ## Code Availability
 A reproducible version of this manuscript written in R markdown and all of the code used to obtain and process the sequencing data is available at the following GitHub repository:
 
-https://github.com/SchlossLab/Hannigan_ConjunctisViribus_mSystems_2017
+https://github.com/SchlossLab/Hannigan_ConjunctisViribus_ploscompbio_2017
 
 ## Data Acquisition & Quality Control
 Raw sequencing data and associated metadata were acquired from the NCBI sequence read archive (SRA). Supplementary metadata were acquired from the same SRA repositories and their associated manuscripts. The gut virome diet study (SRA: `SRP002424`), twin virome studies (SRA: `SRP002523`; `SRP000319`), and skin virome study (SRA: `SRP049645`) were downloaded as `.sra` files. Sequencing files were converted to `fastq` format using the `fastq-dump` tool of the NCBI SRA Toolkit (v2.2.0). Sequences were quality trimmed using the Fastx toolkit (v0.0.14) to exclude bases with quality scores below 33 and shorter than 75 bp [@FASTXToolkit:wr]. Paired end reads were filtered to exclude sequences missing their corresponding pair using the `get_trimmed_pairs.py` script available in the source code.

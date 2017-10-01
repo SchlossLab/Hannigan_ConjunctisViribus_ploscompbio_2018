@@ -11,14 +11,42 @@ cc:
 
 \today
 
-To the editors of mSystems:
 
-We **resubmit** for your review: "Biogeography and Environmental Conditions Shape Phage and Bacteria Interaction Networks Across the Healthy Human Microbiome" by Geoffrey Hannigan and colleagues. This manuscript was reviewed once at mSystems by **Dr. Mani Arumugam** as manuscript **mSystems00056-17**. Because of the time required to incorporate the reviewer comments, the manuscript was rejected but invited for resubmission. We found the reviewer comments to be incredibly helpful and feel that addressing the comments has substantially improved the manuscript.
+To the editors of PLOS Computational Biology:
 
-In addition to this letter, we have provided a revised version of the manuscript and a point-by-point response to the reviewer comments.
+We submit for your review: "Biogeography & environmental conditions shape bacteriophage & bacteria interaction networks across the human microbiome" by Geoffrey Hannigan and colleagues. We believe this work to be especially well suited for publication in PLOS Computational Biology and highly relevant to a broader scientific readership as well as the general public.
 
-The reviewers' primary concerns for the manuscript were 1) overstatements with underpowered datasets, 2) flaws in network analysis and inference, and 3) filtering actual viral sequences from the bacterial metagenomes. Although we attempted to present the underpowered sections of the manuscript as "case studies/observations", we realize we fell short and further clarified this in the text. We addressed the perceived flaws in the network analysis and inference (second point) by clarifying our methods and interpretations. It appears our own inadequate descriptions and ambiguity resulted in the misunderstandings. We addressed the third point by including more robust quality control information done in the original studies (both computational and molecular QC) and out own supplemental analyses. We also addressed the other minor points raised by the reviewers.
+Previous work has focused on studying the human microbiome bacterial and viral communities separately, relying on metrics such as community composition and diversity. These metrics fail to account for the relationships between bacteria and viruses, which account for much of the behavior of these two communities. To address this knowledge and methodological gap, we performed a re-analysis of three existing bacterial and viral metagenomic datasets using network-based techniques that allowed us to focus on the relationships between these interacting communities. Our findings provide new insight into the ecological networks of human bacterial and viral communities. The methods we implemented also provide an additional avenue for future microbiome researchers to build off of.
 
-In addition to the reviewer points, we addressed an issue a collaborator raised with our data analysis and presentation. We initially presented our random forest model performance using cross-validation results, but we should have shown nested cross-validation so as to avoid reporting an over fit model by parameter tuning during the cross-validation procedure. This change is represented in the manuscript and in Figure 1A.
+Our lab strives to set high standards of reproducibility and transparency, while generating and publishing high quality data. As such, all analysis work-flows, scripts, and datasets have been made publicly available for other researchers to utilize.
+
+The data presented in this manuscript are original and the manuscript is not under consideration elsewhere. A preprint version of this manuscript has been made available through BioRxiv (doi: https://doi.org/10.1101/144642). All authors have read and approve the manuscript for publication.
+
+We suggest Jason Papin as an appropriate handling editor.
+
+We suggest the following reviewers for this publication:
+
+| **Bonnie Hurwitz, PhD**
+| Assistant Professor
+| Dept. of Agricultural and BioSystems Engineering
+| University of Arizona
+| Email: bhurwitz@email.arizona.edu
+
+| **David Pride, MD**
+| Assistant Professor
+| Dept. of Pathology
+| University of California San Diego
+| Email: dpride@ucsd.edu
+
+\newpage
+
+| **K. Eric Wommack, PhD**
+| Professor
+| Dept. of Plant and Soil Sciences
+| Dept. of Marine Biology and Biochemistry
+| University of Delaware
+| Email: wommack@dbi.udel.edu
+
+Unfortunately, we must ask that Rob Knight and Matthew Sullivan not be used as an editor or reviewers since previous interactions with these individuals indicate that they are unable to provide an unbiased assessment of our work.
 
 We thank you for your consideration and look forward to your response.

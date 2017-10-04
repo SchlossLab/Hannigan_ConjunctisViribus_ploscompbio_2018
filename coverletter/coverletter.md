@@ -22,28 +22,4 @@ Our lab strives to set high standards of reproducibility and transparency, while
 
 The data presented in this manuscript are original and the manuscript is not under consideration elsewhere. A preprint version of this manuscript has been made available through BioRxiv (doi: https://doi.org/10.1101/144642). All authors have read and approve the manuscript for publication.
 
-We suggest the following reviewers for this publication:
-
-| **Siv Watkins, PhD**
-| Assistant Professor
-| Dept. of Biology
-| New Mexico Tech
-| Email: siv.watkins@nmt.edu
-
-| **Catherine Putonti, PhD**
-| Associate Professor
-| Dept. of Biology
-| Loyola University Chicago
-| Email: cputonti@luc.edu
-
-\newpage
-
-| **Mya Breitbart, PhD**
-| Professor
-| College of Marine Science
-| University of South Florida
-| Email: mya@usf.edu
-
-Unfortunately, we must ask that Rob Knight and Matthew Sullivan not be used as an editor or reviewers since previous interactions with these individuals indicate that they are unable to provide an unbiased assessment of our work.
-
 We thank you for your consideration and look forward to your response.

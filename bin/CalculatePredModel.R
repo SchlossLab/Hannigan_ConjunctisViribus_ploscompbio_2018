@@ -24,6 +24,9 @@ library("plotROC"),
 library("cowplot")
 ))
 
+library(parallel)
+library(tidyr)
+
 ###################
 # Set Subroutines #
 ###################
@@ -74,9 +77,11 @@ nestedcv <- function(x, iterations = 5, split = 0.8) {
     
     dftrain <- x[trainIndex,]
     dftest <- x[-trainIndex,]
+
+    # write(summary(dftrain$Interaction), stdout())
+    # write(summary(dftest$Interaction), stdout())
     
     outmodel <- caretmodel(dftrain)
-    outmodel
     
     x_test <- dftest[,2:5]
     y_test <- dftest[,1]
@@ -91,6 +96,9 @@ nestedcv <- function(x, iterations = 5, split = 0.8) {
     sumroc <- sumout[[1]]
     sumsens <- sumout[[2]]
     sumspec <- sumout[[3]]
+
+    write(c(sumroc, sumsens, sumspec), stdout())
+
     return(list(sumroc, outpred, sumsens, sumspec))
   })
 
@@ -103,12 +111,29 @@ nestedcv <- function(x, iterations = 5, split = 0.8) {
   return(c(maxl, medl, minl))
 }
 
+nestedVariance <- function(y, iter = 32) {
+  ol <- mclapply(1:iter, mc.cores = 4, function(j) {
+    write(paste("Running Iteration ", j), stdout())
+    nr <- nestedcv(y, iterations = 25, split = 0.75)
+    nauc <- nr[[5]]
+    nsens <- nr[[7]]
+    nspec <- nr[[8]]
+    
+    medianResult <- c(nauc, nsens, nspec)
+    return(medianResult)
+  })
+  od <- data.frame(do.call("rbind", ol))
+  colnames(od) <- c("AUC", "Sens", "Spec")
+  return(od)
+}
+
 ################
 # Run Analysis #
 ################
 
 # Start the connection to the graph
 # If you are getting a lack of permission, disable local permission on Neo4J
+# Needs to have the benchmarking database open here (./data/Databases/benchmark)
 graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "root")
 
 querypositive <- "
@@ -147,7 +172,18 @@ negativedf <- getresults(negativequerydata)
 dfbind <- rbind(positivedf, negativedf)
 dfbind <- data.frame(dfbind[complete.cases(dfbind),])
 
-nestedresult <- nestedcv(dfbind, iterations = 25, split = 0.8)
+caretmodel(dfbind)
+
+# Get the variance of the nested cross validation
+nvr <- nestedVariance(dfbind)
+gnvr <- gather(nvr)
+pnvr <- ggplot(gnvr, aes(x = key, y = value, group = key)) +
+  theme_classic() +
+  geom_boxplot(fill = wes_palette("Royal1")[c(1:3)])
+pnvr
+
+# Do not use even numbers here
+nestedresult <- nestedcv(dfbind, iterations = 25, split = 0.75)
 # Format for plotting
 nestmax <- nestedresult[[2]]
 nestmax$class <- "max"
@@ -159,6 +195,8 @@ nestmerge <- rbind(nestmax, nestmedian, nestmin)
 nestauc <- nestedresult[[5]]
 nestsens <- nestedresult[[7]]
 nestspec <- nestedresult[[8]]
+
+c(nestauc, nestsens, nestspec)
 
 avgaucplot <- ggplot(nestmerge, aes(d = obs, m = NotInteracts, color = factor(class))) +
   geom_roc(n.cuts = 0, alpha.line = 1.0) +
@@ -259,6 +297,12 @@ width=12)
     plot_grid(roclobster, horizontal, labels=c("A", ""), nrow=1)
     dev.copy(which=a)
   dev.off()
+dev.off()
+
+pdf(file="./figures/rfModelVariance.pdf",
+height=6,
+width=8)
+  pnvr
 dev.off()
 
 forprinting <- data.frame(type = c("AUC", "SENS", "SPEC"), result = c(nestauc, nestsens, nestspec))

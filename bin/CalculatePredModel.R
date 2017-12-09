@@ -61,13 +61,55 @@ createexclusiondataframe <- function (x, y) {
   return(df)
 }
 
+nestedcv <- function(x, iterations = 5, split = 0.8) {
+  outlist <- lapply(1:iterations, function(i) {
+    write(i, stdout())
+
+    trainIndex <- createDataPartition(
+      x$Interaction,
+      p = split, 
+      list = FALSE, 
+      times = 1
+    )
+    
+    dftrain <- x[trainIndex,]
+    dftest <- x[-trainIndex,]
+    
+    outmodel <- caretmodel(dftrain)
+    outmodel
+    
+    x_test <- dftest[,2:5]
+    y_test <- dftest[,1]
+    
+    outpred <- predict(outmodel, x_test, type="prob")
+    outpred$pred <- predict(outmodel, x_test)
+    outpred$obs <- y_test
+
+    # confusionMatrix(outpred, y_test)
+    # postResample(pred = outpred$pred, obs = outpred$obs)
+    sumout <- twoClassSummary(outpred, lev = levels(outpred$obs))
+    sumroc <- sumout[[1]]
+    sumsens <- sumout[[2]]
+    sumspec <- sumout[[3]]
+    return(list(sumroc, outpred, sumsens, sumspec))
+  })
+
+  # Get the max and min values
+  rocpositions <- sapply(outlist,`[`,1)
+  maxl <- outlist[[match(max(unlist(rocpositions)), rocpositions)]]
+  medl <- outlist[[match(median(unlist(rocpositions)), rocpositions)]]
+  minl <- outlist[[match(min(unlist(rocpositions)), rocpositions)]]
+
+  return(c(maxl, medl, minl))
+}
+
 ################
 # Run Analysis #
 ################
 
 # Start the connection to the graph
 # If you are getting a lack of permission, disable local permission on Neo4J
-graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "neo4j")
+graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "root")
 
 querypositive <- "
 MATCH (n)-[r]->(m)
@@ -105,8 +147,31 @@ negativedf <- getresults(negativequerydata)
 dfbind <- rbind(positivedf, negativedf)
 dfbind <- data.frame(dfbind[complete.cases(dfbind),])
 
-outmodel <- caretmodel(dfbind)
-outmodel
+nestedresult <- nestedcv(dfbind, iterations = 25, split = 0.8)
+# Format for plotting
+nestmax <- nestedresult[[2]]
+nestmax$class <- "max"
+nestmedian <- nestedresult[[6]]
+nestmedian$class <- "median"
+nestmin <- nestedresult[[10]]
+nestmin$class <- "min"
+nestmerge <- rbind(nestmax, nestmedian, nestmin)
+nestauc <- nestedresult[[5]]
+nestsens <- nestedresult[[7]]
+nestspec <- nestedresult[[8]]
+
+avgaucplot <- ggplot(nestmerge, aes(d = obs, m = NotInteracts, color = factor(class))) +
+  geom_roc(n.cuts = 0, alpha.line = 1.0) +
+  style_roc() +
+  scale_color_manual(values = c("lightsalmon", "red4", "lightsalmon")) +
+  theme(
+    axis.line.x = element_line(colour = "black"),
+    axis.line.y = element_line(colour = "black"),
+    legend.position = "none"
+  ) +
+  geom_segment(aes(x = 0, y = 0, xend = 1, yend = 1), linetype=2, colour=wes_palette("Royal1")[1])
+
+avgaucplot
 
 Exclusiondf <- rbind(
   createexclusiondataframe(positivedf, "Interaction"),
@@ -138,7 +203,7 @@ load(file="./data/rfinteractionmodel.RData")
 #############
 # Plot Data #
 #############
-roclobster <- ggplot(outmodel$pred, aes(d = obs, m = NotInteracts)) +
+roclobster <- ggplot(outpred, aes(d = obs, m = NotInteracts)) +
   geom_roc(n.cuts = 0, color = wes_palette("Royal1")[2]) +
   style_roc() +
   theme(
@@ -179,6 +244,8 @@ horizontal <- plot_grid(rocdensity, barplots, labels=c("B", ""), nrow=2)
 
 save(roclobster, rocdensity, vardf, importanceplot, file="./data/modelplots.Rdata")
 
+save(avgaucplot, file = "./data/aucmodel.Rdata")
+
 pdf(file="./figures/rocCurves.pdf",
 height=6,
 width=12)
@@ -193,3 +260,6 @@ width=12)
     dev.copy(which=a)
   dev.off()
 dev.off()
+
+forprinting <- data.frame(type = c("AUC", "SENS", "SPEC"), result = c(nestauc, nestsens, nestspec))
+write.table(forprinting, file = "./data/avgaucnested.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)

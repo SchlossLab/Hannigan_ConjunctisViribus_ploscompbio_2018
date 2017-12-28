@@ -54,12 +54,12 @@ filter=0) {
 plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout) {
   write("Preparing Data for Plotting", stderr())
   # Pull out the data for clustering
-  ig <- graph_from_data_frame(edgeout, directed=F)
+  ig <- igraph::graph_from_data_frame(edgeout, directed=F)
   # Set plot paramters
-  V(ig)$label <- ifelse(grepl("Bacteria", nodeout$id),
+  igraph::V(ig)$label <- ifelse(grepl("Bacteria", nodeout$id),
     "Bacteria",
     "Phage")
-  V(ig)$type <- ifelse(grepl("Bacteria", nodeout$id),
+  igraph::V(ig)$type <- ifelse(grepl("Bacteria", nodeout$id),
     TRUE,
     FALSE)
   # Create the plot
@@ -79,15 +79,15 @@ plotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout) {
 wplotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout) {
   write("Preparing Data for Plotting", stderr())
   # Pull out the data for clustering
-  ig <- graph_from_data_frame(edgeout, directed=F)
+  ig <- igraph::graph_from_data_frame(edgeout, directed=F)
   # Set plot paramters
-  V(ig)$label <- ifelse(grepl("Bacteria", nodeout$id),
+  igraph::V(ig)$label <- ifelse(grepl("Bacteria", nodeout$id),
     "Bacteria",
     "Phage")
-  V(ig)$type <- ifelse(grepl("Bacteria", nodeout$id),
+  igraph::V(ig)$type <- ifelse(grepl("Bacteria", nodeout$id),
     TRUE,
     FALSE)
-  V(ig)$weights <- nodeout$avg
+  igraph::V(ig)$weights <- nodeout$avg
   # Create the plot
   fres <- ggraph(ig, 'igraph', algorithm = 'bipartite') + 
         geom_edge_link0(edge_alpha = 0.01) +
@@ -103,21 +103,31 @@ wplotnetwork <- function (nodeframe=nodeout, edgeframe=edgeout) {
 graphDiameter <- function (nodeframe=nodeout, edgeframe=edgeout) {
   write("Calculating Graph Diameter", stderr())  
   # Pull out the data for clustering
-  ig <- graph_from_data_frame(edgeframe, directed=F)
-  connectionresult <- diameter(ig, directed=F)
-  vert <- vcount(ig)
-  edge <- ecount(ig)
-  finaldf <- t(as.data.frame(c(connectionresult, vert, edge)))
+  ig <- igraph::graph_from_data_frame(edgeframe, directed=F)
+  connectionresult <- igraph::diameter(ig, directed=F)
+  radnum <- igraph::radius(ig)
+  vert <- igraph::vcount(ig)
+  edge <- igraph::ecount(ig)
+  finaldf <- t(as.data.frame(c(connectionresult, vert, edge, radnum)))
   rownames(finaldf) <- NULL
-  colnames(finaldf) <- c("Diameter", "Vertices", "Edges")
+  colnames(finaldf) <- c("Diameter", "Vertices", "Edges", "Radius")
 
   return(finaldf)
+}
+
+graphEcc <- function (nodeframe=nodeout, edgeframe=edgeout) {
+  write("Calculating Graph Diameter", stderr())  
+  # Pull out the data for clustering
+  ig <- igraph::graph_from_data_frame(edgeframe, directed=F)
+  connectionresult <- igraph::eccentricity(ig)
+  
+  return(connectionresult)
 }
 
 connectionstrength <- function (nodeframe=nodeout, edgeframe=edgeout) {
   write("Testing Connection Strength", stderr())  
   # Pull out the data for clustering
-  ig <- graph_from_data_frame(edgeframe, directed=F)
+  ig <- igraph::graph_from_data_frame(edgeframe, directed=F)
   connectionresult <- is.connected(ig, mode="strong")
   if (!connectionresult) {
     connectionresult <- is.connected(ig, mode="weak")
@@ -153,13 +163,17 @@ edgeout <- as.data.frame(graphoutputlist[2])
 head(nodeout)
 head(edgeout)
 
-totalnetwork <- plotnetwork()
+# totalnetwork <- plotnetwork()
 
 # Test connection strength of the network
 write(connectionstrength(), stderr())
 
 totalstats <- as.data.frame(graphDiameter())
 totalstats$class <- "Total"
+
+totalEcc <- as.data.frame(graphEcc())
+totalEcc$class <- "Total"
+colnames(totalEcc) <- c("TotalECC", "class")
 
 # Collect some stats for the data table
 phagenodes <- length(grep("Phage", nodeout[,1]))
@@ -198,11 +212,18 @@ edgeout <- as.data.frame(graphoutputlist[2])
 # nodeout <- nodeout[c(order(nodeout$order)),]
 head(nodeout)
 head(edgeout)
+dietphagenodes <- length(grep("Phage", nodeout[,1]))
+dietbactnodes <- length(grep("Bacteria", nodeout[,1]))
+dietnestats <- data.frame(phagenodes = dietphagenodes, bacterianodes = dietbactnodes, class = "diet")
 
 dietstats <- as.data.frame(graphDiameter())
 dietstats$class <- "DietStudy"
 
-dietnetwork <- plotnetwork()
+DietEcc <- as.data.frame(graphEcc())
+DietEcc$class <- "DietStudy"
+colnames(DietEcc) <- c("TotalECC", "class")
+
+# dietnetwork <- plotnetwork()
 
 # Twin subgraph
 query <- "
@@ -236,10 +257,18 @@ edgeout <- as.data.frame(graphoutputlist[2])
 head(nodeout)
 head(edgeout)
 
+twinphagenodes <- length(grep("Phage", nodeout[,1]))
+twinbactnodes <- length(grep("Bacteria", nodeout[,1]))
+twinnestats <- data.frame(phagenodes = twinphagenodes, bacterianodes = twinbactnodes, class = "twin")
+
 twinstats <- as.data.frame(graphDiameter())
 twinstats$class <- "TwinStudy"
 
-twinnetwork <- plotnetwork()
+TwinEcc <- as.data.frame(graphEcc())
+TwinEcc$class <- "TwinStudy"
+colnames(TwinEcc) <- c("TotalECC", "class")
+
+# twinnetwork <- plotnetwork()
 
 # Skin subgraph
 # Import graphs into a list
@@ -272,8 +301,16 @@ nodeout$label <- nodeout$id
 head(nodeout)
 head(edgeout)
 
+skinphagenodes <- length(grep("Phage", nodeout[,1]))
+skinbactnodes <- length(grep("Bacteria", nodeout[,1]))
+skinnestats <- data.frame(phagenodes = skinphagenodes, bacterianodes = skinbactnodes, class = "skin")
+
 skinstats <- as.data.frame(graphDiameter())
 skinstats$class <- "SkinStudy"
+
+SkinEcc <- as.data.frame(graphEcc())
+SkinEcc$class <- "SkinStudy"
+colnames(SkinEcc) <- c("TotalECC", "class")
 
 allstats <- rbind(totalstats, dietstats, twinstats, skinstats)
 mstat <- melt(allstats)
@@ -335,52 +372,48 @@ threeplot <- plot_grid(
 
 almostplot <- plot_grid(totalnetwork, baseplot, ncol = 2, rel_widths = c(2,1), labels = c("A"))
 
-finalplot <- plot_grid(almostplot, withlegend, nrow = 2, rel_heights = c(2,1))
+finalplot <- plot_grid(baseplot, withlegend, nrow = 2, rel_heights = c(2,1))
 
-write.table(allstats, file = "./rtables/genfigurestats.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
-write.table(nestats, file = "./rtables/nestats.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
+# write.table(allstats, file = "./rtables/genfigurestats.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
+# write.table(nestats, file = "./rtables/nestats.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
+
+# sitestattable <- rbind(dietnestats, twinnestats, skinnestats)
+# write.table(sitestattable, file = "./rtables/sitestattable.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
+
+# ECCENTRICITY HISTOGRAMS
+alecc <- rbind(totalEcc, DietEcc, TwinEcc, SkinEcc)
+
+eccplot <- ggplot(alecc, aes(x = factor(TotalECC))) +
+  theme_classic() +
+  geom_histogram(stat = "count") +
+  xlab("Node Eccentricity") +
+  ylab("Frequency") +
+  facet_grid(class ~ ., scale = "free")
 
 ############# Add Prediction Model Stats #############
-load(file="./data/rfinteractionmodel.RData")
-load(file = "./data/exclusionplot.RData")
-
-# I am not including a probability threshold here since this is not one ROC curve,
-# but rather the average multiple generated ROC curves.
-roclobster <- ggplot(outmodel$pred, aes(d = obs, m = NotInteracts)) +
-  geom_roc(n.cuts = 0, color = wes_palette("Royal1")[2]) +
-  style_roc() +
-  theme(
-    axis.line.x = element_line(colour = "black"),
-    axis.line.y = element_line(colour = "black")
-  ) +
-  geom_segment(aes(x = 0, y = 0, xend = 1, yend = 1), linetype=2, colour=wes_palette("Royal1")[1])
-
-vardf <- data.frame(varImp(outmodel$finalModel))
-vardf$categories <- rownames(vardf)
-
-vardf <- vardf[order(vardf$Overall, decreasing = TRUE),]
-vardf$categories <- factor(vardf$categories, levels = vardf$categories)
-
-importanceplot <- ggplot(vardf, aes(x=categories, y=Overall)) +
-  theme_classic() +
-  theme(
-    axis.line.x = element_line(colour = "black"),
-    axis.line.y = element_line(colour = "black")
-  ) +
-  geom_bar(stat="identity", fill=wes_palette("Royal1")[1]) +
-  xlab("Categories") +
-  ylab("Importance Score")
+load(file="./data/figure1data.RData")
 
 plothorz <- plot_grid(importanceplot, excludedgraph, ncol = 1, labels = c("B", "C"))
-wgraph <- plot_grid(plothorz, totalnetwork, ncol = 2, labels = c("", "D"))
-wroc <- plot_grid(roclobster, wgraph, ncol = 2, labels = c("A"))
-baseplot <- plot_grid(plotlist = graphlist, nrow = 1, labels = LETTERS[5:7])
+wroc <- plot_grid(avgaucplot, plothorz, ncol = 2, labels = c("A"), rel_widths = c(2,1))
+baseplot <- plot_grid(plotlist = graphlist, nrow = 1, labels = LETTERS[4:6])
 finalp <- plot_grid(wroc, baseplot, ncol = 1, rel_heights = c(2, 1))
 
 pdf(file="./figures/rocCurves.pdf",
-width=12,
+width=9,
 height=10)
   finalp
+dev.off()
+
+pdf(file="./figures/eccplot.pdf",
+width=7,
+height=7)
+  eccplot
+dev.off()
+
+pdf(file="./figures/rawfigure.pdf",
+width=6,
+height=6)
+  totalnetwork
 dev.off()
 
 modelper <- outmodel$results[(order(outmodel$results$ROC, decreasing = TRUE)),][1,]

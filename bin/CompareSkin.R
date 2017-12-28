@@ -1,7 +1,6 @@
 ##################
 # Load Libraries #
 ##################
-gcinfo(TRUE)
 packagelist <- c("RNeo4j", "ggplot2", "wesanderson", "igraph", "scales", "plyr", "cowplot", "vegan", "reshape2", "parallel", "stringr")
 new.packages <- packagelist[!(packagelist %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages, repos='http://cran.us.r-project.org')
@@ -223,7 +222,7 @@ rcentralmerge <- merge(rcentraldf, locationmetadata, by.x = "location", by.y = "
 
 # Moisture Levels
 
-box_moist <- ggplot(rcentralmerge, aes(x = factor(moisture), y = cl)) +
+box_moist <- ggplot(rcentralmerge, aes(x = factor(moisture), y = ec)) +
 	theme_classic() +
 	geom_boxplot(notch = TRUE, fill="gray") +
 	ylab("Eigen Centrality") +
@@ -232,17 +231,17 @@ box_moist <- ggplot(rcentralmerge, aes(x = factor(moisture), y = cl)) +
 	    axis.line.x = element_line(colour = "black"),
 	    axis.line.y = element_line(colour = "black")
 	) +
-	ylim(0, 0.005) +
-	geom_segment(x = 1, xend = 2, y = 0.0045, yend = 0.0045) +
-	annotate("text", x = 1.5, y = 0.00455, label = "*", size = 6) +
-	geom_segment(x = 1, xend = 3, y = 0.0048, yend = 0.0048) +
-	annotate("text", x = 1.5, y = 0.00485, label = "*", size = 6)
+	ylim(0, 0.35) +
+	geom_segment(x = 1, xend = 2, y = 0.3, yend = 0.3) +
+	annotate("text", x = 1.5, y = 0.305, label = "*", size = 6) +
+	geom_segment(x = 1, xend = 3, y = 0.325, yend = 0.325) +
+	annotate("text", x = 2, y = 0.330, label = "*", size = 6)
 
 moistsig <- melt(pairwise.wilcox.test(x = rcentralmerge$ec, g = rcentralmerge$moisture)$p.value)
 
 # Occlusion Status
 
-box_occ <- ggplot(rcentralmerge, aes(x = factor(occlusion), y = cl)) +
+box_occ <- ggplot(rcentralmerge, aes(x = factor(occlusion), y = ec)) +
 	theme_classic() +
 	geom_boxplot(notch = TRUE, fill="gray") +
 	ylab("Eigen Centrality") +
@@ -251,13 +250,13 @@ box_occ <- ggplot(rcentralmerge, aes(x = factor(occlusion), y = cl)) +
 	    axis.line.x = element_line(colour = "black"),
 	    axis.line.y = element_line(colour = "black")
 	) +
-	ylim(0, 0.005) +
-	geom_segment(x = 2, xend = 3, y = 0.0045, yend = 0.0045) +
-	annotate("text", x = 2.5, y = 0.00455, label = "*", size = 6) +
-	geom_segment(x = 1, xend = 3, y = 0.0048, yend = 0.0048) +
-	annotate("text", x = 2, y = 0.00485, label = "*", size = 6)
+	# ylim(0, 0.005) +
+	geom_segment(x = 2, xend = 3, y = 0.3, yend = 0.3) +
+	annotate("text", x = 2.5, y = 0.305, label = "*", size = 6) +
+	geom_segment(x = 1, xend = 3, y = 0.325, yend = 0.325) +
+	annotate("text", x = 2, y = 0.330, label = "*", size = 6)
 
-occsig <- melt(pairwise.wilcox.test(x = rcentralmerge$cl, g = rcentralmerge$occlusion)$p.value)
+occsig <- melt(pairwise.wilcox.test(x = rcentralmerge$ec, g = rcentralmerge$occlusion)$p.value)
 
 boxsig <- rbind(moistsig, occsig)
 

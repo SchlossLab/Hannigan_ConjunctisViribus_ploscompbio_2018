@@ -26,6 +26,7 @@ library("cowplot")
 
 library(parallel)
 library(tidyr)
+library(dplyr)
 
 ###################
 # Set Subroutines #
@@ -111,10 +112,51 @@ nestedcv <- function(x, iterations = 5, split = 0.8) {
   return(c(maxl, medl, minl))
 }
 
-nestedVariance <- function(y, iter = 32) {
+nestedcvval <- function(x, iterations = 5, split = 0.8) {
+  outlist <- mclapply(1:iterations, mc.cores = 4, function(i) {
+    write(i, stdout())
+
+    trainIndex <- createDataPartition(
+      x$Interaction,
+      p = split, 
+      list = FALSE, 
+      times = 1
+    )
+    
+    dftrain <- x[trainIndex,]
+    dftest <- x[-trainIndex,]
+
+    # write(summary(dftrain$Interaction), stdout())
+    # write(summary(dftest$Interaction), stdout())
+    
+    outmodel <- caretmodel(dftrain)
+    
+    x_test <- dftest[,2:5]
+    y_test <- dftest[,1]
+    
+    outpred <- predict(outmodel, x_test, type="prob")
+    outpred$pred <- predict(outmodel, x_test)
+    outpred$obs <- y_test
+
+    # confusionMatrix(outpred, y_test)
+    # postResample(pred = outpred$pred, obs = outpred$obs)
+    sumout <- twoClassSummary(outpred, lev = levels(outpred$obs))
+    sumroc <- sumout[[1]]
+    sumsens <- sumout[[2]]
+    sumspec <- sumout[[3]]
+
+    return(list(sumroc, sumsens, sumspec))
+  })
+
+  finaldf <- data.frame(do.call("rbind", outlist))
+  colnames(finaldf) <- c("ROC", "Sens", "Spec")
+  return(finaldf)
+}
+
+nestedVariance <- function(y, iter = 100) {
   ol <- mclapply(1:iter, mc.cores = 4, function(j) {
     write(paste("Running Iteration ", j), stdout())
-    nr <- nestedcv(y, iterations = 25, split = 0.75)
+    nr <- nestedcv(y, iterations = 5, split = 0.8)
     nauc <- nr[[5]]
     nsens <- nr[[7]]
     nspec <- nr[[8]]
@@ -172,18 +214,77 @@ negativedf <- getresults(negativequerydata)
 dfbind <- rbind(positivedf, negativedf)
 dfbind <- data.frame(dfbind[complete.cases(dfbind),])
 
-caretmodel(dfbind)
-
 # Get the variance of the nested cross validation
 nvr <- nestedVariance(dfbind)
 gnvr <- gather(nvr)
 pnvr <- ggplot(gnvr, aes(x = key, y = value, group = key)) +
   theme_classic() +
-  geom_boxplot(fill = wes_palette("Royal1")[c(1:3)])
+  geom_boxplot(fill = wes_palette("Royal1")[c(1:3)]) +
+  ylab("Model Value") +
+  xlab("Model Metric") +
+  geom_hline(yintercept = 0.5, linetype="dotted")
 pnvr
 
+# Try looking at the raw iterations
+ncval <- nestedcvval(dfbind, iterations = 100)
+ncgather <- gather(ncval)
+ncgather$value <- as.numeric(ncgather$value)
+
+ncstats <- ncgather %>%
+  group_by(key) %>%
+  summarize(median = median(value), mean = mean(value)) %>%
+  as.data.frame()
+
+ncplot <- ggplot(ncgather, aes(x = key, y = value, group = key)) +
+  theme_classic() +
+  geom_boxplot(fill = wes_palette("Royal1")[c(1:3)]) +
+  ylab("Model Value") +
+  xlab("Model Metric") +
+  geom_hline(yintercept = 0.5, linetype="dotted")
+ncplot
+
+pdf(file="./figures/rfModelVariance.pdf",
+height=6,
+width=8)
+  ncplot
+dev.off()
+
+# Look at the variation in AUC over iterations
+totalrunl <- lapply(1:25, function(j) {
+  write(j, stdout())
+  outm <- caretmodel(dfbind)
+  aucval <- outm$results[order(outm$results$ROC, decreasing = TRUE)[1],"ROC"]
+  sensval <- outm$results[order(outm$results$ROC, decreasing = TRUE)[1],"Sens"]
+  specval <- outm$results[order(outm$results$ROC, decreasing = TRUE)[1],"Spec"]
+  return(c(j, aucval, sensval, specval))
+})
+trdf <- as.data.frame(do.call("rbind", totalrunl))
+colnames(trdf) <- c("iteration", "ROC", "Sens", "Spec")
+trdf <- trdf %>%
+  gather(iteration) %>% as.data.frame()
+colnames(trdf) <- c("iteration", "key", "value")
+# Visualize the iteration variation here too
+trg <- ggplot(trdf, aes(x = iteration, y = value, group = key, colour = key)) +
+  theme_classic() +
+  geom_line() +
+  ylim(0,1) +
+  ylab("Metric Value") +
+  xlab("Random Iteration") +
+  geom_hline(yintercept = 0.5, linetype="dotted")
+trg
+
+pdf(file="./figures/rfIterationVariance.pdf",
+height=6,
+width=8)
+  trg
+dev.off()
+
+trdf %>%
+  group_by(key) %>%
+  summarize(mean = mean(value))
+
 # Do not use even numbers here
-nestedresult <- nestedcv(dfbind, iterations = 25, split = 0.75)
+nestedresult <- nestedcv(dfbind, iterations = 25, split = 0.80)
 # Format for plotting
 nestmax <- nestedresult[[2]]
 nestmax$class <- "max"
@@ -211,6 +312,7 @@ avgaucplot <- ggplot(nestmerge, aes(d = obs, m = NotInteracts, color = factor(cl
 
 avgaucplot
 
+
 Exclusiondf <- rbind(
   createexclusiondataframe(positivedf, "Interaction"),
   createexclusiondataframe(negativedf, "NonInteraction")
@@ -234,9 +336,27 @@ excludedgraph <- ggplot(Exclusiondf[order(Exclusiondf$ExclusionStatus, decreasin
   xlab("Interaction Status") +
   ylab("Percent of Total Samples")
 
+# Get the variable importance
+vardf <- data.frame(varImp(outmodel$finalModel))
+vardf$categories <- rownames(vardf)
+
+vardf <- vardf[order(vardf$Overall, decreasing = TRUE),]
+vardf$categories <- factor(vardf$categories, levels = vardf$categories)
+
+importanceplot <- ggplot(vardf, aes(x=categories, y=Overall)) +
+  theme_classic() +
+  theme(
+    axis.line.x = element_line(colour = "black"),
+    axis.line.y = element_line(colour = "black")
+  ) +
+  geom_bar(stat="identity", fill=wes_palette("Royal1")[1]) +
+  xlab("Categories") +
+  ylab("Importance Score")
+
+
 # Save the model to a file so that it can be used later
-save(outmodel, excludedgraph, file="./data/rfinteractionmodel.RData")
-load(file="./data/rfinteractionmodel.RData")
+save(avgaucplot, excludedgraph, importanceplot, file="./data/figure1data.RData")
+# load(file="./data/rfinteractionmodel.RData")
 
 #############
 # Plot Data #
@@ -263,26 +383,13 @@ rocdensity <- ggplot(outmodel$pred, aes(x=Interacts, group=obs, fill=obs)) +
   xlab("Predicted Interaction Probability") +
   ylab("Occurrence Density")
 
-# Get the variable importance
-vardf <- data.frame(varImp(outmodel$finalModel))
-vardf$categories <- rownames(vardf)
-
-importanceplot <- ggplot(vardf, aes(x=categories, y=Overall)) +
-  theme_classic() +
-  theme(
-    axis.line.x = element_line(colour = "black"),
-    axis.line.y = element_line(colour = "black")
-  ) +
-  geom_bar(stat="identity", fill=wes_palette("Royal1")[1]) +
-  xlab("Categories") +
-  ylab("Importance Score")
-
 barplots <- plot_grid(importanceplot, excludedgraph, labels=c("C", "D"), nrow=1)
 horizontal <- plot_grid(rocdensity, barplots, labels=c("B", ""), nrow=2)
 
-save(roclobster, rocdensity, vardf, importanceplot, file="./data/modelplots.Rdata")
+# save(roclobster, rocdensity, vardf, importanceplot, file="./data/modelplots.Rdata")
+load(file="./data/aucmodel.Rdata")
 
-save(avgaucplot, file = "./data/aucmodel.Rdata")
+# save(avgaucplot, file = "./data/aucmodel.Rdata")
 
 pdf(file="./figures/rocCurves.pdf",
 height=6,
@@ -299,11 +406,5 @@ width=12)
   dev.off()
 dev.off()
 
-pdf(file="./figures/rfModelVariance.pdf",
-height=6,
-width=8)
-  pnvr
-dev.off()
-
-forprinting <- data.frame(type = c("AUC", "SENS", "SPEC"), result = c(nestauc, nestsens, nestspec))
+forprinting <- data.frame(type = c("AUC", "SENS", "SPEC"), result = c(ncstats[1,2], ncstats[2,2], ncstats[3,2]))
 write.table(forprinting, file = "./data/avgaucnested.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)

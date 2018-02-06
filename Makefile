@@ -580,6 +580,17 @@ alignqc: ./data/tmpid/bacteria2phage-blastout.tsv ./data/tmpid/phage2bacteria-bl
 		-outfmt 6
 	# rm -rf ./data/tmpid
 
+# Of the phages with similarity to bacteria, which have phage elements, suggesting they are prophages?
+./data/contigclustersidentity/phage2phage-blastout.tsv: ./data/contigclustersidentity/phage-contigrepset.fa
+	/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/tblastx \
+		-query ./data/contigclustersidentity/phage-contigrepset.fa \
+		-out ./data/contigclustersidentity/phage2phage-blastout.tsv \
+		-db ./data/tmpid/PhageReferenceGenomes \
+		-evalue 1e-25 \
+		-num_threads 4 \
+		-max_target_seqs 1 \
+		-outfmt 6
+
 # Virsorter to further ID the two groups
 
 runvirsorter: \

@@ -25,4 +25,4 @@ module load bowtie2
 cd /nfs/turbo/schloss-lab/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
-make ./data/bowtieReference/bowtieGreenGenes.1.bt2
+make ./data/contigclustersidentity/phage2phage-blastout.tsv

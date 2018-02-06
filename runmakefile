@@ -19,9 +19,10 @@ module load R/3.3.3
 module load virsorter
 module load perl-modules
 module load bioperl/1.6.1
+module load bowtie2
 
 # Set working directory
 cd /nfs/turbo/schloss-lab/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run make
-make ./data/tmpid/phage2bacteria-blastout.tsv
+make ./data/bowtieReference/bowtieGreenGenes.1.bt2

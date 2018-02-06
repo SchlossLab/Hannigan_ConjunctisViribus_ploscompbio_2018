@@ -536,7 +536,7 @@ alignqc: ./data/tmpid/bacteria2phage-blastout.tsv ./data/tmpid/phage2bacteria-bl
 		-num_threads 8 \
 		-max_target_seqs 1 \
 		-outfmt 6
-	rm -rf ./data/tmpid
+	# rm -rf ./data/tmpid
 
 # Find bacteria in phage OGUs
 
@@ -578,7 +578,7 @@ alignqc: ./data/tmpid/bacteria2phage-blastout.tsv ./data/tmpid/phage2bacteria-bl
 		-num_threads 8 \
 		-max_target_seqs 1 \
 		-outfmt 6
-	rm -rf ./data/tmpid
+	# rm -rf ./data/tmpid
 
 # Virsorter to further ID the two groups
 

@@ -618,6 +618,13 @@ runvirsorter: \
 	rm -rf Predicted_viral_sequences
 	rm -rf Fasta_files
 
+# Look at 16S
+./data/bowtieReference/bowtieGreenGenes.1.bt2 :
+	mkdir -p ./data/bowtieReference
+	bowtie2-build \
+		-q ./data/reference/greengenes/gg_13_5.fasta \
+		./data/bowtieReference/bowtieGreenGenes
+
 ############################################# ANALYSIS ############################################
 
 ################

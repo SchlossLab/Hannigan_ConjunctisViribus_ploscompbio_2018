@@ -591,6 +591,27 @@ alignqc: ./data/tmpid/bacteria2phage-blastout.tsv ./data/tmpid/phage2bacteria-bl
 		-max_target_seqs 1 \
 		-outfmt 6
 
+# Get the bacterial hit phages that did not have similarity to phage reference genomes
+./data/contigclustersidentity/phage2phage-blastout-idlist.tsv: ./data/contigclustersidentity/phage2phage-blastout.tsv
+	cut -f 1 $< \
+		| sort \
+		| uniq \
+		> $@
+
+./data/contigclustersidentity/phage2bacteria-blastout-idlist.tsv: ./data/contigclustersidentity/phage2bacteria-blastout.tsv
+	cut -f 1 $< \
+		| sort \
+		| uniq \
+		> $@
+
+# Get the phages that were similar to bacterial references but NOT phage references
+./data/contigclustersidentity/prophage-idlist.tsv : \
+			./data/contigclustersidentity/phage2phage-blastout-idlist.tsv \
+			./data/contigclustersidentity/phage2bacteria-blastout-idlist.tsv
+	grep --file=./data/contigclustersidentity/phage2phage-blastout-idlist.tsv -v \
+		./data/contigclustersidentity/phage2bacteria-blastout-idlist.tsv \
+		> ./data/contigclustersidentity/bacterialremoval-idlist.tsv
+
 # Virsorter to further ID the two groups
 
 runvirsorter: \

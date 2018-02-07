@@ -612,6 +612,17 @@ alignqc: ./data/tmpid/bacteria2phage-blastout.tsv ./data/tmpid/phage2bacteria-bl
 		./data/contigclustersidentity/phage2bacteria-blastout-idlist.tsv \
 		> ./data/contigclustersidentity/bacterialremoval-idlist.tsv
 
+# Backtrack and get the cluster ID that they belong to
+
+./data/contigclustersidentity/bacterialremoval-clusters-list.tsv: \
+			./data/contigclustersidentity/bacterialremoval-idlist.tsv \
+			./data/contigclustersidentity/longestcontigsphage.tsv
+	grep --file=./data/contigclustersidentity/bacterialremoval-idlist.tsv \
+		./data/contigclustersidentity/longestcontigsphage.tsv \
+		| cut -f 3 \
+		| sed 's/^/Phage_/' \
+		> ./data/contigclustersidentity/bacterialremoval-clusters-list.tsv
+
 # Virsorter to further ID the two groups
 
 runvirsorter: \

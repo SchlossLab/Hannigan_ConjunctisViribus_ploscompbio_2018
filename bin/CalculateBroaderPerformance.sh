@@ -7,11 +7,11 @@ wget -O ./data/genbankPhageHost/viral.2.genomic.gbff.gz "ftp://ftp.ncbi.nih.gov/
 gunzip ./data/genbankPhageHost/viral.*.genomic.gbff.gz
 
 # Parse the genbank files to get phages and hosts (lab strains primarily)
-python ./bin/Genbank2phagehost.py \
+python2.7 ./bin/Genbank2phagehost.py \
 	-i ./data/genbankPhageHost/viral.1.genomic.gbff \
 	-o ./data/genbankPhageHost/viral.1.tsv
 
-python ./bin/Genbank2phagehost.py \
+python2.7 ./bin/Genbank2phagehost.py \
 	-i ./data/genbankPhageHost/viral.2.genomic.gbff \
 	-o ./data/genbankPhageHost/viral.2.tsv
 

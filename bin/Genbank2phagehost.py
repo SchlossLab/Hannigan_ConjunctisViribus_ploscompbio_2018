@@ -1,4 +1,4 @@
-from Bio import SeqIO
+import SeqIO
 import re
 import argparse
 

@@ -10,6 +10,8 @@ export Output='tmp'
 
 export PfamLocation=${6}
 export PfamDatabase=${PfamLocation}Pfam-A-diamond
+# To make this file:
+# grep '>' Pfam-A.fasta | sed 's/>//' | cut -d ' ' -f 1,3 | sed 's/\/.* /\t/' | sed 's/\..*$//' > PfamAccToPF.tsv
 export PfamConversion=${PfamLocation}PfamAccToPF.tsv
 export InteractionReference=${PfamLocation}PfamAccInteractions.tsv
 

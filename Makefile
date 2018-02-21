@@ -132,7 +132,7 @@ ${SVSET}/PfamInteractionsFormatScoredFlip.tsv : \
 		${SVSET}/BenchmarkProphagesFormatFlip.tsv \
 		${SVSET}/MatchesByBlastxFormatOrder.tsv \
 		${SVSET}/PfamInteractionsFormatScoredFlip.tsv \
-		"BenchmarkingSet"
+		"SecondaryBenchmarkingSet"
 
 ###################################
 # Build Prediction Graph Database #

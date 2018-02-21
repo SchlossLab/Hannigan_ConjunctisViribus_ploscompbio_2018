@@ -10,7 +10,7 @@
 # Default Values and CL Args #
 ##############################
 # Set pilerCR path
-export ProdigalPath=/mnt/EXT/Schloss-data/bin
+export ProdigalPath=/nfs/turbo/schloss-lab/bin
 # Maximum input file size in bytes
 export MaxFileSize=25000000 #25 MB
 export FastaInput=$1

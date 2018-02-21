@@ -97,14 +97,14 @@ bash ./bin/GetCrisprPhagePairs.sh \
 # # Run BLAST scripts #
 # #####################
 
-# echo Getting prophages by blast...
-# bash ./bin/GetProphagesByBlast.sh \
-# 	${PhageGenomeRef} \
-# 	${BacteriaGenomeRef} \
-# 	./data/${Output}/BenchmarkProphagesBlastn.tsv \
-# 	${WorkingDirectory} \
-# 	"/home/ghannig/bin/ncbi-blast-2.4.0+/bin/" \
-# 	|| exit
+echo Getting prophages by blast...
+bash ./bin/GetProphagesByBlast.sh \
+	${PhageGenomeRef} \
+	${BacteriaGenomeRef} \
+	./data/${Output}/BenchmarkProphagesBlastn.tsv \
+	${WorkingDirectory} \
+	"/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/" \
+	|| exit
 
 # # Format the output
 # FormatNames \
@@ -119,30 +119,30 @@ bash ./bin/GetCrisprPhagePairs.sh \
 # # Predict ORFs #
 # ################
 
-# echo Predicting ORFs...
+echo Predicting ORFs...
 
-# PredictOrfs \
-# 	${PhageGenomeRef} \
-# 	./data/${Output}/PhageReferenceOrfs.fa \
-# 	|| exit
+PredictOrfs \
+	${PhageGenomeRef} \
+	./data/${Output}/PhageReferenceOrfs.fa \
+	|| exit
 
-# PredictOrfs \
-# 	${BacteriaGenomeRef} \
-# 	./data/${Output}/BacteriaReferenceOrfs.fa \
-# 	|| exit
+PredictOrfs \
+	${BacteriaGenomeRef} \
+	./data/${Output}/BacteriaReferenceOrfs.fa \
+	|| exit
 
 # ######################
 # # Run BLASTx scripts #
 # ######################
 # echo Getting gene matches by blastx...
 
-# bash ./bin/GetPairsByBlastx.sh \
-# 	./data/${Output}/PhageReferenceOrfs.fa \
-# 	./data/${Output}/BacteriaReferenceOrfs.fa \
-# 	./data/${Output}/MatchesByBlastx.tsv \
-# 	${WorkingDirectory} \
-# 	"/mnt/EXT/Schloss-data/bin/" \
-# 	|| exit
+bash ./bin/GetPairsByBlastx.sh \
+	./data/${Output}/PhageReferenceOrfs.fa \
+	./data/${Output}/BacteriaReferenceOrfs.fa \
+	./data/${Output}/MatchesByBlastx.tsv \
+	${WorkingDirectory} \
+	"/nfs/turbo/schloss-lab/bin" \
+	|| exit
 
 # # Format the output
 # FormatNames \
@@ -169,14 +169,14 @@ bash ./bin/GetCrisprPhagePairs.sh \
 
 # echo Getting PFAM interactions...
 
-# bash ./bin/PfamDomainInteractPrediction.sh \
-# 	./data/${Output}/PhageReferenceOrfs.fa \
-# 	./data/${Output}/BacteriaReferenceOrfs.fa \
-# 	./data/${Output}/PfamInteractions.tsv \
-# 	${WorkingDirectory} \
-# 	"/mnt/EXT/Schloss-data/bin/" \
-# 	"/home/ghannig/Pfam/" \
-# 	|| exit
+bash ./bin/PfamDomainInteractPrediction.sh \
+	./data/${Output}/PhageReferenceOrfs.fa \
+	./data/${Output}/BacteriaReferenceOrfs.fa \
+	./data/${Output}/PfamInteractions.tsv \
+	${WorkingDirectory} \
+	"/nfs/turbo/schloss-lab/bin/" \
+	"/nfs/turbo/schloss-lab/reference/Pfam/" \
+	|| exit
 
 # # Format the output
 # FormatNames \

@@ -113,6 +113,27 @@ ${BSET}/PfamInteractionsFormatScoredFlip.tsv : \
 		${BSET}/PfamInteractionsFormatScoredFlip.tsv \
 		"BenchmarkingSet"
 
+# Also run secondary set for validation
+SVSET=./data/SecondaryBenchmarkingSet
+REFLOC=./data/genbankPhageHost
+
+${SVSET}/BenchmarkCrisprsFormat.tsv \
+${SVSET}/BenchmarkProphagesFormatFlip.tsv \
+${SVSET}/MatchesByBlastxFormatOrder.tsv \
+${SVSET}/PfamInteractionsFormatScoredFlip.tsv : \
+			${REFLOC}/VirRef/filtered.virus.fa \
+			${REFLOC}/BacRef/bacteria.complete.species.fa
+	echo $(shell date)  :  Calculating secondary validation values for interaction predictive model >> ${DATENAME}.makelog
+	mkdir -p ${SVSET}
+	bash ./bin/BenchmarkingModel_SecondaryValidation.sh \
+		${REFLOC}/VirRef/filtered.virus.fa \
+		${REFLOC}/BacRef/bacteria.complete.species.fa \
+		${SVSET}/BenchmarkCrisprsFormat.tsv \
+		${SVSET}/BenchmarkProphagesFormatFlip.tsv \
+		${SVSET}/MatchesByBlastxFormatOrder.tsv \
+		${SVSET}/PfamInteractionsFormatScoredFlip.tsv \
+		"BenchmarkingSet"
+
 ###################################
 # Build Prediction Graph Database #
 ###################################

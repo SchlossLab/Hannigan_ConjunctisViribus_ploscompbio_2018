@@ -119,17 +119,17 @@ mkdir ./data/${Output}/tmp
 # # # Predict ORFs #
 # # ################
 
-# echo Predicting ORFs...
+echo Predicting ORFs...
 
-# PredictOrfs \
-# 	${PhageGenomeRef} \
-# 	./data/${Output}/PhageReferenceOrfs.fa \
-# 	|| exit
+PredictOrfs \
+	${PhageGenomeRef} \
+	./data/${Output}/PhageReferenceOrfs.fa \
+	|| exit
 
-# PredictOrfs \
-# 	${BacteriaGenomeRef} \
-# 	./data/${Output}/BacteriaReferenceOrfs.fa \
-# 	|| exit
+PredictOrfs \
+	${BacteriaGenomeRef} \
+	./data/${Output}/BacteriaReferenceOrfs.fa \
+	|| exit
 
 # ######################
 # # Run BLASTx scripts #

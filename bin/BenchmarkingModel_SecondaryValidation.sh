@@ -97,14 +97,14 @@ mkdir ./data/${Output}/tmp
 # # Run BLAST scripts #
 # #####################
 
-echo Getting prophages by blast...
-bash ./bin/GetProphagesByBlast.sh \
-	${PhageGenomeRef} \
-	${BacteriaGenomeRef} \
-	./data/${Output}/BenchmarkProphagesBlastn.tsv \
-	${WorkingDirectory} \
-	"/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/" \
-	|| exit
+# echo Getting prophages by blast...
+# bash ./bin/GetProphagesByBlast.sh \
+# 	${PhageGenomeRef} \
+# 	${BacteriaGenomeRef} \
+# 	./data/${Output}/BenchmarkProphagesBlastn.tsv \
+# 	${WorkingDirectory} \
+# 	"/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/" \
+# 	|| exit
 
 # # Format the output
 # FormatNames \
@@ -136,13 +136,13 @@ bash ./bin/GetProphagesByBlast.sh \
 # ######################
 # echo Getting gene matches by blastx...
 
-# bash ./bin/GetPairsByBlastx.sh \
-# 	./data/${Output}/PhageReferenceOrfs.fa \
-# 	./data/${Output}/BacteriaReferenceOrfs.fa \
-# 	./data/${Output}/MatchesByBlastx.tsv \
-# 	${WorkingDirectory} \
-# 	"/nfs/turbo/schloss-lab/bin/" \
-# 	|| exit
+bash ./bin/GetPairsByBlastx.sh \
+	./data/${Output}/PhageReferenceOrfs.fa \
+	./data/${Output}/BacteriaReferenceOrfs.fa \
+	./data/${Output}/MatchesByBlastx.tsv \
+	${WorkingDirectory} \
+	"/nfs/turbo/schloss-lab/bin/" \
+	|| exit
 
 # # Format the output
 # FormatNames \

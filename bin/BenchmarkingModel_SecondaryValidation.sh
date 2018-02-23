@@ -119,30 +119,30 @@ mkdir ./data/${Output}/tmp
 # # # Predict ORFs #
 # # ################
 
-echo Predicting ORFs...
+# echo Predicting ORFs...
 
-PredictOrfs \
-	${PhageGenomeRef} \
-	./data/${Output}/PhageReferenceOrfs.fa \
-	|| exit
+# PredictOrfs \
+# 	${PhageGenomeRef} \
+# 	./data/${Output}/PhageReferenceOrfs.fa \
+# 	|| exit
 
-PredictOrfs \
-	${BacteriaGenomeRef} \
-	./data/${Output}/BacteriaReferenceOrfs.fa \
-	|| exit
+# PredictOrfs \
+# 	${BacteriaGenomeRef} \
+# 	./data/${Output}/BacteriaReferenceOrfs.fa \
+# 	|| exit
 
 # ######################
 # # Run BLASTx scripts #
 # ######################
 # echo Getting gene matches by blastx...
 
-bash ./bin/GetPairsByBlastx.sh \
-	./data/${Output}/PhageReferenceOrfs.fa \
-	./data/${Output}/BacteriaReferenceOrfs.fa \
-	./data/${Output}/MatchesByBlastx.tsv \
-	${WorkingDirectory} \
-	"/nfs/turbo/schloss-lab/bin/" \
-	|| exit
+# bash ./bin/GetPairsByBlastx.sh \
+# 	./data/${Output}/PhageReferenceOrfs.fa \
+# 	./data/${Output}/BacteriaReferenceOrfs.fa \
+# 	./data/${Output}/MatchesByBlastx.tsv \
+# 	${WorkingDirectory} \
+# 	"/nfs/turbo/schloss-lab/bin/" \
+# 	|| exit
 
 # # Format the output
 # FormatNames \
@@ -167,16 +167,16 @@ bash ./bin/GetPairsByBlastx.sh \
 # # Run Pfam scripts #
 # ####################
 
-# echo Getting PFAM interactions...
+echo Getting PFAM interactions...
 
-# bash ./bin/PfamDomainInteractPrediction.sh \
-# 	./data/${Output}/PhageReferenceOrfs.fa \
-# 	./data/${Output}/BacteriaReferenceOrfs.fa \
-# 	./data/${Output}/PfamInteractions.tsv \
-# 	${WorkingDirectory} \
-# 	"/nfs/turbo/schloss-lab/bin/" \
-# 	"/nfs/turbo/schloss-lab/reference/Pfam/" \
-# 	|| exit
+bash ./bin/PfamDomainInteractPrediction.sh \
+	./data/${Output}/PhageReferenceOrfs.fa \
+	./data/${Output}/BacteriaReferenceOrfs.fa \
+	./data/${Output}/PfamInteractions.tsv \
+	${WorkingDirectory} \
+	"/nfs/turbo/schloss-lab/bin/" \
+	"/nfs/turbo/schloss-lab/reference/Pfam/" \
+	|| exit
 
 # # Format the output
 # FormatNames \

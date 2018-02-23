@@ -8,7 +8,7 @@
 #PBS -N runmakefile-conjviribus
 #PBS -q fluxod
 #PBS -l qos=flux
-#PBS -l nodes=1:ppn=4,mem=16GB
+#PBS -l nodes=1:ppn=4,mem=32GB
 #PBS -l walltime=50:00:00
 #PBS -j oe
 #PBS -V

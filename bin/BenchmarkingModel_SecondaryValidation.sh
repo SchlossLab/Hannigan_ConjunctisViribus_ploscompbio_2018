@@ -47,7 +47,7 @@ FormatNames () {
 	# 2 = Output file name
 
 	# Perl here because the regex are easier
-	perl -pe 's/[A-Za-z][A-Za-z]_\w+_\d_([^_])/\1/g' "${1}" \
+	perl -pe 's/\w\w_\w+_\d_([a-zA-Z])/\1/g' "${1}" \
 		| perl -pe 's/__complete\S+\t/\t/g' \
 		| perl -pe 's/_chromosome\S*\t/\t/g' \
 		> "${2}"

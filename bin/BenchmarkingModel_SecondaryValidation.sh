@@ -47,10 +47,8 @@ FormatNames () {
 	# 2 = Output file name
 
 	# Perl here because the regex are easier
-	perl -pe 's/ENA\S+\.\d_//g' "${1}" \
-		| perl -pe 's/\,_\S+//g' \
-		| perl -pe 's/_complete\S+//g' \
-		| perl -pe 's/_chromosome\S+//g' \
+	perl -pe 's/\w\w_\w+_\d_//g' "${1}" \
+		| perl -pe 's/__complete\S+\t/\t/g' \
 		> "${2}"
 }
 
@@ -62,35 +60,35 @@ export -f FormatNames
 # Run CRISPR scripts #
 ######################
 
-# Use a tmp directory
-mkdir ./data/${Output}/tmp
+# # Use a tmp directory
+# mkdir ./data/${Output}/tmp
 
-echo Extracting CRISPRs...
-bash ./bin/RunPilerCr.sh \
-	${BacteriaGenomeRef} \
-	./data/${Output}/tmp/BenchmarkCrisprs.txt \
-	"/nfs/turbo/schloss-lab/bin/pilercr1.06/" \
-	|| exit
+# echo Extracting CRISPRs...
+# bash ./bin/RunPilerCr.sh \
+# 	${BacteriaGenomeRef} \
+# 	./data/${Output}/tmp/BenchmarkCrisprs.txt \
+# 	"/nfs/turbo/schloss-lab/bin/pilercr1.06/" \
+# 	|| exit
 
-echo Getting CRISPR pairs...
-bash ./bin/GetCrisprPhagePairs.sh \
-	./data/${Output}/tmp/BenchmarkCrisprs.txt \
-	${PhageGenomeRef} \
-	./data/${Output}/BenchmarkCrisprs.tsv \
-	"/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/" \
-	./bin/ \
-	./bin/ \
-	|| exit
+# echo Getting CRISPR pairs...
+# bash ./bin/GetCrisprPhagePairs.sh \
+# 	./data/${Output}/tmp/BenchmarkCrisprs.txt \
+# 	${PhageGenomeRef} \
+# 	./data/${Output}/BenchmarkCrisprs.tsv \
+# 	"/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/" \
+# 	./bin/ \
+# 	./bin/ \
+# 	|| exit
 
 # rm ./data/${Output}/tmp/*
 
-# # Format the output
-# FormatNames \
-# 	./data/${Output}/BenchmarkCrisprs.tsv \
-# 	${CRISPRout}
+# Format the output
+FormatNames \
+	./data/${Output}/BenchmarkCrisprs.tsv \
+	${CRISPRout}
 
-# # Remove underscores at the end of the names
-# sed -i 's/_[0-9][0-9]\?[0-9]\?\t/\t/g' ${CRISPRout}
+# Remove underscores at the end of the names
+sed -i 's/_[0-9][0-9]\?[0-9]\?\t/\t/g' ${CRISPRout}
 
 
 # #####################

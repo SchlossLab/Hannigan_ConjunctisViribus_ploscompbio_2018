@@ -82,13 +82,13 @@ export -f FormatNames
 
 # rm ./data/${Output}/tmp/*
 
-# Format the output
-FormatNames \
-	./data/${Output}/BenchmarkCrisprs.tsv \
-	${CRISPRout}
+# # Format the output
+# FormatNames \
+# 	./data/${Output}/BenchmarkCrisprs.tsv \
+# 	${CRISPRout}
 
-# Remove underscores at the end of the names
-sed -i 's/_[0-9][0-9]\?[0-9]\?\t/\t/g' ${CRISPRout}
+# # Remove underscores at the end of the names
+# sed -i 's/_[0-9][0-9]\?[0-9]\?\t/\t/g' ${CRISPRout}
 
 
 # #####################
@@ -104,14 +104,14 @@ sed -i 's/_[0-9][0-9]\?[0-9]\?\t/\t/g' ${CRISPRout}
 # 	"/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/" \
 # 	|| exit
 
-# # Format the output
-# FormatNames \
-# 	./data/${Output}/BenchmarkProphagesBlastn.tsv \
-# 	./data/${Output}/BenchmarkProphagesBlastnFormat.tsv
+# Format the output
+FormatNames \
+	./data/${Output}/BenchmarkProphagesBlastn.tsv \
+	./data/${Output}/BenchmarkProphagesBlastnFormat.tsv
 
-# # Flip the output
-# awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/BenchmarkProphagesBlastnFormat.tsv \
-# 	> ${ProphageOutFile}
+# Flip the output
+awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/BenchmarkProphagesBlastnFormat.tsv \
+	> ${ProphageOutFile}
 
 # # ################
 # # # Predict ORFs #

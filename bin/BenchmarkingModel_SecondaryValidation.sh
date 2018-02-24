@@ -143,22 +143,22 @@ export -f FormatNames
 # 	"/nfs/turbo/schloss-lab/bin/" \
 # 	|| exit
 
-# Format the output
-FormatNames \
-	./data/${Output}/MatchesByBlastx.tsv \
-	./data/${Output}/MatchesByBlastxFormat.tsv
+# # Format the output
+# FormatNames \
+# 	./data/${Output}/MatchesByBlastx.tsv \
+# 	./data/${Output}/MatchesByBlastxFormat.tsv
 
-# Format to get the right columns in the right order
-awk '{ print $2"\t"$1"\t"$12 }' \
-	./data/${Output}/MatchesByBlastxFormat.tsv \
-	> ./data/${Output}/tmpMatchesByBlastxFormat.tsv
+# # Format to get the right columns in the right order
+# awk '{ print $2"\t"$1"\t"$12 }' \
+# 	./data/${Output}/MatchesByBlastxFormat.tsv \
+# 	> ./data/${Output}/tmpMatchesByBlastxFormat.tsv
 
-# # Remove underscores at the end of the names
-# sed -i 's/_[0-9]*\t/\t/g' ./data/${Output}/tmpMatchesByBlastxFormat.tsv
+# # # Remove underscores at the end of the names
+# # sed -i 's/_[0-9]*\t/\t/g' ./data/${Output}/tmpMatchesByBlastxFormat.tsv
 
-Rscript ./bin/CollapseGeneScores.R \
-	-i ./data/${Output}/tmpMatchesByBlastxFormat.tsv \
-	-o ${BlastxOut}
+# Rscript ./bin/CollapseGeneScores.R \
+# 	-i ./data/${Output}/tmpMatchesByBlastxFormat.tsv \
+# 	-o ${BlastxOut}
 
 # rm ./data/${Output}/tmpMatchesByBlastxFormat.tsv
 
@@ -177,25 +177,22 @@ Rscript ./bin/CollapseGeneScores.R \
 # 	"/nfs/turbo/schloss-lab/reference/Pfam/" \
 # 	|| exit
 
-# # Format the output
-# FormatNames \
-# 	./data/${Output}/PfamInteractions.tsv \
-# 	./data/${Output}/PfamInteractionsFormat.tsv
+# Format the output
+FormatNames \
+	./data/${Output}/PfamInteractions.tsv \
+	./data/${Output}/PfamInteractionsFormat.tsv
 
-# # Format the output order and score sum
-# awk '{ print $1"\t"$3"\t"($2 + $4) }' \
-# 	./data/${Output}/PfamInteractionsFormat.tsv \
-# 	> ./data/${Output}/PfamInteractionsFormatScored.tsv 
+# Format the output order and score sum
+awk '{ print $1"\t"$3"\t"($2 + $4) }' \
+	./data/${Output}/PfamInteractionsFormat.tsv \
+	> ./data/${Output}/PfamInteractionsFormatScored.tsv 
 
-# # Flip output
-# awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/PfamInteractionsFormatScored.tsv  \
-# 	> ./data/${Output}/tmpPfamInteractionsFormatScored.tsv
+# Flip output
+awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/PfamInteractionsFormatScored.tsv  \
+	> ./data/${Output}/tmpPfamInteractionsFormatScored.tsv
 
-# # Remove underscores at the end of the names
-# sed -i 's/_[0-9]*\t/\t/g' ./data/${Output}/tmpPfamInteractionsFormatScored.tsv
-
-# Rscript ./bin/CollapseGeneScores.R \
-# 	-i ./data/${Output}/tmpPfamInteractionsFormatScored.tsv \
-# 	-o ${PfamOut}
+Rscript ./bin/CollapseGeneScores.R \
+	-i ./data/${Output}/tmpPfamInteractionsFormatScored.tsv \
+	-o ${PfamOut}
 
 # rm ./data/${Output}/tmpPfamInteractionsFormatScored.tsv

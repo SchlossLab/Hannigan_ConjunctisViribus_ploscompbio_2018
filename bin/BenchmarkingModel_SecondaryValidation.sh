@@ -48,6 +48,7 @@ FormatNames () {
 
 	# Perl here because the regex are easier
 	perl -pe 's/^\w\w_\w+_\d_([^_])/\1/' "${1}" \
+		| perl -pe 's/\tN\w_\w+_\d_([^_])/\t\1/' \
 		| perl -pe 's/__complete\S+\t/\t/g' \
 		| perl -pe 's/_chromosome\S*\t/\t/g' \
 		> "${2}"

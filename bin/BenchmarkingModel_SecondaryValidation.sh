@@ -65,22 +65,22 @@ export -f FormatNames
 # Use a tmp directory
 mkdir ./data/${Output}/tmp
 
-# echo Extracting CRISPRs...
-# bash ./bin/RunPilerCr.sh \
-# 	${BacteriaGenomeRef} \
-# 	./data/${Output}/tmp/BenchmarkCrisprs.txt \
-# 	"/nfs/turbo/schloss-lab/bin/pilercr1.06/" \
-# 	|| exit
+echo Extracting CRISPRs...
+bash ./bin/RunPilerCr.sh \
+	${BacteriaGenomeRef} \
+	./data/${Output}/tmp/BenchmarkCrisprs.txt \
+	"/nfs/turbo/schloss-lab/bin/pilercr1.06/" \
+	|| exit
 
-# echo Getting CRISPR pairs...
-# bash ./bin/GetCrisprPhagePairs.sh \
-# 	./data/${Output}/tmp/BenchmarkCrisprs.txt \
-# 	${PhageGenomeRef} \
-# 	./data/${Output}/BenchmarkCrisprs.tsv \
-# 	"/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/" \
-# 	./bin/ \
-# 	./bin/ \
-# 	|| exit
+echo Getting CRISPR pairs...
+bash ./bin/GetCrisprPhagePairs.sh \
+	./data/${Output}/tmp/BenchmarkCrisprs.txt \
+	${PhageGenomeRef} \
+	./data/${Output}/BenchmarkCrisprs.tsv \
+	"/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/" \
+	./bin/ \
+	./bin/ \
+	|| exit
 
 # rm ./data/${Output}/tmp/*
 
@@ -167,16 +167,16 @@ mkdir ./data/${Output}/tmp
 # # Run Pfam scripts #
 # ####################
 
-echo Getting PFAM interactions...
+# echo Getting PFAM interactions...
 
-bash ./bin/PfamDomainInteractPrediction.sh \
-	./data/${Output}/PhageReferenceOrfs.fa \
-	./data/${Output}/BacteriaReferenceOrfs.fa \
-	./data/${Output}/PfamInteractions.tsv \
-	${WorkingDirectory} \
-	"/nfs/turbo/schloss-lab/bin/" \
-	"/nfs/turbo/schloss-lab/reference/Pfam/" \
-	|| exit
+# bash ./bin/PfamDomainInteractPrediction.sh \
+# 	./data/${Output}/PhageReferenceOrfs.fa \
+# 	./data/${Output}/BacteriaReferenceOrfs.fa \
+# 	./data/${Output}/PfamInteractions.tsv \
+# 	${WorkingDirectory} \
+# 	"/nfs/turbo/schloss-lab/bin/" \
+# 	"/nfs/turbo/schloss-lab/reference/Pfam/" \
+# 	|| exit
 
 # # Format the output
 # FormatNames \

@@ -105,14 +105,14 @@ export -f FormatNames
 # 	"/nfs/turbo/schloss-lab/bin/ncbi-blast-2.4.0+/bin/" \
 # 	|| exit
 
-# Format the output
-FormatNames \
-	./data/${Output}/BenchmarkProphagesBlastn.tsv \
-	./data/${Output}/BenchmarkProphagesBlastnFormat.tsv
+# # Format the output
+# FormatNames \
+# 	./data/${Output}/BenchmarkProphagesBlastn.tsv \
+# 	./data/${Output}/BenchmarkProphagesBlastnFormat.tsv
 
-# Flip the output
-awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/BenchmarkProphagesBlastnFormat.tsv \
-	> ${ProphageOutFile}
+# # Flip the output
+# awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/BenchmarkProphagesBlastnFormat.tsv \
+# 	> ${ProphageOutFile}
 
 # # ################
 # # # Predict ORFs #
@@ -143,22 +143,22 @@ awk '{print $2"\t"$1"\t"$3}' ./data/${Output}/BenchmarkProphagesBlastnFormat.tsv
 # 	"/nfs/turbo/schloss-lab/bin/" \
 # 	|| exit
 
-# # Format the output
-# FormatNames \
-# 	./data/${Output}/MatchesByBlastx.tsv \
-# 	./data/${Output}/MatchesByBlastxFormat.tsv
+# Format the output
+FormatNames \
+	./data/${Output}/MatchesByBlastx.tsv \
+	./data/${Output}/MatchesByBlastxFormat.tsv
 
-# # Format to get the right columns in the right order
-# awk '{ print $2"\t"$1"\t"$12 }' \
-# 	./data/${Output}/MatchesByBlastxFormat.tsv \
-# 	> ./data/${Output}/tmpMatchesByBlastxFormat.tsv
+# Format to get the right columns in the right order
+awk '{ print $2"\t"$1"\t"$12 }' \
+	./data/${Output}/MatchesByBlastxFormat.tsv \
+	> ./data/${Output}/tmpMatchesByBlastxFormat.tsv
 
 # # Remove underscores at the end of the names
 # sed -i 's/_[0-9]*\t/\t/g' ./data/${Output}/tmpMatchesByBlastxFormat.tsv
 
-# Rscript ./bin/CollapseGeneScores.R \
-# 	-i ./data/${Output}/tmpMatchesByBlastxFormat.tsv \
-# 	-o ${BlastxOut}
+Rscript ./bin/CollapseGeneScores.R \
+	-i ./data/${Output}/tmpMatchesByBlastxFormat.tsv \
+	-o ${BlastxOut}
 
 # rm ./data/${Output}/tmpMatchesByBlastxFormat.tsv
 

@@ -25,9 +25,5 @@ module load bowtie2
 cd /nfs/turbo/schloss-lab/ghannig/Hannigan-2016-ConjunctisViribus || exit
 
 # Run contig validation loop
-percents=( 0.9 0.8 0.7 0.6 0.5 )
-for i in "${percents[@]}"; do
-	mkdir -p ./data/SecondaryBenchmarkingSet_${i}
-	bash ./bin/BenchmarkingModel_SecondaryValidation.sh ./data/genbankPhageHost/VirRef/virus.fragment.${i}.fa ./data/genbankPhageHost/BacRef/bacteria.fragment.${i}.fa ./data/SecondaryBenchmarkingSet_${i}/BenchmarkCrisprsFormat_${i}.tsv ./data/SecondaryBenchmarkingSet_${i}/BenchmarkProphagesFormatFlip_${i}.tsv ./data/SecondaryBenchmarkingSet_${i}/MatchesByBlastxFormatOrder_${i}.tsv ./data/SecondaryBenchmarkingSet_${i}/PfamInteractionsFormatScoredFlip_${i}.tsv "SecondaryBenchmarkingSet_${i}"
-done
-
+mkdir -p ./data/SecondaryBenchmarkingSet_1
+bash ./bin/BenchmarkingModel_SecondaryValidation.sh ./data/genbankPhageHost/VirRef/virus.fragment.1.fa ./data/genbankPhageHost/BacRef/bacteria.fragment.1.fa ./data/SecondaryBenchmarkingSet_1/BenchmarkCrisprsFormat_1.tsv ./data/SecondaryBenchmarkingSet_1/BenchmarkProphagesFormatFlip_1.tsv ./data/SecondaryBenchmarkingSet_1/MatchesByBlastxFormatOrder_1.tsv ./data/SecondaryBenchmarkingSet_1/PfamInteractionsFormatScoredFlip_1.tsv "SecondaryBenchmarkingSet_1"

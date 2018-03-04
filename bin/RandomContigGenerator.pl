@@ -53,7 +53,6 @@ sub ReadInFasta {
 			$FastaID = $line;
 			# Get rid of the arrow from the ID
 			$FastaID =~ s/\>//;
-			$FastaID =~ s/_//g;
 			$FastaErrorCounter = 1;
 		} elsif ($line =~ /\>/ && $FastaErrorCounter == 1) {
 			die "KILLED BY BAD FASTA! There was no sequence before ID $line: $!";

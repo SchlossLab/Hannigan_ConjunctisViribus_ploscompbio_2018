@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  7 JAN 2018 15:59
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  4 MAR 2018 23:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1053,15 +1053,16 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <6> on input line 274.
  [6] [7]
-Underfull \hbox (badness 1052) in paragraph at lines 342--377
+Underfull \hbox (badness 1052) in paragraph at lines 358--396
 \EU1/Helvetica(0)/m/n/12 relationships between bacteria and phages: 1) genome n
 ucleotide similarities, 2) gene amino acid
  []
 
+[8]
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    }
-l.380 \includegraphics[width=0.85000\textwidth]{}
+l.399 \includegraphics[width=0.85000\textwidth]{}
                                                  
 ? 
 
@@ -1071,7 +1072,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.380 \includegraphics[width=0.85000\textwidth]{}
+l.399 \includegraphics[width=0.85000\textwidth]{}
                                                  
 ? 
 
@@ -1081,7 +1082,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.380 \includegraphics[width=0.85000\textwidth]{}
+l.399 \includegraphics[width=0.85000\textwidth]{}
                                                  
 ? 
 File:  Graphic file (type QTm)
@@ -1089,19 +1090,18 @@ File:  Graphic file (type QTm)
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    \GXT@clipend 
-l.380 \includegraphics[width=0.85000\textwidth]{}
+l.399 \includegraphics[width=0.85000\textwidth]{}
                                                  
 ? 
-LaTeX Font Info:    Try loading font information for EU1+lmtt on input line 402
+LaTeX Font Info:    Try loading font information for EU1+lmtt on input line 421
 .
 (/usr/local/texlive/2015/texmf-dist/tex/latex/euenc/eu1lmtt.fd
 File: eu1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [8] [9]
-[10]
+) [9] [10]
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    }
-l.500 \includegraphics[width=0.90000\textwidth]{}
+l.519 \includegraphics[width=0.90000\textwidth]{}
                                                  
 ? 
 
@@ -1111,7 +1111,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.500 \includegraphics[width=0.90000\textwidth]{}
+l.519 \includegraphics[width=0.90000\textwidth]{}
                                                  
 ? 
 
@@ -1121,7 +1121,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.500 \includegraphics[width=0.90000\textwidth]{}
+l.519 \includegraphics[width=0.90000\textwidth]{}
                                                  
 ? 
 File:  Graphic file (type QTm)
@@ -1129,14 +1129,14 @@ File:  Graphic file (type QTm)
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    \GXT@clipend 
-l.500 \includegraphics[width=0.90000\textwidth]{}
+l.519 \includegraphics[width=0.90000\textwidth]{}
                                                  
 ? 
 [11] [12]
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    }
-l.579 \includegraphics[width=0.90000\textwidth]{}
+l.610 \includegraphics[width=0.90000\textwidth]{}
                                                  
 ? 
 
@@ -1146,7 +1146,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.579 \includegraphics[width=0.90000\textwidth]{}
+l.610 \includegraphics[width=0.90000\textwidth]{}
                                                  
 ? 
 
@@ -1156,7 +1156,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.579 \includegraphics[width=0.90000\textwidth]{}
+l.610 \includegraphics[width=0.90000\textwidth]{}
                                                  
 ? 
 File:  Graphic file (type QTm)
@@ -1164,14 +1164,14 @@ File:  Graphic file (type QTm)
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    \GXT@clipend 
-l.579 \includegraphics[width=0.90000\textwidth]{}
+l.610 \includegraphics[width=0.90000\textwidth]{}
                                                  
 ? 
-[13]
+[13] [14]
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    }
-l.636 \includegraphics[width=0.75000\textwidth]{}
+l.671 \includegraphics[width=0.75000\textwidth]{}
                                                  
 ? 
 
@@ -1181,7 +1181,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.636 \includegraphics[width=0.75000\textwidth]{}
+l.671 \includegraphics[width=0.75000\textwidth]{}
                                                  
 ? 
 
@@ -1191,7 +1191,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.636 \includegraphics[width=0.75000\textwidth]{}
+l.671 \includegraphics[width=0.75000\textwidth]{}
                                                  
 ? 
 File:  Graphic file (type QTm)
@@ -1199,20 +1199,26 @@ File:  Graphic file (type QTm)
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    \GXT@clipend 
-l.636 \includegraphics[width=0.75000\textwidth]{}
+l.671 \includegraphics[width=0.75000\textwidth]{}
                                                  
 ? 
-[14] [15] [16] [17] [18] [19] [20] [21] [22] [23] [24]
-Overfull \hbox (19.28223pt too wide) in paragraph at lines 1080--1087
+[15] [16] [17] [18] [19] [20] [21] [22] [23]
+Overfull \hbox (82.31023pt too wide) in paragraph at lines 1065--1083
+\EU1/Helvetica(0)/m/n/12 GenBank repository on February 19, 2018 using the vira
+l location \EU1/lmtt/m/n/12 ftp://ftp.ncbi.nih.gov/refseq/release/viral/
+ []
+
+[24] [25] [26]
+Overfull \hbox (19.28223pt too wide) in paragraph at lines 1174--1181
 []\EU1/Helvetica(0)/m/n/12 Statistical significance of differences in univariat
 e eigenvector centrality measurements of skin virome-microbiome
  []
 
-[25] [26]
+[27] [28]
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    }
-l.1122 \includegraphics[width=0.80000\textwidth]{}
+l.1216 \includegraphics[width=0.80000\textwidth]{}
                                                   
 ? 
 
@@ -1222,7 +1228,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1122 \includegraphics[width=0.80000\textwidth]{}
+l.1216 \includegraphics[width=0.80000\textwidth]{}
                                                   
 ? 
 
@@ -1232,7 +1238,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1122 \includegraphics[width=0.80000\textwidth]{}
+l.1216 \includegraphics[width=0.80000\textwidth]{}
                                                   
 ? 
 File:  Graphic file (type QTm)
@@ -1240,84 +1246,14 @@ File:  Graphic file (type QTm)
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    \GXT@clipend 
-l.1122 \includegraphics[width=0.80000\textwidth]{}
-                                                  
-? 
-[27]
-! Unable to load picture or PDF file ''.
-<to be read again> 
-                   }
-l.1132 \includegraphics[width=0.50000\textwidth]{}
-                                                  
-? 
-
-! Package graphics Error: Division by 0.
-
-See the graphics package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1132 \includegraphics[width=0.50000\textwidth]{}
-                                                  
-? 
-
-! Package graphics Error: Division by 0.
-
-See the graphics package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1132 \includegraphics[width=0.50000\textwidth]{}
-                                                  
-? 
-File:  Graphic file (type QTm)
-<use  "" >
-! Unable to load picture or PDF file ''.
-<to be read again> 
-                   \GXT@clipend 
-l.1132 \includegraphics[width=0.50000\textwidth]{}
-                                                  
-? 
-[28]
-! Unable to load picture or PDF file ''.
-<to be read again> 
-                   }
-l.1143 \includegraphics[width=0.80000\textwidth]{}
-                                                  
-? 
-
-! Package graphics Error: Division by 0.
-
-See the graphics package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1143 \includegraphics[width=0.80000\textwidth]{}
-                                                  
-? 
-
-! Package graphics Error: Division by 0.
-
-See the graphics package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1143 \includegraphics[width=0.80000\textwidth]{}
-                                                  
-? 
-File:  Graphic file (type QTm)
-<use  "" >
-! Unable to load picture or PDF file ''.
-<to be read again> 
-                   \GXT@clipend 
-l.1143 \includegraphics[width=0.80000\textwidth]{}
+l.1216 \includegraphics[width=0.80000\textwidth]{}
                                                   
 ? 
 [29]
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    }
-l.1155 \includegraphics[width=1.00000\textwidth]{}
+l.1226 \includegraphics[width=0.50000\textwidth]{}
                                                   
 ? 
 
@@ -1327,7 +1263,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1155 \includegraphics[width=1.00000\textwidth]{}
+l.1226 \includegraphics[width=0.50000\textwidth]{}
                                                   
 ? 
 
@@ -1337,7 +1273,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1155 \includegraphics[width=1.00000\textwidth]{}
+l.1226 \includegraphics[width=0.50000\textwidth]{}
                                                   
 ? 
 File:  Graphic file (type QTm)
@@ -1345,14 +1281,14 @@ File:  Graphic file (type QTm)
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    \GXT@clipend 
-l.1155 \includegraphics[width=1.00000\textwidth]{}
+l.1226 \includegraphics[width=0.50000\textwidth]{}
                                                   
 ? 
 [30]
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    }
-l.1171 \includegraphics[width=1.00000\textwidth]{}
+l.1237 \includegraphics[width=0.80000\textwidth]{}
                                                   
 ? 
 
@@ -1362,7 +1298,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1171 \includegraphics[width=1.00000\textwidth]{}
+l.1237 \includegraphics[width=0.80000\textwidth]{}
                                                   
 ? 
 
@@ -1372,7 +1308,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1171 \includegraphics[width=1.00000\textwidth]{}
+l.1237 \includegraphics[width=0.80000\textwidth]{}
                                                   
 ? 
 File:  Graphic file (type QTm)
@@ -1380,14 +1316,14 @@ File:  Graphic file (type QTm)
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    \GXT@clipend 
-l.1171 \includegraphics[width=1.00000\textwidth]{}
+l.1237 \includegraphics[width=0.80000\textwidth]{}
                                                   
 ? 
 [31]
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    }
-l.1186 \includegraphics[width=1.00000\textwidth]{}
+l.1249 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 
@@ -1397,7 +1333,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1186 \includegraphics[width=1.00000\textwidth]{}
+l.1249 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 
@@ -1407,7 +1343,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1186 \includegraphics[width=1.00000\textwidth]{}
+l.1249 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 File:  Graphic file (type QTm)
@@ -1415,14 +1351,14 @@ File:  Graphic file (type QTm)
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    \GXT@clipend 
-l.1186 \includegraphics[width=1.00000\textwidth]{}
+l.1249 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 [32]
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    }
-l.1201 \includegraphics[width=0.50000\textwidth]{}
+l.1265 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 
@@ -1432,7 +1368,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1201 \includegraphics[width=0.50000\textwidth]{}
+l.1265 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 
@@ -1442,7 +1378,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1201 \includegraphics[width=0.50000\textwidth]{}
+l.1265 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 File:  Graphic file (type QTm)
@@ -1450,14 +1386,14 @@ File:  Graphic file (type QTm)
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    \GXT@clipend 
-l.1201 \includegraphics[width=0.50000\textwidth]{}
+l.1265 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 [33]
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    }
-l.1215 \includegraphics[width=0.50000\textwidth]{}
+l.1281 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 
@@ -1467,7 +1403,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1215 \includegraphics[width=0.50000\textwidth]{}
+l.1281 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 
@@ -1477,7 +1413,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1215 \includegraphics[width=0.50000\textwidth]{}
+l.1281 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 File:  Graphic file (type QTm)
@@ -1485,14 +1421,14 @@ File:  Graphic file (type QTm)
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    \GXT@clipend 
-l.1215 \includegraphics[width=0.50000\textwidth]{}
+l.1281 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 [34]
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    }
-l.1230 \includegraphics[width=0.50000\textwidth]{}
+l.1297 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 
@@ -1502,7 +1438,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1230 \includegraphics[width=0.50000\textwidth]{}
+l.1297 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 
@@ -1512,7 +1448,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1230 \includegraphics[width=0.50000\textwidth]{}
+l.1297 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 File:  Graphic file (type QTm)
@@ -1520,14 +1456,14 @@ File:  Graphic file (type QTm)
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    \GXT@clipend 
-l.1230 \includegraphics[width=0.50000\textwidth]{}
+l.1297 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 [35]
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    }
-l.1243 \includegraphics[width=0.75000\textwidth]{}
+l.1312 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 
@@ -1537,7 +1473,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1243 \includegraphics[width=0.75000\textwidth]{}
+l.1312 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 
@@ -1547,7 +1483,7 @@ See the graphics package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1243 \includegraphics[width=0.75000\textwidth]{}
+l.1312 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
 File:  Graphic file (type QTm)
@@ -1555,36 +1491,246 @@ File:  Graphic file (type QTm)
 ! Unable to load picture or PDF file ''.
 <to be read again> 
                    \GXT@clipend 
-l.1243 \includegraphics[width=0.75000\textwidth]{}
+l.1312 \includegraphics[width=1.00000\textwidth]{}
                                                   
 ? 
-[36] [37] [38] [39] [40]
-Overfull \hbox (14.30466pt too wide) in paragraph at lines 1471--1474
+[36]
+! Unable to load picture or PDF file ''.
+<to be read again> 
+                   }
+l.1329 \includegraphics[width=0.50000\textwidth]{}
+                                                  
+? 
+
+! Package graphics Error: Division by 0.
+
+See the graphics package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1329 \includegraphics[width=0.50000\textwidth]{}
+                                                  
+? 
+
+! Package graphics Error: Division by 0.
+
+See the graphics package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1329 \includegraphics[width=0.50000\textwidth]{}
+                                                  
+? 
+File:  Graphic file (type QTm)
+<use  "" >
+! Unable to load picture or PDF file ''.
+<to be read again> 
+                   \GXT@clipend 
+l.1329 \includegraphics[width=0.50000\textwidth]{}
+                                                  
+? 
+[37]
+! Unable to load picture or PDF file ''.
+<to be read again> 
+                   }
+l.1343 \includegraphics[width=0.50000\textwidth]{}
+                                                  
+? 
+
+! Package graphics Error: Division by 0.
+
+See the graphics package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1343 \includegraphics[width=0.50000\textwidth]{}
+                                                  
+? 
+
+! Package graphics Error: Division by 0.
+
+See the graphics package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1343 \includegraphics[width=0.50000\textwidth]{}
+                                                  
+? 
+File:  Graphic file (type QTm)
+<use  "" >
+! Unable to load picture or PDF file ''.
+<to be read again> 
+                   \GXT@clipend 
+l.1343 \includegraphics[width=0.50000\textwidth]{}
+                                                  
+? 
+[38]
+! Unable to load picture or PDF file ''.
+<to be read again> 
+                   }
+l.1358 \includegraphics[width=0.50000\textwidth]{}
+                                                  
+? 
+
+! Package graphics Error: Division by 0.
+
+See the graphics package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1358 \includegraphics[width=0.50000\textwidth]{}
+                                                  
+? 
+
+! Package graphics Error: Division by 0.
+
+See the graphics package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1358 \includegraphics[width=0.50000\textwidth]{}
+                                                  
+? 
+File:  Graphic file (type QTm)
+<use  "" >
+! Unable to load picture or PDF file ''.
+<to be read again> 
+                   \GXT@clipend 
+l.1358 \includegraphics[width=0.50000\textwidth]{}
+                                                  
+? 
+[39]
+! Unable to load picture or PDF file ''.
+<to be read again> 
+                   }
+l.1371 \includegraphics[width=0.75000\textwidth]{}
+                                                  
+? 
+
+! Package graphics Error: Division by 0.
+
+See the graphics package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1371 \includegraphics[width=0.75000\textwidth]{}
+                                                  
+? 
+
+! Package graphics Error: Division by 0.
+
+See the graphics package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1371 \includegraphics[width=0.75000\textwidth]{}
+                                                  
+? 
+File:  Graphic file (type QTm)
+<use  "" >
+! Unable to load picture or PDF file ''.
+<to be read again> 
+                   \GXT@clipend 
+l.1371 \includegraphics[width=0.75000\textwidth]{}
+                                                  
+? 
+[40]
+! Unable to load picture or PDF file ''.
+<to be read again> 
+                   }
+l.1387 \includegraphics[width=0.75000\textwidth]{}
+                                                  
+? 
+
+! Package graphics Error: Division by 0.
+
+See the graphics package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1387 \includegraphics[width=0.75000\textwidth]{}
+                                                  
+? 
+
+! Package graphics Error: Division by 0.
+
+See the graphics package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1387 \includegraphics[width=0.75000\textwidth]{}
+                                                  
+? 
+File:  Graphic file (type QTm)
+<use  "" >
+! Unable to load picture or PDF file ''.
+<to be read again> 
+                   \GXT@clipend 
+l.1387 \includegraphics[width=0.75000\textwidth]{}
+                                                  
+? 
+[41]
+! Unable to load picture or PDF file ''.
+<to be read again> 
+                   }
+l.1406 \includegraphics[width=0.75000\textwidth]{}
+                                                  
+? 
+
+! Package graphics Error: Division by 0.
+
+See the graphics package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1406 \includegraphics[width=0.75000\textwidth]{}
+                                                  
+? 
+
+! Package graphics Error: Division by 0.
+
+See the graphics package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1406 \includegraphics[width=0.75000\textwidth]{}
+                                                  
+? 
+File:  Graphic file (type QTm)
+<use  "" >
+! Unable to load picture or PDF file ''.
+<to be read again> 
+                   \GXT@clipend 
+l.1406 \includegraphics[width=0.75000\textwidth]{}
+                                                  
+? 
+[42] [43] [44] [45] [46]
+Overfull \hbox (14.30466pt too wide) in paragraph at lines 1638--1641
 []\EU1/Helvetica(0)/m/n/12 41. Edwards RA, McNair K, Faust K, Raes J, Dutilh BE
 . Computational approaches to predict bacteriophage-host
  []
 
-[41] [42] [43] [44]
-Underfull \hbox (badness 1521) in paragraph at lines 1665--1669
+[47] [48] [49] [50]
+Underfull \hbox (badness 1521) in paragraph at lines 1826--1830
 \EU1/Helvetica(0)/m/n/12 metagenome assembler driven by advanced methodologies 
 and community practices. METHODS.
  []
 
-[45]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1707.
- [46]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1707.
+[51]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1868.
+ [52]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1868.
  (./manuscript.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1707.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1707.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1868.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1868.
  ) 
 Here is how much of TeX's memory you used:
- 24447 strings out of 493706
- 447752 string characters out of 6145769
- 548449 words of memory out of 5000000
- 27509 multiletter control sequences out of 15000+600000
+ 24452 strings out of 493706
+ 447829 string characters out of 6145769
+ 549599 words of memory out of 5000000
+ 27514 multiletter control sequences out of 15000+600000
  37643 words of font info for 76 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
- 52i,5n,102p,10419b,391s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 52i,5n,102p,10419b,395s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on manuscript.pdf (46 pages).
+Output written on manuscript.pdf (52 pages).

@@ -259,52 +259,55 @@ computational and molecular techniques (e.g.~16S rRNA gene qPCR)
 consisted of highly purified virus genomic DNA.
 
 The bacterial and viral sequences from these studies were quality
-filtered and assembled into contigs. We further grouped the related
-bacterial and phage contigs into operationally defined units based on
-their k-mer frequencies and co-abundance patterns, similar to previous
-reports \textbf{(Supplemental Figure \ref{ContigStats} -
-\ref{ClusterStats})} {[}42{]}. This was done both for dimensionality
-reduction and to prevent inflation of node counts by using contigs which
-are expected to represent multiple fragments from the same genomes. This
-was also done to create genome analogs that we could use in our
-classification model which was built using genome sequences. We referred
-to these operationally defined groups of related contigs as operational
-genomic units (OGUs). Each OGU represented a genomically similar
-sub-population of either bacteria or phages. Contig lengths within
-clusters ranged between \(10^{3}\) and \(10^{5.5}\) bp
+filtered and assembled into contigs (``genomic fragments''). We further
+grouped the related bacterial and phage contigs into operationally
+defined units based on their k-mer frequencies and co-abundance
+patterns, similar to previous reports \textbf{(Supplemental Figure
+\ref{ContigStats} - \ref{ClusterStats})} {[}42{]}. This was done both
+for dimensionality reduction and to prevent inflation of node counts by
+using contigs which are expected to represent multiple fragments from
+the same genomes. This was also done to create genome analogs that we
+could use in our classification model which was built using genome
+sequences. We referred to these operationally defined groups of related
+contigs as operational genomic units (OGUs). Each OGU represented a
+genomically similar sub-population of either bacteria or phages. Contig
+lengths within clusters ranged between \(10^{3}\) and \(10^{5.5}\) bp
 \textbf{(Supplemental Figure \ref{ContigStats} - \ref{ClusterStats})}.
 
-While supplementing the previous virome fraction quality control
-measures \textbf{(Table S1)} we found that, in light of the rigorous
+The original publications reported that the whole metagenomic shotgun
+sequence samples, which primarily consisted of bacteria, had an average
+viral relative abundance of 0.4\% \textbf{(Table S1)} {[}13,14,38,39{]}.
+We confirmed these reports by finding that only 2\% (6 / 280 OGUs) of
+bacterial OGUs had significantly strong nucleotide similarity to phage
+reference genomes (e-value \textless{} \(10^{-25}\)) {[}13,14,38,39{]}.
+Additionally, no OGUs were confidently identified as lytic or temperate
+phage OGUs in the bacterial dataset using the Virsorter algorithm
+{[}50{]}.
+
+We also supplemented the previous virome fraction quality control
+measures \textbf{(Table S1)} to find that, in light of the rigorous
 purification and quality control during sample collection and
 preparation, 77\% (228 / 298 operational genomic units) still had some
 nucleotide similarity to a given bacterial reference genome (e-value
-\textless{} \(10^{-25}\)). As most phages in these communities have been
+\textless{} \(10^{-25}\)). It is important to note that interpreting
+such alignment is complicated by the fact that most reference bacterial
+genomes also contain prophages (phages integrated into bacterial
+genomes), meaning we do not know to what extent the alignments were the
+result of bacterial contaminants in the virome fraction and what were
+true integrated prophages. As most phages in these communities have been
 shown to be temperate (they integrate into bacterial genomes) using
 methods that included nucleotide alignments of phages to bacterial
-reference genomes, we interpreted this as confirmation that the majority
-of those phages were temperate and therefore shared elements with
-bacterial reference genomes -- a trend previously reported {[}14{]}. We
-further confirmed that while the majority of these were expected to be
-temperate phages, there still remained a low level of bacterial sequence
-noise, which was evident as five (1.7\%) OGUs with similar sequence
-elements to the bacterial 16S rRNA gene (blastn, e-value \textless{}
-\(10^{-25}\), length \textgreater{} 1,000 bp). This is in line with
-previous work which has suggested that bacterial noise is an inevitable
-technical issue, and we considered this noise while interpreting our
-findings {[}50{]}. We also identified two OGUs as being complete, high
-confidence phages using the stringent Virsorter phage identification
-algorithm (class 1 confidence group) {[}51{]}.
-
-The whole metagenomic shotgun sequence samples, which primarily
-consisted of bacteria, had an average viral relative abundance of 0.4\%
-\textbf{(Table S1)} {[}13,14,38,39{]}. We found that only 2\% (6 / 280
-OGUs) of bacterial OGUs had significantly strong nucleotide similarity
-to phage reference genomes (e-value \textless{} \(10^{-25}\))
-{[}13,14,38,39{]}. No OGUs were confidently identified as lytic or
-temperate phage OGUs in the bacterial dataset using the Virsorter
-algorithm {[}51{]}. Together this suggests minimal bacterial OGU noise
-that should be considered in the study conclusions.
+reference genomes, we expected that a large fraction of those phages
+were temperate and therefore shared elements with bacterial reference
+genomes -- a trend previously reported {[}14{]}. To ensure the purity of
+our sample sets, we supplemented the quality control measures by
+filtering out all OGUs that could be potential bacterial contaminants,
+as described previously {[}42{]}. This resulted in the removal of 143
+OGUs that exhibited nucleotide similarity to bacterial genomes but no
+identifiable known phage elements. We were also able to identify two
+OGUs as representing \textbf{complete}, high confidence phages using the
+stringent Virsorter phage identification algorithm (class 1 confidence
+group) {[}50{]}.
 
 \subsection{Implementing Phage-Bacteria Interaction Prediction to Build
 a Community
@@ -312,17 +315,17 @@ Network}\label{implementing-phage-bacteria-interaction-prediction-to-build-a-com
 
 We predicted which phage OGUs infected which bacterial OGUs using a
 random forest model trained on experimentally validated infectious
-relationships from six previous publications {[}41,52--56{]}. Only
+relationships from six previous publications {[}41,51--55{]}. Only
 bacteria and bacteriophages were used in the model. The training set
 contained 43 diverse bacterial species and 30 diverse phage strains,
 including both broad and specific ranges of infection
-\textbf{(Supplemental Figure \ref{ValidationOverview} A - B)}. While it
-is true that there are more known phages that infect bacteria, we were
-limited by the information confirming which phages do not infect certain
-bacteria and attempted to keep the numbers of positive and negative
-interactions similar. Phages with linear and circular genomes, as well
-as ssDNA and dsDNA genomes, were included in the analysis. Because we
-used DNA sequencing studies, RNA phages were not considered
+\textbf{(Supplemental Figure \ref{ValidationOverview} A - B, Table S2)}.
+While it is true that there are more known phages that infect bacteria,
+we were limited by the information confirming which phages do not infect
+certain bacteria and attempted to keep the numbers of positive and
+negative interactions similar. Phages with linear and circular genomes,
+as well as ssDNA and dsDNA genomes, were included in the analysis.
+Because we used DNA sequencing studies, RNA phages were not considered
 \textbf{(Supplemental Figure \ref{ValidationOverview} C-D)}. This
 training set included both positive relationships (a phage infects a
 bacterium) and negative relationships (a phage does not infect a
@@ -337,7 +340,20 @@ conditions in which those interactions occur. Altogether we decided to
 maintain a balanced dataset at the cost of under-sampling the available
 positive interaction information because the use of such a severely
 unbalanced dataset often results in over-fit and uninformative model
-training.
+training. However, as an additional validation measure, we used the
+extensive additional positive interactions as a secondary dataset to
+confirm that we could identify infectious interactions from a more
+diverse bacterial and phage dataset. Using this approach, we confirmed
+that 382 additional phage reference genomes, representing a diverse
+range of phages, were matched to at least one reference bacterial host
+genome of the species that they were expected to infect
+\textbf{(Supplemental Figure \ref{secondval})}. Because the model was
+built on full genomes and used on OGUs, we also assessed whether our
+model was resilient to incomplete reference genomes. We found that the
+use of our model on random contigs representing as little as 50\% length
+of the original reference phage and bacterial genomes resulted in
+minimal reduction in the ability of the model to identify relationships
+\textbf{(Supplemental Figure \ref{contigval})}.
 
 Four phage and bacterial genomic features were used in our random forest
 model to predict infectious relationships between bacteria and phages:
@@ -345,13 +361,16 @@ model to predict infectious relationships between bacteria and phages:
 similarities, 3) bacterial Clustered Regularly Interspaced Short
 Palindromic Repeat (CRISPR) spacer sequences that target phages, and 4)
 similarity of protein families associated with experimentally identified
-protein-protein interactions {[}57{]}. These features were calculated
-using the training set described above. We chose to utilize these
-metrics that directly compare nucleotide sequences between sample phages
-and bacteria, instead of relying on alignment to reference genomes or
-known marker genes, because we are extrapolating our model to highly
-diverse communities which we expect to diverge significantly from the
-available reference genomes. The resulting random forest model was
+protein-protein interactions {[}56{]}. These features were calculated
+using the training set described above. While the nucleotide and amino
+acid similarity metrics are expected to identify prophage signatures,
+the protein family interaction and CRISPR signatures are expected to aid
+in identifying lytic phages in addition to temperate phages. We chose to
+utilize these metrics that directly compare nucleotide sequences between
+sample phages and bacteria, instead of relying on alignment to reference
+genomes or known marker genes, because we are extrapolating our model to
+highly diverse communities which we expect to diverge significantly from
+the available reference genomes. The resulting random forest model was
 assessed using nested cross validation, and the median area under its
 receiver operating characteristic (ROC) curve was 0.788, the median
 model sensitivity was 0.905, and median specificity was 0.538
@@ -405,7 +424,7 @@ green).} \label{RocCurve}}
 We used our random forest model to classify the relationships between
 bacteria and phage operational genomic units, which were then used to
 build the interactive network. The master network, analogous to the
-universal microbiome network concept previously described {[}58{]},
+universal microbiome network concept previously described {[}57{]},
 contained the three studies as sub-networks, which themselves each
 contained sub-networks for each sample \textbf{(Supplemental Figure
 \ref{NetworkDiagram})}. Metadata including study, sample ID, disease,
@@ -418,34 +437,34 @@ abundance was recorded in each sample for each OGU and the weight of the
 edge connecting those OGUs was calculated as a function of those
 relative abundance values. The separate extraction of the phage and
 bacterial libraries ensured a more accurate measurement of the microbial
-communities, as has been outlined previously {[}59,60{]}. The master
-network was highly connected and contained 72,287 infectious
-relationships among 578 nodes, representing 298 phages and 280 bacteria.
+communities, as has been outlined previously {[}58,59{]}. The master
+network was highly connected and contained 38,337 infectious
+relationships among 435 nodes, representing 155 phages and 280 bacteria.
 Although the network was highly connected, not all relationships were
 present in all samples. Relationships were weighted by the relative
 abundances of their associated bacteria and phages. Like the master
 network, the skin network exhibited a diameter of 4 (measure of graph
 size; the greatest number of traversed vertices required between two
-vertices) and included 576 (297 phages, 279 bacteria, 99.7\% total) and
-72,127 (99.8\%) of the master network nodes and edges, respectively
+vertices) and included 433 ( phages, bacteria, 99.5\% total) and 38,099
+(99.4\%) of the master network nodes and edges, respectively
 \textbf{(Figure \ref{RocCurve} E - F)}. Additionally, the subnetworks
 demonstrated narrow ranges of eccentricity across their nodes
 \textbf{(Supplemental Figure \ref{eccplot})}. The phages and bacteria in
 the diet and twin sample sets were more sparsely related, with the diet
-study consisting of 89 (41 phages, 48 bacteria) nodes and 5,566
-relationships, and the twin study containing 137 (36 phages, 101
-bacteria) nodes and 17,250 relationships \textbf{(Figure \ref{RocCurve}
-E - F)}. As an interesting validation measure, we identified five
-(1.7\%) examples of phage OGUs which similar genomic elements to the
+study consisting of 80 ( phages, bacteria) nodes and 4,692
+relationships, and the twin study containing 130 ( phages, bacteria)
+nodes and 14,684 relationships \textbf{(Figure \ref{RocCurve} E - F)}.
+As an interesting validation measure, we identified five (1.7\%)
+examples of phage OGUs which contained similar genomic elements to the
 four previously described, broadly infectious phages isolated from Lake
-Michigan (tblastx; e-value \textless{} \(10^{-25}\)) {[}61{]}.
+Michigan (tblastx; e-value \textless{} \(10^{-25}\)) {[}60{]}.
 
 \subsection{Role of Diet on Gut Microbiome
 Connectivity}\label{role-of-diet-on-gut-microbiome-connectivity}
 
 Diet is a major environmental factor that influences resource
 availability and gut microbiome composition and diversity, including
-bacteria and phages {[}14,62,63{]}. Previous work in isolated
+bacteria and phages {[}14,61,62{]}. Previous work in isolated
 culture-based systems has suggested that changes in nutrient
 availability are associated with altered phage-bacteria network
 structures {[}30{]}, although this has yet to be tested in humans. We
@@ -467,10 +486,10 @@ microbes in the system. Because these are weighted metrics, the values
 are functions of both connectivity as well as community composition. A
 network with higher average closeness centrality also indicates an
 overall greater degree of connections, which suggests a greater
-resilience against network degradation by extinction events {[}30,64{]}.
+resilience against network degradation by extinction events {[}30,63{]}.
 This is because more highly connected networks are less likely to
 degrade into multiple smaller networks when bacteria or phages are
-randomly removed {[}30,64{]}. We used this information to calculate the
+randomly removed {[}30,63{]}. We used this information to calculate the
 average connectedness per sample, which was corrected for the maximum
 potential degree of connectedness. Unfortunately our dataset was
 insufficiently powered to make strong conclusions toward this
@@ -533,7 +552,7 @@ Networks}\label{individuality-of-microbial-networks}
 
 Skin and gut community membership and diversity are highly personal,
 with people remaining more similar to themselves than to other people
-over time {[}13,65,66{]}. We therefore hypothesized that this personal
+over time {[}13,64,65{]}. We therefore hypothesized that this personal
 conservation extended to microbiome network structure. We addressed this
 hypothesis by calculating the degree of dissimilarity between each
 subject's network, based on phage and bacteria abundance and centrality.
@@ -553,7 +572,7 @@ material.
 We used this network dissimilarity metric to test whether microbiome
 network structures were more similar within people than between people
 over time. We found that gut microbiome network structures clustered by
-person (ANOSIM p-value = 0.005, R = 0.958, \textbf{Figure \ref{intradiv}
+person (ANOSIM p-value = 0.008, R = 1, \textbf{Figure \ref{intradiv}
 A}). Network dissimilarity within each person over the 8-10 day sampling
 period was less than the average dissimilarity between that person and
 others, although this difference was not statistically significant
@@ -567,12 +586,24 @@ individuals, we found no evidence for conservation of gut network
 structures within families. The gut network structures were not more
 similar within families (twins and their mothers; intrafamily) compared
 to other families (other twins and mothers; inter-family) (p-value =
-0.312, \textbf{Figure \ref{intradiv} C}). In addition to the gut, skin
+0.547, \textbf{Figure \ref{intradiv} C}). In addition to the gut, skin
 microbiome network structure was conserved within individuals (p-value
 \textless{} 0.001, \textbf{Figure \ref{intradiv} D}). This distribution
 was similar when separated by anatomical sites. Most sites were
 statistically significantly more conserved within individuals
 \textbf{(Supplemental Figure \ref{allskin})}.
+
+As an additional validation measure, we evaluated the tolerance of these
+findings to inaccuracies in the underlying network. As described above,
+our model is not perfect and there is likely to be noise from false
+positive and false negative predictions. We found that additional random
+noise, both by creating a fully connected graph or randomly reducing the
+number of edges to 60\% of the original, changed the statistical
+significance values (p-values) of our findings but not by enough to
+change whether they were statistically significant (p-value \textless{}
+0.05). Therefore the comparisons between groups are resilient to
+potential noise resulting from model false positive and false negative
+predictions \textbf{(Supplemental Figure \ref{idivnoise})}.
 
 \begin{figure}[htbp]
 \centering
@@ -608,7 +639,7 @@ Landscape}\label{network-structures-across-the-human-skin-landscape}
 
 Extensive work has illustrated differences in diversity and composition
 of the healthy human skin microbiome between anatomical sites, including
-bacteria, virus, and fungal communities {[}13,47,65{]}. These
+bacteria, virus, and fungal communities {[}13,47,64{]}. These
 communities vary by degree of skin moisture, oil, and environmental
 exposure; features which were defined in the original publication
 {[}13{]}. As viruses are known to influence microbial diversity and
@@ -624,12 +655,16 @@ reference to previous literature {[}13{]}.
 The average centrality of each sample was quantified using the weighted
 eigenvector centrality metric. Intermittently moist skin sites (dynamic
 sites that fluctuate between being moist and dry) were significantly
-less connected than the moist and sebaceous environments (p-value
+more connected than the moist and sebaceous environments (p-value
 \textless{} 0.001, \textbf{Figure \ref{skinnetwork} A)}. Also, skin
-sites that were occluded from the environment were much more highly
-connected than those that were constantly exposed to the environment or
-only intermittently occluded (p-value \textless{} 0.001, \textbf{Figure
-\ref{skinnetwork} B)}.
+sites that were occluded from the environment were less connected than
+those that were constantly exposed to the environment or only
+intermittently occluded (p-value \textless{} 0.001, \textbf{Figure
+\ref{skinnetwork} B)}. We also confirmed that addition of noise to the
+underlying network, as described above, altered the values of
+statistical significance (p-values) but not by enough to change whether
+they were statistically significant \textbf{(Supplemental Figure
+\ref{skindivnoise})}.
 
 \begin{figure}[htbp]
 \centering
@@ -673,7 +708,7 @@ between skin sites.
 
 Foundational work has provided a baseline understanding of the human
 microbiome by characterizing bacterial and viral diversity across the
-human body {[}13,14,46--48,67{]}. Here we integrated the bacterial and
+human body {[}13,14,46--48,66{]}. Here we integrated the bacterial and
 viral sequence sets to offer an initial understanding of how
 phage-bacteria networks differ throughout the human body, so as to
 provide a baseline for future studies of how and why microbiome networks
@@ -688,14 +723,14 @@ mechanisms such as horizontal gene transfer, modulated bacterial gene
 expression, and alterations in abundance.
 
 Just as gut microbiome and virome composition and diversity are
-conserved in individuals {[}13,46,47,66{]}, gut and skin microbiome
+conserved in individuals {[}13,46,47,65{]}, gut and skin microbiome
 network structures were conserved within individuals over time. Gut
 network structure was not conserved among family members. These findings
 suggested that the community properties inferred from microbiome
 interaction network structures, such as robustness (meaning a more
 highly connected network is more ``robust'' to network degradation
 because a randomly removed bacteria or phage node is less likely to
-divide or disintegrate {[}30,64{]} the overall network), the potential
+divide or disintegrate {[}30,63{]} the overall network), the potential
 for horizontal gene transfer between members, and co-evolution of
 populations, were person-specific. These properties may be impacted by
 personal factors ranging from the body's immune system to external
@@ -722,25 +757,25 @@ In addition to diet, the skin environment also influenced the microbiome
 interaction network structure. Network structure differed between
 environmentally exposed and occluded skin sites. The sites under greater
 environmental fluctuation and exposure (the exposed and intermittently
-exposed sites) were less connected and therefore were predicted to have
+exposed sites) were more connected and therefore were predicted to have
 a higher resilience against network degradation when random nodes are
 removed from the network. Likewise, intermittently moist sites
-demonstrated less connectedness than the moist and sebaceous sites.
+demonstrated higher connectedness than the moist and sebaceous sites.
 These findings agree with previous work that has shown that bacterial
-community networks differ by skin environment types {[}58{]}. Together
+community networks differ by skin environment types {[}57{]}. Together
 these data suggested that body sites under greater degrees of
-fluctuation harbored less connected microbiomes that are potentially
-less robust to network disruption by extinction events. This points to a
-link between microbiome and environmental robustness toward network
-homeostasis and warrants further investigation.
+fluctuation harbored more highly connected microbiomes that are
+potentially more robust to network disruption by extinction events. This
+points to a link between microbiome and environmental robustness toward
+network homeostasis and warrants further investigation.
 
 While these findings take us an important step closer to understanding
-the microbiome through interspecies relationships, there are caveats to
-and considerations regarding our findings. First, as with most
-classification models, the infection classification model developed and
-applied is only as good as its training set -- in this case, the
-collection of experimentally-verified positive and negative infection
-data. Large-scale experimental screens for phage and bacteria infectious
+the microbiome through interspecies relationships, there are caveats and
+considerations to our findings. First, as with most classification
+models, the infection classification model developed and applied is only
+as good as its training set -- in this case, the collection of
+experimentally-verified positive and negative infection data.
+Large-scale experimental screens for phage and bacteria infectious
 interactions that report high-confidence negative interactions (i.e., no
 infection) are desperately needed, as they would provide more robust
 model training and improved model performance. Furthermore, just as we
@@ -758,8 +793,8 @@ and twin studies, relied on multiple displacement amplification (MDA) in
 their library preparations--an approach used to overcome the large
 nucleic acids requirements typical of older sequencing library
 generation protocols. It is now known that MDA results in biases in
-microbial community composition {[}68{]}, as well as toward ssDNA viral
-genomes {[}69,70{]}, thus rendering the resulting microbial and viral
+microbial community composition {[}67{]}, as well as toward ssDNA viral
+genomes {[}68,69{]}, thus rendering the resulting microbial and viral
 metagenomes largely non-quantitative. Future work that employs larger
 sequence datasets and that avoids the use of bias-inducing amplification
 steps will build on and validate our findings, as well as inform the
@@ -769,48 +804,72 @@ Although our models demonstrated satisfactory accuracy and overall
 performance, it was important to interpret our findings under the
 realization that our model was not perfect. This caveat is not new to
 the microbiome field, with a notable example being the use of 16S rRNA
-sequencing using the V4 variable region {[}60{]}. Use of the V4 variable
-region excluded detection of major bacterial members, meaning that the
-findings were not able to completely describe the underlying biological
-environment. Despite this caveat, skin microbiome studies provided
-valuable biological insights by focusing on the community differences
-between groups (e.g.~disease and healthy) which were both analyzed the
-same way. Similarly, here we focused our conclusions on the differences
-between the groups which were all treated the same, so that we can
-minimize our dependence on a perfect predictive model.
+sequencing using the V4 variable region {[}59{]}. Use of the V4 variable
+region excluded detection of major skin bacterial members, meaning that
+the findings were not able to completely describe the underlying
+biological environment. Despite this caveat, skin microbiome studies
+provided valuable biological insights by focusing on the community
+differences between groups (e.g.~disease and healthy) which were both
+analyzed the same way. Similarly, here we focused our conclusions on the
+differences between the groups which were all treated the same, so that
+we can minimize our dependence on a perfect predictive model. We also
+provided explicit evidence that the introduction of noise equally to the
+compared groups did not significantly impact our findings.
 
-Finally, the networks in this study were built using operational genomic
+Third, the networks in this study were built using operational genomic
 units (OGUs), which represented groups of highly similar bacteria or
 phage genomes or clustered genome fragments. Similar clustering
 definition and validation methods, both computational and experimental,
 have been implemented in other metagenomic sequencing studies, as well
-{[}42,71--73{]}. These approaches could offer yet another level of
+{[}42,70--72{]}. These approaches could offer yet another level of
 sophistication to our network-based analyses. While this operationally
 defined clustering approach allows us to study whole community networks,
 our ability to make conclusions about interactions among specific phage
 or bacterial species or populations is inherently limited, compared to
 more focused, culture-based studies such as the work by Malki \emph{et
-al} {[}61{]}. Future work must address this limitation, e.g., through
+al} {[}60{]}. Future work must address this limitation, e.g., through
 improved binning methods and deeper metagenomic shotgun sequencing, but
 most importantly through an improved conceptual framing of what defines
 ecologically and evolutionarily cohesive units for both phage and
-bacteria {[}74{]}. Defining operational genomic units and their
+bacteria {[}73{]}. Defining operational genomic units and their
 taxonomic underpinnings (e.g., whether OGU clusters represent genera or
 species) is an active area of work critical to the utility of this
 approach. As a first step, phylogenomic analyses have been performed to
 cluster cyanophage isolate genomes into informative groups using shared
 gene content, average nucleotide identity of shared genes, and pairwise
-differences between genomes {[}75{]}. Such population-genetic assessment
+differences between genomes {[}74{]}. Such population-genetic assessment
 of phage evolution, coupled with the ecological implications of genome
 heterogeneity, will inform how to define nodes in future iterations of
 the ecological network developed here. Even though we are hesitant to
 speculate on phage host ranges at low taxonomic levels in our dataset,
 the data does agree with previous reports of instances of broad phage
-host range {[}61,76{]}. Additionally, visualization of our dataset
+host range {[}60,75{]}. Additionally, visualization of our dataset
 interactions using the heat map approach previously used in other host
 range studies, suggests a trend toward modular and nested tropism, but
 we do not have the strain-level resolution that powered those previous
 experimental studies.
+
+Finally, it is important to note that our model was built using
+available full genomes with known interactions, while the experimental
+datasets resulted in OGUs created from metagenomic shotgun sequence
+sets, as described above. While this is an informative approach given
+available data, it is not ideal. We envision future work focusing on
+training models using metagenomic shotgun sample sets from ``mock
+communities'' of bacteria and phages with experimentally validated
+infectious relationships. This would also be more informative than
+relying on simulated metagenomic sample sets, whose use would result in
+models built on simulations and more assumptions instead of empirical
+data. Together this way the training set can be subjected to the same
+pre-processing, contig assembly, and OGU binning processes as the
+experimental data. Furthermore, exciting advances in long read
+sequencing platforms such as the Oxford Nanopore MinIon system will
+provide more accurate genomic scaffolds than \emph{de novo} assembled
+contigs, allowing for more accurate training and predictions of our
+models. As discussed above, it is because our current model is
+susceptible to this noise that we focus our conclusions on comparisons
+between experimental groups that were both treated the same. This is
+also why it was important for us to evaluate the susceptibility of our
+results to noise caused by the less-than-perfect prediction model.
 
 Together our work takes an initial step towards defining bacteria-virus
 interaction profiles as a characteristic of human-associated microbial
@@ -821,8 +880,8 @@ communities, they are studied as the interacting cohorts they are,
 rather than as independent entities. While our developed bacteria-phage
 interaction framework is a novel conceptual advance, the microbiome also
 consists of archaea and small eukaryotes, including fungi and
-\emph{Demodex} mites {[}1,77{]} -- all of which can interact with human
-immune cells and other non-microbial community members {[}78{]}. Future
+\emph{Demodex} mites {[}1,76{]} -- all of which can interact with human
+immune cells and other non-microbial community members {[}77{]}. Future
 work will build from our approach and include these additional community
 members and their diverse interactions and relationships (e.g., beyond
 phage-bacteria). This will result in a more robust network and a more
@@ -853,16 +912,22 @@ in the results section. Sequencing files were converted to
 \texttt{fastq} format using the \texttt{fastq-dump} tool of the NCBI SRA
 Toolkit (v2.2.0). Sequences were quality trimmed using the Fastx toolkit
 (v0.0.14) to exclude bases with quality scores below 33 and shorter than
-75 bp {[}79{]}. Paired end reads were filtered to exclude sequences
+75 bp {[}78{]}. Paired end reads were filtered to exclude sequences
 missing their corresponding pair using the
 \texttt{get\_trimmed\_pairs.py} script available in the source code.
 
 \subsection{Contig Assembly}\label{contig-assembly}
 
 Contigs were assembled using the Megahit assembly program (v1.0.6)
-{[}80{]}. A minimum contig length of 1 kb was used. Iterative k-mer
+{[}79{]}. A minimum contig length of 1 kb was used. Iterative k-mer
 stepping began at a minimum length of 21 and progressed by 20 until 101.
 All other default parameters were used.
+
+Contig simulations were performed by randomly extracting a string of
+genomic nucleotides that represented a defined percent length of that
+genome. This was accomplished using our
+\texttt{RandomContigGenerator.pl}, which was published in the associated
+GitHub repository.
 
 \subsection{Contig Abundance
 Calculations}\label{contig-abundance-calculations}
@@ -870,7 +935,7 @@ Calculations}\label{contig-abundance-calculations}
 Contigs were concatenated into two master files prior to alignment, one
 for bacterial contigs and one for phage contigs. Sample sequences were
 aligned to phage or bacterial contigs using the Bowtie2 global aligner
-(v2.2.1) {[}81{]}. We defined a mismatch threshold of 1 bp and seed
+(v2.2.1) {[}80{]}. We defined a mismatch threshold of 1 bp and seed
 length of 25 bp. Sequence abundance was calculated from the Bowtie2
 output using the \texttt{calculate\_abundance\_from\_sam.pl} script
 available in the source code.
@@ -884,9 +949,9 @@ within our dataset, it was important to bin contigs into operational
 units based on their similarity. This approach is conceptually similar
 to the clustering of related 16S rRNA sequences into operational
 taxonomic units (OTUs), although here we are clustering contigs into
-operational genomic units (OGUs) {[}67{]}.
+operational genomic units (OGUs) {[}66{]}.
 
-Contigs were clustered using the CONCOCT algorithm (v0.4.0) {[}82{]}.
+Contigs were clustered using the CONCOCT algorithm (v0.4.0) {[}81{]}.
 Because of our large dataset and limits in computational efficiency, we
 randomly subsampled the dataset to include 25\% of all samples, and used
 these to inform contig abundance within the CONCOCT algorithm. CONCOCT
@@ -915,23 +980,26 @@ similarities between bacteria and phage OGUs from the interactive model,
 but we were interested in contigs with high enough similarity to
 references that they may indeed be from phages. We also performed the
 converse analysis of aligning phage OGU representative sequences to EMBL
-bacterial reference genomes. Finally, we ran both the phage and bacteria
-OGU representative sequences through the Virsorter program (1.0.3) to
+bacterial reference genomes. We ran both the phage and bacteria OGU
+representative sequences through the Virsorter program (1.0.3) to
 identify phages (all default parameters were used), using only those in
-the high confidence identification category ``class 1'' {[}51{]}.
+the high confidence identification category ``class 1'' {[}50{]}.
+Finally, we filtered out phage OGUs that had bacterial elements as
+described above, but also lacked known phage elements by using the
+tblastx algorithm and a maximum e-value of \(10^{-25}\).
 
 \subsection{Open Reading Frame
 Prediction}\label{open-reading-frame-prediction}
 
 Open reading frames (ORFs) were identified using the Prodigal program
-(V2.6.2) with the meta mode parameter and default settings {[}83{]}.
+(V2.6.2) with the meta mode parameter and default settings {[}82{]}.
 
 \subsection{Classification Model Creation and
 Validation}\label{classification-model-creation-and-validation}
 
 The classification model for predicting interactions was built using
 experimentally validated bacteria-phage infections or validated lack of
-infections from six studies {[}41,52--56{]}. No further reference
+infections from six studies {[}41,51--55{]}. No further reference
 databases were used in our alignment procedures. Associated reference
 genomes were downloaded from the European Bioinformatics Institute (see
 details in source code). The model was created based on the four metrics
@@ -940,7 +1008,7 @@ listed below.
 The four scores were used as parameters in a random forest model to
 classify bacteria and bacteriophage pairs as either having infectious
 interactions or not. The classification model was built using the Caret
-R package (v6.0.73) {[}84{]}. The model was trained using five-fold
+R package (v6.0.73) {[}83{]}. The model was trained using five-fold
 cross validation with ten repeats, and the median model performance was
 evaluated by training the model on 80\% of the dataset and testing
 performance on the remaining 20\%. Pairs without scores were classified
@@ -952,10 +1020,10 @@ Phages}\label{identify-bacterial-crisprs-targeting-phages}
 
 Clustered Regularly Interspaced Short Palindromic Repeats (CRISPRs) were
 identified from bacterial genomes using the PilerCR program (v1.06)
-{[}85{]}. Resulting spacer sequences were filtered to exclude spacers
+{[}84{]}. Resulting spacer sequences were filtered to exclude spacers
 shorter than 20 bp and longer than 65 bp. Spacer sequences were aligned
 to the phage genomes using the nucleotide BLAST algorithm with default
-parameters (v2.4.0) {[}86{]}. The mean percent identity for each
+parameters (v2.4.0) {[}85{]}. The mean percent identity for each
 matching pair was recorded for use in our classification model.
 
 \subparagraph{Detect Matching Prophages within Bacterial
@@ -976,7 +1044,7 @@ infection, phages may share genes with their bacterial hosts, providing
 us with evidence of phage-host pairing. We identified shared genes
 between bacterial and phage genomes by assessing amino acid similarity
 between the genes using the Diamond protein alignment algorithm
-(v0.7.11.60) {[}87{]}. The mean alignment bitscores for each genome pair
+(v0.7.11.60) {[}86{]}. The mean alignment bitscores for each genome pair
 were recorded for use in our classification model.
 
 \subparagraph{Protein - Protein
@@ -988,8 +1056,30 @@ are known to interact. We assigned bacterial and phage genes to protein
 families by aligning them to the Pfam database using the Diamond protein
 alignment algorithm. We then identified which pairs of proteins were
 predicted to interact using the Pfam interaction information within the
-Intact database {[}57{]}. The mean bitscores of the matches between each
+Intact database {[}56{]}. The mean bitscores of the matches between each
 pair were recorded for use in the classification model.
+
+\subsection{Secondary Dataset
+Validation}\label{secondary-dataset-validation}
+
+The performance of our model for identifying diverse infectious
+relationships between bacteria and phages, beyond those that were
+included in the model creation step, were validated using additional
+bacterial and phage reference genomes, which could be linked by the
+records of which phage strains were isolated on which bacteria under
+laboratory conditions. Viral and bacterial reference genomes were
+downloaded from the GenBank repository on February 19, 2018 using the
+viral location \texttt{ftp://ftp.ncbi.nih.gov/refseq/release/viral/} and
+the bacterial location
+\texttt{ftp://ftp.ncbi.nih.gov/refseq/release/bacteria/}. This resulted
+in the use of 539 complete phages reference genomes (with identified
+hosts) and 3,469 bacterial reference genomes. We used the same
+prediction model to predict which phages were infecting which hosts, so
+as to confirm that the model was capable of identifying interactions in
+a more diverse dataset. Bacteria interactions were identified at the
+species level. The random contig iteration analysis was performed using
+a subset of bacterial reference genomes, for computational performance
+reasons. Only single representative genomes for each species were used.
 
 \subsection{Interaction Network
 Construction}\label{interaction-network-construction}
@@ -999,8 +1089,12 @@ using the same approach as outlined above. The infectious pairings
 between bacteria and phage OGUs were classified using the random forest
 model described above. The predicted infectious pairings and all
 associated metadata were used to populate a graph database using Neo4j
-graph database software (v2.3.1) {[}88{]}. This network was used for
-downstream community analysis.
+graph database software (v2.3.1) {[}87{]}. This network was used for
+downstream community analysis. Tolerance to false negative and false
+positive noise within the networks was assessed by randomly removing a
+defined fraction of network edges before re-running the downstream
+analysis work flows. This was accomplished using functionality within
+the igraph R package (v1.0.1) {[}88{]}.
 
 \subsection{Centrality Analysis}\label{centrality-analysis}
 
@@ -1049,7 +1143,7 @@ centralization score by the maximum theoretical centralization
 (\texttt{T}) for a graph with the same number of vertices.
 
 Degree and closeness centrality were calculated using the associated
-functions within the igraph R package (v1.0.1) {[}89{]}.
+functions within the igraph R package (v1.0.1) {[}88{]}.
 
 \subsection{Network Relationship
 Dissimilarity}\label{network-relationship-dissimilarity}
@@ -1169,6 +1263,38 @@ dataset.}\label{ValidationOverview}}
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=1.00000\textwidth]{}
+\caption{\textbf{Ability of prediction model to identify broad range of
+bacteria and phage interactions.} \emph{Each complete bacteriophage
+labeled on the y axis. The number of complete bacterial species genomes
+that were correctly predicted to be infected by each phage, according to
+the GenBank records, is on the x-axis. True positive interactions are
+colored in purple, and false negative interactions are yellow. Because
+this dataset only had confirmed interactions and not confirmed lack of
+interactions, false positive and true negative values could be not
+determined.}\label{secondval}}
+\end{figure}
+
+\newpage
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1.00000\textwidth]{}
+\caption{\textbf{Impact of incomplete genomic sequences on model
+performance.} \emph{Number of correctly identified infectious
+interactions between bacteria and phages are presented on the y-axis.
+The fraction of genomic length that was used to randomly extract contigs
+from reference bacterial and phage sequences is presented on the x-axis
+(e.g.~0.9 means contig lengths were 90\% of the total genome length).
+Overall this presents a quantification of the loss of identified
+infectious relationships as the percent of available genomic material is
+reduced.}\label{contigval}}
+\end{figure}
+
+\newpage
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1.00000\textwidth]{}
 \caption{\textbf{Classification Model Performance By Nested
 Cross-Validation.} \emph{Box plot illustrating the median and variance
 of phage-bacteria interaction prediction model. Performance was
@@ -1188,10 +1314,12 @@ specificity (tan).}\label{nestedperformance}}
 Iterations} \emph{In addition to nested cross-validation, here we show
 the results from the five-fold cross validation, in which 20\% of the
 samples were randomly withheld during the training stage for model
-evaluation and mtry tuning. The results of 25 random iterations are
-shown. Metrics include area under the curve (red), sensitivity (green),
-and specificity (blue). Dashed line highlight the random point of
-0.5.}\label{crossval}}
+evaluation and mtry tuning (parameter defined in the R Random Forest
+package, which is implemented in Caret, as ``the number of variables
+randomly sampled as candidates at each split''). The results of 25
+random iterations are shown. Metrics include area under the curve (red),
+sensitivity (green), and specificity (blue). Dashed line highlight the
+random point of 0.5.}\label{crossval}}
 \end{figure}
 
 \newpage
@@ -1254,10 +1382,49 @@ was calculated using a paired Wilcoxon test.}\label{allskin}}
 
 \newpage
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.75000\textwidth]{}
+\caption{\textbf{P-values of interpersonal group diversity differences
+with graph edge noise.} \emph{The x-axis represents the percent of
+errors that were randomly removed (or added) as a means to evaluate the
+impact of random noise on statistical significance of group differences.
+Resulting p-values for each graph is shown on the y-axis. The dot and
+bars are the mean and standard error of five iterations of group
+comparisons with random edge removal. Significance of A) ANOSIM p-value
+of diet network dissimilarity, B) p-value of interpersonal and
+intrapersonal diet network dissimilarity, C) p-value of interpersonal
+and intrapersonal skin network dissimilarity, and D) p-value of
+interpersonal and intrapersonal twin gut network dissimilarity. This
+corresponds to the findings in Figure 3.}\label{idivnoise}}
+\end{figure}
+
+\newpage
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.75000\textwidth]{}
+\caption{\textbf{P-values of differences in Eigen Centrality between
+skin site microbiome networks.} \emph{The x-axis represents the percent
+of errors that were randomly removed (or added) as a means to evaluate
+the impact of random noise on statistical significance of group
+differences. Resulting p-values for each graph is shown on the y-axis.
+The dot and bars are the mean and standard error of five iterations of
+group comparisons with random edge removal. The groups compared were the
+degrees of site moisture (left) and occlusion (right). The findings
+correspond to pannels A and B in Figure 4.}\label{skindivnoise}}
+\end{figure}
+
+\newpage
+
 \section{Supplemental Table Captions}\label{supplemental-table-captions}
 
 Table S1: Summary of the primary quality control measures reported in
 the original publications of the viromes used in this current study.
+
+Table S2: The positive and negative bacteria and bacteriophage
+interactions used to train the prediction model, as also illustrated in
+Figure \ref{ValidationOverview}. Citation sources are also included.
 
 \newpage
 
@@ -1511,197 +1678,191 @@ time. Science. 2009;326: 1694--1697.
 49. Consortium THMP. A framework for human microbiome research. Nature.
 2012;486: 215--221.
 
-\hypertarget{ref-Roux:2013cr}{}
-50. Roux S, Krupovic M, Debroas D, Forterre P, Enault F. Assessment of
-viral community functional potential from viral metagenomes may be
-hampered by contamination with cellular sequences. Open Biology. 2013;3:
-130160--130160.
-
 \hypertarget{ref-Roux:2015dh}{}
-51. Roux S, Enault F, Hurwitz BL, Sullivan MB. VirSorter: mining viral
+50. Roux S, Enault F, Hurwitz BL, Sullivan MB. VirSorter: mining viral
 signal from microbial genomic data. PeerJ. 2015;3: e985--20.
 
 \hypertarget{ref-Jensen:1998vh}{}
-52. Jensen EC, Schrader HS, Rieland B, Thompson TL, Lee KW, Nickerson
+51. Jensen EC, Schrader HS, Rieland B, Thompson TL, Lee KW, Nickerson
 KW, et al. Prevalence of broad-host-range lytic bacteriophages of
 Sphaerotilus natans, Escherichia coli, and Pseudomonas aeruginosa.
 Applied and Environmental Microbiology. 1998;64: 575--580.
 
 \hypertarget{ref-Malki:2015tm}{}
-53. Malki K, Kula A, Bruder K, Sible E. Bacteriophages isolated from
+52. Malki K, Kula A, Bruder K, Sible E. Bacteriophages isolated from
 Lake Michigan demonstrate broad host-range across several bacterial
 phyla. Virology. 2015;
 
 \hypertarget{ref-Schwarzer:2012ez}{}
-54. Schwarzer D, Buettner FFR, Browning C, Nazarov S, Rabsch W, Bethe A,
+53. Schwarzer D, Buettner FFR, Browning C, Nazarov S, Rabsch W, Bethe A,
 et al. A multivalent adsorption apparatus explains the broad host range
 of phage phi92: a comprehensive genomic and structural analysis. Journal
 of Virology. 2012;86: 10384--10398.
 
 \hypertarget{ref-Kim:2012dh}{}
-55. Kim S, Rahman M, Seol SY, Yoon SS, Kim J. Pseudomonas aeruginosa
+54. Kim S, Rahman M, Seol SY, Yoon SS, Kim J. Pseudomonas aeruginosa
 bacteriophage PA1Ø requires type IV pili for infection and shows broad
 bactericidal and biofilm removal activities. Applied and Environmental
 Microbiology. 2012;78: 6380--6385.
 
 \hypertarget{ref-Matsuzaki:1992gw}{}
-56. Matsuzaki S, Tanaka S, Koga T, Kawata T. A Broad-Host-Range
+55. Matsuzaki S, Tanaka S, Koga T, Kawata T. A Broad-Host-Range
 Vibriophage, KVP40, Isolated from Sea Water. Microbiology and
 Immunology. 1992;36: 93--97.
 
 \hypertarget{ref-Orchard:2014hq}{}
-57. Orchard S, Ammari M, Aranda B, Breuza L, Briganti L, Broackes-Carter
+56. Orchard S, Ammari M, Aranda B, Breuza L, Briganti L, Broackes-Carter
 F, et al. The MIntAct project--IntAct as a common curation platform for
 11 molecular interaction databases. Nucleic Acids Research. 2014;42:
 D358--63.
 
 \hypertarget{ref-Bashan:2016is}{}
-58. Bashan A, Gibson TE, Friedman J, Carey VJ, Weiss ST, Hohmann EL, et
+57. Bashan A, Gibson TE, Friedman J, Carey VJ, Weiss ST, Hohmann EL, et
 al. Universality of human microbial dynamics. Nature. 2016;534:
 259--262.
 
 \hypertarget{ref-Kleiner:2015kd}{}
-59. Kleiner M, Hooper LV, Duerkop BA. Evaluation of methods to purify
+58. Kleiner M, Hooper LV, Duerkop BA. Evaluation of methods to purify
 virus-like particles for metagenomic sequencing of intestinal viromes.
 BMC Genomics. 2015;16: 7.
 
 \hypertarget{ref-Meisel:2016iu}{}
-60. Meisel JS, Hannigan GD, Tyldsley AS, SanMiguel AJ, Hodkinson BP,
+59. Meisel JS, Hannigan GD, Tyldsley AS, SanMiguel AJ, Hodkinson BP,
 Zheng Q, et al. Skin microbiome surveys are strongly influenced by
 experimental design. Journal of Investigative Dermatology. 2016;
 
 \hypertarget{ref-Malki:2015dw}{}
-61. Malki K, Kula A, Bruder K, Sible E, Hatzopoulos T, Steidel S, et al.
+60. Malki K, Kula A, Bruder K, Sible E, Hatzopoulos T, Steidel S, et al.
 Bacteriophages isolated from Lake Michigan demonstrate broad host-range
 across several bacterial phyla. Virology Journal. 2015;12: 164.
 
 \hypertarget{ref-Turnbaugh:2009hf}{}
-62. Turnbaugh PJ, Ridaura VK, Faith JJ, Rey FE, Knight R, Gordon JI. The
+61. Turnbaugh PJ, Ridaura VK, Faith JJ, Rey FE, Knight R, Gordon JI. The
 effect of diet on the human gut microbiome: a metagenomic analysis in
 humanized gnotobiotic mice. Science Translational Medicine. 2009;1:
 6ra14--6ra14.
 
 \hypertarget{ref-David:2014cl}{}
-63. David LA, Maurice CF, Carmody RN, Gootenberg DB, Button JE, Wolfe
+62. David LA, Maurice CF, Carmody RN, Gootenberg DB, Button JE, Wolfe
 BE, et al. Diet rapidly and reproducibly alters the human gut
 microbiome. Nature. 2014;505: 559--563.
 
 \hypertarget{ref-Jeong:2000ima}{}
-64. Jeong H, Tombor B, Albert R, Oltvai ZN, Barabási AL. The large-scale
+63. Jeong H, Tombor B, Albert R, Oltvai ZN, Barabási AL. The large-scale
 organization of metabolic networks. Nature. 2000;407: 651--654.
 
 \hypertarget{ref-Grice:2009ee}{}
-65. Grice EA, Kong HH, Conlan S, Deming CB, Davis J, Young AC, et al.
+64. Grice EA, Kong HH, Conlan S, Deming CB, Davis J, Young AC, et al.
 Topographical and Temporal Diversity of the Human Skin Microbiome.
 Science. 2009;324: 1190--1192.
 
 \hypertarget{ref-Minot:2013ih}{}
-66. Minot S, Bryson A, Chehoud C, Wu GD, Lewis JD, Bushman FD. Rapid
+65. Minot S, Bryson A, Chehoud C, Wu GD, Lewis JD, Bushman FD. Rapid
 evolution of the human gut virome. Proceedings of the National Academy
 of Sciences of the United States of America. 2013;110: 12450--12455.
 
 \hypertarget{ref-Schloss:2005hz}{}
-67. Schloss PD, Handelsman J. Introducing DOTUR, a computer program for
+66. Schloss PD, Handelsman J. Introducing DOTUR, a computer program for
 defining operational taxonomic units and estimating species richness.
 Applied and Environmental Microbiology. 2005;71: 1501--1506.
 
 \hypertarget{ref-Yilmaz:2010jb}{}
-68. Yilmaz S, Allgaier M, Hugenholtz P. Multiple displacement
+67. Yilmaz S, Allgaier M, Hugenholtz P. Multiple displacement
 amplification compromises quantitative analysis of metagenomes. Nature
 Methods. 2010;7: 943--944.
 
 \hypertarget{ref-Kim:2008to}{}
-69. Kim KH, Chang HW, Nam YD, Roh SW. Amplification of uncultured
+68. Kim KH, Chang HW, Nam YD, Roh SW. Amplification of uncultured
 single-stranded DNA viruses from rice paddy soil. Applied and \ldots{}.
 2008;
 
 \hypertarget{ref-Kim:2011hp}{}
-70. Kim K-H, Bae J-W. Amplification methods bias metagenomic libraries
+69. Kim K-H, Bae J-W. Amplification methods bias metagenomic libraries
 of uncultured single-stranded and double-stranded DNA viruses. Applied
 and Environmental Microbiology. 2011;77: 7663--7668.
 
 \hypertarget{ref-Minot:2012ed}{}
-71. Minot S, Wu GD, Lewis JD, Bushman FD. Conservation of gene cassettes
+70. Minot S, Wu GD, Lewis JD, Bushman FD. Conservation of gene cassettes
 among diverse viruses of the human gut. PLOS ONE. 2012;7: e42342.
 
 \hypertarget{ref-Deng:2014eb}{}
-72. Deng L, Ignacio-Espinoza JC, Gregory AC, Poulos BT, Weitz JS,
+71. Deng L, Ignacio-Espinoza JC, Gregory AC, Poulos BT, Weitz JS,
 Hugenholtz P, et al. Viral tagging reveals discrete populations in
 Synechococcus viral genome sequence space. Nature. 2014;513: 242--245.
 
 \hypertarget{ref-Brum:2015iaa}{}
-73. Brum JR, Ignacio-Espinoza JC, Roux S, Doulcier G, Acinas SG, Alberti
+72. Brum JR, Ignacio-Espinoza JC, Roux S, Doulcier G, Acinas SG, Alberti
 A, et al. Ocean plankton. Patterns and ecological drivers of ocean viral
 communities. Science. 2015;348: 1261498--1261498.
 
 \hypertarget{ref-Polz:2006fi}{}
-74. Polz MF, Hunt DE, Preheim SP, Weinreich DM. Patterns and mechanisms
+73. Polz MF, Hunt DE, Preheim SP, Weinreich DM. Patterns and mechanisms
 of genetic and phenotypic differentiation in marine microbes.
 Philosophical Transactions of the Royal Society B: Biological Sciences.
 2006;361: 2009--2021.
 
 \hypertarget{ref-Gregory:2016cg}{}
-75. Gregory AC, Solonenko SA, Ignacio-Espinoza JC, LaButti K, Copeland
+74. Gregory AC, Solonenko SA, Ignacio-Espinoza JC, LaButti K, Copeland
 A, Sudek S, et al. Genomic differentiation among wild cyanophages
 despite widespread horizontal gene transfer. BMC Genomics. 2016;17: 930.
 
 \hypertarget{ref-PaezEspino:2016gi}{}
-76. Paez-Espino D, Eloe-Fadrosh EA, Pavlopoulos GA, Thomas AD, Huntemann
+75. Paez-Espino D, Eloe-Fadrosh EA, Pavlopoulos GA, Thomas AD, Huntemann
 M, Mikhailova N, et al. Uncovering Earth's virome. Nature. 2016;
 
 \hypertarget{ref-Grice:2011gy}{}
-77. Grice EA, Segre JA. The skin microbiome. Nature Reviews
+76. Grice EA, Segre JA. The skin microbiome. Nature Reviews
 Microbiology. 2011;9: 244--253.
 
 \hypertarget{ref-Round:2009bz}{}
-78. Round JL, Mazmanian SK. The gut microbiota shapes intestinal immune
+77. Round JL, Mazmanian SK. The gut microbiota shapes intestinal immune
 responses during health and disease. Nature reviews Immunology. 2009;9:
 313--323.
 
 \hypertarget{ref-FASTXToolkit:wr}{}
-79. Hannon GJ. FASTX-Toolkit. 2010; GNU Affero General Public License.
+78. Hannon GJ. FASTX-Toolkit. 2010; GNU Affero General Public License.
 
 \hypertarget{ref-Li:2016kd}{}
-80. Li D, Luo R, Liu C-M, Leung C-M, Ting H-F, Sadakane K, et al.
+79. Li D, Luo R, Liu C-M, Leung C-M, Ting H-F, Sadakane K, et al.
 MEGAHIT v1.0: A fast and scalable metagenome assembler driven by
 advanced methodologies and community practices. METHODS. 2016;102:
 3--11.
 
 \hypertarget{ref-Langmead:2012jh}{}
-81. Langmead B, Salzberg SL. Fast gapped-read alignment with Bowtie 2.
+80. Langmead B, Salzberg SL. Fast gapped-read alignment with Bowtie 2.
 Nature Methods. 2012;9: 357--359.
 
 \hypertarget{ref-Alneberg:2014fc}{}
-82. Alneberg J, Bjarnason BS aacute ri, Bruijn I de, Schirmer M, Quick
+81. Alneberg J, Bjarnason BS aacute ri, Bruijn I de, Schirmer M, Quick
 J, Ijaz UZ, et al. Binning metagenomic contigs by coverage and
 composition. Nature Methods. 2014; 1--7.
 
 \hypertarget{ref-Hyatt:2012cy}{}
-83. Hyatt D, LoCascio PF, Hauser LJ, Uberbacher EC. Gene and translation
+82. Hyatt D, LoCascio PF, Hauser LJ, Uberbacher EC. Gene and translation
 initiation site prediction in metagenomic sequences. Bioinformatics.
 2012;28: 2223--2230.
 
 \hypertarget{ref-caretClassificatio:ux5fU2Litux5f1}{}
-84. Kuhn M. caret: Classification and Regression Training. CRAN. 2016;
+83. Kuhn M. caret: Classification and Regression Training. CRAN. 2016;
 
 \hypertarget{ref-Edgar:2007bh}{}
-85. Edgar RC. PILER-CR: fast and accurate identification of CRISPR
+84. Edgar RC. PILER-CR: fast and accurate identification of CRISPR
 repeats. BMC Bioinformatics. 2007;8: 18.
 
 \hypertarget{ref-Camacho:2009fc}{}
-86. Camacho C, Coulouris G, Avagyan V, Ma N, Papadopoulos J, Bealer K,
+85. Camacho C, Coulouris G, Avagyan V, Ma N, Papadopoulos J, Bealer K,
 et al. BLAST+: architecture and applications. BMC Bioinformatics.
 2009;10: 1.
 
 \hypertarget{ref-Buchfink:2015ki}{}
-87. Buchfink B, Xie C, Huson DH. Fast and sensitive protein alignment
+86. Buchfink B, Xie C, Huson DH. Fast and sensitive protein alignment
 using DIAMOND. Nature Methods. 2015;12: 59--60.
 
 \hypertarget{ref-Neoj:Fuwr6PBN}{}
-88. Neo Technology, Inc. Neo4j. 2017;
+87. Neo Technology, Inc. Neo4j. 2017;
 
 \hypertarget{ref-Theigraphsoftware:vh}{}
-89. Csardi G, Nepusz T. The igraph software package for complex network
+88. Csardi G, Nepusz T. The igraph software package for complex network
 research. InterJournal. 2006;Complex Systems: 1695.
 
 \end{document}

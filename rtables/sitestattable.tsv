@@ -1,0 +1,13 @@
+class	variable	value
+DietStudy	Diameter	3
+DietStudy	Vertices	80
+DietStudy	Edges	4692
+TwinStudy	Diameter	3
+TwinStudy	Vertices	130
+TwinStudy	Edges	14684
+SkinStudy	Diameter	4
+SkinStudy	Vertices	433
+SkinStudy	Edges	38099
+Total	Diameter	4
+Total	Vertices	435
+Total	Edges	38337

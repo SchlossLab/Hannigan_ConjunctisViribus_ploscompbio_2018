@@ -1,0 +1,9 @@
+Var1	Var2	value
+Moist	IntMoist	2.66084000742917e-08
+Sebaceous	IntMoist	4.21495886720462e-08
+Moist	Moist	NA
+Sebaceous	Moist	0.132875880147664
+IntOccluded	Exposed	0.277498657068735
+Occluded	Exposed	1.38010591458678e-05
+IntOccluded	IntOccluded	NA
+Occluded	IntOccluded	1.38010591458678e-05

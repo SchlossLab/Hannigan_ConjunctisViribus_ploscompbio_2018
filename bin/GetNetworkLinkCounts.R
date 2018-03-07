@@ -51,6 +51,10 @@ filter=0) {
 # Run Analysis & Save Output #
 ##############################
 
+filterlist <- read.delim(
+  file = "./data/contigclustersidentity/bacterialremoval-clusters-list.tsv",
+  header = FALSE)
+
 # Start the connection to the graph
 # If you are getting a lack of permission, disable local permission on Neo4J
 graph <- startGraph("http://localhost:7474/db/data/", "neo4j", "root")
@@ -64,6 +68,8 @@ RETURN n.Name AS from, m.Species AS to;
 graphoutputlist <- importgraphtodataframe()
 nodeout <- as.data.frame(graphoutputlist[1])
 edgeout <- as.data.frame(graphoutputlist[2])
+# Filter out low confidence edges
+edgeout <- edgeout[!c(edgeout$from %in% filterlist$V1),]
 head(nodeout)
 head(edgeout)
 

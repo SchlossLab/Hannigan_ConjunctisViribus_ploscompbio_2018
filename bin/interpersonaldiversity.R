@@ -45,6 +45,13 @@ sampletable <- sampletable[,-7]
 
 head(sampletable)
 
+# Remove the filtered out phage OGUs
+filterlist <- read.delim(
+  file = "./data/contigclustersidentity/bacterialremoval-clusters-list.tsv",
+  header = FALSE)
+
+sampletable <- sampletable[!c(sampletable$from %in% filterlist$V1),]
+
 # get subsampling depth
 phageminseq <- min(ddply(sampletable, c("PatientID", "TimePoint"), summarize, sum = sum(PhageAbundance))$sum)
 bacminseq <- min(ddply(sampletable, c("PatientID", "TimePoint"), summarize, sum = sum(BacteriaAbundance))$sum)
@@ -216,6 +223,9 @@ for (i in skinsites) {
 rm(i)
 
 totalgraph <- rbind(graphdfTP2, graphdfTP3)
+
+# Remove the filtered out phage OGUs
+totalgraph <- totalgraph[!c(totalgraph$from %in% filterlist$V1),]
 
 # Correct the lengths
 totalgraph$PhageAbundance <- round(1e7 * totalgraph$PhageAbundance / totalgraph$PhageLength)
@@ -492,6 +502,9 @@ RETURN DISTINCT
 sampletable <- as.data.frame(cypher(graph, sampleidquery))
 
 head(sampletable)
+
+# Remove the filtered out phage OGUs
+sampletable <- sampletable[!c(sampletable$from %in% filterlist$V1),]
 
 # get subsampling depth
 phageminseq <- min(ddply(sampletable, c("PatientID", "TimePoint"), summarize, sum = sum(PhageAbundance))$sum)

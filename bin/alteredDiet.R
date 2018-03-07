@@ -41,6 +41,14 @@ RETURN DISTINCT
 
 sampletable <- as.data.frame(cypher(graph, sampleidquery))
 
+
+# Remove the filtered out phage OGUs
+filterlist <- read.delim(
+  file = "./data/contigclustersidentity/bacterialremoval-clusters-list.tsv",
+  header = FALSE)
+
+sampletable <- sampletable[!c(sampletable$from %in% filterlist$V1),]
+
 # Correct the lengths
 sampletable$PhageAbundance <- round(1e7 * sampletable$PhageAbundance / sampletable$PhageLength)
 sampletable$BacteriaAbundance <- round(1e7 * sampletable$BacteriaAbundance / sampletable$BacteriaLength)
@@ -197,6 +205,15 @@ RETURN DISTINCT
 
 sampletable <- as.data.frame(cypher(graph, sampleidquery))
 
+
+# Remove the filtered out phage OGUs
+filterlist <- read.delim(
+  file = "./data/contigclustersidentity/bacterialremoval-clusters-list.tsv",
+  header = FALSE)
+
+sampletable <- sampletable[!c(sampletable$from %in% filterlist$V1),]
+
+
 head(sampletable)
 
 # get subsampling depth
@@ -292,7 +309,7 @@ obdgbox <- ggplot(rcentraldfmothers, aes(x = patientdiet, y = dg)) +
 	) +
 	geom_vline(xintercept=binlength,color="grey") +
 	ylim(0, NA) +
-	scale_x_discrete(labels = c("High Fat", "Low Fat"))
+	scale_x_discrete(labels = c("Healthy", "Obese"))
 
 obclbox <- ggplot(rcentraldfmothers, aes(x = patientdiet, y = cl)) +
 	theme_classic() +
@@ -305,7 +322,7 @@ obclbox <- ggplot(rcentraldfmothers, aes(x = patientdiet, y = cl)) +
 	) +
 	geom_vline(xintercept=binlength,color="grey") +
 	ylim(0, NA) +
-	scale_x_discrete(labels = c("High Fat", "Low Fat"))
+	scale_x_discrete(labels = c("Healthy", "Obese"))
 
 boxplots <- plot_grid(didgbox, diclbox, obdgbox, obclbox, labels = c("A", "B", "C", "D"), nrow = 1)
 

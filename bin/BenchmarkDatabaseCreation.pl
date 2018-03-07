@@ -53,7 +53,7 @@ my $validation;
 # Be sure to set username and password as neo4j
 # User = 2nd value, PW = 3rd value
 eval {
-    REST::Neo4p->connect('http://localhost:7474/',"neo4j","neo4j");
+    REST::Neo4p->connect('http://localhost:7474/',"neo4j","root");
 };
 ref $@ ? $@->rethrow : die $@ if $@;
 
@@ -77,12 +77,20 @@ open(my $BLAST, "<", "$blast") || die "Unable to read in $blast: $!";
 open(my $PFAM, "<", "$pfam") || die "Unable to read in $pfam: $!";
 open(my $BLASTX, "<", "$blastx") || die "Unable to read in $blastx: $!";
 
+my $flagline = 0;
+
 sub AddGenericFile {
     # Import file handle
     my ($fileInput, $label, $score) = @_;
     # print "Score is $score\n";
     foreach my $line (<$fileInput>) {
-        # print $line;
+        print $line;
+        print $flagline."\n";
+        $flagline = $flagline + 1;
+            if ($flagline < 900) {
+            print "Skipped\n";
+            next;
+        }
         chomp $line;
         $Spacer = (split /\t/, $line)[0];
         $PhageTarget = (split /\t/, $line)[1];

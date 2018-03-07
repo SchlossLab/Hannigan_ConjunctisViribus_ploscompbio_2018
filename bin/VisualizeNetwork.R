@@ -145,6 +145,9 @@ connectionstrength <- function (nodeframe=nodeout, edgeframe=edgeout) {
 ##############################
 # Run Analysis & Save Output #
 ##############################
+filterlist <- read.delim(
+  file = "./data/contigclustersidentity/bacterialremoval-clusters-list.tsv",
+  header = FALSE)
 
 # Start the connection to the graph
 # If you are getting a lack of permission, disable local permission on Neo4J
@@ -160,6 +163,9 @@ RETURN n.Name AS from, m.Species AS to;
 graphoutputlist <- importgraphtodataframe()
 nodeout <- as.data.frame(graphoutputlist[1])
 edgeout <- as.data.frame(graphoutputlist[2])
+# Filter out low confidence edges
+edgeout <- edgeout[!c(edgeout$from %in% filterlist$V1),]
+nodeout <- nodeout[!c(nodeout$label %in% filterlist$V1),]
 head(nodeout)
 head(edgeout)
 
@@ -178,7 +184,7 @@ colnames(totalEcc) <- c("TotalECC", "class")
 # Collect some stats for the data table
 phagenodes <- length(grep("Phage", nodeout[,1]))
 bactnodes <- length(grep("Bacteria", nodeout[,1]))
-totaledges <- length(edgeout[,1])
+totaledges <- nrow(unique(edgeout[,c(1,2)]))
 nestats <- data.frame(cats = c("PhageNodes", "BacteriaNodes", "Edges"), values = c(phagenodes, bactnodes, totaledges))
 
 # Diet subgraph
@@ -203,6 +209,9 @@ RETURN DISTINCT
 graphoutputlist <- importgraphtodataframe()
 nodeout <- as.data.frame(graphoutputlist[1])
 edgeout <- as.data.frame(graphoutputlist[2])
+# Filter out low confidence edges
+edgeout <- edgeout[!c(edgeout$from %in% filterlist$V1),]
+nodeout <- nodeout[!c(nodeout$label %in% filterlist$V1),]
 # nodeout$order <- str_pad(row.names(nodeout), 4, pad = 0)
 # pabund <- ddply(edgeout[,c(1,6)], "from", summarize, avg = median(PhageAbundance))
 # babund <- ddply(edgeout[,c(2,7)], "to", summarize, avg = median(BacteriaAbundance))
@@ -214,7 +223,8 @@ head(nodeout)
 head(edgeout)
 dietphagenodes <- length(grep("Phage", nodeout[,1]))
 dietbactnodes <- length(grep("Bacteria", nodeout[,1]))
-dietnestats <- data.frame(phagenodes = dietphagenodes, bacterianodes = dietbactnodes, class = "diet")
+dedges <- nrow(unique(edgeout[,c(1,2)]))
+dietnestats <- data.frame(phagenodes = dietphagenodes, bacterianodes = dietbactnodes, class = "diet", edgecount = dedges)
 
 dietstats <- as.data.frame(graphDiameter())
 dietstats$class <- "DietStudy"
@@ -247,6 +257,9 @@ RETURN DISTINCT
 graphoutputlist <- importgraphtodataframe()
 nodeout <- as.data.frame(graphoutputlist[1])
 edgeout <- as.data.frame(graphoutputlist[2])
+# Filter out low confidence edges
+edgeout <- edgeout[!c(edgeout$from %in% filterlist$V1),]
+nodeout <- nodeout[!c(nodeout$label %in% filterlist$V1),]
 # nodeout$order <- str_pad(row.names(nodeout), 4, pad = 0)
 # pabund <- ddply(edgeout[,c(1,6)], "from", summarize, avg = median(PhageAbundance))
 # babund <- ddply(edgeout[,c(2,7)], "to", summarize, avg = median(BacteriaAbundance))
@@ -259,7 +272,8 @@ head(edgeout)
 
 twinphagenodes <- length(grep("Phage", nodeout[,1]))
 twinbactnodes <- length(grep("Bacteria", nodeout[,1]))
-twinnestats <- data.frame(phagenodes = twinphagenodes, bacterianodes = twinbactnodes, class = "twin")
+tedges <- nrow(unique(edgeout[,c(1,2)]))
+twinnestats <- data.frame(phagenodes = twinphagenodes, bacterianodes = twinbactnodes, class = "twin", edgecount = tedges)
 
 twinstats <- as.data.frame(graphDiameter())
 twinstats$class <- "TwinStudy"
@@ -288,6 +302,10 @@ rm(i)
 
 edgeout <- unique(graphdf[c(1:2)])
 
+# Filter out low confidence edges
+edgeout <- edgeout[!c(edgeout$from %in% filterlist$V1),]
+nodeout <- nodeout[!c(nodeout$label %in% filterlist$V1),]
+
 nodeout <- data.frame(id=unique(c(edgeout$from, edgeout$to)))
 nodeout$label <- nodeout$id
 
@@ -298,12 +316,14 @@ nodeout$label <- nodeout$id
 # rabund <- rbind(pabund, babund)
 # nodeout <- merge(nodeout, rabund, by.x = "label", by.y = "from")
 # nodeout <- nodeout[c(order(nodeout$order)),]
+
 head(nodeout)
 head(edgeout)
 
 skinphagenodes <- length(grep("Phage", nodeout[,1]))
 skinbactnodes <- length(grep("Bacteria", nodeout[,1]))
-skinnestats <- data.frame(phagenodes = skinphagenodes, bacterianodes = skinbactnodes, class = "skin")
+sedges <- nrow(unique(edgeout[,c(1,2)]))
+skinnestats <- data.frame(phagenodes = skinphagenodes, bacterianodes = skinbactnodes, class = "skin", edgecount = sedges)
 
 skinstats <- as.data.frame(graphDiameter())
 skinstats$class <- "SkinStudy"
@@ -328,6 +348,8 @@ mstat <- mstat[order(ordered(mstat$class, levels = so), decreasing = TRUE),]
 mstat$class <- factor(mstat$class, levels = mstat$class)
 
 counter <- 1
+# Get rid of radius please
+mstat <- mstat[!c(mstat$variable %in% "Radius"),]
 graphlist <- lapply(unique(mstat$variable), function(i) {
   print(counter)
   oplot <- ggplot(mstat[c(mstat$variable %in% i),], aes(x = class, y = value, fill = class, group = class)) +
@@ -361,24 +383,13 @@ withlegend <- plot_grid(
   nrow = 1,
   rel_widths = c(5, .75))
 
-skinnetwork <- plotnetwork()
+totalbpstats <- rbind(dietnestats, twinnestats, skinnestats)
 
-threeplot <- plot_grid(
-  dietnetwork,
-  twinnetwork,
-  skinnetwork,
-  ncol = 1,
-  labels = c("B", "C", "D"))
+write.table(allstats, file = "./rtables/genfigurestats.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
+write.table(nestats, file = "./rtables/nestats.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
+write.table(totalbpstats, file = "./rtables/totalbp.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
 
-almostplot <- plot_grid(totalnetwork, baseplot, ncol = 2, rel_widths = c(2,1), labels = c("A"))
-
-finalplot <- plot_grid(baseplot, withlegend, nrow = 2, rel_heights = c(2,1))
-
-# write.table(allstats, file = "./rtables/genfigurestats.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
-# write.table(nestats, file = "./rtables/nestats.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
-
-# sitestattable <- rbind(dietnestats, twinnestats, skinnestats)
-# write.table(sitestattable, file = "./rtables/sitestattable.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
+write.table(mstat, file = "./rtables/sitestattable.tsv", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
 
 # ECCENTRICITY HISTOGRAMS
 alecc <- rbind(totalEcc, DietEcc, TwinEcc, SkinEcc)
@@ -408,12 +419,6 @@ pdf(file="./figures/eccplot.pdf",
 width=7,
 height=7)
   eccplot
-dev.off()
-
-pdf(file="./figures/rawfigure.pdf",
-width=6,
-height=6)
-  totalnetwork
 dev.off()
 
 modelper <- outmodel$results[(order(outmodel$results$ROC, decreasing = TRUE)),][1,]

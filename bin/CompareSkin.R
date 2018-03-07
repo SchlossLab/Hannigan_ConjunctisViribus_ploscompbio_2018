@@ -40,6 +40,13 @@ rm(i)
 
 totalgraph <- rbind(graphdfTP2, graphdfTP3)
 
+filterlist <- read.delim(
+  file = "./data/contigclustersidentity/bacterialremoval-clusters-list.tsv",
+  header = FALSE)
+
+# Remove the filtered out phage OGUs
+totalgraph <- totalgraph[!c(totalgraph$from %in% filterlist$V1),]
+
 # See the object size
 format(object.size(totalgraph), units = "MB")
 

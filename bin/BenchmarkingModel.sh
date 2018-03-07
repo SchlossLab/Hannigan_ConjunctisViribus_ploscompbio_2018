@@ -84,13 +84,13 @@ bash ./bin/GetCrisprPhagePairs.sh \
 
 # rm ./data/${Output}/tmp/*
 
-# Format the output
-FormatNames \
-	./data/${Output}/BenchmarkCrisprs.tsv \
-	${CRISPRout}
+# # Format the output
+# FormatNames \
+# 	./data/${Output}/BenchmarkCrisprs.tsv \
+# 	${CRISPRout}
 
-# Remove underscores at the end of the names
-sed -i 's/_[0-9][0-9]\?[0-9]\?\t/\t/g' ${CRISPRout}
+# # Remove underscores at the end of the names
+# sed -i 's/_[0-9][0-9]\?[0-9]\?\t/\t/g' ${CRISPRout}
 
 
 #####################

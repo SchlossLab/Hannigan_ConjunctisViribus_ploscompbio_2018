@@ -67,6 +67,7 @@ grep \
 	--file=./data/genbankPhageHost/virusphage.tsv \
 	./data/genbankPhageHost/VirRef/viral.genomic.noblock.fa \
 	| grep -A 1 "complete genome" \
+	| egrep -v '\-\-' \
 	> ./data/genbankPhageHost/VirRef/filtered.virus.fa
 
 

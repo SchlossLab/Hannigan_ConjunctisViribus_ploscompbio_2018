@@ -146,7 +146,7 @@ disease states, through ecological networks.
 
 The human microbiome, the collection of microbial communities that
 colonize the human body, is a crucial component to health and disease.
-Two major components to the human microbiome are the bacterial and viral
+Two major components of the human microbiome are the bacterial and viral
 communities. These communities have primarily been studied separately
 using metrics of community composition and diversity. These approaches
 have failed to capture the complex dynamics of interacting bacteria and
@@ -259,7 +259,7 @@ computational and molecular techniques (e.g.~16S rRNA gene qPCR)
 consisted of highly purified virus genomic DNA.
 
 The bacterial and viral sequences from these studies were quality
-filtered and assembled into contigs (``genomic fragments''). We further
+filtered and assembled into contigs (i.e.~genomic fragments). We further
 grouped the related bacterial and phage contigs into operationally
 defined units based on their k-mer frequencies and co-abundance
 patterns, similar to previous reports \textbf{(Supplemental Figure
@@ -282,20 +282,18 @@ bacterial OGUs had significantly strong nucleotide similarity to phage
 reference genomes (e-value \textless{} \(10^{-25}\)) {[}13,14,38,39{]}.
 Additionally, no OGUs were confidently identified as lytic or temperate
 phage OGUs in the bacterial dataset using the Virsorter algorithm
-{[}50{]}.
-
-We also supplemented the previous virome fraction quality control
-measures \textbf{(Table S1)} to find that, in light of the rigorous
-purification and quality control during sample collection and
+{[}50{]}. We also supplemented the previous virome fraction quality
+control measures \textbf{(Table S1)} to find that, in light of the
+rigorous purification and quality control during sample collection and
 preparation, 77\% (228 / 298 operational genomic units) still had some
 nucleotide similarity to a given bacterial reference genome (e-value
 \textless{} \(10^{-25}\)). It is important to note that interpreting
 such alignment is complicated by the fact that most reference bacterial
-genomes also contain prophages (phages integrated into bacterial
+genomes also contain prophages (i.e.~phages integrated into bacterial
 genomes), meaning we do not know to what extent the alignments were the
 result of bacterial contaminants in the virome fraction and what were
 true integrated prophages. As most phages in these communities have been
-shown to be temperate (they integrate into bacterial genomes) using
+shown to be temperate (i.e.~they integrate into bacterial genomes) using
 methods that included nucleotide alignments of phages to bacterial
 reference genomes, we expected that a large fraction of those phages
 were temperate and therefore shared elements with bacterial reference
@@ -327,8 +325,8 @@ negative interactions similar. Phages with linear and circular genomes,
 as well as ssDNA and dsDNA genomes, were included in the analysis.
 Because we used DNA sequencing studies, RNA phages were not considered
 \textbf{(Supplemental Figure \ref{ValidationOverview} C-D)}. This
-training set included both positive relationships (a phage infects a
-bacterium) and negative relationships (a phage does not infect a
+training set included both positive relationships (i.e.~a phage infects
+a bacterium) and negative relationships (i.e.~a phage does not infect a
 bacterium). This allowed us to validate the false positive and false
 negative rates associated with our candidate models, thereby building
 upon previous work that only considered positive relationships {[}41{]}.
@@ -363,36 +361,36 @@ Palindromic Repeat (CRISPR) spacer sequences that target phages, and 4)
 similarity of protein families associated with experimentally identified
 protein-protein interactions {[}56{]}. These features were calculated
 using the training set described above. While the nucleotide and amino
-acid similarity metrics are expected to identify prophage signatures,
-the protein family interaction and CRISPR signatures are expected to aid
-in identifying lytic phages in addition to temperate phages. We chose to
-utilize these metrics that directly compare nucleotide sequences between
-sample phages and bacteria, instead of relying on alignment to reference
-genomes or known marker genes, because we are extrapolating our model to
-highly diverse communities which we expect to diverge significantly from
-the available reference genomes. The resulting random forest model was
-assessed using nested cross validation, and the median area under its
-receiver operating characteristic (ROC) curve was 0.788, the median
-model sensitivity was 0.905, and median specificity was 0.538
-\textbf{(Figure \ref{RocCurve} A)}. This balance of confident true
-positives at the cost of fewer true negatives is ideal for this type of
-dataset which consists of primarily positive connections
-\textbf{(Supplemental Figure \ref{nestedperformance})}. Nested cross
-validation of the model demonstrated that the sensitivity and
-specificity of the model could vary but the overall model performance
-(AUC) remained more consistent \textbf{(Supplemental Figure
-\ref{crossval})}. This suggested that our model would perform with a
-similar overall accuracy despite changes in sensitivity/specificity
-trade-offs. The most important predictor in the model was amino acid
-similarity between genes, followed by nucleotide similarity of whole
-genomes \textbf{(Figure \ref{RocCurve} B)}. Protein family interactions
-were moderately important to the model, and CRISPRs were largely
-uninformative, due to the minimal amount of identifiable CRISPRs in the
-dataset and their redundancy with the nucleotide similarity methods
-\textbf{(Figure \ref{RocCurve} B)}. Approximately one third of the
-training set relationships yielded no score and therefore were unable to
-be assigned an interaction prediction \textbf{(Figure \ref{RocCurve}
-C)}.
+acid similarity metrics were expected to identify prophage signatures,
+the protein family interaction and CRISPR signatures were expected to
+aid in identifying lytic phages in addition to temperate phages. We
+chose to utilize these metrics that directly compare nucleotide
+sequences between sample phages and bacteria, instead of relying on
+alignment to reference genomes or known marker genes, because we were
+extrapolating our model to highly diverse communities which we expect to
+diverge significantly from the available reference genomes. The
+resulting random forest model was assessed using nested cross
+validation, and the median area under its receiver operating
+characteristic (ROC) curve was 0.788, the median model sensitivity was
+0.905, and median specificity was 0.538 \textbf{(Figure \ref{RocCurve}
+A)}. This balance of confident true positives at the cost of fewer true
+negatives was ideal for this type of dataset which consisted of
+primarily positive connections \textbf{(Supplemental Figure
+\ref{nestedperformance})}. Nested cross validation of the model
+demonstrated that the sensitivity and specificity of the model could
+vary but the overall model performance (AUC) remained more consistent
+\textbf{(Supplemental Figure \ref{crossval})}. This suggested that our
+model would perform with a similar overall accuracy despite changes in
+sensitivity/specificity trade-offs. The most important predictor in the
+model was amino acid similarity between genes, followed by nucleotide
+similarity of whole genomes \textbf{(Figure \ref{RocCurve} B)}. Protein
+family interactions were moderately important to the model, and CRISPRs
+were largely uninformative, due to the minimal amount of identifiable
+CRISPRs in the dataset and their redundancy with the nucleotide
+similarity methods \textbf{(Figure \ref{RocCurve} B)}. Approximately one
+third of the training set relationships yielded no score and therefore
+were unable to be assigned an interaction prediction \textbf{(Figure
+\ref{RocCurve} C)}.
 
 \begin{figure}[htbp]
 \centering
@@ -445,18 +443,18 @@ present in all samples. Relationships were weighted by the relative
 abundances of their associated bacteria and phages. Like the master
 network, the skin network exhibited a diameter of 4 (measure of graph
 size; the greatest number of traversed vertices required between two
-vertices) and included 433 ( phages, bacteria, 99.5\% total) and 38,099
-(99.4\%) of the master network nodes and edges, respectively
+vertices) and included 433 (154 phages, 279 bacteria, 99.5\% total) and
+38,099 (99.4\%) of the master network nodes and edges, respectively
 \textbf{(Figure \ref{RocCurve} E - F)}. Additionally, the subnetworks
 demonstrated narrow ranges of eccentricity across their nodes
 \textbf{(Supplemental Figure \ref{eccplot})}. The phages and bacteria in
 the diet and twin sample sets were more sparsely related, with the diet
-study consisting of 80 ( phages, bacteria) nodes and 4,692
-relationships, and the twin study containing 130 ( phages, bacteria)
-nodes and 14,684 relationships \textbf{(Figure \ref{RocCurve} E - F)}.
-As an interesting validation measure, we identified five (1.7\%)
-examples of phage OGUs which contained similar genomic elements to the
-four previously described, broadly infectious phages isolated from Lake
+study consisting of 80 (32 phages, 48 bacteria) nodes and 1,290
+relationships, and the twin study containing 130 (29 phages, 101
+bacteria) nodes and 2,457 relationships \textbf{(Figure \ref{RocCurve} E
+- F)}. As a validation measure, we identified five (1.7\%) examples of
+phage OGUs which contained similar genomic elements to the four
+previously described, broadly infectious phages isolated from Lake
 Michigan (tblastx; e-value \textless{} \(10^{-25}\)) {[}60{]}.
 
 \subsection{Role of Diet on Gut Microbiome
